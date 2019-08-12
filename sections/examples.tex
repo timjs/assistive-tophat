@@ -1,0 +1,124 @@
+% !TEX root=../main.tex
+
+\section{A worked example}
+\label{sec:examples}
+
+\subsection{Tax subsidy request}
+
+% \citet{conf/sfp/StutterheimAP17} worked with the Dutch tax office to develop a demonstrator for a fictional but realistic law about solar panel subsidies.
+% In this section we study a simplified version of this, translated to \TOPHAT, to illustrate how symbolic execution can be used to prove that the program implements the law.
+%
+% This example proves that a citizen will get subsidy only under the following conditions.
+\begin{itemize}
+\item The roofing company has confirmed that they installed solar panels for the citizen.
+\item The tax officer has approved the request.
+\item The tax officer can only approve the request if the roofing company has confirmed, and the request is filed within one year of the invoice date.
+\item The amount of the granted subsidy is maximal 600 EUR.
+\end{itemize}
+
+\lstset{emph={invoiceDate,today,confirmed,invoiceAmount,approved}}
+\begin{TASK}[float=ht
+            ,numbers=right
+            ,caption=Subsidy request and approval workflow at the Dutch tax office.
+            ,label=lst:tax
+            ]
+  let provideCitizenInformation = enter Date in
+  let provideDocuments = enter Amount <&> enter Date in
+  let companyConfirm = edit True <?> edit False in
+  let officerApprove = \ invoiceDate. \ today. \ confirmed.
+    edit False <?> if (today - invoiceDate < 365 /\ confirmed) |\label{lst:tax:officer-approve-def}|
+      then edit True
+      else fail in
+  provideCitizenInformation >>= \ today.|\label{lst:tax:citizen-info}|
+  provideDocuments <&> companyConfirm >>= |\label{lst:tax:documents-and-company-confirm}|
+    \ <<<<invoiceAmount, invoiceDate>>, confirmed>>.
+  officerApprove invoiceDate today confirmed >>= \ approved.|\label{lst:tax:officer-approve}|
+  let subsidyAmount = if approved
+    then min 600 (invoiceAmount / 10) else 0 in
+  edit <<subsidyAmount, approved, confirmed, invoiceDate, today>>|\label{lst:tax:result}|
+\end{TASK}
+
+% \begin{figure}[ht]
+%   \includegraphics[width=\columnwidth]{figures/tax-enter}
+%   \caption{
+%     Graphical user interface for the task in \cref{lst:tax}.
+%     In parallel, the citizen is asked to enter the invoice amount and the invoice date of the installed solar panels,
+%     and the roofing company is asked to deny or confirm they actually installed the solar panels.
+%   }
+%   \label{fig:tax}
+% \end{figure}
+%
+% \Cref{lst:tax} shows the program.
+% To enhance readability of the example,
+% we omit type annotations and make use of pattern matching on tuples.
+% The program works as follows.
+% First, the citizen has to enter their personal information (\cref{lst:tax:citizen-info}).
+% In the original demonstrator this included the citizen service number, name, and home address.
+% Here, we simplified the example so that the citizen only has to enter the invoice date.
+% A date is specified using an integer representing the number of days since 1 January 2000.
+%
+% In the next step (\cref{lst:tax:documents-and-company-confirm}), in parallel the citizen has to provide the invoice documents of the installed solar panels, while the roofing company has to confirm that they have actually installed solar panels at the citizen's address.
+% Once the invoice and the confirmation are there, the tax officer has to approve the request (\cref{lst:tax:officer-approve}).
+% The officer can always decline the request, but they can only approve it if the roofing company has confirmed and the application date is within one year of the invoice date (\cref{lst:tax:officer-approve-def}).
+% The result of the program is the amount of the subsidy, together with all information needed to prove the required properties (\cref{lst:tax:result}).
+% The graphical user interface belonging to two steps in this process are shown in \cref{fig:tax}.
+%
+% The result of the overall task is a tuple with the subsidy amount, the officer's approval, the roofing company's confirmation, the invoice amount, the invoice date, and today's date.
+% Returning all this information allows the following predicate to be stated, which verifies the correctness of the implementation.
+% The predicate has 5 free variables, which correspond to the returned values.
+% \setcounter{equation}{0}
+% \begin{align}
+% \psi(s,a,c,i,t)
+%    & =      s \geq 0 \implies c \label{for:tax:psi-confirmed}
+% \\ & \wedge s \geq 0 \implies a \label{for:tax:psi-approved}
+% \\ & \wedge a \implies c \wedge t - i \leq 356 \label{for:tax:psi-approve-conditions}
+% \\ & \wedge s \leq 600 \label{for:tax:psi-max-subsidy}
+% \\ & \wedge \lnot a \implies s \equiv 0 \label{for:tax:psi-unapproved}
+% \end{align}
+% The predicate $\psi$ states that (\ref{for:tax:psi-confirmed}) if subsidy $s$ has been payed, the roofing company must have confirmed $c$, (\ref{for:tax:psi-approved}) if subsidy has been payed, the officer must have approved $a$, (\ref{for:tax:psi-approve-conditions}) the officer can approve only if the roofing company has confirmed and today's date $t$ is within 356 days of the invoice date $i$, and (\ref{for:tax:psi-max-subsidy}) the subsidy is maximal 600 EUR.
+% Finally, (\ref{for:tax:psi-unapproved}) if the officer has not approved, the subsidy must be 0.
+
+
+
+Running the simulation function will result in the following set:
+
+\begin{align*}
+  ((min 600 (amount/10)&,  \True, \True, i, t),[t,\Left \Left amount,     \Left \Right i, \Right \Left, \Right],t-i<356)\\
+  ((min 600 (amount/10)&,  \True, \True, i, t),[t,    \Left \Right i, \Left \Left amount, \Right \Left, \Right],t-i<356)\\
+  ((min 600 (amount/10)&,  \True, \True, i, t),[t,      \Right \Left, \Left \Left amount, \Left \Right i, \Right],t-i<356)\\
+  ((min 600 (amount/10)&,  \True, \True, i, t),[t,      \Right \Left, \Left \Right i, \Left \Left amount, \Right],t-i<356)\\
+  ((min 600 (amount/10)&,  \True, \True, i, t),[t,    \Left \Right i, \Right \Left, \Left \Left amount, \Right],t-i<356)\\
+  ((min 600 (amount/10)&,  \True, \True, i, t),[t,\Left \Left amount, \Right \Left, \Left \Right i, \Right],t-i<356)\\
+  ((                  0&, \False, \True, i, t),[t,\Left \Left amount, \Left \Right i, \Right \Left, \Left],\True)\\
+  ((                  0&, \False, \True, i, t),[t,    \Left \Right i, \Left \Left amount, \Right \Left, \Left],\True)\\
+  ((                  0&, \False, \True, i, t),[t,      \Right \Left, \Left \Left amount, \Left \Right i, \Left],\True)\\
+  ((                  0&, \False, \True, i, t),[t,      \Right \Left, \Left \Right i, \Left \Left amount, \Left],\True)\\
+  ((                  0&, \False, \True, i, t),[t,    \Left \Right i, \Right \Left, \Left \Left amount, \Left],\True)\\
+  ((                  0&, \False, \True, i, t),[t,\Left \Left amount, \Right \Left, \Left \Right i, \Left],\True)\\
+  ((                  0&, \False,\False, i, t),[t,\Left \Left amount, \Left \Right i, \Right \Right, \Left],\True)\\
+  ((                  0&, \False,\False, i, t),[t,\Left \Right i, \Left \Left amount, \Right \Right, \Left],\True)\\
+  ((                  0&, \False,\False, i, t),[t,\Right \Right,\Left \Left amount, \Left \Right i, \Left],\True)\\
+  ((                  0&, \False,\False, i, t),[t,\Right \Right, \Left \Right i, \Left \Left amount, \Left],\True)\\
+  ((                  0&, \False,\False, i, t),[t, \Left \Right i, \Right \Right, \Left \Left amount, \Left],\True)\\
+  ((                  0&, \False,\False, i, t),[t, \Left \Left amount, \Right \Right, \Left \Right i, \Left],\True)\\
+\end{align*}
+
+
+As a goal we set that the subsidy amount should be larger than zero. This leaves us with the following cases.
+
+
+\begin{align*}
+  ((min 600 (amount/10)&,  \True, \True, i, t),[t,\Left \Left amount,     \Left \Right i, \Right \Left, \Right],t-i<356)\\
+  ((min 600 (amount/10)&,  \True, \True, i, t),[t,    \Left \Right i, \Left \Left amount, \Right \Left, \Right],t-i<356)\\
+  ((min 600 (amount/10)&,  \True, \True, i, t),[t,      \Right \Left, \Left \Left amount, \Left \Right i, \Right],t-i<356)\\
+  ((min 600 (amount/10)&,  \True, \True, i, t),[t,      \Right \Left, \Left \Right i, \Left \Left amount, \Right],t-i<356)\\
+  ((min 600 (amount/10)&,  \True, \True, i, t),[t,    \Left \Right i, \Right \Left, \Left \Left amount, \Right],t-i<356)\\
+  ((min 600 (amount/10)&,  \True, \True, i, t),[t,\Left \Left amount, \Right \Left, \Left \Right i, \Right],t-i<356)\\
+\end{align*}
+
+From the end states we can conclude that invoiceAmount should be larger than zero in order for the result to be larger than zero. This results in an additional constraint.
+
+In the end, we can use the above to give hints to the user.
+
+First, a date must be entered. Then the user can choose to ender an amount larger than zero, a date that is within 356 from now, or a "RL".
+etc.
