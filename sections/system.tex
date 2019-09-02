@@ -33,7 +33,12 @@ This is a partial function since not all tasks have an observable value.
     \signature{evaluate : \mathrm{Tasks} \times \mathrm{States} \times [\mathrm{Inputs}]
       \rightarrow \mathrm{Values}} \\
     evaluate\ (t,\sigma,[])       &=& \Value(t,\sigma)\\
-    evaluate\ (t, \sigma, (i:is)) &=& evaluate\ (t',\sigma',is) where\ t,\sigma\xrightarrow[]{i}t',\sigma'
+    evaluate\ (t, \sigma, (i:is)) &=& \left\{
+      \begin{array}{lr}
+        v                                                                                 & \Value(t,\sigma)=v\\
+        evaluate\ (t',\sigma',is)                                                                &  \Value(t,\sigma)=\bot \land t,\sigma\xrightarrow[]{i}t',\sigma'
+      \end{array}
+    \right.
   \end{function}
   \caption{evaluate function definition.}
   \label{fig:firsts}
