@@ -13,11 +13,26 @@ All elements of firsts are valid hints.
   For all tasks $t$, states $\sigma$ and goals $g$,
   such that for all $(i,\phi)\in firsts\ (t,\sigma,g)$,
   there exists a mappings $M = [s_0\mapsto c_0,\cdots,s_n\mapsto c_n]$
-  such that $t,M \sigma \xrightarrow[]{M i} t',\sigma'$.
+  such that $t,M \sigma \xRightarrow[]{M i} t',\sigma'$.
   Subsequently, there exists a sequence of inputs $I$ such that $eval\ (t',\sigma',I) = v$
   with $g v = \True$.
   \todo{strictly speaking, this allows for empty/bogus hints that do not get CLOSER to the goal.}
 \end{lemma}
+
+\begin{lemma}[Soundness of simulate]
+  \label{lem:soundsimulate}
+
+  For all tasks $t$, states $\sigma$,
+  such that for all $(v,I,\phi)\in \Simulate (t,\sigma,[],\True)$,
+  there exists a mapping $M = [s_0\mapsto c_0,\cdots,s_n\mapsto c_n]$
+  such that $M\phi$ implies $evaluate (M t,M \sigma,M I) = M v$.
+\end{lemma}
+
+\begin{theorem}[Completeness of driving]
+  \label{thm:completeDrive}
+  For all $t,\sigma,j$ such that $t,\sigma \xRightarrow[]{j} \hat{t'},\hat{\sigma'}$
+  there exists an $i\sim j$ such that $t,\sigma''\drive{} t'',\sigma''',i,\phi$.
+\end{theorem}
 
 \subsection{Completeness}
 
@@ -30,4 +45,13 @@ All steps towards the goal are included in firsts.
   such that $evaluate\ (t,\sigma,(i:is))=v$ with $g\ v =\True$,
   then $i\in firsts\ (t,\sigma,g)$.
 
+\end{lemma}
+
+
+\begin{lemma}[Completeness of simulate]
+  \label{lem:completesimulate}
+  For all tasks $t$, states $\sigma$, lists of inputs $I$,
+  such that $evaluate\ (t,\sigma,I)=v$,
+  then there exists a mapping $M = [s_0\mapsto c_0,\cdots,s_n\mapsto c_n]$
+  such that $(M v,M I,\phi)\in\Simulate(t,\sigma,[],\True)$ with $M \phi$.
 \end{lemma}

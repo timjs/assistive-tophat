@@ -7,8 +7,13 @@
   \begin{function}
   \signature{\Simulate : \mathrm{Tasks} \times \mathrm{States} \times [\mathrm{Inputs}]  \times \mathrm{Predicates}
     \rightarrow \powerset{\mathrm{Values} \times [\mathrm{Inputs}] \times \mathrm{Predicates}}} \\
-  \Simulate\ (t, \sigma, I, \phi) &=&
-    \bigcup \set{ \Simulate'\ (\True, t, t', \sigma', I\oplus[i'], \phi\land\phi') \mid t, \sigma \drive{} t', \sigma', i', \phi' } \\
+  \Simulate\ (t, \sigma, I, \phi) &=&\left\{
+    \begin{array}{lr}
+      \set{(v,I,\phi)}                                                                     & \Value(t,\sigma)=v\\
+       \bigcup \set{ \Simulate'\ (\True, t, t', \sigma', I\oplus[i'], \phi\land\phi') \mid t, \sigma \drive{} t', \sigma', i', \phi' }                                                                &  \Value(t,\sigma)=\bot
+    \end{array}
+  \right.
+    \\
   \addlinespace
   \signature{\Simulate' : \mathrm{Booleans} \times \mathrm{Tasks} \times \mathrm{Tasks} \times \mathrm{States} \times [\mathrm{Inputs}] \times \mathrm{Predicates}
     \rightarrow \powerset{\mathrm{Values} \times [\mathrm{Inputs}] \times \mathrm{Predicates}}} \\
