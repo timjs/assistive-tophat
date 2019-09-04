@@ -23,19 +23,22 @@
             ,label=lst:tax
             ]
   let provideCitizenInformation = enter Date in
-  let provideDocuments = enter Amount <&> enter Date in
-  let companyConfirm = edit True <?> edit False in
-  let officerApprove = \ invoiceDate. \ today. \ confirmed.
-    edit False <?> if (today - invoiceDate < 365 /\ confirmed) |\label{lst:tax:officer-approve-def}|
-      then edit True
-      else fail in
-  provideCitizenInformation >>= \ today.|\label{lst:tax:citizen-info}|
-  provideDocuments <&> companyConfirm >>= |\label{lst:tax:documents-and-company-confirm}|
-    \ <<<<invoiceAmount, invoiceDate>>, confirmed>>.
-  officerApprove invoiceDate today confirmed >>= \ approved.|\label{lst:tax:officer-approve}|
-  let subsidyAmount = if approved
-    then min 600 (invoiceAmount / 10) else 0 in
-  edit <<subsidyAmount, approved, confirmed, invoiceDate, today>>|\label{lst:tax:result}|
+
+    let provideDocuments = enter Amount <&> enter Date in
+
+      let companyConfirm = edit True <?> edit False in
+
+        let officerApprove = \ invoiceDate. \ today. \ confirmed.
+          edit False <?> if (today - invoiceDate < 365 /\ confirmed) |\label{lst:tax:officer-approve-def}| then edit True else fail in
+
+            provideCitizenInformation >>= \ today.|\label{lst:tax:citizen-info}|
+            provideDocuments <&> companyConfirm >>= |\label{lst:tax:documents-and-company-confirm}|
+              \ <<<<invoiceAmount, invoiceDate>>, confirmed>>.
+              officerApprove invoiceDate today confirmed >>= \ approved.|\label{lst:tax:officer-approve}|
+
+          let subsidyAmount = if approved then min 600 (invoiceAmount / 10) else 0 in
+          
+            edit <<subsidyAmount, approved, confirmed, invoiceDate, today>>|\label{lst:tax:result}|
 \end{TASK}
 
 % \begin{figure}[ht]
