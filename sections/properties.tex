@@ -28,11 +28,14 @@ All elements of firsts are valid hints.
   such that $M\phi$ implies $evaluate (M t,M \sigma,M I) = M v$.
 \end{lemma}
 
-\begin{theorem}[Completeness of driving]
-  \label{thm:completeDrive}
-  For all $t,\sigma,j$ such that $t,\sigma \xRightarrow[]{j} \hat{t'},\hat{\sigma'}$
-  there exists an $i\sim j$ such that $t,\sigma''\drive{} t'',\sigma''',i,\phi$.
-\end{theorem}
+\begin{lemma}[Soundness of driving]
+  \label{lem:sounddrive}
+
+  For all tasks $t$, states $\sigma$ and mappings $M=[s_0\mapsto c_0,\cdots,s_n\mapsto c_n]$,
+  such that $t,\sigma\drive{} \overline{t',\sigma',i,\phi}$
+  we have $M\phi$ implies
+  $t,M\sigma \xRightarrow[]{M i} t'',\sigma''$, $Mt' \equiv t''$ and $M\sigma' \equiv \sigma''$.
+\end{lemma}
 
 \subsection{Completeness}
 

@@ -11,9 +11,37 @@ Restatement of Lemma:\\
   For all tasks $t$, states $\sigma$,
   such that for all $(v,I,\phi)\in \Simulate (t,\sigma,[],\True)$,
   there exists a mapping $M = [s_0\mapsto c_0,\cdots,s_n\mapsto c_n]$
-  such that $M\phi$ implies $evaluate (M t,M \sigma,M I) = M v$.
+  such that $M\phi$ implies $\Evaluate (M t,M \sigma,M I) = M v$.
 \end{lemma}
 
 \begin{proof}
-  
+  \case{
+    $\Value(t,\sigma)=v$\\
+    In this case, we have $\Simulate(t,\sigma,I,\phi)=\set{(v,I,\phi)}$.
+    When we take $M$ to be the identity mapping, we obtain that
+    $\Evaluate (M t,M\sigma,M I) = \Evaluate (t,\sigma,I) = v$, by definition of $\Evaluate$.
+    }
+
+  \case{
+    $\Value(t,\sigma)=\bot$\\
+    In this case, the symbolic driving semantics is applied. $t,\sigma\drive{}\overline{t',\sigma',i',\phi'}$.
+    To every element of the result $(t',\sigma',i',\phi')$, $\Simulate'$ is applied as follows.
+    $\Simulate'(\True,t,t',\sigma',I\oplus [i'],\phi\land\phi')$
+    \case{
+      $\Sat(\phi\land\phi')$\\
+        \case{
+          $\Value(t',\sigma')=v$\\
+          In this case, $\Simulate'$ results in $\set{(v,I\oplus [i'],\phi\land\phi')}$.
+          We need to show that there exists a mapping $M$ such that $\Evaluate (M t,M \sigma, M I) = M v$. This by definition of $\Evaluate$
+          means that $t,\sigma\drive{M i'}M t',M\sigma'$
+          with $\Value(M t',M\sigma')= M v$ must hold.
+          By Lemma~\ref{lem:sounddrive}, we obtain that:\\
+          For all tasks $t$, states $\sigma$ and mappings $M=[s_0\mapsto c_0,\cdots,s_n\mapsto c_n]$,
+          such that $t,\sigma\drive{} \overline{t',\sigma',i,\phi}$
+          we have $M\phi$ implies
+          $t,M\sigma \xRightarrow[]{M i} t'',\sigma''$, $Mt' \equiv t''$ and $M\sigma' \equiv \sigma''$.\\
+          Which gives us exactly what we need to prove.\todo{something strange is going on with the input component. If $I$ contains something from the start, this does not work anymore....}
+        }
+    }
+  }
 \end{proof}
