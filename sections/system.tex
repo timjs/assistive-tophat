@@ -17,29 +17,8 @@ Then, we take the first input so that we can return this to the user as a hint.
   \begin{function}
     \signature{firsts : \mathrm{Tasks} \times \mathrm{States} \times \mathrm{Goal}
       \rightarrow \powerset{\mathrm{Inputs} \times \mathrm{Predicates}}} \\
-    firsts\ (t, \sigma, g) &=& map\ (\lambda (v,(i:is),\phi\land g\ v) \rightarrow (i,\phi)) (filter\ (\lambda(v,\_,\_)\rightarrow \Sat(\phi\land g\ v))\ (\Simulate\ (t,\sigma,[],\True)))
-
+    firsts\ (t,\sigma, g) &=& [(i,\phi')\mid (v,i:is,\phi)\leftarrow \Simulate(t,\sigma,[]\True),\phi'=\phi\land g v, \Sat(\phi')]
   \end{function}
   \caption{Firsts function definition.}
   \label{fig:firsts}
-\end{figure*}
-
-We also define an evaluation function that takes a task, state and list of inputs,
-and returns the value of the task after application of all inputs.
-This is a partial function since not all tasks have an observable value.
-
-\begin{figure*}[t]
-  \begin{function}
-    \signature{\Evaluate : \mathrm{Tasks} \times \mathrm{States} \times [\mathrm{Inputs}]
-      \rightarrow \mathrm{Values}} \\
-    \Evaluate\ (t,\sigma,[])       &=& \Value(t,\sigma)\\
-    \Evaluate\ (t, \sigma, (i:is)) &=& \left\{
-      \begin{array}{lr}
-        v                                                                                 & \Value(t,\sigma)=v\\
-        \Evaluate\ (t',\sigma',is)                                                                &  \Value(t,\sigma)=\bot \land t,\sigma\xRightarrow[]{i}t',\sigma'
-      \end{array}
-    \right.
-  \end{function}
-  \caption{evaluate function definition.}
-  \label{fig:evaluate}
 \end{figure*}

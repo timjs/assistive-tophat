@@ -5,6 +5,26 @@
 
 \subsection{Soundness}
 
+We define an evaluation function that takes a task, state and list of inputs,
+and returns the value of the task after application of all inputs.
+This is a partial function since not all tasks have an observable value.
+
+\begin{figure*}[t]
+  \begin{function}
+    \signature{\Evaluate : \mathrm{Tasks} \times \mathrm{States} \times [\mathrm{Inputs}]
+      \rightarrow \mathrm{Values}} \\
+    \Evaluate\ (t,\sigma,[])       &=& \Value(t,\sigma)\\
+    \Evaluate\ (t, \sigma, (i:is)) &=& \left\{
+      \begin{array}{lr}
+        v                                                                                 & \Value(t,\sigma)=v\\
+        \Evaluate\ (t',\sigma',is)                                                                &  \Value(t,\sigma)=\bot \land t,\sigma\xRightarrow[]{i}t',\sigma'
+      \end{array}
+    \right.
+  \end{function}
+  \caption{evaluate function definition.}
+  \label{fig:evaluate}
+\end{figure*}
+
 All elements of firsts are valid hints.
 
 \begin{lemma}[Soundness of firsts]
@@ -14,7 +34,7 @@ All elements of firsts are valid hints.
   such that for all $(i,\phi)\in firsts\ (t,\sigma,g)$,
   there exists a mappings $M = [s_0\mapsto c_0,\cdots,s_n\mapsto c_n]$
   such that $t,M \sigma \xRightarrow[]{M i} t',\sigma'$.
-  Subsequently, there exists a sequence of inputs $I$ such that $eval\ (t',\sigma',I) = v$
+  Subsequently, there exists a sequence of inputs $I$ such that $\Evaluate (t',\sigma',I) = v$
   with $g v = \True$.
   \todo{strictly speaking, this allows for empty/bogus hints that do not get CLOSER to the goal.}
 \end{lemma}
@@ -25,7 +45,7 @@ All elements of firsts are valid hints.
   For all tasks $t$, states $\sigma$,
   such that for all $(v,I,\phi)\in \Simulate (t,\sigma,[],\True)$,
   there exists a mapping $M = [s_0\mapsto c_0,\cdots,s_n\mapsto c_n]$
-  such that $M\phi$ implies $evaluate (M t,M \sigma,M I) = M v$.
+  such that $M\phi$ implies $\Evaluate (M t,M \sigma,M I) = M v$.
 \end{lemma}
 
 \begin{lemma}[Soundness of driving]
@@ -45,7 +65,7 @@ All steps towards the goal are included in firsts.
   \label{lem:completefirsts}
 
   For all tasks $t$, states $\sigma$, lists of inputs $(i:is)$ and goals $g$,
-  such that $evaluate\ (t,\sigma,(i:is))=v$ with $g\ v =\True$,
+  such that $\Evaluate\ (t,\sigma,(i:is))=v$ with $g\ v =\True$,
   then $i\in firsts\ (t,\sigma,g)$.
 
 \end{lemma}
@@ -54,7 +74,7 @@ All steps towards the goal are included in firsts.
 \begin{lemma}[Completeness of simulate]
   \label{lem:completesimulate}
   For all tasks $t$, states $\sigma$, lists of inputs $I$,
-  such that $evaluate\ (t,\sigma,I)=v$,
+  such that $\Evaluate\ (t,\sigma,I)=v$,
   then there exists a mapping $M = [c_0\mapsto s_0,\cdots,c_n\mapsto s_n]$
   such that $(M v,M I,\phi)\in\Simulate(t,\sigma,[],\True)$ with $M \phi$.
 \end{lemma}
