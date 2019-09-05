@@ -2,3 +2,12 @@
 
 \section{Implementation}
 \label{sec:implementation}
+
+
+\begin{verbatim}
+  firsts ::
+  MonadTrack Text m => MonadSupply Nat m => MonadState Heap m => MonadZero m =>
+  Val ('TyTask ('TyPrim t)) -> Goal t -> m ( Input, Pred 'TyPrimBool )
+firsts t g = [ ( i, p' ) | ( v, i:_, p ) <- simulate t [] Yes, let p' = p :/\: g v, satisfiable p' ]
+
+\end{verbatim}
