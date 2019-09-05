@@ -3,7 +3,7 @@
 \section{Soundness proofs}
 \label{sec:soundnessproofs}
 
-Restatement of Lemma:\\
+Restatement of Lemma:
 
 \begin{lemma}[Soundness of simulate]
 
@@ -27,7 +27,7 @@ Restatement of Lemma:\\
     To every element of the result $(t',\sigma',i',\phi')$, $\Simulate'$ is applied as follows.
     $\Simulate'(\True,t,t',\sigma',[]\oplus [i'],\True\land\phi')$
     \case{
-      $\Sat(\True\land\phi')$\\
+      $\Sat(\True\land\phi')$
         \case{
           $\Value(t',\sigma')=v$\\
           In this case, $\Simulate'$ results in $\set{(v,[i'],\phi')}$.
@@ -42,7 +42,7 @@ Restatement of Lemma:\\
           Which gives us exactly what we need to prove.
         }
         \case{
-          $\Value(t',\sigma')=\bot$ and $t\neq t'$.\\
+          $\Value(t',\sigma')=\bot$ and $t\neq t'$.
 
         }
     }
