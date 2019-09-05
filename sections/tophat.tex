@@ -9,15 +9,19 @@ followed by a description of the task-oriented programming language \TOPHAT.
 
 \subsection{Top}
 
+The Task Oriented Programming paradigm focusses on modelling collaboration between users.
+It provides a high level of abstraction in which programmers describe what work needs to be done and how.
+From this description, the entire workflow system can be generated.
 
+Programs in \TOP are called \emph{tasks}.
+The basic elements of tasks are editors.
+Using combinators, tasks can be combined into larger tasks.
+
+Users can work together in a number of ways.
+Tasks can be performed after each other or in parallel, and users can make choices between tasks.
 
 
 \subsection{TopHat}
-
-The \TOPHAT language consists of two parts, the host language and the task language.
-Programs in \TOPHAT are called \emph{tasks}.
-The basic elements of tasks are editors.
-Using combinators, tasks can be combined into larger tasks.
 
 The task language is embedded in a simply typed lambda calculus with references, conditionals, booleans, integers, strings, pairs, lists and unary and binary operations on these types.
 References allow tasks to communicate with each other, sharing information across task boundaries.
