@@ -9,39 +9,58 @@ followed by a description of the task-oriented programming language \TOPHAT.
 
 \subsection{Top}
 
-The Task Oriented Programming paradigm focusses on modelling collaboration between users.
-It provides a high level of abstraction in which programmers describe what work needs to be done and how.
-From this description, the entire workflow system can be generated.
+Task Oriented Programming (\TOP) is a reasonably new programming paradigm, first introduced by Plasmeijer et al.~\cite{DBLP:conf/ppdp/PlasmeijerLMAK12}.
+It was invented in order to improve the way software that models collaboration is developed.
+The aim of the paradigm is to provide programmers with a very high level of abstraction while still being expressive enough to describe real world collaboration.
+Since the idea was introduced, a lot of research as been done on \TOP, but the basic principle has remained the same.
+Programmers describe what work needs to be done in what way, by writing so-called tasks.
+From the task specifications, the entire application is generated.
 
-Programs in \TOP are called \emph{tasks}.
-The basic elements of tasks are editors.
-Using combinators, tasks can be combined into larger tasks.
+Tasks consist of the following components.
 
-Users can work together in a number of ways.
-Tasks can be performed after each other or in parallel, and users can make choices between tasks.
+\subsubsection{Editors}
+
+  These form the entry points for interaction and communication with the outside world.
+
+  As mentioned, editors are the entry points for interaction and communication with the outside world.
+  Editors are the most basic tasks.
+  Editors are an abstraction over widgets in a \GUI library or on webpage forms.
+  Users can change the value held by an editor, in the same way they can manipulate widgets in a \GUI.
+
+  When a \TOP implementation generates an application from a task specification, it derives user interfaces for the editors.
+  The appearance of an editor is influenced by its type.
+  For example, an editor for a string can be represented by a simple input field, a date by a calendar, and a location by a pin on a map.
+
+\subsubsection{Combinators}
+
+  The order in which editors and tasks are executed is specified with combinators. Tasks can be performed in sequence, in parallel or a choice can be made between tasks.
+
+
+  Editors can be combined into larger tasks using combinators.
+  Combinators describe the way people collaborate.
+  Tasks can be performed in sequence or in parallel, or there is a choice between two tasks.
+
+\subsubsection{Shared data}
+
+ Tasks communicate with each other by passing data along control flow, or via globally shared data stores.
+
+
+% \TOP implementations like iTasks~\cite{????} also leverage aspects of the host language in order to allow for a higher level of abstraction,
+% such as generic programming and higher order tasks. \todo{is dit wel of niet top?}
+%
+%
+% The next section describes the formal \TOP implementation \TOPHAT.
 
 
 \subsection{TopHat}
 
-The task language is embedded in a simply typed lambda calculus with references, conditionals, booleans, integers, strings, pairs, lists and unary and binary operations on these types.
-References allow tasks to communicate with each other, sharing information across task boundaries.
-The simply typed $\lambda$-calculus does not have recursion.
-By restricting references to only hold basic types,
-strong normalisation of the calculus is guaranteed.
-This section introduces the main concepts of the language, together with some components essential for the next-step hint system.
+TopHat (\TOPHAT) implements \TOP by embedding the task language in a simply typed lambda calculus with references, conditionals, booleans, integers, strings, pairs, lists and unary and binary operations on these types.
+References are used to model the shared data component of \TOP.
+Below, the different components of \TOPHAT are explained in detail.
 The complete syntax and semantics can be found in previous work~\cite{Steenvoorden2019}.
 
 
 \subsubsection{Editors}
-
-Editors are the most basic tasks.
-They are used to communicate with the outside world.
-Editors are an abstraction over widgets in a \GUI library or on webpage forms.
-Users can change the value held by an editor, in the same way they can manipulate widgets in a \GUI.
-
-When a \TOP implementation generates an application from a task specification, it derives user interfaces for the editors.
-The appearance of an editor is influenced by its type.
-For example, an editor for a string can be represented by a simple input field, a date by a calendar, and a location by a pin on a map.
 
 There are three different editors in \TOPHAT.
 \begin{description}
@@ -58,12 +77,7 @@ There are three different editors in \TOPHAT.
 \end{description}
 
 
-
 \subsubsection{Combinators}
-
-Editors can be combined into larger tasks using combinators.
-Combinators describe the way people collaborate.
-Tasks can be performed in sequence or in parallel, or there is a choice between two tasks.
 
 The following combinators are available in \TOPHAT.
 Here, $t$ stands for tasks and $e$ for arbitrary expressions.
