@@ -2,3 +2,51 @@
 
 \section{Related work}
 \label{sec:relatedwork}
+
+This paper is an advancement of the research into supporting end-users of workflow systems.
+In previous work, we have attempted to provide end-users with next step hints by viewing workflows as rule based problems~\cite{DBLP:conf/sfp/NausJ16}.
+By abstracting over workflows, reasoning about them becomes simpler.
+A standard search algorithm can be run to find a path to the desired goal state.
+Two drawback of this approach however is that only global hints can be given, and that a programmer needs to augment existing workflows with extra information in order to convert it to a rule-based problem.
+
+Stutterheim et al.~\cite{DBLP:conf/sfp/StutterheimPA14} have developed Tonic, a task visualiser for iTasks with limited path prediction capabilities.
+The main goal is not to provide hints to end-users, but the system is able to handle the complete task language, and visualise the effects of user input on the progression of tasks.
+
+In order to overcome the problems of our own previous research and the limited use of Tonic for end-user hints, we have combined symbolic execution, together with workflow modelling and next-step hint generation.
+To our knowledge, this is the first work describing the combination of these techniques in this way.
+The different components coming together in this paper have been studied extensively.
+The following sections give an overview of the work done in those areas.
+
+\subsection{Symbolic execution}
+
+
+Symbolic execution \cite{King1975,Boyer1975} is typically being applied to imperative programming languages, for example Bucur et al.~\cite{BucurKC2014} prototype a symbolic execution engine for interpreted imperative languages.
+Cadar et al.~\cite{CadarDE2008} use it to generate test cases for programs that can be compiled to LLVM bytecode.
+Jaffar et al.~\cite{JaffarMNS2012} use it for verifying safety properties of C programs.
+
+In recent years it has been used for functional programming languages as well.
+To name some examples, there is ongoing work by Hallahan et al.~\cite{HallahanXP2017} and Xue~\cite{Xue2019} to implement a symbolic execution engine for Haskell.
+Giantios et al.~\cite{GiantsiosPS2017} use symbolic execution for a mix of concrete and symbolic testing of programs written in a subset of Core Erlang.
+Their goal is to find executions that lead to a runtime error, either due to an assertion violation or an unhandled exception.
+Chang et al.~\cite{ChangKT2018} present a symbolic execution engine for a typed lambda calculus with mutable state where only some language constructs recognize symbolic values.
+They claim that their approach is easier to implement than full symbolic execution and simplifies the burden on the solver, while still considering all execution paths.
+
+The difficulty of symbolic execution for functional languages lies in symbolic higher-order values, that is functions as arguments to other functions.
+Hallahan et al solve this with a technique called \emph{defunctionalization}, which requires all source code to be present, so that a symbolic function can only be one of the present lambda expressions or function definitions.
+Giantosis et al also require all source code to be present, but they only analyze first-order functions.
+They can execute higher-order functions, but only with concrete arguments.
+Our method also requires closed well-typed terms, so we never execute a higher-order function in isolation.
+Furthermore, we currently do not allow functions and tasks as task values.
+Together, this means that symbolic values can never be functions.
+\todo{THIS SECTION IS COPIED OVER FROM SYMBOLIC TOPHAT! DO NOT SEND IN LIKE THIS!}
+
+\subsection{Workflow modelling}
+
+\emph{Workflow patterns}
+\emph{Workflow Nets}
+\emph{iTasks}
+\emph{BPEL}
+%
+
+
+\subsection{Intelligent tutoring systems}
