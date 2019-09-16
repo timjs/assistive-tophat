@@ -52,12 +52,12 @@ The end user wants the outcome of this program to be a subsidy amount larger tha
 Running the simulation function will result in the following set:
 
 \begin{align*}
-  ((min 600 (amount/10)&,  \True, \True, i, t),[t,\Left \Left amount,     \Left \Right i, \Right \Left, \Right],t-i<356)\\
-  ((min 600 (amount/10)&,  \True, \True, i, t),[t,    \Left \Right i, \Left \Left amount, \Right \Left, \Right],t-i<356)\\
-  ((min 600 (amount/10)&,  \True, \True, i, t),[t,      \Right \Left, \Left \Left amount, \Left \Right i, \Right],t-i<356)\\
-  ((min 600 (amount/10)&,  \True, \True, i, t),[t,      \Right \Left, \Left \Right i, \Left \Left amount, \Right],t-i<356)\\
-  ((min 600 (amount/10)&,  \True, \True, i, t),[t,    \Left \Right i, \Right \Left, \Left \Left amount, \Right],t-i<356)\\
-  ((min 600 (amount/10)&,  \True, \True, i, t),[t,\Left \Left amount, \Right \Left, \Left \Right i, \Right],t-i<356)\\
+  ((min 600 (amount/10)&,  \True, \True, i, t),[t,\Left \Left amount,     \Left \Right i, \Right \Left, \Right],t-i<365)\\
+  ((min 600 (amount/10)&,  \True, \True, i, t),[t,    \Left \Right i, \Left \Left amount, \Right \Left, \Right],t-i<365)\\
+  ((min 600 (amount/10)&,  \True, \True, i, t),[t,      \Right \Left, \Left \Left amount, \Left \Right i, \Right],t-i<365)\\
+  ((min 600 (amount/10)&,  \True, \True, i, t),[t,      \Right \Left, \Left \Right i, \Left \Left amount, \Right],t-i<365)\\
+  ((min 600 (amount/10)&,  \True, \True, i, t),[t,    \Left \Right i, \Right \Left, \Left \Left amount, \Right],t-i<365)\\
+  ((min 600 (amount/10)&,  \True, \True, i, t),[t,\Left \Left amount, \Right \Left, \Left \Right i, \Right],t-i<365)\\
   ((                  0&, \False, \True, i, t),[t,\Left \Left amount, \Left \Right i, \Right \Left, \Left],\True)\\
   ((                  0&, \False, \True, i, t),[t,    \Left \Right i, \Left \Left amount, \Right \Left, \Left],\True)\\
   ((                  0&, \False, \True, i, t),[t,      \Right \Left, \Left \Left amount, \Left \Right i, \Left],\True)\\
@@ -77,12 +77,12 @@ As a goal we set that the subsidy amount should be larger than zero. This leaves
 
 
 \begin{align*}
-  ((min 600 (amount/10)&,  \True, \True, i, t),[t,\Left \Left amount,     \Left \Right i, \Right \Left, \Right],t-i<356)\\
-  ((min 600 (amount/10)&,  \True, \True, i, t),[t,    \Left \Right i, \Left \Left amount, \Right \Left, \Right],t-i<356)\\
-  ((min 600 (amount/10)&,  \True, \True, i, t),[t,      \Right \Left, \Left \Left amount, \Left \Right i, \Right],t-i<356)\\
-  ((min 600 (amount/10)&,  \True, \True, i, t),[t,      \Right \Left, \Left \Right i, \Left \Left amount, \Right],t-i<356)\\
-  ((min 600 (amount/10)&,  \True, \True, i, t),[t,    \Left \Right i, \Right \Left, \Left \Left amount, \Right],t-i<356)\\
-  ((min 600 (amount/10)&,  \True, \True, i, t),[t,\Left \Left amount, \Right \Left, \Left \Right i, \Right],t-i<356)\\
+  ((min 600 (amount/10)&,  \True, \True, i, t),[t,\Left \Left amount,     \Left \Right i, \Right \Left, \Right],t-i<365)\\
+  ((min 600 (amount/10)&,  \True, \True, i, t),[t,    \Left \Right i, \Left \Left amount, \Right \Left, \Right],t-i<365)\\
+  ((min 600 (amount/10)&,  \True, \True, i, t),[t,      \Right \Left, \Left \Left amount, \Left \Right i, \Right],t-i<365)\\
+  ((min 600 (amount/10)&,  \True, \True, i, t),[t,      \Right \Left, \Left \Right i, \Left \Left amount, \Right],t-i<365)\\
+  ((min 600 (amount/10)&,  \True, \True, i, t),[t,    \Left \Right i, \Right \Left, \Left \Left amount, \Right],t-i<365)\\
+  ((min 600 (amount/10)&,  \True, \True, i, t),[t,\Left \Left amount, \Right \Left, \Left \Right i, \Right],t-i<365)\\
 \end{align*}
 
 From the end states we can conclude that invoiceAmount should be larger than zero in order for the result to be larger than zero. This results in an additional constraint.
