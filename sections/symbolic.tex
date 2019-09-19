@@ -66,10 +66,10 @@ But when applying this technique to larger programs, it is a powerful tool to sh
   \begin{function}
   \signature{\Simulate : \mathrm{Tasks} \times \mathrm{States} \times [\mathrm{Inputs}]  \times \mathrm{Predicates}
     \rightarrow \powerset{\mathrm{Values} \times [\mathrm{Inputs}] \times \mathrm{Predicates}}} \\
-  \Simulate\ (t, \sigma, I, \phi) &=&\left\{
+  \Simulate\ (t, \sigma) &=&\left\{
     \begin{array}{lr}
-      \set{(v,I,\phi)}                                                                     & \Value(t,\sigma)=v\\
-       \bigcup \set{ \Simulate\ (t', \sigma', I\oplus[i'], \phi\land\phi') \mid t, \sigma \drive{} t', \sigma', i', \phi' }                                                                &  \Value(t,\sigma)=\bot
+      \set{(v,I,\Phi)}                                                                     & t,\sigma\drive{}^* \overline{v,I,\Phi}\\
+       \bot                                                                &  \text{otherwise}
     \end{array}
   \right.
     \\
@@ -77,3 +77,18 @@ But when applying this technique to larger programs, it is a powerful tool to sh
   \caption{Naive Simulation function definition.}
   \label{fig:naivesimulate}
 \end{figure*}
+
+
+\begin{definition}[$t,\sigma\drive{}^* v,I,\Phi$]
+\begin{align*}
+  t,\sigma             & \drive{} & t_1,\sigma_1,i_1,\phi_1\\
+  t_1,\sigma_1         & \drive{} & t_2,\sigma_2,i_2,\phi_2\\
+                       & \vdots   & \\
+  t_{n-1},\sigma_{n-1} & \drive{} & t_n,\sigma_n,i_n,\phi_n
+\end{align*}
+With $\Value(t_n,\sigma_n)=v$\\
+$\Value(t_{i<n},\sigma_{i<n})=\bot$\\
+$I=i_1,\cdots,i_n$\\
+$\Phi = \phi_1\land\cdots\land\phi_n$\\
+$\Sat(\Phi)$
+\end{definition}
