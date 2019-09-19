@@ -30,6 +30,21 @@ But when applying this technique to larger programs, it is a powerful tool to sh
 
 
 
+
+
+\subsection{Symbolic TopHat}
+
+
+For symbolic \TOPHAT, we extend the task language, states and input with symbols.
+The semantics mentioned in \cref{sec:tophat} also need to be extended to support symbols.
+The same holds for the observation functions.
+
+$t\subset \tilde{t}$
+$\sigma \subset \tilde{\sigma}$
+$i\subset \tilde{i}$
+
+
+
 \begin{figure*}[t]
   \begin{function}
   \signature{\Simulate : \mathrm{Tasks} \times \mathrm{States} \times [\mathrm{Inputs}]  \times \mathrm{Predicates}
@@ -79,16 +94,16 @@ But when applying this technique to larger programs, it is a powerful tool to sh
 \end{figure*}
 
 
-\begin{definition}[$t,\sigma\drive{}^* v,I,\Phi$]
+\begin{definition}[$t,\sigma\drive{}^* \overline{\tilde{v},\tilde{I},\tilde{\Phi}}$]
 \begin{align*}
-  t,\sigma             & \drive{} & t_1,\sigma_1,i_1,\phi_1\\
-  t_1,\sigma_1         & \drive{} & t_2,\sigma_2,i_2,\phi_2\\
+  t,\sigma             & \drive{} & \overline{\tilde{t}_1,\tilde{\sigma}_1,\tilde{i}_1,\phi_1}\\
+  \tilde{t}_1,\tilde{\sigma}_1         & \drive{} & \overline{\tilde{t}_2,\tilde{\sigma}_2,\tilde{i}_2,\phi_2}\\
                        & \vdots   & \\
-  t_{n-1},\sigma_{n-1} & \drive{} & t_n,\sigma_n,i_n,\phi_n
+  \tilde{t}_{n-1},\tilde{\sigma}_{n-1} & \drive{} & \overline{\tilde{t}_n,\tilde{\sigma}_n,\tilde{i}_n,\phi_n}
 \end{align*}
-With $\Value(t_n,\sigma_n)=v$\\
-$\Value(t_{i<n},\sigma_{i<n})=\bot$\\
-$I=i_1,\cdots,i_n$\\
+With $\Value(\tilde{t}_n,\tilde{\sigma}_n)=\tilde{v}$\\
+$\Value(\tilde{t}_{i<n},\tilde{\sigma}_{i<n})=\bot$\\
+$\tilde{I}=\tilde{i}_1,\cdots,\tilde{i}_n$\\
 $\Phi = \phi_1\land\cdots\land\phi_n$\\
 $\Sat(\Phi)$
 \end{definition}
