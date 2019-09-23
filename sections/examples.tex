@@ -24,7 +24,7 @@ The listing below gives the \TOPHAT code for this example.
             ,caption=Subsidy request and approval workflow at the Dutch tax office.
             ,label=lst:tax
             ]
-  let provideCitizenInformation = enter Date in
+  let getCurrentDate = enter Date in
 
     let provideDocuments = enter Amount <&> enter Date in
 
@@ -33,7 +33,7 @@ The listing below gives the \TOPHAT code for this example.
         let officerApprove = \ invoiceDate. \ today. \ confirmed.
           edit False <?> if (today - invoiceDate < 365 /\ confirmed) |\label{lst:tax:officer-approve-def}| then edit True else fail in
 
-            provideCitizenInformation >>= \ today.|\label{lst:tax:citizen-info}|
+            getCurrentDate >>= \ today.|\label{lst:tax:citizen-info}|
             provideDocuments <&> companyConfirm >>= |\label{lst:tax:documents-and-company-confirm}|
               \ <<<<invoiceAmount, invoiceDate>>, confirmed>>.
               officerApprove invoiceDate today confirmed >>= \ approved.|\label{lst:tax:officer-approve}|
