@@ -3,6 +3,58 @@
 \section{Examples}
 \label{sec:examples}
 
+\subsection{Dining Philosophers Problem}
+
+The dining philosophers problem is a classic concurrency problem in computer science.
+A number of philosophers sit at a round table with a meal in front of them.
+In between the plates lies one fork.
+In order to eat their meal, each philosopher as to acquire both forks.
+This of course means that the philosophers cannot all eat at the same time, since there are not enough forks.
+
+\cref{lst:dining} lists an implementation in \TOPHAT for this problem, with three philosophers.
+\lstset{emph={}}
+\begin{TASK}[float=ht
+            ,numbers=right
+            ,caption=Dining Philosophers Problem with three philosophers
+            ,label=lst:dining
+            ]
+  let fork0 = Ref True in
+  let fork1 = Ref True in
+  let fork2 = Ref True in
+
+  let philosopher = \ name. \ leftFork. \ rightFork.
+          if !leftFork
+             then edit leftFork := False >>? if !rightFork
+                                          then edit leftFork := True
+                                          else Fail
+             else Fail
+
+          <?>
+
+          if !rightFork
+             then edit rightFork := False >>? if !leftFork
+                                          then edit rightFork := True
+                                          else Fail
+             else Fail
+
+          in
+
+    philosopher "Alan Turing" fork0 fork1 <&>
+    philosopher "Grace Hopper" fork1 fork2 <&>
+    philosopher "Ada Lovelace" fork2 fork0
+
+    >>= \ _ . edit "Done"
+\end{TASK}
+
+The forks are represented by shares, containing a boolean.
+The value True indicates that the fork is available.
+
+Each philosopher takes as arguments the two forks that he or she can reach.
+They have a choice to take either the left or the right fork, provided that the fork is available.
+After that, they can press continue if the second fork is also available.
+For the sake of simplicity, they return the first fork, rather than setting the second fork to False, and then setting both to True again.
+
+
 \subsection{Tax subsidy request}
 
 The example program listed in this section is taken from our previous work on symbolic execution for \TOPHAT~\cite{Steenvoorden2019}.

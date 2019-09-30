@@ -6,5 +6,5 @@
 \footnotesize\noindent%
 \texttt{firsts :: MonadTrack Text m => MonadSupply Nat m => MonadState Heap m => MonadZero m =>}\\
 \texttt{Val ('TyTask ('TyPrim t)) -> Goal t -> m ( Input, Pred 'TyPrimBool )}\\
-\texttt{firsts t g = [ ( i, p' ) | ( v, i:_, p ) <- simulate t [] Yes, let p' = p :/\: g v, satisfiable p' ]}
+%\texttt{firsts t g = [ ( i, p' ) | ( v, i:_, p ) <- simulate t [] Yes, let p' = p :/\: g v, satisfiable p' ]}
 \normalsize
