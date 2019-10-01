@@ -75,19 +75,23 @@ Since the $\Firsts$ function relies on the $\Simulate$ function, we can make use
 
 \begin{lemma}[Soundness of simulate]
   \label{lem:soundsimulate}
-  %
-  % For all tasks $t$, states $\sigma$,
-  % such that for all $(v,I,\phi)\in \Simulate (t,\sigma,[],\True)$,
-  % there exists a mapping $M = [s_0\mapsto c_0,\cdots,s_n\mapsto c_n]$
-  % such that $M\phi$ implies $\Evaluate (M t,M \sigma,M I) = M v$.
+  For all tasks $t$ and states $\sigma$
+  such that $t,\sigma\drive{}^*\overline{\tilde{v},\tilde{I},\Phi}$
+  then for all results $(\tilde{v},\tilde{I}=[\tilde{i}_0,\cdots,\tilde{i}_n],\Phi)$
+  there exists a concrete input $I$ with the same length as the symbolic input $\tilde{I}$
+  such that $t,\sigma\drive{I}^*v$
+  with $[s_i\mapsto c_i]\tilde{v}=v$ and $[s_i\mapsto c_i]\Phi$
+  where $s_i\in\tilde{i_i}$ and $c_i\in i_i$.
 \end{lemma}
 
 \begin{lemma}[Completeness of simulate]
   \label{lem:completesimulate}
-  % For all tasks $t$, states $\sigma$, lists of inputs $I$,
-  % such that $\Evaluate\ (t,\sigma,I)=v$,
-  % then there exists a mapping $M = [c_0\mapsto s_0,\cdots,c_n\mapsto s_n]$
-  % such that $(M v,M I,\phi)\in\Simulate(t,\sigma,[],\True)$ with $M \phi$.
+  For all tasks $t$, states $\sigma$ and lists of input $I$
+  such that $t,\sigma\drive{I}^*v$
+  there exists a symbolic value $\tilde{v}$ and a symbolic input $\tilde{I}$ with the same length as $I$,
+  such that $(\tilde{v},\tilde{I},\Phi)\in t,\sigma\drive{}^*$,
+  with $\tilde{i_i}\sim i_i$, $[s_i\mapsto c_i]\tilde{v}=v$ and $[s_i\mapsto c_i]\Phi$,
+  where $s_i\in\tilde{i_i}$ and $c_i\in i_i$.
 \end{lemma}
 
 
