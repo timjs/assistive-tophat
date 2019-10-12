@@ -139,6 +139,66 @@ And $s\in \tilde{i}$ and $c\in i$ are defined as follows.
   $s\in a = a $
 \end{definition}
 
+Since the driving semantics depends on the handling and normalisation semantics, we need to show that they too are sound and complete, before we can prove the lemma's above.
+
+
+\begin{lemma}[Soundness of handling]
+  \label{lem:soundhandle}
+
+  For all tasks $t$ and states $\sigma$,
+  if $t,\sigma\handle{}\overline{\tilde{t'},\tilde{\sigma'},\tilde{i},\phi}$
+  then for all tuples $(\tilde{t'},\tilde{\sigma'},\tilde{i}\phi)$
+  there exists an input $i$ such that $t,\sigma\handle{i}t',\sigma'$
+  with $\tilde{i}\sim i$, $[s\mapsto c]\tilde{t}=t'$ and $[s\mapsto c]\tilde{\sigma}=\sigma'$ where $s\in \tilde{i}$ and $c\in i$.
+  
+\end{lemma}
+
+\begin{lemma}[Soundness of normalisation]
+  \label{lem:soundnorm}
+
+  For all expressions $e$, states $\sigma$ and mappings $M=[s_0\mapsto c_0,\cdots,s_n\mapsto c_n]$,
+  such that $e,\sigma\normalise \overline{t,\sigma',\phi}$,
+  we have $M\phi$ implies
+  $e,M \sigma \hat{\normalise}t',\sigma''$, $t M \equiv t'$ and $\sigma' M \equiv \sigma''$.
+\end{lemma}
+
+\begin{lemma}[Soundness of striding]
+  For all tasks $t$, states $\sigma$ and mappings $M=[s_0\mapsto c_0,\cdots,s_n\mapsto c_n]$,
+such that $t,\sigma\stride \overline{t',\sigma',\phi}$,
+$M \phi$ implies
+$t,M\sigma \hat{\stride}\bar{t'},\bar{\sigma'}$, $M t'\ \equiv \bar{t'} \land M\sigma' \equiv \bar{\sigma'}$.
+\end{lemma}
+
+\begin{lemma}[Soundness of evaluation]
+  For all expressions $e$, states $\sigma$ and mappings $M=[s_0\mapsto c_0,\cdots,s_n\mapsto c_n]$,
+such that $e,\sigma\eval \overline{v,\sigma',\phi}$,
+we have that $M\phi$ implies
+$t,M\sigma \hat{\eval}\bar{v},\bar{\sigma'} \land Mv \equiv \bar{v} \wedge M\sigma' \equiv \bar{\sigma'}$.
+\end{lemma}
+
+\begin{lemma}[Completeness of handling]
+  \label{lem:completeHandle}
+    For all $t,\sigma,j$ such that $t,\sigma \xrightarrow[]{j} \hat{t'},\hat{\sigma'}$
+    there exists an $i\sim j$ such that $t,\sigma''\handle{} t'',\sigma''',i,\phi$.
+\end{lemma}
+
+\begin{lemma}[Completeness of normalisation]
+  \label{lem:completeNormalise}
+  For all $e,\sigma$ such that $e,\sigma \hat{\normalise}\hat{t},\hat{\sigma}$
+  there exists a symbolic execution $e,\sigma\normalise \hat{t},\hat{\sigma},\True$.
+\end{lemma}
+
+\begin{lemma}[Completeness of striding]
+  \label{lem:completeStride}
+  For all $t,\sigma$ such that $t,\sigma \hat{\stride}\hat{t},\hat{\sigma}$
+  there exists a symbolic execution $t,\sigma\eval \hat{t},\hat{\sigma},\True$.
+\end{lemma}
+
+\begin{lemma}[Completeness of evaluate]
+  \label{lem:completeEval}
+    For all $e,\sigma$ such that $e,\sigma \hat{\eval}\hat{v},\hat{\sigma}$
+    there exists a symbolic execution $e,\sigma\eval \hat{v},\hat{\sigma},\True$.
+\end{lemma}
 
 The problem with the lemma's above, is that they assume that you start out with the same task and state.
 In the case of $\Evaluate$ and $\Simulate$, this is not true, since in the sequential application of (symbolic) drive, the expressions differ.
