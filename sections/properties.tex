@@ -97,14 +97,21 @@ Since the $\Firsts$ function relies on the $\Simulate$ function, we can make use
 
 $\Evaluate$ and $\Simulate$ make use of the driving and symbolic driving semantics respectively, so we again first prove those sound and complete with respect to each other.
 
+
+\begin{definition}[Consistence relation $\mathds{C}$]
+A concrete task $t$ and concrete state $\sigma$
+are considered to be consistent with a symbolic task $\tilde{t}$, symbolic state $\tilde{\sigma}$ and path condition $\Phi$
+under a certain mapping $M=[s_1\mapsto c_1,\cdots,s_n,\mapsto c_n]$, denoted as $\mathds{C}(t,\sigma,\tilde{t},\tilde{\sigma},\Phi,M)$
+if and only if $M\tilde{t}=t$, $M\tilde{\sigma}=\sigma$ and $M\Phi$
+\end{definition}
+
 \begin{lemma}[Soundness of driving]
   \label{lem:sounddriving}
-  For all tasks $t$ and states $\sigma$,
-  if $t,\sigma\drive{} \overline{\tilde{t},\tilde{\sigma},\tilde{i},\phi}$
-  then for all tuples $(\tilde{t},\tilde{\sigma},\tilde{i},\phi)$,
-  there exists an $i$ such that
-  $t,\sigma\drive{i}t',\sigma'$
-  with $\tilde{i}\sim i$, $[s\mapsto c]\tilde{t}=t'$ and $[s\mapsto c]\tilde{\sigma}=\sigma'$ where $s\in \tilde{i}$ and $c\in i$.
+  For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
+  we have that $\mathds{C}(t,\sigma,\tilde{t},\tilde{\sigma},\Phi,M)$ implies
+  that for all symbolic inputs $\tilde{i}$ such that $\tilde{t},\tilde{\sigma}\drive{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi}$ and
+  for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{i},\phi)$,
+  $\Sat(\Phi\land\phi)$ implies that there exists an input $i$ such that $\tilde{i}\sim i$,  $t,\sigma\drive{i}t',\sigma'$ and $\mathds{C}(t',\sigma',\tilde{t}',\tilde{\sigma}',\Phi\land\phi,M.[s\mapsto c])$ where where $s\in\tilde{i}$ and $c\in i$.
 \end{lemma}
 
 \begin{lemma}[Completeness of driving]
@@ -114,6 +121,11 @@ $\Evaluate$ and $\Simulate$ make use of the driving and symbolic driving semanti
   then there exists an $\tilde{i}\sim i$, $\tilde{t}$ and $\tilde{\sigma}$
   such that $t,\sigma\drive{}\tilde{t},\tilde{\sigma},\tilde{i},\phi$
   with $[s\mapsto c]\tilde{t}=t'$, $[s\mapsto c]\tilde{\sigma}=\sigma'$ and $[s\mapsto c]\phi$, where $s\in \tilde{i}$ and $c\in i$.
+
+
+  $R(t,\sigma,\tilde{t},\tilde{\sigma},\Phi)$ implies
+  that for all inputs $i$ such that $t,\sigma\drive{i}t',\sigma'$,
+  there exists a symbolic input $\tilde{i}$ such that $\tilde{t},\tilde{\sigma}\drive{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi}$, $\Sat(\Phi\land\phi)$ and $R(t',\sigma',\tilde{t}',\tilde{\sigma}',\Phi\land\phi)$.
 \end{lemma}
 
 Where $\tilde{i}\sim i$ is defined as follows.
@@ -150,7 +162,7 @@ Since the driving semantics depends on the handling and normalisation semantics,
   then for all tuples $(\tilde{t'},\tilde{\sigma'},\tilde{i}\phi)$
   there exists an input $i$ such that $t,\sigma\handle{i}t',\sigma'$
   with $\tilde{i}\sim i$, $[s\mapsto c]\tilde{t}=t'$ and $[s\mapsto c]\tilde{\sigma}=\sigma'$ where $s\in \tilde{i}$ and $c\in i$.
-  
+
 \end{lemma}
 
 \begin{lemma}[Soundness of normalisation]
@@ -160,6 +172,13 @@ Since the driving semantics depends on the handling and normalisation semantics,
   such that $e,\sigma\normalise \overline{t,\sigma',\phi}$,
   we have $M\phi$ implies
   $e,M \sigma \hat{\normalise}t',\sigma''$, $t M \equiv t'$ and $\sigma' M \equiv \sigma''$.
+
+
+
+  For all concrete expressions $e$, concrete states $\sigma$, symbolic expressions $\tilde{e}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
+  we have that $\mathds{C}(e,\sigma,\tilde{e},\tilde{\sigma},\Phi,M)$ implies
+  that if $\tilde{e},\tilde{\sigma}\normalise\overline{\tilde{t},\tilde{\sigma}',\phi}$,
+  then for all pairs $(\tilde{t},\tilde{\sigma}',\phi)$
 \end{lemma}
 
 \begin{lemma}[Soundness of striding]
@@ -200,9 +219,9 @@ $t,M\sigma \hat{\eval}\bar{v},\bar{\sigma'} \land Mv \equiv \bar{v} \wedge M\sig
     there exists a symbolic execution $e,\sigma\eval \hat{v},\hat{\sigma},\True$.
 \end{lemma}
 
-The problem with the lemma's above, is that they assume that you start out with the same task and state.
-In the case of $\Evaluate$ and $\Simulate$, this is not true, since in the sequential application of (symbolic) drive, the expressions differ.
-Below, a graphical representation is shown of this process.
+% The problem with the lemma's above, is that they assume that you start out with the same task and state.
+% In the case of $\Evaluate$ and $\Simulate$, this is not true, since in the sequential application of (symbolic) drive, the expressions differ.
+% Below, a graphical representation is shown of this process.
 
 \begin{tikzpicture}[
             > = stealth, % arrow head style
@@ -213,74 +232,71 @@ Below, a graphical representation is shown of this process.
         ]
 
 
+        % j = 0
+        \node (0)  {$(t,\sigma)$};
+        \node (l0) [right of=0] {$\mathds{C}(t,\sigma,t,\sigma,\True,\emptyset)$};
 
-        \node (0) {$(t,\sigma)$};
+        % j = 1
         \node (c1) [below left of=0] {$(t_1,\sigma_1)$};
         \node (s1) [below right of=0] {$(\tilde{t_1},\tilde{\sigma_1},\phi_1)$};
-        \node (c2) [below of=c1] {$(t_2,\sigma_2)$};
-        \node (s2) [below of=s1] {$(\tilde{t_2},\tilde{\sigma_2},\phi_2)$};
-        \node (ccc) [below of=c2] {\vdots};
-        \node (sss) [below of=s2] {\vdots};
-        \node (ci) [below of=ccc] {$(t_i,\sigma_i)$};
-        \node (si) [below of=sss] {$(\tilde{t_i},\tilde{\sigma_i},\phi_i)$};
-        \node (cii) [below of=ci] {$(t_{i+1},\sigma_{i+1})$};
-        \node (sii) [below of=si] {$(\tilde{t_{i+1}},\tilde{\sigma_{i+1}},\phi_{i+1})$};
-        \node (cc) [below of=cii] {\vdots};
-        \node (ss) [below of=sii] {\vdots};
-        \node (cn) [below of=cc] {$(t_n,\sigma_n)$};
-        \node (sn) [below of=ss] {$(\tilde{t_n},\tilde{\sigma_n},\phi_n)$};
+        \node (l1) [right of=s1,text width=4cm] {\begin{tabular}{l}
+        $\mathds{C}(t_1,\sigma_1,\tilde{t_1},\tilde{\sigma_1},\phi_1,[s_1\mapsto c_1])$\\
+                                  $\Sat(\phi_1)$\\
+                                  $\Value(t_1,\sigma_1)=\bot$\end{tabular}};
+
+        %
+        \node (cc) [below of=c1] {\vdots};
+        \node (ss) [below of=s1] {\vdots};
+
+        % j = k
+        \node (ck) [below of=cc] {$(t_1,\sigma_1)$};
+        \node (sk) [below of=ss] {$(\tilde{t_1},\tilde{\sigma_1},\phi_1)$};
+        \node (lk) [right of=sk,text width=4cm] {\begin{tabular}{l}
+        $\mathds{C}(t_k,\sigma_k,\tilde{t_k},\tilde{\sigma_k},\phi_1\land\cdots\land\phi_k,[s_1\mapsto c_1,\cdots,s_k\mapsto c_k])$\\
+        $\Sat(\phi_1\land\cdots\land\phi_k)$\\
+        $\Value(t_k,\sigma_k)=\bot$\end{tabular}};
+
+        %
+        \node (ccc) [below of=ck] {\vdots};
+        \node (sss) [below of=sk] {\vdots};
+
+        \node (cn) [below of=ccc] {$(t_n,\sigma_n)$};
+        \node (sn) [below of=sss] {$(\tilde{t_n},\tilde{\sigma_n},\phi_n)$};
+        \node (l1) [right of=sn,text width=4cm] {\begin{tabular}{l}
+        $\mathds{C}(t_n,\sigma_n,\tilde{t_n},\tilde{\sigma_n},\phi_1\land\cdots\land\phi_n,[s_1\mapsto c_1,\cdots,s_n\mapsto c_n])$\\
+        $\Sat(\phi_1\land\cdots\land\phi_n)$\\
+        $\Value(t_n,\sigma_n)=v$\end{tabular}};
 
         \path[->] (0) edge node {$i_1$} (c1);
         \path[->] (0) edge node {$\tilde{i_1}$} (s1);
-        \path[->] (c1) edge node {$i_2$} (c2);
-        \path[->] (s1) edge node {$\tilde{i_2}$} (s2);
-        \path[->] (c2) edge node { } (ccc);
-        \path[->] (s2) edge node { } (sss);
-        \path[->] (ccc) edge node { } (ci);
-        \path[->] (sss) edge node { } (si);
-        \path[->] (ci) edge node {$i_{i+1}$} (cii);
-        \path[->] (si) edge node {$\tilde{i_{i+1}}$} (sii);
-        \path[->] (cii) edge node { } (cc);
-        \path[->] (sii) edge node { } (ss);
-        \path[->] (cc) edge node {$i_n$} (cn);
-        \path[->] (ss) edge node {$\tilde{i_n}$} (sn);
+
+        \path[->] (c1) edge node { } (cc);
+        \path[->] (s1) edge node { } (ss);
+
+        \path[->] (cc) edge node { $i_k$} (ck);
+        \path[->] (ss) edge node { $\tilde{i_k}$} (sk);
+
+        \path[->] (ck) edge node { } (ccc);
+        \path[->] (sk) edge node { } (sss);
+
+        \path[->] (ccc) edge node { } (cn);
+        \path[->] (sss) edge node { } (sn);
+
+        \path[->] (ccc) edge node {$i_n$} (cn);
+        \path[->] (sss) edge node {$\tilde{i_n}$} (sn);
 
         \path[dashed,->] ([yshift=.25em]c1.east) edge node {\cref{lem:completedriving}} ([yshift=.25em]s1.west);
         \path[dashed,->] ([yshift=-.25em]s1.west) edge node {\cref{lem:sounddriving}} ([yshift=-.25em]c1.east);
 
-        \path[dashed,->] ([yshift=.25em]cii.east) edge node {\cref{lem:completedrivingr}} ([yshift=.25em]sii.west);
-        \path[dashed,->] ([yshift=-.25em]sii.west) edge node {\cref{lem:sounddrivingr}} ([yshift=-.25em]cii.east);
+        \path[dashed,->] ([yshift=.25em]ck.east) edge node {\cref{lem:completedriving}} ([yshift=.25em]sk.west);
+        \path[dashed,->] ([yshift=-.25em]sk.west) edge node {\cref{lem:sounddriving}} ([yshift=-.25em]ck.east);
 
         \path[dashed,->] ([yshift=.25em]cn.east) edge node {\cref{lem:completesimulate}} ([yshift=.25em]sn.west);
         \path[dashed,->] ([yshift=-.25em]sn.west) edge node {\cref{lem:soundsimulate}} ([yshift=-.25em]cn.east);
 
     \end{tikzpicture}
 
-to be added to the figure above:\\
-$\Value(t_n,\sigma_n)=v$\\
-$\Value(t_{i<n},\sigma_{i<n})=\bot$\\
-etc
-
-\begin{definition}[Consistance relation $R$]
-$R(t,\sigma,\tilde{t},\tilde{\sigma},\Phi)
-\iff\exists M . M\tilde{t}=t
-\land M\tilde{\sigma}=\sigma
-\land M\Phi$
-With $M$ the minimal substitution $[s_1\mapsto c_1,\cdots,s_n\,mapsto c_n]$. (ie no symbols in $M$ that are not present in $\tilde{t}$)
-\end{definition}
-
-\begin{lemma}[Soundness of driving with respect to $R$]
-  \label{lem:sounddrivingr}
-$R(t,\sigma,\tilde{t},\tilde{\sigma},\Phi)$ implies
-that for all symbolic inputs $\tilde{i}$ such that $\tilde{t},\tilde{\sigma}\drive{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi}$ and $\Sat(\Phi\land\phi)$,
-there exists an input $i$ such that $t,\sigma\drive{i}t',\sigma'$ and $R(t',\sigma',\tilde{t}',\tilde{\sigma}',\Phi\land\phi)$
-
-
-\end{lemma}
-
-\begin{lemma}[Completeness of driving with respect to $R$]
-  \label{lem:completedrivingr}
-  $R(t,\sigma,\tilde{t},\tilde{\sigma},\Phi)$ implies
-  that for all inputs $i$ such that $t,\sigma\drive{i}t',\sigma'$,
-  there exists a symbolic input $\tilde{i}$ such that $\tilde{t},\tilde{\sigma}\drive{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi}$, $\Sat(\Phi\land\phi)$ and $R(t',\sigma',\tilde{t}',\tilde{\sigma}',\Phi\land\phi)$.
-\end{lemma}
+% to be added to the figure above:\\
+% $\Value(t_n,\sigma_n)=v$\\
+% $\Value(t_{i<n},\sigma_{i<n})=\bot$\\
+% etc
