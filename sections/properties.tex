@@ -116,16 +116,11 @@ if and only if $M\tilde{t}=t$, $M\tilde{\sigma}=\sigma$ and $M\Phi$
 
 \begin{lemma}[Completeness of driving]
   \label{lem:completedriving}
-  For all tasks $t$, states $\sigma$ and inputs $i$,
-  if $t,\sigma\drive{i}t',\sigma'$,
-  then there exists an $\tilde{i}\sim i$, $\tilde{t}$ and $\tilde{\sigma}$
-  such that $t,\sigma\drive{}\tilde{t},\tilde{\sigma},\tilde{i},\phi$
-  with $[s\mapsto c]\tilde{t}=t'$, $[s\mapsto c]\tilde{\sigma}=\sigma'$ and $[s\mapsto c]\phi$, where $s\in \tilde{i}$ and $c\in i$.
-
-
-  $R(t,\sigma,\tilde{t},\tilde{\sigma},\Phi)$ implies
+  For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
+  we have that $\mathds{C}(t,\sigma,\tilde{t},\tilde{\sigma},\Phi,M)$ implies
   that for all inputs $i$ such that $t,\sigma\drive{i}t',\sigma'$,
-  there exists a symbolic input $\tilde{i}$ such that $\tilde{t},\tilde{\sigma}\drive{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi}$, $\Sat(\Phi\land\phi)$ and $R(t',\sigma',\tilde{t}',\tilde{\sigma}',\Phi\land\phi)$.
+  there exists a symbolic input $\tilde{i}$, $\tilde{i}\sim i$ such that
+  $\tilde{t},\tilde{\sigma}\drive{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi}$, $\Sat(\Phi\land\phi)$ and $\mathds{C}(t',\sigma',\tilde{t}',\tilde{\sigma}',\Phi\land\phi,M.[s\mapsto c])$ where where $s\in\tilde{i}$ and $c\in i$.
 \end{lemma}
 
 Where $\tilde{i}\sim i$ is defined as follows.
@@ -157,66 +152,77 @@ Since the driving semantics depends on the handling and normalisation semantics,
 \begin{lemma}[Soundness of handling]
   \label{lem:soundhandle}
 
-  For all tasks $t$ and states $\sigma$,
-  if $t,\sigma\handle{}\overline{\tilde{t'},\tilde{\sigma'},\tilde{i},\phi}$
-  then for all tuples $(\tilde{t'},\tilde{\sigma'},\tilde{i}\phi)$
-  there exists an input $i$ such that $t,\sigma\handle{i}t',\sigma'$
-  with $\tilde{i}\sim i$, $[s\mapsto c]\tilde{t}=t'$ and $[s\mapsto c]\tilde{\sigma}=\sigma'$ where $s\in \tilde{i}$ and $c\in i$.
+  For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
+  we have that $\mathds{C}(t,\sigma,\tilde{t},\tilde{\sigma},\Phi,M)$ implies
+  that for all symbolic inputs $\tilde{i}$ such that $\tilde{t},\tilde{\sigma}\handle{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi}$ and
+  for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{i},\phi)$,
+  $\Sat(\Phi\land\phi)$ implies that there exists an input $i$ such that $\tilde{i}\sim i$,  $t,\sigma\handle{i}t',\sigma'$ and $\mathds{C}(t',\sigma',\tilde{t}',\tilde{\sigma}',\Phi\land\phi,M.[s\mapsto c])$ where where $s\in\tilde{i}$ and $c\in i$.
 
 \end{lemma}
 
 \begin{lemma}[Soundness of normalisation]
   \label{lem:soundnorm}
-
-  For all expressions $e$, states $\sigma$ and mappings $M=[s_0\mapsto c_0,\cdots,s_n\mapsto c_n]$,
-  such that $e,\sigma\normalise \overline{t,\sigma',\phi}$,
-  we have $M\phi$ implies
-  $e,M \sigma \hat{\normalise}t',\sigma''$, $t M \equiv t'$ and $\sigma' M \equiv \sigma''$.
-
-
-
   For all concrete expressions $e$, concrete states $\sigma$, symbolic expressions $\tilde{e}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
   we have that $\mathds{C}(e,\sigma,\tilde{e},\tilde{\sigma},\Phi,M)$ implies
   that if $\tilde{e},\tilde{\sigma}\normalise\overline{\tilde{t},\tilde{\sigma}',\phi}$,
-  then for all pairs $(\tilde{t},\tilde{\sigma}',\phi)$
+  then for all pairs $(\tilde{t},\tilde{\sigma}',\phi)$ it holds that $\Sat(\Phi\land\phi)$ implies
+  that $e,\sigma\hat{\normalise}t,\sigma'$ with $\mathds{C}(t,\sigma',\tilde{t},\tilde{\sigma'},\Phi\land\phi,M)$.
 \end{lemma}
 
 \begin{lemma}[Soundness of striding]
-  For all tasks $t$, states $\sigma$ and mappings $M=[s_0\mapsto c_0,\cdots,s_n\mapsto c_n]$,
-such that $t,\sigma\stride \overline{t',\sigma',\phi}$,
-$M \phi$ implies
-$t,M\sigma \hat{\stride}\bar{t'},\bar{\sigma'}$, $M t'\ \equiv \bar{t'} \land M\sigma' \equiv \bar{\sigma'}$.
+  for all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
+  we have that $\mathds{C}(t,\sigma,\tilde{t},\tilde{\sigma},\Phi,M)$ implies
+  that if $\tilde{t},\tilde{\sigma}\stride\overline{\tilde{t}',\tilde{\sigma}',\phi}$,
+  then for all pairs $(\tilde{t}'',\tilde{\sigma}',\phi)$ it holds that $\Sat(\Phi\land\phi)$ implies
+  that $t,\sigma\hat{\stride}t',\sigma'$ with $\mathds{C}(t',\sigma',\tilde{t'},\tilde{\sigma'},\Phi\land\phi,M)$.
 \end{lemma}
 
 \begin{lemma}[Soundness of evaluation]
-  For all expressions $e$, states $\sigma$ and mappings $M=[s_0\mapsto c_0,\cdots,s_n\mapsto c_n]$,
-such that $e,\sigma\eval \overline{v,\sigma',\phi}$,
-we have that $M\phi$ implies
-$t,M\sigma \hat{\eval}\bar{v},\bar{\sigma'} \land Mv \equiv \bar{v} \wedge M\sigma' \equiv \bar{\sigma'}$.
+  For all concrete expressions $e$, concrete states $\sigma$, symbolic expressions $\tilde{e}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
+  we have that $\mathds{C}(e,\sigma,\tilde{e},\tilde{\sigma},\Phi,M)$ implies
+  that if $\tilde{e},\tilde{\sigma}\eval\overline{\tilde{v},\tilde{\sigma}',\phi}$,
+  then for all pairs $(\tilde{v},\tilde{\sigma}',\phi)$ it holds that $\Sat(\Phi\land\phi)$ implies
+  that $e,\sigma\hat{\eval}v,\sigma'$ with $\mathds{C}(v,\sigma',\tilde{v},\tilde{\sigma'},\Phi\land\phi,M)$.
 \end{lemma}
+
+
+
 
 \begin{lemma}[Completeness of handling]
   \label{lem:completeHandle}
-    For all $t,\sigma,j$ such that $t,\sigma \xrightarrow[]{j} \hat{t'},\hat{\sigma'}$
-    there exists an $i\sim j$ such that $t,\sigma''\handle{} t'',\sigma''',i,\phi$.
+  For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
+  we have that $\mathds{C}(t,\sigma,\tilde{t},\tilde{\sigma},\Phi,M)$ implies
+  that for all inputs $i$ such that $t,\sigma\handle{i}t',\sigma'$,
+  there exists a symbolic input $\tilde{i}$, $\tilde{i}\sim i$ such that
+  $\tilde{t},\tilde{\sigma}\handle{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi}$,
+  and for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{i},\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $\mathds{C}(t',\sigma',\tilde{t}',\tilde{\sigma}',\Phi\land\phi,M.[s\mapsto c])$ where where $s\in\tilde{i}$ and $c\in i$.
 \end{lemma}
 
 \begin{lemma}[Completeness of normalisation]
   \label{lem:completeNormalise}
-  For all $e,\sigma$ such that $e,\sigma \hat{\normalise}\hat{t},\hat{\sigma}$
-  there exists a symbolic execution $e,\sigma\normalise \hat{t},\hat{\sigma},\True$.
+  For all concrete expressions $e$, concrete states $\sigma$, symbolic expressions $\tilde{e}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
+  we have that $\mathds{C}(e,\sigma,\tilde{e},\tilde{\sigma},\Phi,M)$
+  and $e,\sigma\hat{\normalise} t,\sigma'$,
+  then $\tilde{e},\tilde{\sigma}\normalise\overline{\tilde{t},\tilde{\sigma}',\phi}$,
+  and for all pairs $(\tilde{t},\tilde{\sigma}',\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $\mathds{C}(t,\sigma',\tilde{t},\tilde{\sigma}',\Phi\land\phi,M)$.
 \end{lemma}
 
 \begin{lemma}[Completeness of striding]
   \label{lem:completeStride}
-  For all $t,\sigma$ such that $t,\sigma \hat{\stride}\hat{t},\hat{\sigma}$
-  there exists a symbolic execution $t,\sigma\eval \hat{t},\hat{\sigma},\True$.
+  For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
+  we have that $\mathds{C}(t,\sigma,\tilde{t},\tilde{\sigma},\Phi,M)$
+  and $t,\sigma\hat{\stride} t',\sigma'$,
+  then $\tilde{t},\tilde{\sigma}\stride\overline{\tilde{t'},\tilde{\sigma}',\phi}$,
+  and for all pairs $(\tilde{t'},\tilde{\sigma}',\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $\mathds{C}(t',\sigma',\tilde{t'},\tilde{\sigma}',\Phi\land\phi,M)$.
 \end{lemma}
 
 \begin{lemma}[Completeness of evaluate]
   \label{lem:completeEval}
-    For all $e,\sigma$ such that $e,\sigma \hat{\eval}\hat{v},\hat{\sigma}$
-    there exists a symbolic execution $e,\sigma\eval \hat{v},\hat{\sigma},\True$.
+  For all concrete expressions $e$, concrete states $\sigma$, symbolic expressions $\tilde{e}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
+  we have that $\mathds{C}(e,\sigma,\tilde{e},\tilde{\sigma},\Phi,M)$
+  and $e,\sigma\hat{\eval} v,\sigma'$,
+  then $\tilde{e},\tilde{\sigma}\eval\overline{\tilde{v},\tilde{\sigma}',\phi}$,
+  and for all pairs $(\tilde{v},\tilde{\sigma}',\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $\mathds{C}(v,\sigma',\tilde{v},\tilde{\sigma}',\Phi\land\phi,M)$.
 \end{lemma}
 
 % The problem with the lemma's above, is that they assume that you start out with the same task and state.
