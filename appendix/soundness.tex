@@ -3,48 +3,173 @@
 \section{Soundness proofs}
 \label{sec:soundnessproofs}
 
-Restatement of Lemma:
+\begin{proof}[Soundness of handle]
 
-\begin{lemma}[Soundness of simulate]
+  We prove \cref{lem:soundhandle} by induction over $\tilde{t}$.
 
-  For all tasks $t$, states $\sigma$,
-  such that for all $(v,I,\phi)\in \Simulate (t,\sigma,[],\True)$,
-  there exists a mapping $M = [s_0\mapsto c_0,\cdots,s_n\mapsto c_n]$
-  such that $M\phi$ implies $\Evaluate (M t,M \sigma,M I) = M v$.
-\end{lemma}
+  \case{$\tilde{t}=\Edit v$}
+  {One rule applies, namely \userule{SH-Change}\\
+  Since we have $\mathds{C}(t,\sigma,\Edit v,\tilde{\sigma},\Phi,M)$, we know that $t$ must be $\Edit v$ too, $\tilde{t}$ contains no symbols.\fixme{not true! v could be a symbol!}
+  There exists only one symbolic execution, namely $\Edit v,\tilde{\sigma}\handle{}\Edit s,\tilde{\sigma},s,\True$.
+  We need to show that there exists an $i$ such that $s\sim i$ and $\Edit v,\sigma\handle{i}t',\sigma'$.
 
-\begin{proof}
-  \case{
-    $\Value(t,\sigma)=v$\\
-    In this case, we have $\Simulate(t,\sigma,[],\True)=\set{(v,I,\phi)}$.
-    When we take $M$ to be the identity mapping, we obtain that
-    $\Evaluate (M t,M\sigma,M []) = \Evaluate (t,\sigma,[]) = v$, by definition of $\Evaluate$.
-    }
-
-  \case{
-    $\Value(t,\sigma)=\bot$\\
-    In this case, the symbolic driving semantics is applied. $t,\sigma\drive{}\overline{t',\sigma',i',\phi'}$.
-    To every element of the result $(t',\sigma',i',\phi')$, $\Simulate'$ is applied as follows.
-    $\Simulate'(\True,t,t',\sigma',[]\oplus [i'],\True\land\phi')$
-    \case{
-      $\Sat(\True\land\phi')$
-        \case{
-          $\Value(t',\sigma')=v$\\
-          In this case, $\Simulate'$ results in $\set{(v,[i'],\phi')}$.
-          We need to show that there exists a mapping $M$ such that $\Evaluate (M t,M \sigma, M [i']) = M v$. This by definition of $\Evaluate$
-          means that $t,\sigma\drive{M i'}M t',M\sigma'$
-          with $\Value(M t',M\sigma')= M v$ must hold.
-          By Lemma~\ref{lem:sounddrive}, we obtain that:\\
-          For all tasks $t$, states $\sigma$ and mappings $M=[s_0\mapsto c_0,\cdots,s_n\mapsto c_n]$,
-          such that $t,\sigma\drive{} \overline{t',\sigma',i,\phi}$
-          we have $M\phi$ implies
-          $t,M\sigma \xRightarrow[]{M i} t'',\sigma''$, $Mt' \equiv t''$ and $M\sigma' \equiv \sigma''$.\\
-          Which gives us exactly what we need to prove.
-        }
-        \case{
-          $\Value(t',\sigma')=\bot$ and $t\neq t'$.
-
-        }
-    }
+  Any concrete value $c$ of the same type as $v$ will do. Now we have to show that we end up with $\mathds{C}(\Edit c,\sigma,\Edit s,\tilde{\sigma},\Phi\land\True,M.[s\mapsto c])$, which holds trivially.
   }
+
+ \case{$\tilde{t}=\Enter \tau$}
+{One rule applies, namely \userule{SH-Fill}\\
+Since we have $\mathds{C}(t,\sigma,\Enter \tau,\tilde{\sigma},\Phi,M)$, we know that $t$ must be $\Enter \tau$ too, $\tilde{t}$ contains no symbols.
+There exists only one symbolic execution, namely $\Enter \tau,\tilde{\sigma}\handle{}\Edit s,\tilde{\sigma},s,\True$.
+We need to show that there exists an $i$ such that $s\sim i$ and $\Edit v,\sigma\handle{i}t',\sigma'$.
+
+Any concrete value $c$ of type $\tau$ will do. Now we have to show that we end up with $\mathds{C}(\Edit c,\sigma,\Edit s,\tilde{\sigma},\Phi\land\True,M.[s\mapsto c])$, which holds trivially.
+}
+
+\case{$\tilde{t}=\Update l$}
+{One rule applies, namely \userule{SH-Update}\\
+
+Since we have $\mathds{C}(t,\sigma,\Update l,\tilde{\sigma},\Phi,M)$, we know that $t$ must be $\Update l$ too, $\tilde{t}$ contains no symbols.
+There exists only one symbolic execution, namely $\Update l,\tilde{\sigma}\handle{}\Update l,\tilde{\sigma}[l\mapsto s],s,\True$.
+We need to show that there exists an $i$ such that $s\sim i$ and $\Update l,\sigma\handle{i}t',\sigma'$.
+
+Any concrete value $c$ of the same type as $l$ will do. Now we have to show that we end up with $\mathds{C}(\Update l,\sigma[l\mapsto c],\Update l,\tilde{\sigma}[l\mapsto s],\Phi\land\True,M.[s\mapsto c])$, which holds trivially.
+
+
+
+
+% Provided that $M\True$
+% we need to demonstrate that  \userule{H-Update} with $\hat{\sigma}=M\sigma$ and $M s = v$,
+% $M \Update l \equiv \Update l$ and $ M\sigma[l\mapsto s]\equiv \hat{\sigma}[l\mapsto v]$.
+%
+% \userule{H-Update} with $\hat{\sigma}=M\sigma$ follows trivially.
+% $M \Update l \equiv \Update l$ follows trivially, since locations cannot contain symbols. $ M\sigma[l\mapsto s]\equiv \hat{\sigma}[l\mapsto v]$ can be concluded from the fact that $\hat{\sigma}=M\sigma$ and $M s = v$.
+%
+}
+%
+% \case{$t=t_1\Next e_2$}
+% {In this case, two rules apply.\\
+%
+%
+% \case{\userule{SH-Next}}
+%
+% {In the case $M\phi_1$, we need to demonstrate that \userule{H-PassNext} with $\hat{\sigma}=M\sigma$ and $j= M i$,
+% $M t_1' \Next e_2 \equiv \hat{t_1'}\Next e_2$ and $M\sigma'\equiv\hat{\sigma'}$.
+%
+% By the induction hypothesis we obtain the following.\\
+% $\forall M_1 . M_1 \phi_1 \implies t_1,M_1\sigma \xrightarrow[]{M_1 i} \hat{t_1'},\hat{\sigma'}\land M_1 t_1'\equiv\hat{t_1'}\land M_1\sigma' \equiv \hat{\sigma'}$
+%
+% Since $M$ satisfies $\phi$, we have $t_1,M\sigma \xrightarrow[]{M i} \hat{t_1'},\hat{\sigma'}$, $M\sigma'\equiv\hat{\sigma'}$,
+% which we needed to show, as well as $M t_1' \Next e_2 \equiv \hat{t_1'}\Next e_2$ since this can be concluded from $M t_1'\equiv \hat{t_1'}$.
+%
+% In the case $M\phi_2$, we need to demonstrate that \userule{H-Next} with $\hat{\sigma}=M\sigma$,
+% $M t_2 \equiv \hat{t_2}$ and $M\sigma'\equiv\hat{\sigma'}$.
+%
+% From Lemma~\ref{lem:soundnorm} we obtain that $\forall M_1. M_1 \phi \implies e_2 v_1,M\sigma\hat{\normalise}\hat{t_2},\hat{\sigma'}\land M t_2\equiv\hat{t_2}\land M \sigma'\equiv\hat{\sigma'}$.
+%
+% This gives us exactly what we needed to prove this case.
+%   }
+%
+% \case{\userule{SH-PassNext}}
+% {
+% Provided that $M\phi$, we need to demonstrate that \userule{H-PassNext} with $\hat{\sigma}=M\sigma$ and $j= M i$,
+% $M t_1' \Next e_2 \equiv \hat{t_1'}\Next e_2$ and $M\sigma'\equiv\hat{\sigma'}$.
+%
+% By the induction hypothesis we obtain the following.\\
+% $\forall M_1 . M_1 \phi_1 \implies t_1,M_1\sigma \xrightarrow[]{M_1 i} \hat{t_1'},\hat{\sigma'}\land M_1 t_1'\equiv\hat{t_1'}\land M_1\sigma' \equiv \hat{\sigma'}$
+%
+% Since $M$ satisfies $\phi$, we have $t_1,M\sigma \xrightarrow[]{M i} \hat{t_1'},\hat{\sigma'}$, $M\sigma'\equiv\hat{\sigma'}$,
+% which we needed to show, as well as $M t_1' \Next e_2 \equiv \hat{t_1'}\Next e_2$ since this can be concluded from $M t_1'\equiv \hat{t_1'}$.
+% }
+% }
+%
+% \case{$t=t_1\Then e_2$}
+% {One rule applies, namely \userule{SH-PassThen}\\
+% Provided that $M\phi$, we need to demonstrate that \userule{H-PassThen} with $\hat{\sigma}=M\sigma$ and $j= M i$,
+% $M t_1'\Then e_2\equiv \hat{t_1'}\Then e_2$ and $M\sigma'\equiv\hat{\sigma'}$.
+%
+% By the induction hypothesis we obtain the following.\\
+% $\forall M_1 . M_1 \phi_1 \implies t_1,M_1\sigma \xrightarrow[]{M_1 i} \hat{t_1'},\hat{\sigma'}\land M_1 t_1'\equiv\hat{t_1'}\land M_1\sigma' \equiv \hat{\sigma'}$
+%
+% Since $M$ satisfies $\phi$, we have $t_1,M\sigma \xrightarrow[]{M i} \hat{t_1'},\hat{\sigma'}$ and $M\sigma'\equiv\hat{\sigma'}$,
+% which we needed to show, as well as $M t_1' \Then e_2 \equiv \hat{t_1'}\Then e_2$ since this can be concluded from $M t_1'\equiv \hat{t_1'}$.
+%
+% }
+%
+% \case{$t=e_1\Xor e_2$}
+% {
+% In this case, three rules apply.\\
+%   \case{\userule{SH-Pick}}
+%   {
+%   Either we have that $M(\phi_1\wedge s=\Left)$ or $M(\phi_2\wedge s=\Right)$.
+%   In the first case, the proof is identical to the SH-PickLeft rule.
+%   In the second cse, the proof is identical to the SH-PickRight rule.
+%   }
+%
+%   \case{\userule{SH-PickLeft}}
+%   {Provided that $M(\phi_2\wedge s=\Left)$, we need to demonstrate that \userule{H-PickLeft} with $\hat{\sigma}=M\sigma$,
+%   $M t_1\equiv \hat{t_1}$ and $M\sigma'\equiv \hat{\sigma'}$.
+%
+%   From Lemma~\ref{lem:soundnorm} we obtain that $\forall M_1. M_1 \phi \implies e_1,M\sigma\hat{\normalise}\hat{t_1},\hat{\sigma'}\land M t_1\equiv\hat{t_1}\land M \sigma'\equiv\hat{\sigma'}$.
+%
+%   Since $M$ satisfies $\phi$, we have $e_1,M\sigma \hat{\normalise}[] \hat{t_1},\hat{\sigma'}$ and $M\sigma'\equiv\hat{\sigma'}$,
+%   which we needed to show, as well as $M t_1 \equiv \hat{t_1}$.
+%
+%   }
+%   \case{\userule{SH-PickRight}}
+%   {Provided that $M(\phi_2\wedge s=\Right)$ we need to demonstrate that \userule{H-PickRight} with $\hat{\sigma}=M\sigma$,
+%   $M t_2\equiv \hat{t_2}$ and $M\sigma'\equiv \hat{\sigma'}$.
+%
+%   From Lemma~\ref{lem:soundnorm} we obtain that $\forall M_1. M_1 \phi \implies e_2,M\sigma\hat{\normalise}\hat{t_2},\hat{\sigma'}\land M t_2\equiv\hat{t_2}\land M \sigma'\equiv\hat{\sigma'}$.
+%
+%   Since $M$ satisfies $\phi$, we have $e_2,M\sigma \hat{\normalise}[] \hat{t_2},\hat{\sigma'}$ and $M\sigma'\equiv\hat{\sigma'}$,
+%   which we needed to show, as well as $M t_2 \equiv \hat{t_2}$.
+%   }
+% }
+%
+% \case{$t=t_1\And t_2$}
+% {
+% In this case, two rules apply.\\
+%   \case{\userule{SH-FirstAnd}}
+%   {Provided that $M\phi$, we need to demonstrate that \userule{H-FirstAnd} with $\hat{\sigma}=M\sigma$,
+%   $M t_1'\And t_2\equiv \hat{t_1'}\And t_2$ and $M\sigma'\equiv \hat{\sigma'}$.
+%
+%   By the induction hypothesis we obtain the following.\\
+%   $\forall M_1 . M_1 \phi_1 \implies t_1,M_1\sigma \xrightarrow[]{M_1 i} \hat{t_1'},\hat{\sigma'}\land M_1 t_1'\equiv\hat{t_1'}\land M_1\sigma' \equiv \hat{\sigma'}$
+%
+%   Since $M$ satisfies $\phi$, we have $t_1,M\sigma\xrightarrow[]{M i} \hat{t_1'},\hat{\sigma'}$ and $M\sigma'\equiv\hat{\sigma'}$,
+%   which we needed to show, as well as $M t_1'\And t_2\equiv \hat{t_1'}\And t_2$, which follows from $M t_1' \equiv \hat{t_1'}$.
+%
+%   }
+%   \case{\userule{SH-SecondAnd}}
+%   {Provided that $M\phi$, we need to demonstrate that \userule{H-SecondAnd} with $\hat{\sigma}=M\sigma$,
+%   $M t_1\And t_2'\equiv t_1\And \hat{t_2}$ and $M\sigma'\equiv \hat{\sigma'}$.
+%
+%   By the induction hypothesis we obtain the following.\\
+%   $\forall M_1 . M_1 \phi_1 \implies t_2,M_1\sigma \xrightarrow[]{M_1 i} \hat{t_2'},\hat{\sigma'}\land M_1 t_2'\equiv\hat{t_2'}\land M_1\sigma' \equiv \hat{\sigma'}$
+%
+%   Since $M$ satisfies $\phi$, we have $t_2,M\sigma\xrightarrow[]{M i} \hat{t_2'},\hat{\sigma'}$ and $M\sigma'\equiv\hat{\sigma'}$,
+%   which we needed to show, as well as $M t_1\And t_2'\equiv t_1\And \hat{t_2'}$, which follows from $M t_2' \equiv \hat{t_2'}$.}
+% }
+%
+% \case{$t=e_1\Or e_2$}
+% {One rule applies, namely \userule{SH-Or}\\
+%
+% In the case that $M\phi_1$, we need to demonstrate that \userule{H-FirstOr} with $\hat{\sigma}=M\sigma$ and $M\First i =\First j$,
+% $M t_1'\Or t_2\equiv \hat{t_1'}\And t_2$ and $M\sigma'\equiv \hat{\sigma'}$.
+%
+% By the induction hypothesis we obtain the following.\\
+% $\forall M_1 . M_1 \phi_1 \implies t_1,M_1\sigma \xrightarrow[]{M_1 i} \hat{t_1'},\hat{\sigma'}\land M_1 t_1'\equiv\hat{t_1'}\land M_1\sigma' \equiv \hat{\sigma'}$.
+%
+% Since $M$ satisfies $\phi$, we have $t_1,M\sigma\xrightarrow[]{M i} \hat{t_1'},\hat{\sigma'}$ and $M\sigma'\equiv\hat{\sigma'}$,
+% which we needed to show, as well as $M t_1'\Or t_2\equiv \hat{t_1'}\And t_2$, which follows from $M t_1' \equiv \hat{t_1'}$.
+%
+% In the case that $M\phi_2$, we need to demonstrate that \userule{H-SecondOr} with $\hat{\sigma}=M\sigma$ and $M\Second i = \Second j$,
+% $M t_1\Or t_2'\equiv t_1\And \hat{t_2}$ and $M\sigma'\equiv \hat{\sigma'}$.
+%
+% By the induction hypothesis we obtain the following.\\
+% $\forall M_1 . M_1 \phi_1 \implies t_2,M_1\sigma \xrightarrow[]{M_1 i} \hat{t_2'},\hat{\sigma'}\land M_1 t_2'\equiv\hat{t_2'}\land M_1\sigma' \equiv \hat{\sigma'}$
+%
+% Since $M$ satisfies $\phi$, we have $t_2,M\sigma\xrightarrow[]{M i} \hat{t_2'},\hat{\sigma'}$ and $M\sigma'\equiv\hat{\sigma'}$,
+% which we needed to show, as well as $M t_1\Or t_2'\equiv t_1\And \hat{t_2'}$, which follows from $M t_2' \equiv \hat{t_2'}$.}
+
 \end{proof}

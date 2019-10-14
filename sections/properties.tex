@@ -109,10 +109,23 @@ if and only if $M\tilde{t}=t$, $M\tilde{\sigma}=\sigma$ and $M\Phi$
   \label{lem:sounddriving}
   For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
   we have that $\mathds{C}(t,\sigma,\tilde{t},\tilde{\sigma},\Phi,M)$ implies
-  that for all symbolic inputs $\tilde{i}$ such that $\tilde{t},\tilde{\sigma}\drive{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi}$ and
-  for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{i},\phi)$,
+  that for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{i},\phi)$ in $\tilde{t},\tilde{\sigma}\drive{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi}$,
   $\Sat(\Phi\land\phi)$ implies that there exists an input $i$ such that $\tilde{i}\sim i$,  $t,\sigma\drive{i}t',\sigma'$ and $\mathds{C}(t',\sigma',\tilde{t}',\tilde{\sigma}',\Phi\land\phi,M.[s\mapsto c])$ where where $s\in\tilde{i}$ and $c\in i$.
 \end{lemma}
+
+\begin{proof}[Soundness of driving]
+  The symbolic driving semantics consists of only one rule, \refrule{SI-Handle}.
+  Given that $\mathds{C}(t,\sigma,\tilde{t},\tilde{\sigma},\Phi,M)$ and $\tilde{t},\tilde{\sigma}\drive{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi_1}$,
+  \cref{lem:soundhandle} gives us that for each pair $(\tilde{t}',\tilde{\sigma}',\tilde{i},\phi_1)$
+  there exists an input $i$ such that $\tilde{i}\sim i$, $t,\sigma\handle{i}t',\sigma'$
+  and $\mathds{C}(t',\sigma',\tilde{t'},\tilde{\sigma'},\Phi\land\phi_1,M.[s\mapsto c])$.
+
+  Then, by \cref{lem:soundnorm}, given that $\tilde{t'},\tilde{\sigma'}\normalise\overline{\tilde{t''},\tilde{\sigma''}',\phi_2}$,
+  we obtain that for each pair $(\tilde{t''},\tilde{\sigma''}',\phi_2)$, we have that $\Sat(\Phi\land\phi_1\land\phi_2)$ implies
+  that $t',\sigma'\hat{\normalise}t'',\sigma''$ with $\mathds{C}(t'',\sigma'',\tilde{t''},\tilde{\sigma''},\Phi\land\phi_1\land\phi_2,M.[s\mapsto c])$.
+\end{proof}
+
+
 
 \begin{lemma}[Completeness of driving]
   \label{lem:completedriving}
@@ -159,6 +172,8 @@ Since the driving semantics depends on the handling and normalisation semantics,
   $\Sat(\Phi\land\phi)$ implies that there exists an input $i$ such that $\tilde{i}\sim i$,  $t,\sigma\handle{i}t',\sigma'$ and $\mathds{C}(t',\sigma',\tilde{t}',\tilde{\sigma}',\Phi\land\phi,M.[s\mapsto c])$ where where $s\in\tilde{i}$ and $c\in i$.
 
 \end{lemma}
+
+
 
 \begin{lemma}[Soundness of normalisation]
   \label{lem:soundnorm}
