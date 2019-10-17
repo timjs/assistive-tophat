@@ -1,4 +1,4 @@
-% !TEX root=../../main.tex
+% !TEX root=../main.tex
 
 \section{Complete symbolic semantics}
 
@@ -9,24 +9,24 @@
   % \small
   \boxed{\RelationSE} \Break
   \userule{SE-Value}\Quad
-  \userule{SE-Pair} \Quad
+  \userule{SE-Pair} \Break
   \userule{SE-First}\Quad
   \userule{SE-Second}\Break
   \userule{SE-Cons}\Quad
-  \userule{SE-Head}\Quad
+  \userule{SE-Head}\Break
   \userule{SE-Tail}\Break
   \userule{SE-App} \Break
-  \userule{SE-If} \Quad
+  \userule{SE-If} \Break
   \userule{SE-Ref} \Quad
   \userule{SE-Deref} \Break
   \userule{SE-Assign} \Quad
-  \userule{SE-Edit} \Quad
+  \userule{SE-Edit} \Break
   \userule{SE-Enter}\Quad
   \userule{SE-Update}\Break
   \userule{SE-Then}\Quad
-  \userule{SE-Next}\Quad
-  \userule{SE-And}\Break
-  \userule{SE-Or} \Quad
+  \userule{SE-Next}\Break
+  \userule{SE-And}\Quad
+  \userule{SE-Or} \Break
   \userule{SE-Xor}\Quad
   \userule{SE-Fail}
 \end{gather*}
@@ -36,49 +36,49 @@
 \begin{gather*}
   % \small
   \boxed{\RelationSS} \Break
-  \userule{SS-ThenStay} \Quad
+  \userule{SS-ThenStay} \Break
   \userule{SS-ThenFail} \Break
-  \userule{SS-ThenCont} \Quad
+  \userule{SS-ThenCont} \Break
   \userule{SS-OrLeft} \Break
   \userule{SS-OrRight} \Break
   \userule{SS-OrNone} \Break
   \userule{SS-Edit} \Quad
   \userule{SS-Fill} \Quad
-  \userule{SS-Update} \Quad
-  \userule{SS-Fail} \Break
-  \userule{SS-Xor} \Quad
+  \userule{SS-Update} \Break
+  \userule{SS-Fail} \Quad
+  \userule{SS-Xor} \Break
   \userule{SS-Next} \Quad
   \userule{SS-And}
 \end{gather*}
 
 \subsection{Symbolic normalisation rules}
 
-\begin{gather*}
-  % \small
-  \boxed{\RelationSN} \Break
-  \userule{SN-Done} \Quad
-  \userule{SN-Repeat}
-\end{gather*}
+ \begin{gather*}
+   % \small
+   \boxed{\RelationSN} \Break
+   \userule{SN-Done} \Break
+   \userule{SN-Repeat}
+ \end{gather*}
 
 
 \subsection{Symbolic handling rules}
 \label{sec:symbolic-handling-rules}
 
-\begin{gather*}
-  % \small
-  \boxed{\RelationSH} \Break
-  \userule{SH-Change} \Quad
-  \userule{SH-Fill} \Quad
-  \userule{SH-Update}\Break
-  \userule{SH-PassNext} \Quad
-  \userule{SH-PassNextFail}\Break
-  \userule{SH-Next} \Break
-  \userule{SH-PassThen} \Quad
-  \userule{SH-Pick} \Break
-  \userule{SH-PickLeft} \Quad
-  \userule{SH-PickRight}\Break
-  \userule{SH-And}\Quad
-  \userule{SH-Or}
+ \begin{gather*}
+   % \small
+   \boxed{\RelationSH} \Break
+   \userule{SH-Change} \Quad
+   \userule{SH-Fill} \Break
+   \userule{SH-Update}\Quad
+   \userule{SH-PassNext} \Break
+   \userule{SH-PassNextFail}\Break
+   \userule{SH-Next} \Break
+   \userule{SH-PassThen} \Break
+   \userule{SH-Pick} \Break
+   \userule{SH-PickLeft} \Break
+   \userule{SH-PickRight}\Break
+   \userule{SH-And}\Break
+   \userule{SH-Or}
 \end{gather*}
 
 \subsection{Symbolic driving rules}
