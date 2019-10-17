@@ -77,6 +77,21 @@
   \end{grammar}
 }
 
+\newmacro{G-SExpressions-Compact}{
+  \begin{grammar}
+    \noalign{Expressions}
+    \addlinespace
+    & \tilde{e} &::= & \lambda x:\tau.\ \tilde{e}  \Mid  \tilde{e}_1\ \tilde{e}_2                  & – abstraction, application \\
+    &       & \mid  & x  \Mid  c \Mid \unit                        & – variable, constant, unit \\
+    &       & \mid  & u\ \tilde{e}_1 \Mid \tilde{e}_1\ o\ \tilde{e}_2                      & – unary, binary operation \\
+    &       & \mid  & \If{\tilde{e}_1}{\tilde{e}_2}{\tilde{e}_3}                           & – conditional \\
+    &       & \mid  & \tuple{\tilde{e}_1, \tilde{e}_2}  \Mid  \Fst \tilde{e}  \Mid  \Snd \tilde{e} & – pair, projections \\
+    &       & \mid  & [\ ]_\beta \Mid \tilde{e}_1 :: \tilde{e}_2                   & – nil, cons \\
+    &       & \mid  & \Head\ \tilde{e} \Mid \Tail\ \tilde{e}                       & – first element, list tail \\
+    &       & \mid  & \Ref \tilde{e}  \Mid  !\tilde{e}  \Mid  \tilde{e}_1 := \tilde{e}_2  \Mid  l  & – references, location \\
+    &       & \mid  & \tilde{p} \Mid s                         & – pretask, symbol \\
+  \end{grammar}
+}
 
 \newmacro{G-Pretasks}{
   \begin{grammar}
@@ -168,8 +183,19 @@
     \addlinespace
       & v &  ::= & \lambda x:\tau.\ e \Mid \tuple{v_1, v_2} \Mid \unit & – abstraction, pair, unit \\
       &   & \mid & [\ ]_\beta \Mid v_1 :: v_2 \Mid c                   & - nil, cons, constant \\
-      &   & \mid & l \Mid t \Mid \highlight{s}                         & – location, task, symbol \\
-      &   & \mid & \highlight{u\ v \Mid v_1\ o\ v_2}                   & – unary/binary operation \\
+      &   & \mid & l \Mid t                                            & – location, task \\
+      &   & \mid & u\ v \Mid v_1\ o\ v_2                               & – unary/binary operation \\
+  \end{grammar}
+}
+
+\newmacro{G-SValues-Compact}{
+  \begin{grammar}
+    \noalign{Values}
+    \addlinespace
+      & \tilde{v} &  ::= & \lambda x:\tau.\ \tilde{e} \Mid \tuple{\tilde{v}_1, \tilde{v}_2} \Mid \unit & – abstraction, pair, unit \\
+      &   & \mid & [\ ]_\beta \Mid \tilde{v}_1 :: \tilde{v}_2 \Mid c                           & - nil, cons, constant \\
+      &   & \mid & l \Mid \tilde{t} \Mid s                                                     & – location, task, symbol \\
+      &   & \mid & u\ \tilde{v} \Mid \tilde{v}_1\ o\ \tilde{v}_2                               & – unary/binary operation \\
   \end{grammar}
 }
 
@@ -203,6 +229,17 @@
       &   & \mid & t_1 \Then e_2 \Mid t_1 \Next e_2                  & – steps \\
       &   & \mid & \Fail \Mid t_1 \And t_2                           & – fail, combination \\
       &   & \mid & t_1 \Or t_2 \Mid e_1 \Xor e_2                     & – choices \\
+  \end{grammar}
+}
+
+\newmacro{G-STasks-Compact}{
+  \begin{grammar}
+    \noalign{Tasks}
+    \addlinespace
+      & \tilde{t} &  ::= & \Edit \tilde{v} \Mid \Enter \tau \Mid \Update l                   & – editors \\
+      &           & \mid & \tilde{t}_1 \Then \tilde{e}_2 \Mid \tilde{t}_1 \Next \tilde{e}_2  & – steps \\
+      &           & \mid & \Fail \Mid \tilde{t}_1 \And \tilde{t}_2                           & – fail, combination \\
+      &           & \mid & \tilde{t}_1 \Or \tilde{t}_2 \Mid \tilde{e}_1 \Xor \tilde{e}_2     & – choices \\
   \end{grammar}
 }
 

@@ -103,39 +103,42 @@ The end user wants the outcome of this program to be a subsidy amount larger tha
 
 Running the simulation function will result in the following set:
 
-\begin{align*}
-  ((min 600 (amount/10)&,  \True, \True, i, t),[t,\Left \Left amount,     \Left \Right i, \Right \Left, \Right],t-i<365)\\
-  ((min 600 (amount/10)&,  \True, \True, i, t),[t,    \Left \Right i, \Left \Left amount, \Right \Left, \Right],t-i<365)\\
-  ((min 600 (amount/10)&,  \True, \True, i, t),[t,      \Right \Left, \Left \Left amount, \Left \Right i, \Right],t-i<365)\\
-  ((min 600 (amount/10)&,  \True, \True, i, t),[t,      \Right \Left, \Left \Right i, \Left \Left amount, \Right],t-i<365)\\
-  ((min 600 (amount/10)&,  \True, \True, i, t),[t,    \Left \Right i, \Right \Left, \Left \Left amount, \Right],t-i<365)\\
-  ((min 600 (amount/10)&,  \True, \True, i, t),[t,\Left \Left amount, \Right \Left, \Left \Right i, \Right],t-i<365)\\
-  ((                  0&, \False, \True, i, t),[t,\Left \Left amount, \Left \Right i, \Right \Left, \Left],\True)\\
-  ((                  0&, \False, \True, i, t),[t,    \Left \Right i, \Left \Left amount, \Right \Left, \Left],\True)\\
-  ((                  0&, \False, \True, i, t),[t,      \Right \Left, \Left \Left amount, \Left \Right i, \Left],\True)\\
-  ((                  0&, \False, \True, i, t),[t,      \Right \Left, \Left \Right i, \Left \Left amount, \Left],\True)\\
-  ((                  0&, \False, \True, i, t),[t,    \Left \Right i, \Right \Left, \Left \Left amount, \Left],\True)\\
-  ((                  0&, \False, \True, i, t),[t,\Left \Left amount, \Right \Left, \Left \Right i, \Left],\True)\\
-  ((                  0&, \False,\False, i, t),[t,\Left \Left amount, \Left \Right i, \Right \Right, \Left],\True)\\
-  ((                  0&, \False,\False, i, t),[t,\Left \Right i, \Left \Left amount, \Right \Right, \Left],\True)\\
-  ((                  0&, \False,\False, i, t),[t,\Right \Right,\Left \Left amount, \Left \Right i, \Left],\True)\\
-  ((                  0&, \False,\False, i, t),[t,\Right \Right, \Left \Right i, \Left \Left amount, \Left],\True)\\
-  ((                  0&, \False,\False, i, t),[t, \Left \Right i, \Right \Right, \Left \Left amount, \Left],\True)\\
-  ((                  0&, \False,\False, i, t),[t, \Left \Left amount, \Right \Right, \Left \Right i, \Left],\True)\\
-\end{align*}
+\begin{tabular}{l|l|l}
+  Symbolic value & Symbolic input & Path condition\\
+  \hline
+  $(min\ 600\ (s_{amount}/10),  \True, \True, s_i, s_t)$ & $[s_t,\Left \Left s_{amount}, \Left \Right s_i, \Right \Left, \Right]$ & $s_t-s_i<365$\\
+  $(min\ 600\ (s_{amount}/10),  \True, \True, s_i, s_t)$ & $[s_t,\Left \Right s_i, \Left \Left s_{amount}, \Right \Left, \Right]$ & $s_t-s_i<365$\\
+  $(min\ 600\ (s_{amount}/10),  \True, \True, s_i, s_t)$ & $[s_t,\Right \Left, \Left \Left s_{amount}, \Left \Right s_i, \Right]$ & $s_t-s_i<365$\\
+  $(min\ 600\ (s_{amount}/10),  \True, \True, s_i, s_t)$ & $[s_t,\Right \Left, \Left \Right s_i, \Left \Left s_{amount}, \Right]$ & $s_t-s_i<365$\\
+  $(min\ 600\ (s_{amount}/10),  \True, \True, s_i, s_t)$ & $[s_t,\Left \Right s_i, \Right \Left, \Left \Left s_{amount}, \Right]$ & $s_t-s_i<365$\\
+  $(min\ 600\ (s_{amount}/10),  \True, \True, s_i, s_t)$ & $[s_t,\Left \Left s_{amount}, \Right \Left, \Left \Right s_i, \Right]$ & $s_t-s_i<365$\\
+  $(                        0, \False, \True, s_i, s_t)$ & $[s_t,\Left \Left s_{amount}, \Left \Right s_i, \Right \Left, \Left]$  & $\True$\\
+  $(                        0, \False, \True, s_i, s_t)$ & $[s_t,\Left \Right s_i, \Left \Left s_{amount}, \Right \Left, \Left]$  & $\True$\\
+  $(                        0, \False, \True, s_i, s_t)$ & $[s_t,\Right \Left, \Left \Left s_{amount}, \Left \Right s_i, \Left]$  & $\True$\\
+  $(                        0, \False, \True, s_i, s_t)$ & $[s_t,\Right \Left, \Left \Right s_i, \Left \Left s_{amount}, \Left]$  & $\True$\\
+  $(                        0, \False, \True, s_i, s_t)$ & $[s_t,\Left \Right s_i, \Right \Left, \Left \Left s_{amount}, \Left]$  & $\True$\\
+  $(                        0, \False, \True, s_i, s_t)$ & $[s_t,\Left \Left s_{amount}, \Right \Left, \Left \Right s_i, \Left]$  & $\True$\\
+  $(                        0, \False,\False, s_i, s_t)$ & $[s_t,\Left \Left s_{amount}, \Left \Right s_i, \Right\Right, \Left]$  & $\True$\\
+  $(                        0, \False,\False, s_i, s_t)$ & $[s_t,\Left \Right s_i, \Left \Left s_{amount}, \Right\Right, \Left]$  & $\True$\\
+  $(                        0, \False,\False, s_i, s_t)$ & $[s_t,\Right \Right,\Left \Left s_{amount}, \Left \Right s_i, \Left]$  & $\True$\\
+  $(                        0, \False,\False, s_i, s_t)$ & $[s_t,\Right\Right, \Left \Right s_i, \Left \Left s_{amount}, \Left]$  & $\True$\\
+  $(                        0, \False,\False, s_i, s_t)$ & $[s_t,\Left \Right s_i, \Right\Right, \Left \Left s_{amount}, \Left]$  & $\True$\\
+  $(                        0, \False,\False, s_i, s_t)$ & $[s_t,\Left \Left s_{amount}, \Right\Right, \Left \Right s_i, \Left]$  & $\True$
+\end{tabular}
 
 
 As a goal we set that the subsidy amount should be larger than zero. This leaves us with the following cases.
 
-
-\begin{align*}
-  ((min 600 (amount/10)&,  \True, \True, i, t),[t,\Left \Left amount,     \Left \Right i, \Right \Left, \Right],t-i<365)\\
-  ((min 600 (amount/10)&,  \True, \True, i, t),[t,    \Left \Right i, \Left \Left amount, \Right \Left, \Right],t-i<365)\\
-  ((min 600 (amount/10)&,  \True, \True, i, t),[t,      \Right \Left, \Left \Left amount, \Left \Right i, \Right],t-i<365)\\
-  ((min 600 (amount/10)&,  \True, \True, i, t),[t,      \Right \Left, \Left \Right i, \Left \Left amount, \Right],t-i<365)\\
-  ((min 600 (amount/10)&,  \True, \True, i, t),[t,    \Left \Right i, \Right \Left, \Left \Left amount, \Right],t-i<365)\\
-  ((min 600 (amount/10)&,  \True, \True, i, t),[t,\Left \Left amount, \Right \Left, \Left \Right i, \Right],t-i<365)\\
-\end{align*}
+\begin{tabular}{l|l|l}
+  Symbolic value & Symbolic input & Path condition\\
+  \hline
+  $(min\ 600\ (s_{amount}/10),  \True, \True, s_i, s_t)$ & $[s_t,\Left \Left s_{amount}, \Left \Right s_i, \Right \Left, \Right]$ & $s_t-s_i<365$\\
+  $(min\ 600\ (s_{amount}/10),  \True, \True, s_i, s_t)$ & $[s_t,\Left \Right s_i, \Left \Left s_{amount}, \Right \Left, \Right]$ & $s_t-s_i<365$\\
+  $(min\ 600\ (s_{amount}/10),  \True, \True, s_i, s_t)$ & $[s_t,\Right \Left, \Left \Left s_{amount}, \Left \Right s_i, \Right]$ & $s_t-s_i<365$\\
+  $(min\ 600\ (s_{amount}/10),  \True, \True, s_i, s_t)$ & $[s_t,\Right \Left, \Left \Right s_i, \Left \Left s_{amount}, \Right]$ & $s_t-s_i<365$\\
+  $(min\ 600\ (s_{amount}/10),  \True, \True, s_i, s_t)$ & $[s_t,\Left \Right s_i, \Right \Left, \Left \Left s_{amount}, \Right]$ & $s_t-s_i<365$\\
+  $(min\ 600\ (s_{amount}/10),  \True, \True, s_i, s_t)$ & $[s_t,\Left \Left s_{amount}, \Right \Left, \Left \Right s_i, \Right]$ & $s_t-s_i<365$
+\end{tabular}
 
 From the end states we can conclude that invoiceAmount should be larger than zero in order for the result to be larger than zero. This results in an additional constraint.
 
