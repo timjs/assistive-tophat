@@ -7,22 +7,6 @@ We define an evaluation function that takes a task, state and list of inputs,
 and returns the value of the task after application of all inputs.
 This is a partial function since not all tasks have an observable value.
 
-% \begin{figure*}[t]
-%   \begin{function}
-%     \signature{\Evaluate : \mathrm{Tasks} \times \mathrm{States} \times [\mathrm{Inputs}]
-%       \rightarrow \mathrm{Values}} \\
-%     \Evaluate\ (t,\sigma,[])       &=& \Value(t,\sigma)\\
-%     \Evaluate\ (t, \sigma, (i:is)) &=& \left\{
-%       \begin{array}{lr}
-%         v                                                                                 & \Value(t,\sigma)=v\\
-%         \Evaluate\ (t',\sigma',is)                                                                &  \Value(t,\sigma)=\bot \land t,\sigma\xRightarrow[]{i}t',\sigma'
-%       \end{array}
-%     \right.
-%   \end{function}
-%   \caption{evaluate function definition.}
-%   \label{fig:evaluate}
-% \end{figure*}
-
 All elements of firsts are valid hints.
 
 \begin{definition}[Evaluate]
@@ -52,24 +36,35 @@ We separate this property into two parts.
 \begin{lemma}[Soundness of firsts]
   \label{lem:soundfirsts}
 
-  % For all tasks $t$, states $\sigma$ and goals $g$,
-  % such that for all $(\tilde{i},\phi)\in firsts\ (\tilde{t},\tilde{\sigma},g)$,
-  % there exists a mappings $M = [s_0\mapsto c_0,\cdots,s_n\mapsto c_n]$
-  % such that $t,M \sigma \xRightarrow[]{M i} t',\sigma'$.
-  % Subsequently, there exists a sequence of inputs $I$ such that $\Evaluate (t',\sigma',I) = v$
-  % with $g v = \True$.
-  % \todo{strictly speaking, this allows for empty/bogus hints that do not get CLOSER to the goal.}
+For all tasks $t$, states $\sigma$ and goals $g$,
+for every next step hint $(\tilde{i},\Phi)$ in $\Firsts(t,\sigma,g)$,
+there exists a sequence of inputs $I$ and input $i$ such that $\tilde{i}\sim i$,
+$\Sat([s\mapsto c]\Phi)$, $t,\sigma\drive{i} t',\sigma'\drive{I}^* v$ and $gv$.
 \end{lemma}
 
+\begin{proof}
+  \cref{lem:soundfirsts} follows from the premise of \refrule{R-Firsts} and \cref{lem:soundsimulate} as follows.
+
+  The premise of \refrule{R-Firsts} gives us that for every pair $\tilde{i},\Phi)$ produced by $\Firsts$,
+  there exists a pair $(\tilde{v},\tilde{i}:\tilde{is},\Phi)$ with $\Sat(\Phi\land g \tilde{v})$.
+  Then by \cref{lem:soundsimulate} we have that there exists a sequence of concrete inputs $I$ such that
+  $t,\sigma\drive{I}^*v$ and $g v$.
+\end{proof}
 
 \begin{lemma}[Completeness of firsts]
   \label{lem:completefirsts}
-  %
-  % For all tasks $t$, states $\sigma$, lists of inputs $(i:is)$ and goals $g$,
-  % such that $\Evaluate\ (t,\sigma,(i:is))=v$ with $g\ v =\True$,
-  % then $i\in firsts\ (t,\sigma,g)$.
-
+  For all tasks $t$, states $\sigma$, lists of input $(i:is)$ and goals $g$,
+  if $t,\sigma,\drive{i:is}^*v$ and $g v$, then there exists a symbolic input $\tilde{i}$ and path condition $\Phi$
+  such that $(\tilde{i},\Phi)\in\Firsts(t,\sigma)$ with $\tilde{i}\sim i$ and $\Sat([s\mapsto c]\Phi)$ with $c\in i$ and $s\in i$.
 \end{lemma}
+
+\begin{proof}
+  In order to prove that $i$ is contained in $\Firsts(t,\sigma)$, we need to show that the premise of \refrule{R-Firsts} holds.
+
+  This means showing that $(\tilde{v},\tilde{i}:\tilde{is},\Phi)\in t,\sigma\drive{}^*$, with $\tilde{i}\sim i$ and $\Sat(\tilde{i}:\tilde{is}\land g\tilde{v})$. (fix notation of sat)
+
+  By \cref{lem:completesimulate}, we directly obtain that this indeed exists. Therefore we know that $\tilde{i}$ and $\Phi$ exist.
+\end{proof}
 
 
 Since the $\Firsts$ function relies on the $\Simulate$ function, we can make use of soundness and completeness of that function with respect to $\Evaluate$, when proving the lemma's above.
