@@ -3,6 +3,7 @@
 \section{Soundness proofs}
 \label{sec:soundnessproofs}
 
+
 \begin{proof}[Soundness of handle]
 
   We prove \cref{lem:soundhandle} by induction over $\tilde{t}$.
@@ -121,11 +122,12 @@ In this case, three rules apply.\\
   }
  }
 %
-% \case{$t=t_1\And t_2$}
-% {
-% In this case, two rules apply.\\
-%   \case{\userule{SH-FirstAnd}}
-%   {Provided that $M\phi$, we need to demonstrate that \userule{H-FirstAnd} with $\hat{\sigma}=M\sigma$,
+\case{$t=t_1\And t_2$}
+{
+In this case, two rules apply.\\
+   \case{\userule{SH-FirstAnd}}
+   {
+   %Provided that $M\phi$, we need to demonstrate that \userule{H-FirstAnd} with $\hat{\sigma}=M\sigma$,
 %   $M t_1'\And t_2\equiv \hat{t_1'}\And t_2$ and $M\sigma'\equiv \hat{\sigma'}$.
 %
 %   By the induction hypothesis we obtain the following.\\
@@ -134,20 +136,22 @@ In this case, three rules apply.\\
 %   Since $M$ satisfies $\phi$, we have $t_1,M\sigma\xrightarrow[]{M i} \hat{t_1'},\hat{\sigma'}$ and $M\sigma'\equiv\hat{\sigma'}$,
 %   which we needed to show, as well as $M t_1'\And t_2\equiv \hat{t_1'}\And t_2$, which follows from $M t_1' \equiv \hat{t_1'}$.
 %
-%   }
-%   \case{\userule{SH-SecondAnd}}
-%   {Provided that $M\phi$, we need to demonstrate that \userule{H-SecondAnd} with $\hat{\sigma}=M\sigma$,
+   }
+   \case{\userule{SH-SecondAnd}}
+   {
+   %Provided that $M\phi$, we need to demonstrate that \userule{H-SecondAnd} with $\hat{\sigma}=M\sigma$,
 %   $M t_1\And t_2'\equiv t_1\And \hat{t_2}$ and $M\sigma'\equiv \hat{\sigma'}$.
 %
 %   By the induction hypothesis we obtain the following.\\
 %   $\forall M_1 . M_1 \phi_1 \implies t_2,M_1\sigma \xrightarrow[]{M_1 i} \hat{t_2'},\hat{\sigma'}\land M_1 t_2'\equiv\hat{t_2'}\land M_1\sigma' \equiv \hat{\sigma'}$
 %
 %   Since $M$ satisfies $\phi$, we have $t_2,M\sigma\xrightarrow[]{M i} \hat{t_2'},\hat{\sigma'}$ and $M\sigma'\equiv\hat{\sigma'}$,
-%   which we needed to show, as well as $M t_1\And t_2'\equiv t_1\And \hat{t_2'}$, which follows from $M t_2' \equiv \hat{t_2'}$.}
-% }
+%   which we needed to show, as well as $M t_1\And t_2'\equiv t_1\And \hat{t_2'}$, which follows from $M t_2' \equiv \hat{t_2'}$.
+}
+}
 %
-% \case{$t=e_1\Or e_2$}
-% {One rule applies, namely \userule{SH-Or}\\
+ \case{$t=e_1\Or e_2$}
+{One rule applies, namely \userule{SH-Or}\\
 %
 % In the case that $M\phi_1$, we need to demonstrate that \userule{H-FirstOr} with $\hat{\sigma}=M\sigma$ and $M\First i =\First j$,
 % $M t_1'\Or t_2\equiv \hat{t_1'}\And t_2$ and $M\sigma'\equiv \hat{\sigma'}$.
@@ -165,7 +169,8 @@ In this case, three rules apply.\\
 % $\forall M_1 . M_1 \phi_1 \implies t_2,M_1\sigma \xrightarrow[]{M_1 i} \hat{t_2'},\hat{\sigma'}\land M_1 t_2'\equiv\hat{t_2'}\land M_1\sigma' \equiv \hat{\sigma'}$
 %
 % Since $M$ satisfies $\phi$, we have $t_2,M\sigma\xrightarrow[]{M i} \hat{t_2'},\hat{\sigma'}$ and $M\sigma'\equiv\hat{\sigma'}$,
-% which we needed to show, as well as $M t_1\Or t_2'\equiv t_1\And \hat{t_2'}$, which follows from $M t_2' \equiv \hat{t_2'}$.}
+% which we needed to show, as well as $M t_1\Or t_2'\equiv t_1\And \hat{t_2'}$, which follows from $M t_2' \equiv \hat{t_2'}$.
+}
 
 \end{proof}
 
@@ -176,3 +181,15 @@ In this case, three rules apply.\\
   if $\mathds{C}(t,\sigma,\tilde{t},\tilde{\sigma},\Phi,M)$ and $\Value(t,\sigma)=v$ and $\Value(\tilde{t},\tilde{\sigma})$,
   then also $\mathds{C}(v,\sigma,\tilde{v},\tilde{\sigma},\Phi,M)$
 \end{lemma}
+
+\begin{proof}[Soundness of normalise]
+
+\end{proof}
+
+\begin{proof}[Soundness of stride]
+
+\end{proof}
+
+\begin{proof}[Soundness of evaluate]
+
+\end{proof}

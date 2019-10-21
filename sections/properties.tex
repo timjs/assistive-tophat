@@ -61,7 +61,7 @@ $\Sat([s\mapsto c]\Phi)$, $t,\sigma\drive{i} t',\sigma'\drive{I}^* v$ and $gv$.
 \begin{proof}
   In order to prove that $i$ is contained in $\Firsts(t,\sigma)$, we need to show that the premise of \refrule{R-Firsts} holds.
 
-  This means showing that $(\tilde{v},\tilde{i}:\tilde{is},\Phi)\in t,\sigma\drive{}^*$, with $\tilde{i}\sim i$ and $\Sat(\tilde{i}:\tilde{is}\land g\tilde{v})$. (fix notation of sat)
+  This means showing that $(\tilde{v},\tilde{i}:\tilde{is},\Phi)\in t,\sigma\drive{}^*$, with $\tilde{i}\sim i$ and $\Sat(\tilde{i}:\tilde{is}\land g\tilde{v})$. \fixme{(fix notation of sat)}
 
   By \cref{lem:completesimulate}, we directly obtain that this indeed exists. Therefore we know that $\tilde{i}$ and $\Phi$ exist.
 \end{proof}
@@ -80,6 +80,8 @@ Since the $\Firsts$ function relies on the $\Simulate$ function, we can make use
   where $s_i\in\tilde{i_i}$ and $c_i\in i_i$.
 \end{lemma}
 
+\fixme{proof of soundness of simulate}
+
 \begin{lemma}[Completeness of simulate]
   \label{lem:completesimulate}
   For all tasks $t$, states $\sigma$ and lists of input $I$
@@ -90,6 +92,7 @@ Since the $\Firsts$ function relies on the $\Simulate$ function, we can make use
   where $s_i\in\tilde{i_i}$ and $c_i\in i_i$.
 \end{lemma}
 
+\fixme{proof completeness of simulate}
 
 $\Evaluate$ and $\Simulate$ make use of the driving and symbolic driving semantics respectively, so we again first prove those sound and complete with respect to each other.
 
