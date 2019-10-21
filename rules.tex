@@ -313,3 +313,10 @@
   {\tilde{t},\tilde{\sigma} \handle{} \overline{\tilde{t}',\tilde{\sigma}',{\tilde{i},\phi_1}} \Quad
    \tilde{t}',\tilde{\sigma}' \tilde{\normalise} \overline{\tilde{t}'',\tilde{\sigma}'',\phi_2}}
   {\tilde{t},\tilde{\sigma} \drive{} \overline{\tilde{t}'',\tilde{\sigma}'',\tilde{i},\phi_1 \land \phi_2}}
+
+%% Firsts %%
+
+\newrule{R-Firsts}
+  {t,\sigma\drive{}^*\overline{\tilde{v},\tilde{i}:\tilde{is},\Phi}}
+  {\Firsts(t,\sigma,g) = \overline{\tilde{i},\Phi\land g \tilde{v}}}
+  [\Sat(\Phi\land g\tilde{v})]
