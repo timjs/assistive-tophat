@@ -17,10 +17,8 @@ Then, we take the first input so that we can return this to the user as a hint.
   \begin{function}
     \signature{firsts : \mathrm{Tasks} \times \mathrm{States} \times \mathrm{Goal}
       \rightarrow \powerset{\mathrm{Inputs} \times \mathrm{Predicates}}} \\
-    firsts\ (t,\sigma, g) &=& [(i,\phi')\mid (v,i:is,\phi)\leftarrow \Simulate(t,\sigma,[]\True),\phi'=\phi\land g v, \Sat(\phi')]
+    firsts\ (t,\sigma, g) &=& [(i,\Phi')\mid (\tilde{v},\tilde{i}:\tilde{is},\Phi)\leftarrow t,\sigma\drive{}^*\ ,\ \Phi'=\Phi\land g \tilde{v}\ ,\  \Sat(\Phi')]
   \end{function}
   \caption{Firsts function definition.}
   \label{fig:firsts}
 \end{figure*}
-
-\fixme{make firsts include the new simulate definition}
