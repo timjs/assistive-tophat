@@ -61,7 +61,7 @@ $\Sat([s\mapsto c]\Phi)$, $t,\sigma\drive{i} t',\sigma'\drive{I}^* v$ and $gv$.
 \begin{proof}
   In order to prove that $i$ is contained in $\Firsts(t,\sigma)$, we need to show that the premise of \refrule{R-Firsts} holds.
 
-  This means showing that $(\tilde{v},\tilde{i}:\tilde{is},\Phi)\in t,\sigma\drive{}^*$, with $\tilde{i}\sim i$ and $\Sat(\tilde{i}:\tilde{is}\land g\tilde{v})$. \fixme{(fix notation of sat)}
+  This means showing that $(\tilde{v},\tilde{i}:\tilde{is},\Phi)\in t,\sigma\drive{}^*$, with $\tilde{i}\sim i$ and $\Sat([s_0\mapsto c_0,\cdots,s_n\mapsto c_n]\land g\tilde{v})$, where $[c_0,\cdots,c_n]\in i:is$ and $[s_0,\cdots,s_n]\in \tilde{i}:\tilde{is}$.
 
   By \cref{lem:completesimulate}, we directly obtain that this indeed exists. Therefore we know that $\tilde{i}$ and $\Phi$ exist.
 \end{proof}
@@ -80,7 +80,34 @@ Since the $\Firsts$ function relies on the $\Simulate$ function, we can make use
   where $s_i\in\tilde{i_i}$ and $c_i\in i_i$.
 \end{lemma}
 
-\fixme{proof of soundness of simulate}
+\begin{proof}[Soundness of simulate]
+  The structure of this proof is outlined in \cref{fig:proofstructure}.
+
+  We have $t$ and $\sigma$ such that $t,\sigma\drive{}^*\overline{\tilde{v},\tilde{I},\Phi}$.
+  By definition of simulation $(\drive{}^*)$, we know that for each tuple $(\tilde{v},\tilde{I},\Phi)$,
+  the following sequence of symbolic drive steps has occurred.
+  \begin{align*}
+      t,\sigma\drive{}&\tilde{t}_1,\tilde{\sigma}_1,\tilde{i}_1,\phi_1&\\
+                      &\tilde{t}_1,\tilde{\sigma}_1\drive{}&\tilde{t}_2,\tilde{\sigma}_2,\tilde{i}_2,\phi_2\\
+                      &                                    &\tilde{t}_2,\tilde{\sigma}_2\drive{}&\cdots&\\
+                      &                                    &                                    &\cdots&
+                      \drive{}\tilde{t}_n,\tilde{\sigma}_n,\tilde{i}_n,\phi_n
+  \end{align*}
+
+  with $\Value(\tilde{t}_n,\tilde{\sigma}_n)=\tilde{v}$ and $\Sat(\phi_1\land\cdots\land\phi_n)$.
+
+  We need to show that there exits an $I$ such that $t,\sigma\drive{I}^*v$, which is defined similarly as follows.
+
+  $t,\sigma\drive{i_1}t_1,\sigma_1\drive{i_2}t_2,\sigma_2\drive{i_3}\cdots \drive{i_n}t_n,\sigma_n$ with $\Value(t_n,\sigma_n)$.
+
+  By \cref{lem:sounddriving}, we know that $t,\sigma\drive{i_1}t_1,\sigma_1$ exists, since $\mathds{C}(t,\sigma,t,\sigma,\True,\emptyset)$.
+  This also gives us that $\tilde{i_1}\sim i_1$, and $\mathds{C}(t_1,\sigma_1,\tilde{t}_1,\tilde{\sigma}_1,\phi_1,[s_1\mapsto c_1])$ with $s_1\in\tilde{i}_1$ and $c_1\in i_1$.
+
+  By repeatedly applying \cref{lem:sounddriving}, until we arrive at $\tilde{t}_n,\sigma{t}_n$,
+  we can show that there indeed exists an $I$ such that $t,\sigma\drive{I}^*v$ with $[s_1\mapsto c_1,\cdots,s_n\mapsto c_n]\tilde{v}=v$
+  and $[s_1\mapsto c_1,\cdots,s_n\mapsto c_n]\Phi$, namely $I=[i_1,\cdots,i_n]$.
+
+\end{proof}
 
 \begin{lemma}[Completeness of simulate]
   \label{lem:completesimulate}
@@ -242,6 +269,7 @@ Since the driving semantics depends on the handling and normalisation semantics,
 % The problem with the lemma's above, is that they assume that you start out with the same task and state.
 % In the case of $\Evaluate$ and $\Simulate$, this is not true, since in the sequential application of (symbolic) drive, the expressions differ.
 % Below, a graphical representation is shown of this process.
+\begin{figure}
 
 \begin{tikzpicture}[
             > = stealth, % arrow head style
@@ -315,7 +343,9 @@ Since the driving semantics depends on the handling and normalisation semantics,
         \path[dashed,->] ([yshift=-.25em]sn.west) edge node {\cref{lem:soundsimulate}} ([yshift=-.25em]cn.east);
 
     \end{tikzpicture}
-
+    \caption{Proof structure}
+      \label{fig:proofstructure}
+\end{figure}
 % to be added to the figure above:\\
 % $\Value(t_n,\sigma_n)=v$\\
 % $\Value(t_{i<n},\sigma_{i<n})=\bot$\\
