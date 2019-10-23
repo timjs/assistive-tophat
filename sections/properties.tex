@@ -119,7 +119,36 @@ Since the $\Firsts$ function relies on the $\Simulate$ function, we can make use
   where $s_i\in\tilde{i_i}$ and $c_i\in i_i$.
 \end{lemma}
 
-\fixme{proof completeness of simulate}
+\begin{proof}[Completeness of simulate]
+  The structure of this proof is outlined in \cref{fig:proofstructure}.
+
+  We have $t$ and $\sigma$ such that $t,\sigma\drive{I}^*v$.
+  By definition of $\drive{I}^*$, we have the following.
+
+  $t,\sigma\drive{i_1}t_1,\sigma_1\drive{i_2}\cdots \drive{i_n}t_n,\sigma_n$ with $\Value(t_n,\sigma_n)$ and $I=[i_1,\cdots,i_n]$.
+
+  We need to show that we have $(\tilde{v},\tilde{I},\Phi)\in t,\sigma\drive{}^*)$,
+  which is defined as follows.
+
+  \begin{align*}
+      t,\sigma\drive{}&\tilde{t}_1,\tilde{\sigma}_1,\tilde{i}_1,\phi_1&\\
+                      &\tilde{t}_1,\tilde{\sigma}_1\drive{}&\tilde{t}_2,\tilde{\sigma}_2,\tilde{i}_2,\phi_2\\
+                      &                                    &\tilde{t}_2,\tilde{\sigma}_2\drive{}&\cdots&\\
+                      &                                    &                                    &\cdots&
+                      \drive{}\tilde{t}_n,\tilde{\sigma}_n,\tilde{i}_n,\phi_n
+  \end{align*}
+
+  with $\Value(\tilde{t}_n,\tilde{\sigma}_n)=\tilde{v}$ and $\Sat(\phi_1\land\cdots\land\phi_n)$.
+
+  By \cref{lem:completedriving}, we know that $t,\sigma\drive{}\tilde{t}_1,\tilde{\sigma}_1,\tilde{i}_1,\phi_1$ exists,
+  since $\mathds{C}(t,\sigma,t,\sigma,\True,\emptyset)$.
+  This also gives us that $\tilde{i}_1\sim i_1$ and $\mathds{C}(t_1,\sigma_1,\tilde{t}_1,\tilde{\sigma}_1,\phi_1,[s_1\mapsto c_1])$ with $s_1\in\tilde{i}_1$ and $c_1\in i_1$.
+
+  By repeated application of \cref{lem:completedriving}, untill we arrive at $t_n,\sigma_n$,
+  we can show that there exists a $\tilde{I}$ such that $t,\sigma\drive{}^*\tilde{t}_n,\tilde{\sigma}_n,\tilde{I},\Phi$,
+  namely $[\tilde{i}_1,\cdots,\tilde{i}_n]$.
+
+\end{proof}
 
 $\Evaluate$ and $\Simulate$ make use of the driving and symbolic driving semantics respectively, so we again first prove those sound and complete with respect to each other.
 
