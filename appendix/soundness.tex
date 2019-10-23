@@ -78,79 +78,66 @@ Therefore we also have $\mathds{C}(t_1'\Next e_2,\sigma_1',\tilde{t}_1'\Next \ti
 
 \case{$\tilde{t}=\tilde{t}_1\Then \tilde{e}_2$}
 {One rule applies, namely \userule{SH-PassThen}\\
-% Provided that $M\phi$, we need to demonstrate that \userule{H-PassThen} with $\hat{\sigma}=M\sigma$ and $j= M i$,
-% $M t_1'\Then e_2\equiv \hat{t_1'}\Then e_2$ and $M\sigma'\equiv\hat{\sigma'}$.
-%
-% By the induction hypothesis we obtain the following.\\
-% $\forall M_1 . M_1 \phi_1 \implies t_1,M_1\sigma \xrightarrow[]{M_1 i} \hat{t_1'},\hat{\sigma'}\land M_1 t_1'\equiv\hat{t_1'}\land M_1\sigma' \equiv \hat{\sigma'}$
-%
-% Since $M$ satisfies $\phi$, we have $t_1,M\sigma \xrightarrow[]{M i} \hat{t_1'},\hat{\sigma'}$ and $M\sigma'\equiv\hat{\sigma'}$,
-% which we needed to show, as well as $M t_1' \Then e_2 \equiv \hat{t_1'}\Then e_2$ since this can be concluded from $M t_1'\equiv \hat{t_1'}$.
-%
+For all tuples $(\tilde{t}_1'\Then\tilde{e}_2,\tilde{\sigma}',\tilde{i},\phi)$, we know by application of the induction hypothesis that
+there exists an $i$ such that $\tilde{i}\sim i$, $t_1,\sigma\handle{1}t_1',\sigma'$ and
+$\mathds{C}(t_1',\sigma',\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1,M.[s\mapsto c])$ where $c\in i$ and $s\in \tilde{i}$.
+Therefore we also have $\mathds{C}(t_1'\Then e_2,\sigma_1',\tilde{t}_1'\Then \tilde{e}_2,\tilde{\sigma}_1',\Phi\land\phi_1,M.[s\mapsto c])$.
 }
-%
+
 \case{$\tilde{t}=\tilde{e}_1\Xor \tilde{e}_2$}
  {
 In this case, three rules apply.\\
    \case{\userule{SH-Pick}}
    {
-%   Either we have that $M(\phi_1\wedge s=\Left)$ or $M(\phi_2\wedge s=\Right)$.
-%   In the first case, the proof is identical to the SH-PickLeft rule.
-%   In the second cse, the proof is identical to the SH-PickRight rule.
+   In this case, we have two sets of symbolic executions.
+
+   For all tuples $(\tilde{t}_1,\tilde{\sigma}_1,\Left,\phi_1)$,
+   we obtain from \cref{lem:soundnorm} that $e_1,\sigma\normalise t_1,\sigma_1$ with
+   $\mathds{C}(t_1,\sigma_1,\tilde{t}_1,\tilde{\sigma}_1,\Phi\land\phi_1,M)$.
+
+   For all tuples $(\tilde{t}_2,\tilde{\sigma}_2,\Right,\phi_2)$,
+   we obtain from \cref{lem:soundnorm} that $e_2,\sigma\normalise t_2,\sigma_2$ with
+   $\mathds{C}(t_2,\sigma_2,\tilde{t}_2,\tilde{\sigma}_2,\Phi\land\phi_2,M)$.
+   \todo{is it problematic that $i$ is not captured in the relation here?}
    }
 %
  \case{\userule{SH-PickLeft}}
   {
-%  Provided that $M(\phi_2\wedge s=\Left)$, we need to demonstrate that \userule{H-PickLeft} with $\hat{\sigma}=M\sigma$,
-%   $M t_1\equiv \hat{t_1}$ and $M\sigma'\equiv \hat{\sigma'}$.
-%
-%   From Lemma~\ref{lem:soundnorm} we obtain that $\forall M_1. M_1 \phi \implies e_1,M\sigma\hat{\normalise}\hat{t_1},\hat{\sigma'}\land M t_1\equiv\hat{t_1}\land M \sigma'\equiv\hat{\sigma'}$.
-%
-%   Since $M$ satisfies $\phi$, we have $e_1,M\sigma \hat{\normalise}[] \hat{t_1},\hat{\sigma'}$ and $M\sigma'\equiv\hat{\sigma'}$,
-%   which we needed to show, as well as $M t_1 \equiv \hat{t_1}$.
+  For all tuples $(\tilde{t}_1,\tilde{\sigma}_1,\Left,\phi_1)$,
+  we obtain from \cref{lem:soundnorm} that $e_1,\sigma\normalise t_1,\sigma_1$ with
+  $\mathds{C}(t_1,\sigma_1,\tilde{t}_1,\tilde{\sigma}_1,\Phi\land\phi_1,M)$.
 %
 }
   \case{\userule{SH-PickRight}}
   {
-  %Provided that $M(\phi_2\wedge s=\Right)$ we need to demonstrate that \userule{H-PickRight} with $\hat{\sigma}=M\sigma$,
-%   $M t_2\equiv \hat{t_2}$ and $M\sigma'\equiv \hat{\sigma'}$.
-%
-%   From Lemma~\ref{lem:soundnorm} we obtain that $\forall M_1. M_1 \phi \implies e_2,M\sigma\hat{\normalise}\hat{t_2},\hat{\sigma'}\land M t_2\equiv\hat{t_2}\land M \sigma'\equiv\hat{\sigma'}$.
-%
-%   Since $M$ satisfies $\phi$, we have $e_2,M\sigma \hat{\normalise}[] \hat{t_2},\hat{\sigma'}$ and $M\sigma'\equiv\hat{\sigma'}$,
-%   which we needed to show, as well as $M t_2 \equiv \hat{t_2}$.
+  For all tuples $(\tilde{t}_2,\tilde{\sigma}_2,\Right,\phi_2)$,
+  we obtain from \cref{lem:soundnorm} that $e_2,\sigma\normalise t_2,\sigma_2$ with
+  $\mathds{C}(t_2,\sigma_2,\tilde{t}_2,\tilde{\sigma}_2,\Phi\land\phi_2,M)$.
   }
  }
 %
-\case{$t=t_1\And t_2$}
+\case{$\tilde{t}=\tilde{t}_1\And \tilde{t}_2$}
 {
-In this case, two rules apply.\\
-   \case{\userule{SH-FirstAnd}}
-   {
-   %Provided that $M\phi$, we need to demonstrate that \userule{H-FirstAnd} with $\hat{\sigma}=M\sigma$,
-%   $M t_1'\And t_2\equiv \hat{t_1'}\And t_2$ and $M\sigma'\equiv \hat{\sigma'}$.
-%
-%   By the induction hypothesis we obtain the following.\\
-%   $\forall M_1 . M_1 \phi_1 \implies t_1,M_1\sigma \xrightarrow[]{M_1 i} \hat{t_1'},\hat{\sigma'}\land M_1 t_1'\equiv\hat{t_1'}\land M_1\sigma' \equiv \hat{\sigma'}$
-%
-%   Since $M$ satisfies $\phi$, we have $t_1,M\sigma\xrightarrow[]{M i} \hat{t_1'},\hat{\sigma'}$ and $M\sigma'\equiv\hat{\sigma'}$,
-%   which we needed to show, as well as $M t_1'\And t_2\equiv \hat{t_1'}\And t_2$, which follows from $M t_1' \equiv \hat{t_1'}$.
-%
-   }
-   \case{\userule{SH-SecondAnd}}
-   {
-   %Provided that $M\phi$, we need to demonstrate that \userule{H-SecondAnd} with $\hat{\sigma}=M\sigma$,
-%   $M t_1\And t_2'\equiv t_1\And \hat{t_2}$ and $M\sigma'\equiv \hat{\sigma'}$.
-%
-%   By the induction hypothesis we obtain the following.\\
-%   $\forall M_1 . M_1 \phi_1 \implies t_2,M_1\sigma \xrightarrow[]{M_1 i} \hat{t_2'},\hat{\sigma'}\land M_1 t_2'\equiv\hat{t_2'}\land M_1\sigma' \equiv \hat{\sigma'}$
-%
-%   Since $M$ satisfies $\phi$, we have $t_2,M\sigma\xrightarrow[]{M i} \hat{t_2'},\hat{\sigma'}$ and $M\sigma'\equiv\hat{\sigma'}$,
-%   which we needed to show, as well as $M t_1\And t_2'\equiv t_1\And \hat{t_2'}$, which follows from $M t_2' \equiv \hat{t_2'}$.
-}
+In this case, one rule applies. \userule{SH-And}
+
+In this case, we have two sets of symbolic executions.
+
+  For all tuples $(\tilde{t}_1'\And\tilde{t}_2,\tilde{\sigma}_1',\First \tilde{i}_1,\phi_1)$,
+  we know by application of the induction hypothesis that there exists an $i$ such that
+  $\tilde{i}_1\sim i$, $t_1,\sigma\handle{i}t_1',\sigma_1'$ and
+  $\mathds{C}(t_1',\sigma_1',\tilde{t}_1',\tilde{\sigma}_1',\Phi\land\phi_1,M.[s\mapsto c])$.
+  Then by \refrule{H-FirstAnd}, we know that also $t_1\And t_2,\sigma\handle{\First i}t_1'\And t_2,\sigma_1'$.
+  It follows trivially that $\mathds{C}(t_1'\And t_2,\sigma_1',\tilde{t}_1'\And \tilde{t}_2,\tilde{\sigma}_1',\Phi\land\phi_1,M.[s\mapsto c])$.
+
+  For all tuples $(\tilde{t}_1\And\tilde{t}_2',\tilde{\sigma}_2',\Second \tilde{i}_2,\phi_2)$,
+  we know by application of the induction hypothesis that there exists an $i$ such that
+  $\tilde{i}_2\sim i$, $t_2,\sigma\handle{i}t_2',\sigma_2'$ and
+  $\mathds{C}(t_2',\sigma_2',\tilde{t}_2',\tilde{\sigma}_2',\Phi\land\phi_2,M.[s\mapsto c])$.
+  Then by \refrule{H-SecondAnd}, we know that also $t_1\And t_2,\sigma\handle{\Second i}t_1\And t_2',\sigma_2'$.
+  It follows trivially that $\mathds{C}(t_1\And t_2',\sigma_2',\tilde{t}_1\And \tilde{t}_2',\tilde{\sigma}_2',\Phi\land\phi_2,M.[s\mapsto c])$.
 }
 %
- \case{$t=e_1\Or e_2$}
+ \case{$\tilde{t}=\tilde{e}_1\Or \tilde{e}_2$}
 {One rule applies, namely \userule{SH-Or}\\
 %
 % In the case that $M\phi_1$, we need to demonstrate that \userule{H-FirstOr} with $\hat{\sigma}=M\sigma$ and $M\First i =\First j$,
