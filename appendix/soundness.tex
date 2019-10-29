@@ -10,38 +10,38 @@
 
   \case{$\tilde{t}=\Enter \tau$}
  {One rule applies, namely \userule{SH-Fill}\\
- Since we have $\mathds{C}(t,\sigma,\Enter \tau,\tilde{\sigma},\Phi,M)$, we know that $t$ must be $\Enter \tau$ too, $\tilde{t}$ contains no symbols.
+ Since we have $t,\sigma\Consistent_M\Enter \tau,\tilde{\sigma},\Phi$, we know that $t$ must be $\Enter \tau$ too, $\tilde{t}$ contains no symbols.
  There exists only one symbolic execution, namely $\Enter \tau,\tilde{\sigma}\handle{}\Edit s,\tilde{\sigma},s,\True$.
  We need to show that there exists an $i$ such that $s\sim i$ and $\Edit v,\sigma\handle{i}t',\sigma'$.
 
- Any concrete value $c$ of type $\tau$ will do. Now we have to show that we end up with $\mathds{C}(\Edit c,\sigma,\Edit s,\tilde{\sigma},\Phi\land\True,M.[s\mapsto c])$, which holds trivially.
+ Any concrete value $c$ of type $\tau$ will do. Now we have to show that we end up with $\Edit c,\sigma\Consistent_{M.[s\mapsto c]}\Edit s,\tilde{\sigma},\Phi\land\True$, which holds trivially.
  }
 
   \case{$\tilde{t}=\Edit \tilde{v}$}
   {One rule applies, namely \userule{SH-Change}\\
-  Since we have $\mathds{C}(t,\sigma,\Edit \tilde{v},\tilde{\sigma},\Phi,M)$, we know that either $\tilde{v}$ is a concrete value, or $M$ contains a mapping such that $M\tilde{v}$ becomes a concrete value $c$. We know therefore that $t$ must be $\Edit c$.
+  Since we have $t,\sigma\Consistent_M\Edit \tilde{v},\tilde{\sigma},\Phi$, we know that either $\tilde{v}$ is a concrete value, or $M$ contains a mapping such that $M\tilde{v}$ becomes a concrete value $c$. We know therefore that $t$ must be $\Edit c$.
 
   There exists only one symbolic execution, namely $\Edit \tilde{v},\tilde{\sigma}\handle{}\Edit s,\tilde{\sigma},s,\True$.
   We need to show that there exists an $i$ such that $s\sim i$ and $\Edit c,\sigma\handle{i}t',\sigma'$.
 
-  Any concrete value $c'$ of the same type as $c$ will do. Now we have to show that we end up with $\mathds{C}(\Edit c',\sigma,\Edit s,\tilde{\sigma},\Phi\land\True,M.[s\mapsto c'])$, which holds trivially.
+  Any concrete value $c'$ of the same type as $c$ will do. Now we have to show that we end up with $\Edit c',\sigma\Consistent_{M.[s\mapsto c']}\Edit s,\tilde{\sigma},\Phi\land\True$, which holds trivially.
   }
 
 
 \case{$\tilde{t}=\Update l$}
 {One rule applies, namely \userule{SH-Update}\\
 
-Since we have $\mathds{C}(t,\sigma,\Update l,\tilde{\sigma},\Phi,M)$, we know that $t$ must be $\Update l$ too, $\tilde{t}$ contains no symbols.
+Since we have $t,\sigma\Consistent_M\Update l,\tilde{\sigma},\Phi$, we know that $t$ must be $\Update l$ too, $\tilde{t}$ contains no symbols.
 There exists only one symbolic execution, namely $\Update l,\tilde{\sigma}\handle{}\Update l,\tilde{\sigma}[l\mapsto s],s,\True$.
 We need to show that there exists an $i$ such that $s\sim i$ and $\Update l,\sigma\handle{i}t',\sigma'$.
 
-Any concrete value $c$ of the same type as $l$ will do. Now we have to show that we end up with $\mathds{C}(\Update l,\sigma[l\mapsto c],\Update l,\tilde{\sigma}[l\mapsto s],\Phi\land\True,M.[s\mapsto c])$, which holds trivially.
+Any concrete value $c$ of the same type as $l$ will do. Now we have to show that we end up with $\Update l,\sigma[l\mapsto c]\Consistent_{M.[s\mapsto c]}\Update l,\tilde{\sigma}[l\mapsto s],\Phi\land\True$, which holds trivially.
 }
 
 
 \case{$\tilde{t}=\tilde{t}_1\Next \tilde{e}_2$}
  {
-Since we have $\mathds{C}(t,\sigma,\tilde{t}_1\Next \tilde{e}_2,\tilde{\sigma},\Phi,M)$, we know that $M \tilde{t}_1\Next \tilde{e}_2=t$, which comes down to $t_1\Next e_2$ for some concrete $t_1$ and $e_2$.
+Since we have $t,\sigma\Consistent_M\tilde{t}_1\Next \tilde{e}_2,\tilde{\sigma},\Phi$, we know that $M \tilde{t}_1\Next \tilde{e}_2=t$, which comes down to $t_1\Next e_2$ for some concrete $t_1$ and $e_2$.
 
  In this case, two rules apply.\\
 
@@ -52,27 +52,27 @@ In this case, we have two sets of symbolic executions.
 
 For all tuples $(\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\tilde{i},\phi_1)$, we know by application of the induction hypothesis that
 there exits an $i$ such that $\tilde{i}\sim i$, $t_1,\sigma\handle{i}t_1',\sigma'$ and
-$\mathds{C}(t_1',\sigma',\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1,M.[s\mapsto c])$ where $c\in i$ and $s\in \tilde{i}$.
-Therefore we also have $\mathds{C}(t_1'\Next e_2,\sigma_1',\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\Phi\land\phi_1,M.[s\mapsto c])$.
+$t_1',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1$ where $c\in i$ and $s\in \tilde{i}$.
+Therefore we also have $t_1'\Next e_2,\sigma_1'\Consistent_{M.[s\mapsto c]}\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\Phi\land\phi_1$.
 
 For all tuples $(\tilde{t}_2,\tilde{\sigma}_2',\Continue,\phi_2)$, we first have by \cref{lem:valpres} that
-$\mathds{C}(v_1,\sigma,\tilde{v}_1,\tilde{\sigma},\Phi,M)$.
+$v_1,\sigma\Consistent_M\tilde{v}_1,\tilde{\sigma},\Phi$.
 Now, before we can apply \cref{lem:soundnorm}, we need to establish that
-$\mathds{C}(e_2\ v_1,\sigma,\tilde{e}_2\ \tilde{v}_1,\tilde{\sigma},\Phi,M)$ holds.
+$e_2\ v_1,\sigma\Consistent_M\tilde{e}_2\ \tilde{v}_1,\tilde{\sigma},\Phi$ holds.
 This means that we have to show that $M \tilde{e}_2\ \tilde{v}_1 = e_2\ v_1$.
 Since application of the mapping is distributive, it suffices to show that $M\tilde{v}_1=v_1$, which is given,
 and $M\tilde{e}_2=e_2$, which follows from the premise as well.
 
 At this point, by application of \cref{lem:soundnorm}, we obtain that $e_2\ v_1,\sigma\normalise t_2,\sigma_2'$
-and $\mathds{C}(t_1,\sigma_2',\tilde{t}_2,\tilde{\sigma}_2',\Phi\land\phi_2,M)$
+and $t_1,\sigma_2'\Consistent_M\tilde{t}_2,\tilde{\sigma}_2',\Phi\land\phi_2$
 }
 %
 \case{\userule{SH-PassNext}}
 {
 For all tuples $(\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\tilde{i},\phi_1)$, we know by application of the induction hypothesis that
 there exits an $i$ such that $\tilde{i}\sim i$, $t_1,\sigma\handle{i}t_1',\sigma'$ and
-$\mathds{C}(t_1',\sigma',\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1,M.[s\mapsto c])$ where $c\in i$ and $s\in \tilde{i}$.
-Therefore we also have $\mathds{C}(t_1'\Next e_2,\sigma_1',\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\Phi\land\phi_1,M.[s\mapsto c])$.
+$t_1',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1$ where $c\in i$ and $s\in \tilde{i}$.
+Therefore we also have $t_1'\Next e_2,\sigma_1'\Consistent_{M.[s\mapsto c]}\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\Phi\land\phi_1$.
 }
 }
 
@@ -80,8 +80,8 @@ Therefore we also have $\mathds{C}(t_1'\Next e_2,\sigma_1',\tilde{t}_1'\Next \ti
 {One rule applies, namely \userule{SH-PassThen}\\
 For all tuples $(\tilde{t}_1'\Then\tilde{e}_2,\tilde{\sigma}',\tilde{i},\phi)$, we know by application of the induction hypothesis that
 there exists an $i$ such that $\tilde{i}\sim i$, $t_1,\sigma\handle{1}t_1',\sigma'$ and
-$\mathds{C}(t_1',\sigma',\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1,M.[s\mapsto c])$ where $c\in i$ and $s\in \tilde{i}$.
-Therefore we also have $\mathds{C}(t_1'\Then e_2,\sigma_1',\tilde{t}_1'\Then \tilde{e}_2,\tilde{\sigma}_1',\Phi\land\phi_1,M.[s\mapsto c])$.
+$t_1',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1$ where $c\in i$ and $s\in \tilde{i}$.
+Therefore we also have $t_1'\Then e_2,\sigma_1'\Consistent_{M.[s\mapsto c]}\tilde{t}_1'\Then \tilde{e}_2,\tilde{\sigma}_1',\Phi\land\phi_1,M.[s\mapsto c])$.
 }
 
 \case{$\tilde{t}=\tilde{e}_1\Xor \tilde{e}_2$}
@@ -93,11 +93,11 @@ In this case, three rules apply.\\
 
    For all tuples $(\tilde{t}_1,\tilde{\sigma}_1,\Left,\phi_1)$,
    we obtain from \cref{lem:soundnorm} that $e_1,\sigma\normalise t_1,\sigma_1$ with
-   $\mathds{C}(t_1,\sigma_1,\tilde{t}_1,\tilde{\sigma}_1,\Phi\land\phi_1,M)$.
+   $t_1,\sigma_1\Consistent_M\tilde{t}_1,\tilde{\sigma}_1,\Phi\land\phi_1$.
 
    For all tuples $(\tilde{t}_2,\tilde{\sigma}_2,\Right,\phi_2)$,
    we obtain from \cref{lem:soundnorm} that $e_2,\sigma\normalise t_2,\sigma_2$ with
-   $\mathds{C}(t_2,\sigma_2,\tilde{t}_2,\tilde{\sigma}_2,\Phi\land\phi_2,M)$.
+   $t_2,\sigma_2\Consistent_M\tilde{t}_2,\tilde{\sigma}_2,\Phi\land\phi_2$.
    \todo{is it problematic that $i$ is not captured in the relation here?}
    }
 %
@@ -105,14 +105,14 @@ In this case, three rules apply.\\
   {
   For all tuples $(\tilde{t}_1,\tilde{\sigma}_1,\Left,\phi_1)$,
   we obtain from \cref{lem:soundnorm} that $e_1,\sigma\normalise t_1,\sigma_1$ with
-  $\mathds{C}(t_1,\sigma_1,\tilde{t}_1,\tilde{\sigma}_1,\Phi\land\phi_1,M)$.
+  $t_1,\sigma_1\Consistent_M\tilde{t}_1,\tilde{\sigma}_1,\Phi\land\phi_1$.
 %
 }
   \case{\userule{SH-PickRight}}
   {
   For all tuples $(\tilde{t}_2,\tilde{\sigma}_2,\Right,\phi_2)$,
   we obtain from \cref{lem:soundnorm} that $e_2,\sigma\normalise t_2,\sigma_2$ with
-  $\mathds{C}(t_2,\sigma_2,\tilde{t}_2,\tilde{\sigma}_2,\Phi\land\phi_2,M)$.
+  $t_2,\sigma_2\Consistent_M\tilde{t}_2,\tilde{\sigma}_2,\Phi\land\phi_2$.
   }
  }
 %
@@ -125,16 +125,16 @@ In this case, we have two sets of symbolic executions.
   For all tuples $(\tilde{t}_1'\And\tilde{t}_2,\tilde{\sigma}_1',\First \tilde{i}_1,\phi_1)$,
   we know by application of the induction hypothesis that there exists an $i$ such that
   $\tilde{i}_1\sim i$, $t_1,\sigma\handle{i}t_1',\sigma_1'$ and
-  $\mathds{C}(t_1',\sigma_1',\tilde{t}_1',\tilde{\sigma}_1',\Phi\land\phi_1,M.[s\mapsto c])$.
+  $t_1',\sigma_1'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}_1',\Phi\land\phi_1$.
   Then by \refrule{H-FirstAnd}, we know that also $t_1\And t_2,\sigma\handle{\First i}t_1'\And t_2,\sigma_1'$.
-  It follows trivially that $\mathds{C}(t_1'\And t_2,\sigma_1',\tilde{t}_1'\And \tilde{t}_2,\tilde{\sigma}_1',\Phi\land\phi_1,M.[s\mapsto c])$.
+  It follows trivially that $t_1'\And t_2,\sigma_1'\Consistent_{M.[s\mapsto c]}\tilde{t}_1'\And \tilde{t}_2,\tilde{\sigma}_1',\Phi\land\phi_1$.
 
   For all tuples $(\tilde{t}_1\And\tilde{t}_2',\tilde{\sigma}_2',\Second \tilde{i}_2,\phi_2)$,
   we know by application of the induction hypothesis that there exists an $i$ such that
   $\tilde{i}_2\sim i$, $t_2,\sigma\handle{i}t_2',\sigma_2'$ and
-  $\mathds{C}(t_2',\sigma_2',\tilde{t}_2',\tilde{\sigma}_2',\Phi\land\phi_2,M.[s\mapsto c])$.
+  $t_2',\sigma_2'\Consistent_{M.[s\mapsto c]}\tilde{t}_2',\tilde{\sigma}_2',\Phi\land\phi_2$.
   Then by \refrule{H-SecondAnd}, we know that also $t_1\And t_2,\sigma\handle{\Second i}t_1\And t_2',\sigma_2'$.
-  It follows trivially that $\mathds{C}(t_1\And t_2',\sigma_2',\tilde{t}_1\And \tilde{t}_2',\tilde{\sigma}_2',\Phi\land\phi_2,M.[s\mapsto c])$.
+  It follows trivially that $t_1\And t_2',\sigma_2'\Consistent_{M.[s\mapsto c]}\tilde{t}_1\And \tilde{t}_2',\tilde{\sigma}_2',\Phi\land\phi_2$.
 }
 %
  \case{$\tilde{t}=\tilde{e}_1\Or \tilde{e}_2$}
@@ -165,24 +165,24 @@ In this case, we have two sets of symbolic executions.
 \begin{lemma}[$\Value$ preserves consistence]
   \label{lem:valpres}
   For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$, path conditions $\Phi$ and mappings $M=[s_1\mapsto c_1\cdots s_n\mapsto c_n]$,
-  if $\mathds{C}(t,\sigma,\tilde{t},\tilde{\sigma},\Phi,M)$ and $\Value(t,\sigma)=v$ and $\Value(\tilde{t},\tilde{\sigma})$,
-  then also $\mathds{C}(v,\sigma,\tilde{v},\tilde{\sigma},\Phi,M)$
+  if $t,\sigma\Consistent_M\tilde{t},\tilde{\sigma},\Phi$ and $\Value(t,\sigma)=v$ and $\Value(\tilde{t},\tilde{\sigma})$,
+  then also $v,\sigma\Consistent_M\tilde{v},\tilde{\sigma},\Phi$
 \end{lemma}
 
 \begin{proof}[$\Value$ preserves consistence]
 
   \case{$\tilde{t}=\Edit s$}
     {
-    If we have $\mathds{C}(t,\sigma,\Edit s,\tilde{\sigma},\Phi,M)$, then we know that $t$ must be $\Edit c$ for some concrete value of the same type as $s$.
+    If we have $t,\sigma\Consistent_M\Edit s,\tilde{\sigma},\Phi$, then we know that $t$ must be $\Edit c$ for some concrete value of the same type as $s$.
 
     Then by definition of $\Value$, we have $\Value(\Edit c,\sigma)=c$ and $\Value(\Edit s,\tilde{\sigma})=s$.
     Since we have $M(\Edit s)=\Edit c$ from the premise, we know that $M s = c$, since mapping propagates.
-    Therefore $\mathds{C}(c,\sigma,s,\tilde{\sigma},\Phi,M)$.
+    Therefore $c,\sigma\Consistent_M s,\tilde{\sigma},\Phi$.
     }
 
   \case{$\tilde{t}=\Enter \tau$}
     {
-    If we have $\mathds{C}(t,\sigma,\Enter \tau,\tilde{\sigma},\Phi,M)$, then we know that $t$ is also $\Enter\tau$.
+    If we have $t,\sigma\Consistent_M\Enter \tau,\tilde{\sigma},\Phi$, then we know that $t$ is also $\Enter\tau$.
 
     By definition of $\Value$, $\Value(\Enter \tau,\sigma)=\bot$ and $\Value(\Enter\tau,\tilde{\sigma})=\bot$,
     so this case holds trivially.
@@ -190,7 +190,7 @@ In this case, we have two sets of symbolic executions.
 
   \case{$\tilde{t}=\Update l$}
     {
-    If we have $\mathds{C}(t,\sigma,\Update l,\tilde{\sigma},\Phi,M)$, then we know that $t$ is also $\Update l$.
+    If we have $t,\sigma\Consistent_M\Update l,\tilde{\sigma},\Phi$, then we know that $t$ is also $\Update l$.
 
     By definition of $\Value$, $\Value(\Update l,\sigma)=\sigma(l)$ and $\Value(\Update l,\tilde{\sigma})=\tilde{\sigma}(l)$.
 
@@ -199,14 +199,14 @@ In this case, we have two sets of symbolic executions.
 
   \case{$\tilde{t}=\Fail$}
     {
-    If we have $\mathds{C}(t,\sigma,\Fail,\tilde{\sigma},\Phi,M)$, then we know that $t$ is also $\Fail$.
+    If we have $t,\sigma\Consistent_M\Fail,\tilde{\sigma},\Phi$, then we know that $t$ is also $\Fail$.
 
     By definition of $\Value$, $\Value(\Fail,\sigma)=\bot$ and $\Value(\Fail,\tilde{\sigma})=\bot$, so we know that this case holds trivially.
     }
 
   \case{$\tilde{t}=\tilde{t}_1\Then \tilde{e}_2$}
     {
-    If we have $\mathds{C}(t,\sigma,\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma},\Phi,M)$, then we know that $t$ is $t_1\Then e_2$.
+    If we have $t,\sigma\Consistent_M\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma},\Phi$, then we know that $t$ is $t_1\Then e_2$.
 
     By definition of $\Value$, $\Value(t_1\Then e_2,\sigma)=\bot$ and $\Value(\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma})=\bot$, so we know that this case holds trivially.
 
@@ -215,7 +215,7 @@ In this case, we have two sets of symbolic executions.
 
   \case{$\tilde{t}=\tilde{t}_1\Next \tilde{e}_2$}
     {
-    If we have $\mathds{C}(t,\sigma,\tilde{t}_1\Next \tilde{e}_2,\tilde{\sigma},\Phi,M)$, then we know that $t$ is $t_1\Next e_2$.
+    If we have $t,\sigma\Consistent_M\tilde{t}_1\Next \tilde{e}_2,\tilde{\sigma},\Phi$, then we know that $t$ is $t_1\Next e_2$.
 
     By definition of $\Value$, $\Value(t_1\Next e_2,\sigma)=\sigma(l)$ and $\Value(\tilde{t}_1\Next \tilde{e}_2,\tilde{\sigma})=\bot$, so we know that this case holds trivially.
 
@@ -223,7 +223,7 @@ In this case, we have two sets of symbolic executions.
 
   \case{$\tilde{t}=\tilde{t}_1\And \tilde{t}_2$}
     {
-    If we have $\mathds{C}(t,\sigma,\tilde{t}_1\And \tilde{t}_2,\tilde{\sigma},\Phi,M)$, then we know that $t$ is also $t_1\And t_2$.
+    If we have $t,\sigma\Consistent_M\tilde{t}_1\And \tilde{t}_2,\tilde{\sigma},\Phi$, then we know that $t$ is also $t_1\And t_2$.
 
     By definition of $\Value$, $\Value(\Update l,\sigma)=\sigma(l)$ and $\Value(\Update l,\tilde{\sigma})=\tilde{\sigma}(l)$.\fixme{todo}
 
@@ -231,7 +231,7 @@ In this case, we have two sets of symbolic executions.
 
   \case{$\tilde{t}=\tilde{t}_1\Or \tilde{t}_2$}
     {
-    If we have $\mathds{C}(t,\sigma,\tilde{t}_1\Or \tilde{t}_2,\tilde{\sigma},\Phi,M)$, then we know that $t$ is also $t_1\Or t_2$.
+    If we have $t,\sigma\Consistent_M\tilde{t}_1\Or \tilde{t}_2,\tilde{\sigma},\Phi$, then we know that $t$ is also $t_1\Or t_2$.
 
     By definition of $\Value$, $\Value(\Update l,\sigma)=\sigma(l)$ and $\Value(\Update l,\tilde{\sigma})=\tilde{\sigma}(l)$.\fixme{todo}
 
@@ -239,7 +239,7 @@ In this case, we have two sets of symbolic executions.
 
   \case{$\tilde{t}=\tilde{t}_1\Xor \tilde{t}_2$}
     {
-    If we have $\mathds{C}(t,\sigma,\tilde{t}_1\Xor \tilde{t}_2,\tilde{\sigma},\Phi,M)$, then we know that $t$ is $t_1\Xor t_2$.
+    If we have $t,\sigma\Consistent_M\tilde{t}_1\Xor \tilde{t}_2,\tilde{\sigma},\Phi$, then we know that $t$ is $t_1\Xor t_2$.
 
     By definition of $\Value$, $\Value(t_1\Xor t_2,\sigma)=\bot$ and $\Value(\tilde{t}_1\Xor \tilde{t}_2,\tilde{\sigma})=\bot$, so we know that this case holds trivially.
 
