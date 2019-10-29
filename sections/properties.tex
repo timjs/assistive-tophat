@@ -100,8 +100,8 @@ Since the $\Firsts$ function relies on the $\Simulate$ function, we can make use
 
   $t,\sigma\drive{i_1}t_1,\sigma_1\drive{i_2}t_2,\sigma_2\drive{i_3}\cdots \drive{i_n}t_n,\sigma_n$ with $\Value(t_n,\sigma_n)$.
 
-  By \cref{lem:sounddriving}, we know that $t,\sigma\drive{i_1}t_1,\sigma_1$ exists, since $\mathds{C}(t,\sigma,t,\sigma,\True,\emptyset)$.
-  This also gives us that $\tilde{i_1}\sim i_1$, and $\mathds{C}(t_1,\sigma_1,\tilde{t}_1,\tilde{\sigma}_1,\phi_1,[s_1\mapsto c_1])$ with $s_1\in\tilde{i}_1$ and $c_1\in i_1$.
+  By \cref{lem:sounddriving}, we know that $t,\sigma\drive{i_1}t_1,\sigma_1$ exists, since $t,\sigma\Consistent_{\emptyset}t,\sigma,\True$.
+  This also gives us that $\tilde{i_1}\sim i_1$, and $t_1,\sigma_1\Consistent_{[s_1\mapsto c_1]}\tilde{t}_1,\tilde{\sigma}_1,\phi_1$ with $s_1\in\tilde{i}_1$ and $c_1\in i_1$.
 
   By repeatedly applying \cref{lem:sounddriving}, until we arrive at $\tilde{t}_n,\sigma{t}_n$,
   we can show that there indeed exists an $I$ such that $t,\sigma\drive{I}^*v$ with $[s_1\mapsto c_1,\cdots,s_n\mapsto c_n]\tilde{v}=v$
@@ -141,8 +141,8 @@ Since the $\Firsts$ function relies on the $\Simulate$ function, we can make use
   with $\Value(\tilde{t}_n,\tilde{\sigma}_n)=\tilde{v}$ and $\Sat(\phi_1\land\cdots\land\phi_n)$.
 
   By \cref{lem:completedriving}, we know that $t,\sigma\drive{}\tilde{t}_1,\tilde{\sigma}_1,\tilde{i}_1,\phi_1$ exists,
-  since $\mathds{C}(t,\sigma,t,\sigma,\True,\emptyset)$.
-  This also gives us that $\tilde{i}_1\sim i_1$ and $\mathds{C}(t_1,\sigma_1,\tilde{t}_1,\tilde{\sigma}_1,\phi_1,[s_1\mapsto c_1])$ with $s_1\in\tilde{i}_1$ and $c_1\in i_1$.
+  since $t,\sigma,t\Consistent_{\emptyset}\sigma,\True$.
+  This also gives us that $\tilde{i}_1\sim i_1$ and $t_1,\sigma_1\Consistent_{[s_1\mapsto c_1]}\tilde{t}_1,\tilde{\sigma}_1,\phi_1$ with $s_1\in\tilde{i}_1$ and $c_1\in i_1$.
 
   By repeated application of \cref{lem:completedriving}, untill we arrive at $t_n,\sigma_n$,
   we can show that there exists a $\tilde{I}$ such that $t,\sigma\drive{}^*\tilde{t}_n,\tilde{\sigma}_n,\tilde{I},\Phi$,
@@ -153,31 +153,31 @@ Since the $\Firsts$ function relies on the $\Simulate$ function, we can make use
 $\Evaluate$ and $\Simulate$ make use of the driving and symbolic driving semantics respectively, so we again first prove those sound and complete with respect to each other.
 
 
-\begin{definition}[Consistence relation $\mathds{C}$]
+\begin{definition}[Consistence relation $\Consistent$]
 A concrete task $t$ and concrete state $\sigma$
 are considered to be consistent with a symbolic task $\tilde{t}$, symbolic state $\tilde{\sigma}$ and path condition $\Phi$
-under a certain mapping $M=[s_1\mapsto c_1,\cdots,s_n,\mapsto c_n]$, denoted as $\mathds{C}(t,\sigma,\tilde{t},\tilde{\sigma},\Phi,M)$
+under a certain mapping $M=[s_1\mapsto c_1,\cdots,s_n,\mapsto c_n]$, denoted as $t,\sigma \Consistent_M \tilde{t},\tilde{\sigma},\Phi$
 if and only if $M\tilde{t}=t$, $M\tilde{\sigma}=\sigma$ and $M\Phi$
 \end{definition}
 
 \begin{lemma}[Soundness of driving]
   \label{lem:sounddriving}
   For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
-  we have that $\mathds{C}(t,\sigma,\tilde{t},\tilde{\sigma},\Phi,M)$ implies
+  we have that $t,\sigma\Consistent_M\tilde{t},\tilde{\sigma},\Phi$ implies
   that for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{i},\phi)$ in $\tilde{t},\tilde{\sigma}\drive{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi}$,
-  $\Sat(\Phi\land\phi)$ implies that there exists an input $i$ such that $\tilde{i}\sim i$,  $t,\sigma\drive{i}t',\sigma'$ and $\mathds{C}(t',\sigma',\tilde{t}',\tilde{\sigma}',\Phi\land\phi,M.[s\mapsto c])$ where where $s\in\tilde{i}$ and $c\in i$.
+  $\Sat(\Phi\land\phi)$ implies that there exists an input $i$ such that $\tilde{i}\sim i$,  $t,\sigma\drive{i}t',\sigma'$ and $t',\sigma' \Consistent_{M.[s\mapsto c]} \tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{i}$ and $c\in i$.
 \end{lemma}
 
 \begin{proof}[Soundness of driving]
   The symbolic driving semantics consists of only one rule, \refrule{SI-Handle}.
-  Given that $\mathds{C}(t,\sigma,\tilde{t},\tilde{\sigma},\Phi,M)$ and $\tilde{t},\tilde{\sigma}\drive{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi_1}$,
+  Given that $t,\sigma\Consistent_M\tilde{t},\tilde{\sigma},\Phi$ and $\tilde{t},\tilde{\sigma}\drive{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi_1}$,
   \cref{lem:soundhandle} gives us that for each pair $(\tilde{t}',\tilde{\sigma}',\tilde{i},\phi_1)$
   there exists an input $i$ such that $\tilde{i}\sim i$, $t,\sigma\handle{i}t',\sigma'$
-  and $\mathds{C}(t',\sigma',\tilde{t'},\tilde{\sigma'},\Phi\land\phi_1,M.[s\mapsto c])$.
+  and $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t'},\tilde{\sigma'},\Phi\land\phi_1$.
 
   Then, by \cref{lem:soundnorm}, given that $\tilde{t'},\tilde{\sigma'}\normalise\overline{\tilde{t''},\tilde{\sigma''}',\phi_2}$,
   we obtain that for each pair $(\tilde{t''},\tilde{\sigma''}',\phi_2)$, we have that $\Sat(\Phi\land\phi_1\land\phi_2)$ implies
-  that $t',\sigma'\hat{\normalise}t'',\sigma''$ with $\mathds{C}(t'',\sigma'',\tilde{t''},\tilde{\sigma''},\Phi\land\phi_1\land\phi_2,M.[s\mapsto c])$.
+  that $t',\sigma'\hat{\normalise}t'',\sigma''$ with $t'',\sigma''\Consistent_{M.[s\mapsto c]}\tilde{t''},\tilde{\sigma''},\Phi\land\phi_1\land\phi_2$.
 \end{proof}
 
 
@@ -185,10 +185,10 @@ if and only if $M\tilde{t}=t$, $M\tilde{\sigma}=\sigma$ and $M\Phi$
 \begin{lemma}[Completeness of driving]
   \label{lem:completedriving}
   For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
-  we have that $\mathds{C}(t,\sigma,\tilde{t},\tilde{\sigma},\Phi,M)$ implies
+  we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$ implies
   that for all inputs $i$ such that $t,\sigma\drive{i}t',\sigma'$,
   there exists a symbolic input $\tilde{i}$, $\tilde{i}\sim i$ such that
-  $\tilde{t},\tilde{\sigma}\drive{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi}$, $\Sat(\Phi\land\phi)$ and $\mathds{C}(t',\sigma',\tilde{t}',\tilde{\sigma}',\Phi\land\phi,M.[s\mapsto c])$ where where $s\in\tilde{i}$ and $c\in i$.
+  $\tilde{t},\tilde{\sigma}\drive{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi}$, $\Sat(\Phi\land\phi)$ and $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{i}$ and $c\in i$.
 \end{lemma}
 
 Where $\tilde{i}\sim i$ is defined as follows.
@@ -221,10 +221,10 @@ Since the driving semantics depends on the handling and normalisation semantics,
   \label{lem:soundhandle}
 
   For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
-  we have that $\mathds{C}(t,\sigma,\tilde{t},\tilde{\sigma},\Phi,M)$ implies
+  we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$ implies
   that for all symbolic inputs $\tilde{i}$ such that $\tilde{t},\tilde{\sigma}\handle{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi}$ and
   for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{i},\phi)$,
-  $\Sat(\Phi\land\phi)$ implies that there exists an input $i$ such that $\tilde{i}\sim i$,  $t,\sigma\handle{i}t',\sigma'$ and $\mathds{C}(t',\sigma',\tilde{t}',\tilde{\sigma}',\Phi\land\phi,M.[s\mapsto c])$ where where $s\in\tilde{i}$ and $c\in i$.
+  $\Sat(\Phi\land\phi)$ implies that there exists an input $i$ such that $\tilde{i}\sim i$,  $t,\sigma\handle{i}t',\sigma'$ and $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{i}$ and $c\in i$.
 
 \end{lemma}
 
@@ -233,26 +233,26 @@ Since the driving semantics depends on the handling and normalisation semantics,
 \begin{lemma}[Soundness of normalisation]
   \label{lem:soundnorm}
   For all concrete expressions $e$, concrete states $\sigma$, symbolic expressions $\tilde{e}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
-  we have that $\mathds{C}(e,\sigma,\tilde{e},\tilde{\sigma},\Phi,M)$ implies
+  we have that $e,\sigma\Consistent_{M}\tilde{e},\tilde{\sigma},\Phi$ implies
   that if $\tilde{e},\tilde{\sigma}\normalise\overline{\tilde{t},\tilde{\sigma}',\phi}$,
   then for all pairs $(\tilde{t},\tilde{\sigma}',\phi)$ it holds that $\Sat(\Phi\land\phi)$ implies
-  that $e,\sigma\hat{\normalise}t,\sigma'$ with $\mathds{C}(t,\sigma',\tilde{t},\tilde{\sigma'},\Phi\land\phi,M)$.
+  that $e,\sigma\hat{\normalise}t,\sigma'$ with $t,\sigma'\Consistent_{M}\tilde{t},\tilde{\sigma'},\Phi\land\phi$.
 \end{lemma}
 
 \begin{lemma}[Soundness of striding]
   for all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
-  we have that $\mathds{C}(t,\sigma,\tilde{t},\tilde{\sigma},\Phi,M)$ implies
+  we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$ implies
   that if $\tilde{t},\tilde{\sigma}\stride\overline{\tilde{t}',\tilde{\sigma}',\phi}$,
   then for all pairs $(\tilde{t}'',\tilde{\sigma}',\phi)$ it holds that $\Sat(\Phi\land\phi)$ implies
-  that $t,\sigma\hat{\stride}t',\sigma'$ with $\mathds{C}(t',\sigma',\tilde{t'},\tilde{\sigma'},\Phi\land\phi,M)$.
+  that $t,\sigma\hat{\stride}t',\sigma'$ with $t',\sigma'\Consistent_{M}\tilde{t'},\tilde{\sigma'},\Phi\land\phi$.
 \end{lemma}
 
 \begin{lemma}[Soundness of evaluation]
   For all concrete expressions $e$, concrete states $\sigma$, symbolic expressions $\tilde{e}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
-  we have that $\mathds{C}(e,\sigma,\tilde{e},\tilde{\sigma},\Phi,M)$ implies
+  we have that $e,\sigma\Consistent_{M}\tilde{e},\tilde{\sigma},\Phi$ implies
   that if $\tilde{e},\tilde{\sigma}\eval\overline{\tilde{v},\tilde{\sigma}',\phi}$,
   then for all pairs $(\tilde{v},\tilde{\sigma}',\phi)$ it holds that $\Sat(\Phi\land\phi)$ implies
-  that $e,\sigma\hat{\eval}v,\sigma'$ with $\mathds{C}(v,\sigma',\tilde{v},\tilde{\sigma'},\Phi\land\phi,M)$.
+  that $e,\sigma\hat{\eval}v,\sigma'$ with $v,\sigma'\Consistent_{M}\tilde{v},\tilde{\sigma'},\Phi\land\phi$.
 \end{lemma}
 
 
@@ -261,38 +261,38 @@ Since the driving semantics depends on the handling and normalisation semantics,
 \begin{lemma}[Completeness of handling]
   \label{lem:completeHandle}
   For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
-  we have that $\mathds{C}(t,\sigma,\tilde{t},\tilde{\sigma},\Phi,M)$ implies
+  we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$ implies
   that for all inputs $i$ such that $t,\sigma\handle{i}t',\sigma'$,
   there exists a symbolic input $\tilde{i}$, $\tilde{i}\sim i$ such that
   $\tilde{t},\tilde{\sigma}\handle{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi}$,
-  and for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{i},\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $\mathds{C}(t',\sigma',\tilde{t}',\tilde{\sigma}',\Phi\land\phi,M.[s\mapsto c])$ where where $s\in\tilde{i}$ and $c\in i$.
+  and for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{i},\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{i}$ and $c\in i$.
 \end{lemma}
 
 \begin{lemma}[Completeness of normalisation]
   \label{lem:completeNormalise}
   For all concrete expressions $e$, concrete states $\sigma$, symbolic expressions $\tilde{e}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
-  we have that $\mathds{C}(e,\sigma,\tilde{e},\tilde{\sigma},\Phi,M)$
+  we have that $e,\sigma\Consistent_{M}\tilde{e},\tilde{\sigma},\Phi$
   and $e,\sigma\hat{\normalise} t,\sigma'$,
   then $\tilde{e},\tilde{\sigma}\normalise\overline{\tilde{t},\tilde{\sigma}',\phi}$,
-  and for all pairs $(\tilde{t},\tilde{\sigma}',\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $\mathds{C}(t,\sigma',\tilde{t},\tilde{\sigma}',\Phi\land\phi,M)$.
+  and for all pairs $(\tilde{t},\tilde{\sigma}',\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $t,\sigma'\Consistent_{M}\tilde{t},\tilde{\sigma}',\Phi\land\phi$.
 \end{lemma}
 
 \begin{lemma}[Completeness of striding]
   \label{lem:completeStride}
   For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
-  we have that $\mathds{C}(t,\sigma,\tilde{t},\tilde{\sigma},\Phi,M)$
+  we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$
   and $t,\sigma\hat{\stride} t',\sigma'$,
   then $\tilde{t},\tilde{\sigma}\stride\overline{\tilde{t'},\tilde{\sigma}',\phi}$,
-  and for all pairs $(\tilde{t'},\tilde{\sigma}',\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $\mathds{C}(t',\sigma',\tilde{t'},\tilde{\sigma}',\Phi\land\phi,M)$.
+  and for all pairs $(\tilde{t'},\tilde{\sigma}',\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $t',\sigma'\Consistent_{M}\tilde{t'},\tilde{\sigma}',\Phi\land\phi$.
 \end{lemma}
 
 \begin{lemma}[Completeness of evaluate]
   \label{lem:completeEval}
   For all concrete expressions $e$, concrete states $\sigma$, symbolic expressions $\tilde{e}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
-  we have that $\mathds{C}(e,\sigma,\tilde{e},\tilde{\sigma},\Phi,M)$
+  we have that $e,\sigma\Consistent_{M}\tilde{e},\tilde{\sigma},\Phi$
   and $e,\sigma\hat{\eval} v,\sigma'$,
   then $\tilde{e},\tilde{\sigma}\eval\overline{\tilde{v},\tilde{\sigma}',\phi}$,
-  and for all pairs $(\tilde{v},\tilde{\sigma}',\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $\mathds{C}(v,\sigma',\tilde{v},\tilde{\sigma}',\Phi\land\phi,M)$.
+  and for all pairs $(\tilde{v},\tilde{\sigma}',\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $v,\sigma'\Consistent_{M}\tilde{v},\tilde{\sigma}',\Phi\land\phi$.
 \end{lemma}
 
 % The problem with the lemma's above, is that they assume that you start out with the same task and state.
@@ -311,13 +311,13 @@ Since the driving semantics depends on the handling and normalisation semantics,
 
         % j = 0
         \node (0)  {$(t,\sigma)$};
-        \node (l0) [right of=0] {$\mathds{C}(t,\sigma,t,\sigma,\True,\emptyset)$};
+        \node (l0) [right of=0] {$t,\sigma\Consistent_\emptyset t,\sigma,\True$};
 
         % j = 1
         \node (c1) [below left of=0] {$(t_1,\sigma_1)$};
         \node (s1) [below right of=0] {$(\tilde{t_1},\tilde{\sigma_1},\phi_1)$};
         \node (l1) [right of=s1,text width=4cm] {\begin{tabular}{l}
-        $\mathds{C}(t_1,\sigma_1,\tilde{t_1},\tilde{\sigma_1},\phi_1,[s_1\mapsto c_1])$\\
+        $t_1,\sigma_1\Consistent_{[s_1\mapsto c_1]}\tilde{t_1},\tilde{\sigma_1},\phi_1$\\
                                   $\Sat(\phi_1)$\\
                                   $\Value(t_1,\sigma_1)=\bot$\end{tabular}};
 
@@ -329,7 +329,7 @@ Since the driving semantics depends on the handling and normalisation semantics,
         \node (ck) [below of=cc] {$(t_1,\sigma_1)$};
         \node (sk) [below of=ss] {$(\tilde{t_1},\tilde{\sigma_1},\phi_1)$};
         \node (lk) [right of=sk,text width=4cm] {\begin{tabular}{l}
-        $\mathds{C}(t_k,\sigma_k,\tilde{t_k},\tilde{\sigma_k},\phi_1\land\cdots\land\phi_k,[s_1\mapsto c_1,\cdots,s_k\mapsto c_k])$\\
+        $t_k,\sigma_k\Consistent_{[s_1\mapsto c_1,\cdots,s_k\mapsto c_k]}\tilde{t_k},\tilde{\sigma_k},\phi_1\land\cdots\land\phi_k$\\
         $\Sat(\phi_1\land\cdots\land\phi_k)$\\
         $\Value(t_k,\sigma_k)=\bot$\end{tabular}};
 
@@ -340,7 +340,7 @@ Since the driving semantics depends on the handling and normalisation semantics,
         \node (cn) [below of=ccc] {$(t_n,\sigma_n)$};
         \node (sn) [below of=sss] {$(\tilde{t_n},\tilde{\sigma_n},\phi_n)$};
         \node (l1) [right of=sn,text width=4cm] {\begin{tabular}{l}
-        $\mathds{C}(t_n,\sigma_n,\tilde{t_n},\tilde{\sigma_n},\phi_1\land\cdots\land\phi_n,[s_1\mapsto c_1,\cdots,s_n\mapsto c_n])$\\
+        $t_n,\sigma_n\Consistent_{[s_1\mapsto c_1,\cdots,s_n\mapsto c_n]}\tilde{t_n},\tilde{\sigma_n},\phi_1\land\cdots\land\phi_n$\\
         $\Sat(\phi_1\land\cdots\land\phi_n)$\\
         $\Value(t_n,\sigma_n)=v$\end{tabular}};
 
