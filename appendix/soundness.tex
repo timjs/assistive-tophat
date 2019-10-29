@@ -225,7 +225,15 @@ In this case, we have two sets of symbolic executions.
     {
     If we have $t,\sigma\Consistent_M\tilde{t}_1\And \tilde{t}_2,\tilde{\sigma},\Phi$, then we know that $t$ is also $t_1\And t_2$.
 
-    By definition of $\Value$, $\Value(\Update l,\sigma)=\sigma(l)$ and $\Value(\Update l,\tilde{\sigma})=\tilde{\sigma}(l)$.\fixme{todo}
+    By definition of $\Value$, we can find ourselves in one of two cases.
+
+    If $\Value(\tilde{t}_1,\sigma)=\tilde{v}_1$ and $\Value(\tilde{t}_2,\sigma)=\tilde{v}_2$,
+    then $\Value(t_1\And t_2,\sigma)=\tuple{v_1,v_2}$ and $\Value(\tilde{t}_1\And \tilde{t}_2,\tilde{\sigma})=\tuple{\tilde{v}_1,\tilde{v}_2}$.
+    This case follows from the induction hypothesis.
+
+    Otherwise, if either one of the two branches returns $\bot$, we have that
+    $\Value(t_1\And t_2,\sigma)=\bot$ and $\Value(\tilde{t}_1\And \tilde{t}_2,\tilde{\sigma})=\bot$,
+    so we know that this case holds trivially
 
     }
 
@@ -233,7 +241,17 @@ In this case, we have two sets of symbolic executions.
     {
     If we have $t,\sigma\Consistent_M\tilde{t}_1\Or \tilde{t}_2,\tilde{\sigma},\Phi$, then we know that $t$ is also $t_1\Or t_2$.
 
-    By definition of $\Value$, $\Value(\Update l,\sigma)=\sigma(l)$ and $\Value(\Update l,\tilde{\sigma})=\tilde{\sigma}(l)$.\fixme{todo}
+    By definition of $\Value$, we find ourselves in one of three cases.
+
+    If $\Value(\tilde{t}_1,\tilde{\sigma})=\tilde{v}_1$, then $\Value(\tilde{t}_1\Or\tilde{t}_2,\tilde{\sigma})=\tilde{v}_1$
+    and $\Value(t_1\Or t_2,\sigma)=v_1$. This case follows from the induction hypothesis.
+
+    Otherwise, if $\Value(\tilde{t}_2,\tilde{\sigma})=\tilde{v}_2$, then $\Value(\tilde{t}_1\Or\tilde{t}_2,\tilde{\sigma})=\tilde{v}_2$
+    and $\Value(t_1\Or t_2,\sigma)=v_2$. This case follows from the induction hypothesis.
+
+    Otherwise, if either one of the two branches returns $\bot$, we have that
+    $\Value(t_1\Or t_2,\sigma)=\bot$ and $\Value(\tilde{t}_1\Or \tilde{t}_2,\tilde{\sigma})=\bot$,
+    so we know that this case holds trivially.
 
     }
 
