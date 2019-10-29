@@ -370,7 +370,7 @@
 %% Handling %%
 
 \newmacro{RelationH}
-  {t,{\sigma} \handle{j} {t'},{\sigma}'}
+  {t,{\sigma} \handle{i} {t'},{\sigma}'}
 
 
 \newrule{H-Change}
@@ -394,12 +394,12 @@
   [\sigma(l),v:\tau]
 
 \newrule{H-PassThen}
-  {t_1,\sigma \xrightarrow[]{j} {t_1'},\sigma'}
-  {t_1 \Then e_2,\sigma \xrightarrow[]{j} {t_1'} \Then e_2,\sigma'}
+  {t_1,\sigma \xrightarrow[]{i} {t_1'},\sigma'}
+  {t_1 \Then e_2,\sigma \xrightarrow[]{i} {t_1'} \Then e_2,\sigma'}
 
 \newrule{H-PassNext}
-  {t_1,\sigma \xrightarrow[]{j} {t_1'},\sigma'}
-  {t_1 \Next e_2,\sigma \xrightarrow[]{j} {t_1'} \Next e_2,\sigma'}
+  {t_1,\sigma \xrightarrow[]{i} {t_1'},\sigma'}
+  {t_1 \Next e_2,\sigma \xrightarrow[]{i} {t_1'} \Next e_2,\sigma'}
 
 \newrule{H-Next}
   {e_2\ {v_1},\sigma {\normalise} {t_2},{\sigma}'}
@@ -408,21 +408,21 @@
 
 
 \newrule{H-FirstAnd}
-  {t_1,\sigma \xrightarrow[]{j} {t_1}',{\sigma}'}
-  {t_1 \And t_2,\sigma \xrightarrow[]{\First j} {t_1}' \And t_2,{\sigma}'}
+  {t_1,\sigma \xrightarrow[]{i} {t_1}',{\sigma}'}
+  {t_1 \And t_2,\sigma \xrightarrow[]{\First i} {t_1}' \And t_2,{\sigma}'}
 
 \newrule{H-SecondAnd}
-  {t_2,\sigma \xrightarrow[]{j} {t_2}',{\sigma}'}
-  {t_1 \And t_2,\sigma \xrightarrow[]{\Second j} t_1 \And {t_2}',{\sigma}'}
+  {t_2,\sigma \xrightarrow[]{i} {t_2}',{\sigma}'}
+  {t_1 \And t_2,\sigma \xrightarrow[]{\Second i} t_1 \And {t_2}',{\sigma}'}
 
 
 \newrule{H-FirstOr}
-  {t_1,\sigma \xrightarrow[]{j} {t_1}',{\sigma}'}
-  {t_1 \Or t_2,\sigma \xrightarrow[]{\First j} {t_1}' \Or t_2,{\sigma}'}
+  {t_1,\sigma \xrightarrow[]{i} {t_1}',{\sigma}'}
+  {t_1 \Or t_2,\sigma \xrightarrow[]{\First i} {t_1}' \Or t_2,{\sigma}'}
 
 \newrule{H-SecondOr}
-  {t_2,\sigma \xrightarrow[]{j} {t_2}',{\sigma}' }
-  {t_1 \Or t_2,\sigma \xrightarrow[]{\Second j} t_1 \Or {t_2}',{\sigma}'}
+  {t_2,\sigma \xrightarrow[]{i} {t_2}',{\sigma}' }
+  {t_1 \Or t_2,\sigma \xrightarrow[]{\Second i} t_1 \Or {t_2}',{\sigma}'}
 
 
 \newrule{H-PickLeft}
@@ -440,11 +440,11 @@
 %% Driving %%
 
 \newmacro{RelationI}
-  {{t},{\sigma} \drive{j} {t}',{\sigma}'}
+  {{t},{\sigma} \drive{i} {t}',{\sigma}'}
 
 
 
 \newrule{I-Handle}
-  {t,\sigma \xrightarrow[]{j} {t}',{\sigma}' \Quad
+  {t,\sigma \xrightarrow[]{i} {t}',{\sigma}' \Quad
    {t}',{\sigma}' {\normalise} {t}'',{\sigma}''}
-  {t,\sigma \xRightarrow[]{j} {t}'',{\sigma}''}
+  {t,\sigma \xRightarrow[]{i} {t}'',{\sigma}''}
