@@ -169,6 +169,83 @@ In this case, we have two sets of symbolic executions.
   then also $\mathds{C}(v,\sigma,\tilde{v},\tilde{\sigma},\Phi,M)$
 \end{lemma}
 
+\begin{proof}[$\Value$ preserves consistence]
+
+  \case{$\tilde{t}=\Edit s$}
+    {
+    If we have $\mathds{C}(t,\sigma,\Edit s,\tilde{\sigma},\Phi,M)$, then we know that $t$ must be $\Edit c$ for some concrete value of the same type as $s$.
+
+    Then by definition of $\Value$, we have $\Value(\Edit c,\sigma)=c$ and $\Value(\Edit s,\tilde{\sigma})=s$.
+    Since we have $M(\Edit s)=\Edit c$ from the premise, we know that $M s = c$, since mapping propagates.
+    Therefore $\mathds{C}(c,\sigma,s,\tilde{\sigma},\Phi,M)$.
+    }
+
+  \case{$\tilde{t}=\Enter \tau$}
+    {
+    If we have $\mathds{C}(t,\sigma,\Enter \tau,\tilde{\sigma},\Phi,M)$, then we know that $t$ is also $\Enter\tau$.
+
+    By definition of $\Value$, $\Value(\Enter \tau,\sigma)=\bot$ and $\Value(\Enter\tau,\tilde{\sigma})=\bot$,
+    so this case holds trivially.
+    }
+
+  \case{$\tilde{t}=\Update l$}
+    {
+    If we have $\mathds{C}(t,\sigma,\Update l,\tilde{\sigma},\Phi,M)$, then we know that $t$ is also $\Update l$.
+
+    By definition of $\Value$, $\Value(\Update l,\sigma)=\sigma(l)$ and $\Value(\Update l,\tilde{\sigma})=\tilde{\sigma}(l)$.
+
+    We now need to show that $M(\tilde{\sigma}(l))=\sigma(l)$. From the premise we know that $M\tilde{\sigma}=\sigma$, from which this immediately follows.
+    }
+
+  \case{$\tilde{t}=\Fail$}
+    {
+    If we have $\mathds{C}(t,\sigma,\Fail,\tilde{\sigma},\Phi,M)$, then we know that $t$ is also $\Fail$.
+
+    By definition of $\Value$, $\Value(\Fail,\sigma)=\bot$ and $\Value(\Fail,\tilde{\sigma})=\bot$, so we know that this case holds trivially.
+    }
+
+  \case{$\tilde{t}=\tilde{t}_1\Then \tilde{e}_2$}
+    {
+    If we have $\mathds{C}(t,\sigma,\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma},\Phi,M)$, then we know that $t$ is $t_1\Then e_2$.
+
+    By definition of $\Value$, $\Value(t_1\Then e_2,\sigma)=\bot$ and $\Value(\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma})=\bot$, so we know that this case holds trivially.
+
+    }
+
+
+  \case{$\tilde{t}=\tilde{t}_1\Next \tilde{e}_2$}
+    {
+    If we have $\mathds{C}(t,\sigma,\tilde{t}_1\Next \tilde{e}_2,\tilde{\sigma},\Phi,M)$, then we know that $t$ is $t_1\Next e_2$.
+
+    By definition of $\Value$, $\Value(t_1\Next e_2,\sigma)=\sigma(l)$ and $\Value(\tilde{t}_1\Next \tilde{e}_2,\tilde{\sigma})=\bot$, so we know that this case holds trivially.
+
+    }
+
+  \case{$\tilde{t}=\tilde{t}_1\And \tilde{t}_2$}
+    {
+    If we have $\mathds{C}(t,\sigma,\tilde{t}_1\And \tilde{t}_2,\tilde{\sigma},\Phi,M)$, then we know that $t$ is also $t_1\And t_2$.
+
+    By definition of $\Value$, $\Value(\Update l,\sigma)=\sigma(l)$ and $\Value(\Update l,\tilde{\sigma})=\tilde{\sigma}(l)$.\fixme{todo}
+
+    }
+
+  \case{$\tilde{t}=\tilde{t}_1\Or \tilde{t}_2$}
+    {
+    If we have $\mathds{C}(t,\sigma,\tilde{t}_1\Or \tilde{t}_2,\tilde{\sigma},\Phi,M)$, then we know that $t$ is also $t_1\Or t_2$.
+
+    By definition of $\Value$, $\Value(\Update l,\sigma)=\sigma(l)$ and $\Value(\Update l,\tilde{\sigma})=\tilde{\sigma}(l)$.\fixme{todo}
+
+    }
+
+  \case{$\tilde{t}=\tilde{t}_1\Xor \tilde{t}_2$}
+    {
+    If we have $\mathds{C}(t,\sigma,\tilde{t}_1\Xor \tilde{t}_2,\tilde{\sigma},\Phi,M)$, then we know that $t$ is $t_1\Xor t_2$.
+
+    By definition of $\Value$, $\Value(t_1\Xor t_2,\sigma)=\bot$ and $\Value(\tilde{t}_1\Xor \tilde{t}_2,\tilde{\sigma})=\bot$, so we know that this case holds trivially.
+
+    }
+\end{proof}
+
 \begin{proof}[Soundness of normalise]
 
 \end{proof}
