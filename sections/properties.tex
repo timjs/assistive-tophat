@@ -240,6 +240,7 @@ Since the driving semantics depends on the handling and normalisation semantics,
 \end{lemma}
 
 \begin{lemma}[Soundness of striding]
+  \label{lem:soundstride}
   for all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
   we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$ implies
   that if $\tilde{t},\tilde{\sigma}\stride\overline{\tilde{t}',\tilde{\sigma}',\phi}$,
@@ -248,6 +249,7 @@ Since the driving semantics depends on the handling and normalisation semantics,
 \end{lemma}
 
 \begin{lemma}[Soundness of evaluation]
+  \label{lem:soundeval}
   For all concrete expressions $e$, concrete states $\sigma$, symbolic expressions $\tilde{e}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
   we have that $e,\sigma\Consistent_{M}\tilde{e},\tilde{\sigma},\Phi$ implies
   that if $\tilde{e},\tilde{\sigma}\eval\overline{\tilde{v},\tilde{\sigma}',\phi}$,
