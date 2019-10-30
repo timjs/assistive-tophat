@@ -234,9 +234,9 @@ Since the driving semantics depends on the handling and normalisation semantics,
   \label{lem:soundnorm}
   For all concrete expressions $e$, concrete states $\sigma$, symbolic expressions $\tilde{e}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
   we have that $e,\sigma\Consistent_{M}\tilde{e},\tilde{\sigma},\Phi$ implies
-  that if $\tilde{e},\tilde{\sigma}\normalise\overline{\tilde{t},\tilde{\sigma}',\phi}$,
+  that if $\tilde{e},\tilde{\sigma}\tilde{\normalise}\overline{\tilde{t},\tilde{\sigma}',\phi}$,
   then for all pairs $(\tilde{t},\tilde{\sigma}',\phi)$ it holds that $\Sat(\Phi\land\phi)$ implies
-  that $e,\sigma\hat{\normalise}t,\sigma'$ with $t,\sigma'\Consistent_{M}\tilde{t},\tilde{\sigma'},\Phi\land\phi$.
+  that $e,\sigma\normalise t,\sigma'$ with $t,\sigma'\Consistent_{M}\tilde{t},\tilde{\sigma'},\Phi\land\phi$.
 \end{lemma}
 
 \begin{lemma}[Soundness of striding]
