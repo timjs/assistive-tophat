@@ -1,9 +1,5 @@
-% This is samplepaper.tex, a sample chapter demonstrating the
-% LLNCS macro package for Springer Computer Science proceedings;
-% Version 2.20 of 2017/10/04
-%
 \documentclass[runningheads]{llncs}
-%
+
 \usepackage[square,sort,comma,numbers]{natbib}
 
 \input{macros/imports}
@@ -11,48 +7,45 @@
 \input{macros/general}
 \input{macros/languages}
 \input{macros/abbreviations}
-\input{commands}
-\input{rules}
-\input{concrete-rules}
-\input{grammars}
-\input{maps}
+
+\input{components/commands}
+\input{components/rules}
+\input{components/concrete-rules}
+\input{components/grammars}
+\input{components/maps}
 
 
-\usepackage{graphicx}
-% Used for displaying a sample figure. If possible, figure files should
-% be included in EPS format.
-%
 % If you use the hyperref package, please uncomment the following line
 % to display URLs in blue roman font according to Springer's eBook style:
 % \renewcommand\UrlFont{\color{blue}\rmfamily}
 
 \begin{document}
-%
+
 \title{End user feedback using symbolic execution}
-%
+
 %\titlerunning{Abbreviated paper title}
 % If the paper title is too long for the running head, you can set
 % an abbreviated paper title here
-%
+
 \author{Nico Naus\inst{1}\and
 Tim Steenvoorden\inst{2}}
-%
+
 \authorrunning{Naus and Steenvoorden}
 % First names are abbreviated in the running head.
 % If there are more than two authors, 'et al.' is used.
-%
+
 \institute{Utrecht University, Princetonplein 5, Utrecht, The Netherlands \email{n.naus@uu.nl}\and
 Radboud University, Nijmegen, The Netherlands
 \email{tim@cs.ru.nl}}
-%
+
 \maketitle              % typeset the header of the contribution
-%
+
 \begin{abstract}
   \input{sections/abstract}
 \end{abstract}
-%
-%
-%
+
+
+
 \input{sections/introduction}
 \input{sections/tophat}
 \input{sections/symbolic}
@@ -64,22 +57,24 @@ Radboud University, Nijmegen, The Netherlands
 \input{sections/conclusions}
 
 %% Acknowledgments
-  \section*{Acknowledgements}
-  \input{sections/acknowledgements}
+\section*{Acknowledgements}
+\input{sections/acknowledgements}
 
-%
-% ---- Bibliography ----
-%
+
+%% Bibliography
+
 % BibTeX users should specify bibliography style 'splncs04'.
 % References will then be sorted and formatted in the correct style.
-%
 \bibliographystyle{splncs04}
 
 \bibliography{bibliography}
 
 
 %% Appendix
-\pagebreak \appendix
+
+\pagebreak
+\appendix
+
 \input{appendix/tophatsemantics}
 \input{appendix/completesemantics}
 
