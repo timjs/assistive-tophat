@@ -265,6 +265,30 @@ In this case, we have two sets of symbolic executions.
 \end{proof}
 
 \begin{proof}[Soundness of normalise]
+  We prove Lemma~\ref{lem:soundnorm} by induction over $\tilde{e}$.
+
+  From the premise, we can assume that $e,\sigma\Consistent_M\tilde{e},\tilde{\sigma},\Phi$.
+  Now, given that $\tilde{e},\sigma{e}\tilde{\normalise} \overline{\tilde{t},\tilde{\sigma}',\phi}$,
+  we need to demonstrate that for all pairs $(\tilde{t},\tilde{\sigma}',\phi)$,
+  $\Sat(\Phi\land\phi)$ implies that $e,\sigma\normalise t,\sigma'$ with $t,\sigma'\Consistent_M\tilde{t},\tilde{\sigma}',\Phi\land\phi$.
+
+The base case is when the SN-Done rule applies.\\
+\userule{SN-Done}\\
+
+In this case, we obtain from \cref{lem:soundeval} that
+$e,\sigma\normalise t,\sigma'$ with $t,\sigma'\Consistent_M\tilde{t},\tilde{\sigma}',\Phi\land\phi$,
+which is exactly what we needed to show.
+
+The only induction step is when\\
+\userule{SN-Repeat} applies.
+
+In this case, we obtain from \cref{lem:soundeval} that
+$e,\sigma\normalise t,\sigma'$ with $t,\sigma'\Consistent_M\tilde{t},\tilde{\sigma}',\Phi\land\phi_1$,
+which is exactly what we needed to show.
+Furthermore, by \cref{lem:soundstride} we obtain that
+$t,\sigma'\stride t',\sigma''$ with $t',\sigma''\Consistent_M\tilde{t}',\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.
+Then finally, by application of the induction hypothesis, we obtain what we needed to prove.
+$t',\sigma''\normalise t'',\sigma'''$ with $t'',\sigma'''\Consistent_M\tilde{t}'',\tilde{\sigma}''',\Phi\land\phi_1\land\phi_2\land\phi_3$.
 
 \end{proof}
 
