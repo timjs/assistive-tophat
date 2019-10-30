@@ -294,6 +294,188 @@ $t',\sigma''\normalise t'',\sigma'''$ with $t'',\sigma'''\Consistent_M\tilde{t}'
 
 \begin{proof}[Soundness of stride]
 
+  Provided that $t,\sigma\Consistent_M\tilde{t},\tilde{\sigma},\Phi$ and $\tilde{t},\tilde{\sigma}\tilde{\stride} \overline{\tilde{t}',\tilde{\sigma}',\phi}$,
+  we want to show that for all pairs $(\tilde{t}',\tilde{\sigma}',\phi)$,
+  we have $\Sat(\Phi\land\phi)$ implies that $t,\sigma\stride t',\sigma'$
+  We prove Lemma~\ref{lem:soundstride} by induction over $t$.
+
+
+
+  \case{$\tilde{t}=\Edit \tilde{v}$}
+  { One rule applies, namely \userule{SS-Edit}\\
+  % Provided that $M\True$, we need to demonstrate that \userule{S-Edit} with $\hat{\sigma}=M\sigma$,
+  % $M\Edit v \equiv \Edit \hat{v}$ and $M\sigma \equiv \hat{\sigma}$.
+  % This holds trivially.
+  %
+   }
+  %
+   \case{$t=\Enter \tau$}
+  {One rule applies, namely \userule{SS-Fill}\\
+  % Provided that $M\True$, we need to demonstrate \userule{S-Fill} with $\hat{\sigma}=M\sigma$,
+  % $M\Enter \tau \equiv \Enter \tau$ and $M\sigma \equiv \hat{\sigma}$.
+  % This holds trivially.
+  }
+
+  \case{$t=\Update l$}
+   {One rule applies, namely \userule{SS-Update}\\
+  % Provided that $M\True$, we need to demonstrate \userule{S-Update} with $\hat{\sigma}=M\sigma$,
+  % $M\Update l \equiv \Update l$ and $M\sigma \equiv \hat{\sigma}$.
+  % This holds trivially.
+  }
+
+  \case{$t=\Fail$}
+   {One rule applies, namely \userule{SS-Fail}\\
+  % Provided that $M\True$, we need to demonstrate that \userule{S-Fail} with $\hat{\sigma}=M\sigma$,
+  % $M\Fail \equiv \Fail$ and $M\sigma \equiv \hat{\sigma}$.
+  % This holds trivially.
+   }
+  %
+  \case{$t=e_1\Xor e_2$}
+   {One rule applies, namely \userule{SS-Xor}\\
+  % Provided that $M\True$, we need to demonstrate that \userule{S-Xor} with $\hat{\sigma}=M\sigma$,
+  % $M e_1\Xor e_2 \equiv e_1\Xor e_2$ and $M\sigma \equiv \hat{\sigma}$.
+  % This holds trivially.
+   }
+
+
+
+
+\case{$\tilde{t}=\tilde{t}_1\Then \tilde{e}_2$}
+ {
+Three rules apply.\\
+ \case{\userule{SS-ThenStay}}
+   {
+%   Provided that $M\phi\equiv\True$
+%   we need to demonstrate that
+%   \userule{S-ThenStay} with $\hat{\sigma}=M\sigma$,
+%   $M t_1'\Then e_2 \equiv \hat{t_1'}\Then e_2 $ and $ M\sigma'\equiv \hat{\sigma'}$.
+%
+%   From the induction hypothesis, we obtain the following.\\
+%   $\forall M_1 . M_1 \phi \implies t_1,M_1\sigma \hat{\stride} \hat{t_1'},\hat{\sigma'}\land M_1 t_1'\equiv\hat{t_1'}\land M_1\sigma' \equiv \hat{\sigma'}$.
+%
+%   Since $M$ satisfies $\phi$,
+%   we know that
+%   $t_1,M\sigma \hat{\stride} \hat{t_1'},\hat{\sigma'}$
+%   and $M t_1'\equiv\hat{t_1'}$,
+%   and therefore also $M t_1'\Then e_2 \equiv \hat{t_1'}\Then e_2$,
+%   and from the induction hypothesis, we directly obtain  $M\sigma'\equiv \hat{\sigma'}$.
+  }
+ \case{\userule{SS-ThenFail}}
+   { %Provided that $M\phi\equiv\True$
+%   we need to demonstrate that
+%   \userule{S-ThenFail} with $\hat{\sigma}=M\sigma$,
+%   $M t_1'\Then e_2 \equiv \hat{t_1'}\Then e_2$ and $M\sigma'\equiv \hat{\sigma'}$.
+%
+%   From the induction hypothesis, we obtain the following.\\
+%   $\forall M_1 . M_1 \phi \implies t_1,M_1\sigma \hat{\stride} \hat{t_1'},\hat{\sigma'}\land M_1 t_1'\equiv\hat{t_1'}\land M_1\sigma' \equiv \hat{\sigma'}$.
+%
+%   Since $M$ satisfies $\phi$,
+%   we know that
+%   $t_1,M\sigma \hat{\stride} \hat{t_1'},\hat{\sigma'}$
+%   and $M t_1'\equiv\hat{t_1'}$,
+%   and therefore also $M t_1'\Then e_2 \equiv \hat{t_1'}\Then e_2$,
+%   and from the induction hypothesis, we directly obtain  $M\sigma'\equiv \hat{\sigma'}$.
+   }
+ \case{\userule{SS-ThenCont}}
+   {
+   %Provided that $M\phi_1\land M\phi_2$
+%   we need to demonstrate that
+%   \userule{S-ThenCont} with $\hat{\sigma}=M\sigma$,
+%   $M t_2 \equiv \hat{t_2}\Then e_2$ and $M\sigma''\equiv \hat{\sigma''}$.
+%
+%   From the induction hypothesis, we obtain the following.\\
+%   $\forall M_1 . M_1 \phi_1 \implies t_1,M_1\sigma \hat{\stride} \hat{t_1'},\hat{\sigma'}\implies M_1 t_1'\equiv\hat{t_1'}\land M_1\sigma' \equiv \hat{\sigma'}$.\\
+%   From Lemma~\ref{lem:soundeval} we know that\\
+%   $\forall M_2 . M_2 \phi_2 \implies e_2\hat{v_1}M_2\sigma'\hat{\eval}\hat{t_2},\hat{\sigma''}\and M_2 t_2\equiv \hat{t_2}\land M_2\sigma''\equiv \hat{\sigma''}$.
+%
+%   Since $M$ satisfies both $\phi_1$ and $\phi_2$,
+%   we know that
+%   $t_1,M\sigma \hat{\stride} \hat{t_1'},\hat{\sigma'}$ and $e_2\hat{v_1}M\sigma'\hat{\eval}\hat{t_2},\hat{\sigma''}$,
+%   $M t_2\equiv\hat{t_2}$,
+%   and from the induction hypothesis, we directly obtain  $M\sigma''\equiv \hat{\sigma''}$.
+%
+   }
+ }
+
+\case{$\tilde{t}=\tilde{t}_1\Or \tilde{t}_2$}
+ {
+% Three rules apply.\\
+\case{\userule{SS-OrLeft}}
+   {%Provided that $M\phi\equiv\True$
+%   we need to demonstrate that
+%   \userule{S-OrLeft} with $\hat{\sigma}=M\sigma$,
+%   $M t_1'\equiv \hat{t_1'}$ and $M\sigma'\equiv \hat{\sigma'}$.
+%
+%   From the induction hypothesis, we obtain the following.\\
+%   $\forall M_1 . M_1 \phi \implies t_1,M_1\sigma \hat{\stride} \hat{t_1'},\hat{\sigma'}\and M_1 t_1'\equiv\hat{t_1'}\land M_1\sigma' \equiv \hat{\sigma'}$.
+%
+%   Since $M$ satisfies $\phi$, we know that $t_1,M\sigma \hat{\stride} \hat{t_1'},\hat{\sigma'}$,
+%   $M t_1'\equiv\hat{t_1'}$ and $M\sigma'\equiv \hat{\sigma'}$.
+%
+  }
+ \case{\userule{SS-OrRight}}
+   { %Provided that $M\phi_1\land M\phi_2$
+%   we need to deomstrate that
+%   \userule{S-OrRight} with $\hat{\sigma}=M\sigma$,
+%   $M t_2'\equiv \hat{t_2'}$ and $M\sigma''\equiv \hat{\sigma''}$.
+%
+%   From the induction hypothesis, we obtain the following.\\
+%   $\forall M_1 . M_1 \phi_1 \implies t_1,M_1\sigma \hat{\stride} \hat{t_1'},\hat{\sigma'}\land M_1 t_1'\equiv\hat{t_1'}\land M_1\sigma' \equiv \hat{\sigma'}$ and\\
+%   $\forall M_2 . M_2 \phi_2 \implies t_2,M_2\sigma' \hat{\stride} \hat{t_2'},\hat{\sigma''}\land M_2 t_2'\equiv\hat{t_2'}\land M_2\sigma'' \equiv \hat{\sigma''}$.
+%
+%   Since $M$ satisfies both $\phi_1$ and $\phi_2$,
+%   we know that
+%   $t_1,M\sigma \hat{\stride} \hat{t_1'},\hat{\sigma'}$ and $t_2,M\sigma'\hat{\stride}\hat{t_2'},\hat{\sigma''}$,
+%   $M t_2'\equiv\hat{t_2'}$ and $M\sigma''\equiv \hat{\sigma''}$.
+%
+   }
+\case{\userule{SS-OrNone}}
+  { %Provided that $M\phi_1\land M\phi_2$
+%   we need to demonstrate that
+%   \userule{S-OrNone} with $\hat{\sigma}=M\sigma$,
+%   $M t_1'\Or t_2'\equiv \hat{t_1'}\Or\hat{t_2'}$ and $M\sigma''\equiv \hat{\sigma''}$.
+%
+%   From the induction hypothesis, we obtain the following.\\
+%   $\forall M_1 . M_1 \phi_1 \implies t_1,M_1\sigma \hat{\stride} \hat{t_1'},\hat{\sigma'}\land M_1 t_1'\equiv\hat{t_1'}\land M_1\sigma' \equiv \hat{\sigma'}$ and\\
+%   $\forall M_2 . M_2 \phi_2 \implies t_2,M_2\sigma' \hat{\stride} \hat{t_2'},\hat{\sigma''}\land M_2 t_2'\equiv\hat{t_2'}\land M_2\sigma'' \equiv \hat{\sigma''}$.
+%
+%   Since $M$ satisfies both $\phi_1$ and $\phi_2$,
+%   we know that $t_1,M\sigma \hat{\stride} \hat{t_1'},\hat{\sigma'}$ and $t_2,M\sigma'\hat{\stride}\hat{t_2'},\hat{\sigma''}$,
+%   $M t_1'\Or t_2'\equiv \hat{t_1'}\Or\hat{t_2'}$ and $M\sigma''\equiv \hat{\sigma''}$.
+%
+   }
+ }
+
+ \case{$t=t_1\Next e_2$}
+ {One rule applies, namely \userule{SS-Next}\\
+% Provided that $M\phi$,
+% we need to demonstrate that \userule{S-Xor} with $\hat{\sigma}=M\sigma$,
+% $M t_1'\Next e_2\equiv \hat{t_1'}\Next e_2$ and $M \sigma'\equiv\hat{\sigma'}$.
+
+% From the induction hypothesis, we obtain the following.\\
+% $\forall M_1 . M_1 \phi \implies t_1,M_1\sigma \hat{\stride} \hat{t_1'},\hat{\sigma'}\land M_1 t_1'\equiv\hat{t_1'}\land M_1\sigma' \equiv \hat{\sigma'}$.
+%
+% Since $M$ satisfies $\phi$, we directly obtain $t_1,M_1\sigma \hat{\stride} \hat{t_1'},\hat{\sigma'}$,
+% $M t_1'\Next e_2\equiv \hat{t_1'}\Next e_2$ and $M \sigma'\equiv\hat{\sigma'}$.
+%
+}
+
+\case{$t=t_1\And t_2$}
+{One rule applies, namely \userule{SS-And}\\
+% Provided that $M\phi_1\land M\phi_2$
+% we need to demonstrate $\userule{S-And}$ with $\hat{\sigma}=M\sigma$,
+% $M t_1'\And t_2'\equiv \hat{t_1'}\And\hat{t_2'}$ and $M\sigma''\equiv \hat{\sigma''}$.
+%
+% From the induction hypothesis, we obtain the following.\\
+% $\forall M_1 . M_1 \phi_1 \implies t_1,M_1\sigma \hat{\stride} \hat{t_1'},\hat{\sigma'}\and M_1 t_1'\equiv\hat{t_1'}\land M_1\sigma' \equiv \hat{\sigma'}$ and\\
+% $\forall M_2 . M_2 \phi_2 \implies t_2,M_2\sigma' \hat{\stride} \hat{t_2'},\hat{\sigma''}\and M_2 t_2'\equiv\hat{t_2'}\land M_2\sigma'' \equiv \hat{\sigma''}$.
+%
+% Since $M$ satisfies both $\phi_1$ and $\phi_2$,
+% we know that $t_1,M\sigma \hat{\stride} \hat{t_1'},\hat{\sigma'}$ and $t_2,M\sigma'\hat{\stride}\hat{t_2'},\hat{\sigma''}$,
+% $M t_1'\Or t_2'\equiv \hat{t_1'}\Or\hat{t_2'}$ and $M\sigma''\equiv \hat{\sigma''}$.
+
+}
+
 \end{proof}
 
 \begin{proof}[Soundness of evaluate]
