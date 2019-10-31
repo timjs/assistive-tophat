@@ -1,4 +1,4 @@
-% !TEX root=main.tex
+% !TEX root=../main.tex
 
 
 %% Language %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -63,5 +63,14 @@
     \Inputs(t_1 \Or t_2,\sigma)         &=& \set{\First\ i \mid i \in \Inputs(t_1,\sigma)} \cup \set{\Second\ i \mid i \in \Inputs(t_2,\sigma)} \\
     \Inputs(e_1 \Xor e_2,\sigma)        &=& \set{\Left \mid e_1, \sigma \normalise t_1, \sigma',\phi \land \lnot\Failing(t_1, s')} \cup\\
                                          && \set{\Right \mid e_2, \sigma \normalise t_2, \sigma',\phi \land \lnot\Failing(t_2, s')}
+  \end{function}
+}
+
+\newmacro{O-Hints}{
+  \begin{function}
+    \signature{\Hints : \id{Tasks} \times \id{States} \times (\id{Values}
+      \to \id{Booleans}) \to \powerset{\id{Inputs} \times \id{Predicates}}} \\
+    \Hints(t, \sigma, g)
+      &=& \set{ \tuple{i, \phi'} \mid t, \sigma \simulate \more{\tilde{v}, \tilde{i} :: I, \phi},\; \phi' = \phi \land g(v),\; \Sat(\phi')} \\
   \end{function}
 }

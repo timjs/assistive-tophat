@@ -1,4 +1,4 @@
-% !TEX root=main.tex
+% !TEX root=../main.tex
 
 
 
@@ -113,7 +113,8 @@
   {\;\downarrow\;}
 \newmathcommand{stride}[rel]
   % {\;\rightarrow\!\shortmid\;}
-  {\;\rightsquigarrow\;}
+  % {\;\rightsquigarrow\;}
+  {\;\dashrightarrow\;}
 \newmathcommand{normalise}[rel]
   {\;\Downarrow\;}
 \newmacro{handle}[1]
@@ -121,12 +122,25 @@
 \newmacro{drive}[1]
   {\mathrel{\;\xRightarrow{#1}\;}}
 
+\newmathcommand{symhandle}[rel]
+  {\;\leadsto\;}
+\newmathcommand{symdrive}[rel]
+  {\;\raisebox{-0.25ex}{$\leadsto$}\mathllap{\raisebox{+0.25ex}{$\leadsto$}}\;}
+\newmathcommand{simulate}[rel]
+  {\;\raisebox{-0.25ex}{$\leadsto$}\mathllap{\raisebox{+0.25ex}{$\leadsto$}}^*\;}
+  % {\;\raisebox{-0.4ex}{$\leadsto$}\mathllap{\raisebox{+0.4ex}{$\leadsto$}}\kern-0.4ex\circ
+  % \approx\!\!>\!\!\circ\;}
+  % {\;\bullet\!\!\!\Rightarrow\;\wr\!\!\!\Rightarrow\;}
+  % {\;\Longmapsto\;}
+  % {\;\wr\!\!\!\Rightarrow\;}
+
+\newmathcommand{Consistent}[rel]
+  {\leftrightarrows}
+
 \newmathcommand{Simulate}[it]
   {simulate}
 \newmathcommand{Evaluate}[it]
-    {evaluate}
-\newmathcommand{Firsts}[it]
-    {firsts}
+  {evaluate}
 \newmathcommand{Again}[it]
   {again}
 
@@ -146,8 +160,8 @@
   {U}
 \newmathcommand{Sat}[cal]
   {S}
-\newmathcommand{Consistent}[rel]
-  {\leftrightarrows}
+\newmathcommand{Hints}[cal]
+  {H}
 
 
 %% Proofs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
