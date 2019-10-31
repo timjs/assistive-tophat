@@ -3,7 +3,7 @@
 \section{Examples}
 \label{sec:examples}
 
-\subsection{Dining Philosophers Problem}
+\subsection{Dining Computer Scientists Problem}
 
 The dining philosophers problem is a classic concurrency problem in computer science.
 A number of philosophers sit at a round table with a meal in front of them.
@@ -11,49 +11,41 @@ In between the plates lies one fork.
 In order to eat their meal, each philosopher as to acquire both forks.
 This of course means that the philosophers cannot all eat at the same time, since there are not enough forks.
 
-\cref{lst:dining} lists an implementation in \TOPHAT for this problem, with three philosophers.
-\lstset{emph={}}
-\begin{TASK}[float=ht
-            ,numbers=right
-            ,caption=Dining Philosophers Problem with three philosophers
-            ,label=lst:dining
-            ]
-  let fork0 = Ref True in
-  let fork1 = Ref True in
-  let fork2 = Ref True in
+We look at dining computer scientists instead.
+Dining computer scientists have a choice to take either the left or the right fork, provided that the fork is available.
 
-  let philosopher = \ name. \ leftFork. \ rightFork.
-          if !leftFork
-             then edit leftFork := False >>? if !rightFork
-                                          then edit leftFork := True
-                                          else Fail
-             else Fail
-
-          <?>
-
-          if !rightFork
-             then edit rightFork := False >>? if !leftFork
-                                          then edit rightFork := True
-                                          else Fail
-             else Fail
-
-          in
-
-    philosopher "Alan Turing" fork0 fork1 <&>
-    philosopher "Grace Hopper" fork1 fork2 <&>
-    philosopher "Ada Lovelace" fork2 fork0
-
-    >>= \ _ . edit "Done"
-\end{TASK}
-
-The forks are represented by shares, containing a boolean.
-The value True indicates that the fork is available.
-
-Each philosopher takes as arguments the two forks that he or she can reach.
-They have a choice to take either the left or the right fork, provided that the fork is available.
+\cref{lst:dining} lists an implementation in \TOPHAT for this problem, with three computer scientists.
+The forks are represented by references containing Booleans.
+The value $\True$ indicates that the fork is available,
+$\False$ indicates that the fork is being used.
+Each computer scientist takes as arguments the two forks that he or she can reach.
 After that, they can press continue if the second fork is also available.
 For the sake of simplicity, they return the first fork, rather than setting the second fork to False, and then setting both to True again.
 
+\lstset{emph={}}
+\begin{TASK}[
+    float=ht,
+    numbers=right,
+    caption={Dining computer scientists problem with three computer scientists.},
+    label=lst:dining]
+  let fork0 = ref True in
+  let fork1 = ref True in
+  let fork2 = ref True in
+  let scientist = \ name. \ leftFork. \ rightFork.
+    if !leftFork
+      then leftFork := False >>? \ <<>>.
+        if !rightFork then leftFork := True else fail
+      else fail
+    <?>
+    if !rightFork
+      then rightFork := False >>? \ <<>>.
+        if !leftFork then rightFork := True else fail
+       else fail in
+  (scientist "Alan Turing" fork0 fork1 <&>
+  scientist "Grace Hopper" fork1 fork2 <&>
+  scientist "Ada Lovelace" fork2 fork0) >>= \ _ .
+    edit "Done"
+\end{TASK}
 
 \subsection{Tax subsidy request}
 
@@ -71,28 +63,21 @@ A subsidy is only given under the following conditions.
 The listing below gives the \TOPHAT code for this example.
 
 \lstset{emph={invoiceDate,today,confirmed,invoiceAmount,approved}}
-\begin{TASK}[float=ht
-            ,numbers=right
-            ,caption=Subsidy request and approval workflow at the Dutch tax office.
-            ,label=lst:tax
-            ]
+\begin{TASK}[
+    float=p,
+    numbers=right,
+    caption={Subsidy request and approval workflow at the Dutch tax office.},
+    label=lst:tax]
   let getCurrentDate = enter Date in
-
-    let provideDocuments = enter Amount <&> enter Date in
-
-      let companyConfirm = edit True <?> edit False in
-
-        let officerApprove = \ invoiceDate. \ today. \ confirmed.
-          edit False <?> if (today - invoiceDate < 365 /\ confirmed) |\label{lst:tax:officer-approve-def}| then edit True else fail in
-
-            getCurrentDate >>= \ today.|\label{lst:tax:citizen-info}|
-            provideDocuments <&> companyConfirm >>= |\label{lst:tax:documents-and-company-confirm}|
-              \ <<<<invoiceAmount, invoiceDate>>, confirmed>>.
-              officerApprove invoiceDate today confirmed >>= \ approved.|\label{lst:tax:officer-approve}|
-
-          let subsidyAmount = if approved then min 600 (invoiceAmount / 10) else 0 in
-
-            edit <<subsidyAmount, approved, confirmed, invoiceDate, today>>|\label{lst:tax:result}|
+  let provideDocuments = enter Amount <&> enter Date in
+  let companyConfirm = edit True <?> edit False in
+  let officerApprove = \ invoiceDate. \ today. \ confirmed.
+    edit False <?> if (today - invoiceDate < 365 /\ confirmed) |\label{lst:tax:officer-approve-def}| then edit True else fail in
+  getCurrentDate >>= \ today.|\label{lst:tax:citizen-info}|
+  provideDocuments <&> companyConfirm >>= \ <<<<invoiceAmount, invoiceDate>>, confirmed>>. |\label{lst:tax:documents-and-company-confirm}|
+  officerApprove invoiceDate today confirmed >>= \ approved.|\label{lst:tax:officer-approve}|
+  let subsidyAmount = if approved then min 600 (invoiceAmount / 10) else 0 in
+    edit <<subsidyAmount, approved, confirmed, invoiceDate, today>>|\label{lst:tax:result}|
 \end{TASK}
 
 In previous work, we have shown that this code indeed adheres to the requirements listed above.
@@ -103,42 +88,49 @@ The end user wants the outcome of this program to be a subsidy amount larger tha
 
 Running the simulation function will result in the following set:
 
-\begin{tabular}{l|l|l}
-  Symbolic value & Symbolic input & Path condition\\
-  \hline
-  $(min\ 600\ (s_{amount}/10),  \True, \True, s_i, s_t)$ & $[s_t,\Left \Left s_{amount}, \Left \Right s_i, \Right \Left, \Right]$ & $s_t-s_i<365$\\
-  $(min\ 600\ (s_{amount}/10),  \True, \True, s_i, s_t)$ & $[s_t,\Left \Right s_i, \Left \Left s_{amount}, \Right \Left, \Right]$ & $s_t-s_i<365$\\
-  $(min\ 600\ (s_{amount}/10),  \True, \True, s_i, s_t)$ & $[s_t,\Right \Left, \Left \Left s_{amount}, \Left \Right s_i, \Right]$ & $s_t-s_i<365$\\
-  $(min\ 600\ (s_{amount}/10),  \True, \True, s_i, s_t)$ & $[s_t,\Right \Left, \Left \Right s_i, \Left \Left s_{amount}, \Right]$ & $s_t-s_i<365$\\
-  $(min\ 600\ (s_{amount}/10),  \True, \True, s_i, s_t)$ & $[s_t,\Left \Right s_i, \Right \Left, \Left \Left s_{amount}, \Right]$ & $s_t-s_i<365$\\
-  $(min\ 600\ (s_{amount}/10),  \True, \True, s_i, s_t)$ & $[s_t,\Left \Left s_{amount}, \Right \Left, \Left \Right s_i, \Right]$ & $s_t-s_i<365$\\
-  $(                        0, \False, \True, s_i, s_t)$ & $[s_t,\Left \Left s_{amount}, \Left \Right s_i, \Right \Left, \Left]$  & $\True$\\
-  $(                        0, \False, \True, s_i, s_t)$ & $[s_t,\Left \Right s_i, \Left \Left s_{amount}, \Right \Left, \Left]$  & $\True$\\
-  $(                        0, \False, \True, s_i, s_t)$ & $[s_t,\Right \Left, \Left \Left s_{amount}, \Left \Right s_i, \Left]$  & $\True$\\
-  $(                        0, \False, \True, s_i, s_t)$ & $[s_t,\Right \Left, \Left \Right s_i, \Left \Left s_{amount}, \Left]$  & $\True$\\
-  $(                        0, \False, \True, s_i, s_t)$ & $[s_t,\Left \Right s_i, \Right \Left, \Left \Left s_{amount}, \Left]$  & $\True$\\
-  $(                        0, \False, \True, s_i, s_t)$ & $[s_t,\Left \Left s_{amount}, \Right \Left, \Left \Right s_i, \Left]$  & $\True$\\
-  $(                        0, \False,\False, s_i, s_t)$ & $[s_t,\Left \Left s_{amount}, \Left \Right s_i, \Right\Right, \Left]$  & $\True$\\
-  $(                        0, \False,\False, s_i, s_t)$ & $[s_t,\Left \Right s_i, \Left \Left s_{amount}, \Right\Right, \Left]$  & $\True$\\
-  $(                        0, \False,\False, s_i, s_t)$ & $[s_t,\Right \Right,\Left \Left s_{amount}, \Left \Right s_i, \Left]$  & $\True$\\
-  $(                        0, \False,\False, s_i, s_t)$ & $[s_t,\Right\Right, \Left \Right s_i, \Left \Left s_{amount}, \Left]$  & $\True$\\
-  $(                        0, \False,\False, s_i, s_t)$ & $[s_t,\Left \Right s_i, \Right\Right, \Left \Left s_{amount}, \Left]$  & $\True$\\
-  $(                        0, \False,\False, s_i, s_t)$ & $[s_t,\Left \Left s_{amount}, \Right\Right, \Left \Right s_i, \Left]$  & $\True$
-\end{tabular}
-
+\begin{table}[p]
+  \centering
+  \begin{tabular}{LLL}
+    \toprule
+    \text{Symbolic value} & \text{Symbolic input} & \text{Path condition} \\
+    \midrule
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second \First, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second \First, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \First, \First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \First, \First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \Second \First, \First \First s_{\id{a}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \Second \First, \First \Second s_{\id{i}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second \First, \First]  & \True \\
+    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second \First, \First]  & \True \\
+    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \First, \First \First s_{\id{a}}, \First \Second s_{\id{i}}, \First]  & \True \\
+    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \First, \First \Second s_{\id{i}}, \First \First s_{\id{a}}, \First]  & \True \\
+    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \Second \First, \First \First s_{\id{a}}, \First]  & \True \\
+    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \Second \First, \First \Second s_{\id{i}}, \First]  & \True \\
+    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second, \First]  & \True \\
+    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second, \First]  & \True \\
+    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \Second,\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \First]  & \True \\
+    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second, \First \Second s_{\id{i}}, \First \First s_{\id{a}}, \First]  & \True \\
+    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \Second, \First \First s_{\id{a}}, \First]  & \True \\
+    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \Second, \First \Second s_{\id{i}}, \First]  & \True \\
+    \bottomrule
+  \end{tabular}
+  \begin{tabular}{LLL}
+    \toprule
+    \text{Symbolic value} & \text{Symbolic input} & \text{Path condition} \\
+    \midrule
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second \First, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second \First, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \First, \First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \First, \First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \Second \First, \First \First s_{\id{a}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \Second \First, \First \Second s_{\id{i}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \bottomrule
+  \end{tabular}
+  \caption{}
+  \label{}
+\end{table}
 
 As a goal we set that the subsidy amount should be larger than zero. This leaves us with the following cases.
-
-\begin{tabular}{l|l|l}
-  Symbolic value & Symbolic input & Path condition\\
-  \hline
-  $(min\ 600\ (s_{amount}/10),  \True, \True, s_i, s_t)$ & $[s_t,\Left \Left s_{amount}, \Left \Right s_i, \Right \Left, \Right]$ & $s_t-s_i<365$\\
-  $(min\ 600\ (s_{amount}/10),  \True, \True, s_i, s_t)$ & $[s_t,\Left \Right s_i, \Left \Left s_{amount}, \Right \Left, \Right]$ & $s_t-s_i<365$\\
-  $(min\ 600\ (s_{amount}/10),  \True, \True, s_i, s_t)$ & $[s_t,\Right \Left, \Left \Left s_{amount}, \Left \Right s_i, \Right]$ & $s_t-s_i<365$\\
-  $(min\ 600\ (s_{amount}/10),  \True, \True, s_i, s_t)$ & $[s_t,\Right \Left, \Left \Right s_i, \Left \Left s_{amount}, \Right]$ & $s_t-s_i<365$\\
-  $(min\ 600\ (s_{amount}/10),  \True, \True, s_i, s_t)$ & $[s_t,\Left \Right s_i, \Right \Left, \Left \Left s_{amount}, \Right]$ & $s_t-s_i<365$\\
-  $(min\ 600\ (s_{amount}/10),  \True, \True, s_i, s_t)$ & $[s_t,\Left \Left s_{amount}, \Right \Left, \Left \Right s_i, \Right]$ & $s_t-s_i<365$
-\end{tabular}
 
 From the end states we can conclude that invoiceAmount should be larger than zero in order for the result to be larger than zero. This results in an additional constraint.
 
