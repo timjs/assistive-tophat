@@ -7,94 +7,37 @@ A symbolic execution semantics aims to execute a program without knowing its inp
 Instead, symbols are fed into the program, and path conditions are recorded.
 
 Consider the tiny example below.
-
 \begin{TASK}
-  $\lambda x,y \rightarrow \If{x>y}{(y,x)}{(x,y)}$
+  \ <<x,y>>. if x > y then <<y, x>> else <<x, y>>
 \end{TASK}
 
 This program takes two values and returns a pair, where the second element is larger than the first.
-When we run this program symbolically, we have to enter two symbols for $x$ and $y$, say $s0$ and $s1$ respectively.
-There are two possible outcomes, namely\\
-$(s1,s0)$, provided that $s0<s1$ and\\
-$(s0,s1)$, provided that $s0\geq s1$
+When we run this program symbolically, we have to enter two symbols for $x$ and $y$, say $s_0$ and $s_1$ respectively.
+There are two possible outcomes, namely
+$\tuple{s_1,s_0}$, provided that $s_0 < s_1$, or
+$\tuple{s_0,s_1}$, provided that $s_0 \geq s_1$.
 
-Now, the property that we want to prove for this program is that no matter what the input is, the second element should always be larger than the first.
-
-$\psi(a,b)=b\geq a$
-
-Looking at the two symolic runs, we can immediately conclude that the property holds.
+Now, the property that we want to prove for this program is that no matter what the input is, the second element should always be larger than the first, which we write as $\psi(a,b)= b \geq a$.
+Looking at the two symbolic runs, we can immediately conclude that this property.
 Of course this is a trivial example, one can conclude or even prove that the property holds without symbolic execution.
 But when applying this technique to larger programs, it is a powerful tool to show that a program behaves as expected.
 \cref{sec:examples} illustrates this by applying symbolic execution to a larger example.
 
 
-
-
-
-
 \subsection{Symbolic TopHat}
-
 
 For symbolic \TOPHAT, we extend the task language, states and input with symbols.
 The semantics mentioned in \cref{sec:tophat} also need to be extended to support symbols.
 The same holds for the observation functions.
 
-$t\subset \tilde{t}$
-$\sigma \subset \tilde{\sigma}$
-$i\subset \tilde{i}$
-
-
-
-% \begin{figure*}[t]
-%   \begin{function}
-%   \signature{\Simulate : \mathrm{Tasks} \times \mathrm{States} \times [\mathrm{Inputs}]  \times \mathrm{Predicates}
-%     \rightarrow \powerset{\mathrm{Values} \times [\mathrm{Inputs}] \times \mathrm{Predicates}}} \\
-%   \Simulate\ (t, \sigma, I, \phi) &=&\left\{
-%     \begin{array}{lr}
-%       \set{(v,I,\phi)}                                                                     & \Value(t,\sigma)=v\\
-%        \bigcup \set{ \Simulate'\ (\True, t, t', \sigma', I\oplus[i'], \phi\land\phi') \mid t, \sigma \drive{} t', \sigma', i', \phi' }                                                                &  \Value(t,\sigma)=\bot
-%     \end{array}
-%   \right.
-%     \\
-%   \end{function}
-%   \begin{function}
-%   \signature{\Simulate' : \mathrm{Booleans} \times \mathrm{Tasks} \times \mathrm{Tasks} \times \mathrm{States} \times [\mathrm{Inputs}] \times \mathrm{Predicates}
-%     \rightarrow \powerset{\mathrm{Values} \times [\mathrm{Inputs}] \times \mathrm{Predicates}}} \\
-%   \Simulate'\ (\Again, t, t', \sigma', I, \phi) &=& \\
-%     \multicolumn{3}{L}{ \left\{
-%       \begin{array}{lr@{\ }c@{\ }l@{\ }c@{\ }l@{\ }c@{\ }r}
-%         \nothing                                                                                    & \neg\Sat(\phi) &&&&&&\\
-%         \set{(v, I, \phi)}                                                                & \Sat(\phi)     &\land& \Value(t',\sigma') = v &&&& \\
-%         \Simulate\ (t', \sigma', I, \phi)                                                           & \Sat(\phi)     &\land& \Value(t',\sigma') = \bot &\land& t' \neq t &&\\
-%         \bigcup \set{\Simulate'\ (\False, t', t'', \sigma'', I\oplus[i'], \phi\land\phi')
-%           \mid  t',\sigma' \drive{} t'', \sigma'', i', \phi'}                                       & \Sat(\phi)     &\land& \Value(t',\sigma') = \bot &\land& t' = t    &\land& \Again\\
-%         \nothing                                                                                    & \Sat(\phi)     &\land& \Value(t',\sigma') = \bot &\land& t' = t    &\land& \neg\Again
-%       \end{array}
-%       \right.}
-% \end{function}
-%   \caption{Simulation function definition.}
-%   \label{fig:simulate}
-% \end{figure*}
-%
-%
-% \begin{figure*}[t]
-%   \begin{function}
-%   \signature{\Simulate : \mathrm{Tasks} \times \mathrm{States} \times [\mathrm{Inputs}]  \times \mathrm{Predicates}
-%     \rightarrow \powerset{\mathrm{Values} \times [\mathrm{Inputs}] \times \mathrm{Predicates}}} \\
-%   \Simulate\ (t, \sigma) &=&\left\{
-%     \begin{array}{lr}
-%       \set{(v,I,\Phi)}                                                                     & t,\sigma\drive{}^* \overline{v,I,\Phi}\\
-%        \bot                                                                &  \text{otherwise}
-%     \end{array}
-%   \right.
-%     \\
-%   \end{function}
-%   \caption{Naive Simulation function definition.}
-%   \label{fig:naivesimulate}
-% \end{figure*}
-
+\todo{Say something about inclusion:
+  $t\subset \tilde{t}$
+  $\sigma \subset \tilde{\sigma}$
+  $i\subset \tilde{i}$
+}
 
 \begin{definition}[Simulation]
+  \todo{Improve definition.}
   $t,\sigma\drive{}^* \overline{\tilde{v},\tilde{I},\tilde{\Phi}}$
 \begin{align*}
   t,\sigma             & \drive{} & \overline{\tilde{t}_1,\tilde{\sigma}_1,\tilde{i}_1,\phi_1}\\
@@ -109,8 +52,7 @@ $\Phi = \phi_1\land\cdots\land\phi_n$\\
 $\Sat(\Phi)$
 \end{definition}
 
-\fixme{NOTE: this is a DIFFERENT simulation definition than what is used in the previous paper.}
-
+\todo{Tell that this is a DIFFERENT simulation definition than what is used in the previous paper.}
 
 \begin{figure}[ht]
   \small
