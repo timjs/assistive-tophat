@@ -7,53 +7,6 @@ This section briefly introduces the task-oriented programming paradigm \TOP,
 followed by a description of the task-oriented programming language \TOPHAT.
 
 
-\subsection{Top}
-
-Task Oriented Programming (\TOP) is a \fixme{reasonably} new programming paradigm, first introduced by Plasmeijer et al.~\cite{DBLP:conf/ppdp/PlasmeijerLMAK12}.
-It was created in order to improve the way software that models collaboration is developed.
-The aim of the paradigm is to provide programmers with a very high level of abstraction while still being expressive enough to describe real world collaboration.
-Since the idea was introduced, a lot of research as been done on \TOP, but the basic principle has remained the same.
-Programmers describe what work needs to be done in what way, by writing so-called tasks.
-From the task specifications, the entire application is generated.
-
-\todo{Explain interactive at the core.}
-\todo{Explain goal to support collaboration when executing workflows.}
-
-Tasks consist of the following components.
-
-
-\subsubsection{Editors}
-
-  These form the entry points for interaction and communication with the outside world.
-
-  Editors are the most basic tasks.
-  Editors are an abstraction over widgets in a \GUI library or on webpage forms.
-  Users can change the value held by an editor, in the same way they can manipulate widgets in a \GUI.
-
-  When a \TOP implementation generates an application from a task specification, it derives user interfaces for the editors.
-  The appearance of an editor is influenced by its type.
-  For example, an editor for a string can be represented by a simple input field, a date by a calendar, and a location by a pin on a map.
-
-
-\subsubsection{Combinators}
-
-  Editors can be combined into larger tasks using combinators.
-  The order in which editors and tasks are executed is specified with combinators. Tasks can be performed in sequence, in parallel or a choice can be made between tasks.
-
-
-\subsubsection{Shared data}
-
- Tasks communicate with each other by passing data along control flow, or via globally shared data stores.
-
-\todo{Describe value passing: sequential and through shares.}
-
-
-% \TOP implementations like iTasks~\cite{????} also leverage aspects of the host language in order to allow for a higher level of abstraction,
-% such as generic programming and higher order tasks. \todo{is dit wel of niet top?}
-%
-%
-% The next section describes the formal \TOP implementation \TOPHAT.
-
 
 \subsection{TopHat}
 

@@ -1,0 +1,76 @@
+% !TEX root=../main.tex
+
+\section{Task-Oriented Programming}
+\label{sec:top}
+
+Task-Oriented Programming (\TOP) is a paradigm first introduced by Plasmeijer et al.~\cite{DBLP:conf/ppdp/PlasmeijerLMAK12}.
+It was created to improve the development of software that models collaboration.
+\TOP provides programmers with a high level of programming abstraction,
+while being expressive enough to describe real world collaborations.
+It does so by using features from higher-order functional programming languages,
+combined with the notion of \emph{tasks}.
+
+\todo{Explain interactive at the core.}
+\todo{Explain goal to support collaboration when executing workflows.}
+Tasks model \emph{units of work}, which can be performed by a human or by a computer.
+To support users during their work, tasks should be \emph{interactive}.
+That is, users can enter or update information into the system by using \emph{editors}.
+They can be \emph{observed}, so that other users or the system itself can make decisions based on the progress of the task.
+Tasks can be combined into bigger tasks by using \emph{combinators}.
+Basic combinators are chosen in such a way, that they represent a way of collaboration between users.
+New combinators can be created by making use of basic combinators and the higher order facilities of the host language.
+
+Tasks are typed.
+Not only to ensure safety at runtime,
+but also to automatically derive common program elements.
+\TOP systems automatically generate user interfaces and manage persistent storage of information.
+Programmers describe what work needs to be done in what way.
+From this specification, a \TOP implementation generates a multi-user (web) application.
+
+\todo{citations}
+Currently, there are three systems implementing the ideas of \TOP.
+The defacto standard is the \ITASKS framework,
+which is an embedded domain specific language in the non-strict functional programming language Clean.
+\MTASKS is a \TOP implementation specifically designed for embedded systems.
+Steenvoorden, Naus, and Klinik created a formalisation of \TOP in \cite{},
+called \TOPHAT.
+This work builds further on \TOPHAT and \STOPHAT.
+
+Since the idea was introduced, a lot of research as been done on \TOP.
+However, the basic principle remain the same.
+In the next subsections we describe the basic elements of every \TOP program.
+
+
+\subsection{Editors}
+
+Editors form the entry points for interaction and communication with the outside world.
+
+Editors are the most basic tasks.
+They can be seen as an abstraction over widgets in a \GUI library or on webpage forms.
+Users can change the value held by an editor, in the same way they can manipulate widgets in a \GUI.
+
+When a \TOP implementation generates an application from a task specification, it derives user interfaces for the editors.
+The appearance of an editor is influenced by its type.
+For example, an editor for a string can be represented by a simple input field, a date by a calendar, and a location by a pin on a map.
+
+
+\subsection{Collaboration}
+
+Editors can be combined into larger tasks using combinators.
+The order in which editors and tasks are executed is specified with combinators. Tasks can be performed in sequence, in parallel or a choice can be made between tasks.
+
+
+\subsection{Data}
+
+Tasks communicate with each other by passing data along control flow, or via globally shared data stores.
+
+\todo{Describe value passing: sequential and through shares.}
+
+
+
+
+% \TOP implementations like iTasks~\cite{????} also leverage aspects of the host language in order to allow for a higher level of abstraction,
+% such as generic programming and higher order tasks. \todo{is dit wel of niet top?}
+%
+%
+% The next section describes the formal \TOP implementation \TOPHAT.
