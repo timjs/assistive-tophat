@@ -71,6 +71,6 @@
     \signature{\Hints : \id{Tasks} \times \id{States} \times (\id{Values}
       \to \id{Booleans}) \to \powerset{\id{Inputs} \times \id{Predicates}}} \\
     \Hints(t, \sigma, g)
-      &=& \set{ \tuple{i, \phi'} \mid t, \sigma \simulate \more{\tilde{v}, \tilde{i} :: I, \phi},\; \phi' = \phi \land g(v),\; \Sat(\phi')} \\
+      &=& \set{ \tuple{i, \phi'} \mid t, \sigma \simulate \more{\tilde{v}, \tilde{\imath} :: I, \phi},\; \phi' = \phi \land g(v),\; \Sat(\phi')} \\
   \end{function}
 }

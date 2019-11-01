@@ -227,7 +227,7 @@
 
 
 \newmacro{RelationSH}
-  {\tilde{t},\tilde{\sigma} \handle{} \overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi}}
+  {\tilde{t},\tilde{\sigma} \handle{} \overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}}
 
 
 \newrule{SH-Change}
@@ -251,36 +251,36 @@
   [\sigma(l),s:\tau]
 
 \newrule{SH-PassThen}
-  {\tilde{t}_1,\tilde{\sigma} \handle{} \overline{\tilde{t}_1',\tilde{\sigma}',\tilde{i},\phi}}
-  {\tilde{t}_1 \Then \tilde{e}_2,\tilde{\sigma} \handle{} \overline{\tilde{t}_1' \Then \tilde{e}_2,\tilde{\sigma}',\tilde{i},\phi}}
+  {\tilde{t}_1,\tilde{\sigma} \handle{} \overline{\tilde{t}_1',\tilde{\sigma}',\tilde{\imath},\phi}}
+  {\tilde{t}_1 \Then \tilde{e}_2,\tilde{\sigma} \handle{} \overline{\tilde{t}_1' \Then \tilde{e}_2,\tilde{\sigma}',\tilde{\imath},\phi}}
 
 \newrule{SH-PassNext}
-  {\tilde{t}_1,\tilde{\sigma} \handle{} \overline{\tilde{t}_1',\tilde{\sigma}',\tilde{i},\phi}}
-  {\tilde{t}_1 \Next \tilde{e}_2,\tilde{\sigma} \handle{} \overline{\tilde{t}_1' \Next \tilde{e}_2,\tilde{\sigma}',\tilde{i},\phi}}
+  {\tilde{t}_1,\tilde{\sigma} \handle{} \overline{\tilde{t}_1',\tilde{\sigma}',\tilde{\imath},\phi}}
+  {\tilde{t}_1 \Next \tilde{e}_2,\tilde{\sigma} \handle{} \overline{\tilde{t}_1' \Next \tilde{e}_2,\tilde{\sigma}',\tilde{\imath},\phi}}
   [\Value{(\tilde{t}_1,\tilde{\sigma})} = \bot]
 
 \newrule{SH-PassNextFail}
-  {\tilde{t}_1,\tilde{\sigma} \handle{} \overline{\tilde{t}_1',\tilde{\sigma}_1',\tilde{i},\phi} \Quad
+  {\tilde{t}_1,\tilde{\sigma} \handle{} \overline{\tilde{t}_1',\tilde{\sigma}_1',\tilde{\imath},\phi} \Quad
   \tilde{e}_2\ \tilde{v}_1,\tilde{\sigma} \tilde{\normalise} \overline{\tilde{t}_2,\tilde{\sigma}_2',{\vphantom{i}\_}}}
-  {\tilde{t}_1 \Next \tilde{e}_2,\tilde{\sigma} \handle{} \overline{\tilde{t}_1' \Next \tilde{e}_2,\tilde{\sigma}_1',\tilde{i},\phi}}
+  {\tilde{t}_1 \Next \tilde{e}_2,\tilde{\sigma} \handle{} \overline{\tilde{t}_1' \Next \tilde{e}_2,\tilde{\sigma}_1',\tilde{\imath},\phi}}
   [\Value{(\tilde{t}_1,\tilde{\sigma})} = \tilde{v}_1 \land \Failing{(\tilde{t}_2,\tilde{\sigma}_2')}]
 
 \newrule{SH-Next}
-  {\tilde{t}_1,\tilde{\sigma} \handle{} \overline{\tilde{t}_1',\tilde{\sigma}_1',\tilde{i},\phi_1} \Quad
+  {\tilde{t}_1,\tilde{\sigma} \handle{} \overline{\tilde{t}_1',\tilde{\sigma}_1',\tilde{\imath},\phi_1} \Quad
   \tilde{e}_2\ \tilde{v}_1,\tilde{\sigma} \tilde{\normalise} \overline{\tilde{t}_2,\tilde{\sigma}_2',\phi_2}}
-  {\tilde{t}_1 \Next \tilde{e}_2,\tilde{\sigma} \handle{} {\overline{\tilde{t}_1' \Next \tilde{e}_2,\tilde{\sigma}_1',\tilde{i},\phi_1}\cup\overline{\tilde{t}_2,\tilde{\sigma}_2',\Continue,\phi_2}}}
+  {\tilde{t}_1 \Next \tilde{e}_2,\tilde{\sigma} \handle{} {\overline{\tilde{t}_1' \Next \tilde{e}_2,\tilde{\sigma}_1',\tilde{\imath},\phi_1}\cup\overline{\tilde{t}_2,\tilde{\sigma}_2',\Continue,\phi_2}}}
   [\Value{(\tilde{t}_1,\tilde{\sigma})} = \tilde{v}_1 \land \neg\Failing{(\tilde{t}_2,\tilde{\sigma}')}]
 
 
 \newrule{SH-And}
-  {\tilde{t}_1,\tilde{\sigma} \handle{} \overline{\tilde{t}_1',\tilde{\sigma}_1',\tilde{i}_1,\phi_1} \Quad
-   \tilde{t}_2,\tilde{\sigma} \handle{} \overline{\tilde{t}_2',\tilde{\sigma}_2',\tilde{i}_2,\phi_2}}
-  {\tilde{t}_1 \And \tilde{t}_2,\tilde{\sigma} \handle{} {\overline{\tilde{t}_1' \And \tilde{t}_2,\tilde{\sigma}_1',\First \tilde{i}_1,\phi_1}\cup \overline{\tilde{t}_1 \And \tilde{t}_2',\tilde{\sigma}_2'',\Second \tilde{i}_2,\phi_2}}}
+  {\tilde{t}_1,\tilde{\sigma} \handle{} \overline{\tilde{t}_1',\tilde{\sigma}_1',\tilde{\imath}_1,\phi_1} \Quad
+   \tilde{t}_2,\tilde{\sigma} \handle{} \overline{\tilde{t}_2',\tilde{\sigma}_2',\tilde{\imath}_2,\phi_2}}
+  {\tilde{t}_1 \And \tilde{t}_2,\tilde{\sigma} \handle{} {\overline{\tilde{t}_1' \And \tilde{t}_2,\tilde{\sigma}_1',\First \tilde{\imath}_1,\phi_1}\cup \overline{\tilde{t}_1 \And \tilde{t}_2',\tilde{\sigma}_2'',\Second \tilde{\imath}_2,\phi_2}}}
 
 \newrule{SH-Or}
-  {\tilde{t}_1,\tilde{\sigma} \handle{} \overline{\tilde{t}_1',\tilde{\sigma}_1',\tilde{i}_1,\phi_1}\Quad
-  \tilde{t}_2,\tilde{\sigma} \handle{} \overline{\tilde{t}_2',\tilde{\sigma}_2',\tilde{i}_2,\phi_2}}
-  {\tilde{t}_1 \Or \tilde{t}_2,\tilde{\sigma} \handle{} {\overline{\tilde{t}_1' \Or \tilde{t}_2,\tilde{\sigma}_1',\First \tilde{i}_1,\phi_1}\cup\overline{\tilde{t}_1 \Or \tilde{t}_2',\tilde{\sigma}_2',\Second \tilde{i}_2,\phi_2}}}
+  {\tilde{t}_1,\tilde{\sigma} \handle{} \overline{\tilde{t}_1',\tilde{\sigma}_1',\tilde{\imath}_1,\phi_1}\Quad
+  \tilde{t}_2,\tilde{\sigma} \handle{} \overline{\tilde{t}_2',\tilde{\sigma}_2',\tilde{\imath}_2,\phi_2}}
+  {\tilde{t}_1 \Or \tilde{t}_2,\tilde{\sigma} \handle{} {\overline{\tilde{t}_1' \Or \tilde{t}_2,\tilde{\sigma}_1',\First \tilde{\imath}_1,\phi_1}\cup\overline{\tilde{t}_1 \Or \tilde{t}_2',\tilde{\sigma}_2',\Second \tilde{\imath}_2,\phi_2}}}
 
 
 \newrule{SH-PickLeft}
@@ -306,17 +306,17 @@
 
 
 \newmacro{RelationSI}
-  {\tilde{t},\tilde{\sigma} \drive{} \overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi}}
+  {\tilde{t},\tilde{\sigma} \drive{} \overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}}
 
 
 \newrule{SI-Handle}
-  {\tilde{t},\tilde{\sigma} \handle{} \overline{\tilde{t}',\tilde{\sigma}',{\tilde{i},\phi_1}} \Quad
+  {\tilde{t},\tilde{\sigma} \handle{} \overline{\tilde{t}',\tilde{\sigma}',{\tilde{\imath},\phi_1}} \Quad
    \tilde{t}',\tilde{\sigma}' \tilde{\normalise} \overline{\tilde{t}'',\tilde{\sigma}'',\phi_2}}
-  {\tilde{t},\tilde{\sigma} \drive{} \overline{\tilde{t}'',\tilde{\sigma}'',\tilde{i},\phi_1 \land \phi_2}}
+  {\tilde{t},\tilde{\sigma} \drive{} \overline{\tilde{t}'',\tilde{\sigma}'',\tilde{\imath},\phi_1 \land \phi_2}}
 
 %% Firsts %%
 
 \newrule{R-Firsts}
-  {t,\sigma\drive{}^*\overline{\tilde{v},\tilde{i}:\tilde{is},\Phi}}
-  {\Firsts(t,\sigma,g) = \overline{\tilde{i},\Phi\land g \tilde{v}}}
+  {t,\sigma\drive{}^*\overline{\tilde{v},\tilde{\imath}:\tilde{is},\Phi}}
+  {\Firsts(t,\sigma,g) = \overline{\tilde{\imath},\Phi\land g \tilde{v}}}
   [\Sat(\Phi\land g\tilde{v})]

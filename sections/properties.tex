@@ -37,16 +37,16 @@ We separate this property into two parts.
   \label{lem:soundfirsts}
 
 For all tasks $t$, states $\sigma$ and goals $g$,
-for every next step hint $(\tilde{i},\Phi)$ in $\Hints(t,\sigma,g)$,
-there exists a sequence of inputs $I$ and input $i$ such that $\tilde{i}\sim i$,
+for every next step hint $(\tilde{\imath},\Phi)$ in $\Hints(t,\sigma,g)$,
+there exists a sequence of inputs $I$ and input $i$ such that $\tilde{\imath}\sim i$,
 $\Sat([s\mapsto c]\Phi)$, $t,\sigma\drive{i} t',\sigma'\drive{I}^* v$ and $gv$.
 \end{lemma}
 
 \begin{proof}
   \cref{lem:soundfirsts} follows from the premise of \refrule{R-Hints} and \cref{lem:soundsimulate} as follows.
 
-  The premise of \refrule{R-Hints} gives us that for every pair $\tilde{i},\Phi)$ produced by $\Hints$,
-  there exists a pair $(\tilde{v},\tilde{i}:\tilde{is},\Phi)$ with $\Sat(\Phi\land g \tilde{v})$.
+  The premise of \refrule{R-Hints} gives us that for every pair $\tilde{\imath},\Phi)$ produced by $\Hints$,
+  there exists a pair $(\tilde{v},\tilde{\imath}:\tilde{is},\Phi)$ with $\Sat(\Phi\land g \tilde{v})$.
   Then by \cref{lem:soundsimulate} we have that there exists a sequence of concrete inputs $I$ such that
   $t,\sigma\drive{I}^*v$ and $g v$.
 \end{proof}
@@ -54,16 +54,16 @@ $\Sat([s\mapsto c]\Phi)$, $t,\sigma\drive{i} t',\sigma'\drive{I}^* v$ and $gv$.
 \begin{lemma}[Completeness of firsts]
   \label{lem:completefirsts}
   For all tasks $t$, states $\sigma$, lists of input $(i:is)$ and goals $g$,
-  if $t,\sigma,\drive{i:is}^*v$ and $g v$, then there exists a symbolic input $\tilde{i}$ and path condition $\Phi$
-  such that $(\tilde{i},\Phi)\in\Hints(t,\sigma)$ with $\tilde{i}\sim i$ and $\Sat([s\mapsto c]\Phi)$ with $c\in i$ and $s\in i$.
+  if $t,\sigma,\drive{i:is}^*v$ and $g v$, then there exists a symbolic input $\tilde{\imath}$ and path condition $\Phi$
+  such that $(\tilde{\imath},\Phi)\in\Hints(t,\sigma)$ with $\tilde{\imath}\sim i$ and $\Sat([s\mapsto c]\Phi)$ with $c\in i$ and $s\in i$.
 \end{lemma}
 
 \begin{proof}
   In order to prove that $i$ is contained in $\Hints(t,\sigma)$, we need to show that the premise of \refrule{R-Hints} holds.
 
-  This means showing that $(\tilde{v},\tilde{i}:\tilde{is},\Phi)\in t,\sigma\drive{}^*$, with $\tilde{i}\sim i$ and $\Sat([s_0\mapsto c_0,\cdots,s_n\mapsto c_n]\land g\tilde{v})$, where $[c_0,\cdots,c_n]\in i:is$ and $[s_0,\cdots,s_n]\in \tilde{i}:\tilde{is}$.
+  This means showing that $(\tilde{v},\tilde{\imath}:\tilde{is},\Phi)\in t,\sigma\drive{}^*$, with $\tilde{\imath}\sim i$ and $\Sat([s_0\mapsto c_0,\cdots,s_n\mapsto c_n]\land g\tilde{v})$, where $[c_0,\cdots,c_n]\in i:is$ and $[s_0,\cdots,s_n]\in \tilde{\imath}:\tilde{is}$.
 
-  By \cref{lem:completesimulate}, we directly obtain that this indeed exists. Therefore we know that $\tilde{i}$ and $\Phi$ exist.
+  By \cref{lem:completesimulate}, we directly obtain that this indeed exists. Therefore we know that $\tilde{\imath}$ and $\Phi$ exist.
 \end{proof}
 
 
@@ -73,7 +73,7 @@ Since the $\Hints$ function relies on the $\Simulate$ function, we can make use 
   \label{lem:soundsimulate}
   For all tasks $t$ and states $\sigma$
   such that $t,\sigma\drive{}^*\overline{\tilde{v},\tilde{I},\Phi}$
-  then for all results $(\tilde{v},\tilde{I}=[\tilde{i}_0,\cdots,\tilde{i}_n],\Phi)$
+  then for all results $(\tilde{v},\tilde{I}=[\tilde{\imath}_0,\cdots,\tilde{\imath}_n],\Phi)$
   there exists a concrete input $I$ with the same length as the symbolic input $\tilde{I}$
   such that $t,\sigma\drive{I}^*v$
   with $[s_i\mapsto c_i]\tilde{v}=v$ and $[s_i\mapsto c_i]\Phi$
@@ -87,11 +87,11 @@ Since the $\Hints$ function relies on the $\Simulate$ function, we can make use 
   By definition of simulation $(\drive{}^*)$, we know that for each tuple $(\tilde{v},\tilde{I},\Phi)$,
   the following sequence of symbolic drive steps has occurred.
   \begin{align*}
-      t,\sigma\drive{}&\tilde{t}_1,\tilde{\sigma}_1,\tilde{i}_1,\phi_1&\\
-                      &\tilde{t}_1,\tilde{\sigma}_1\drive{}&\tilde{t}_2,\tilde{\sigma}_2,\tilde{i}_2,\phi_2\\
+      t,\sigma\drive{}&\tilde{t}_1,\tilde{\sigma}_1,\tilde{\imath}_1,\phi_1&\\
+                      &\tilde{t}_1,\tilde{\sigma}_1\drive{}&\tilde{t}_2,\tilde{\sigma}_2,\tilde{\imath}_2,\phi_2\\
                       &                                    &\tilde{t}_2,\tilde{\sigma}_2\drive{}&\cdots&\\
                       &                                    &                                    &\cdots&
-                      \drive{}\tilde{t}_n,\tilde{\sigma}_n,\tilde{i}_n,\phi_n
+                      \drive{}\tilde{t}_n,\tilde{\sigma}_n,\tilde{\imath}_n,\phi_n
   \end{align*}
 
   with $\Value(\tilde{t}_n,\tilde{\sigma}_n)=\tilde{v}$ and $\Sat(\phi_1\land\cdots\land\phi_n)$.
@@ -101,7 +101,7 @@ Since the $\Hints$ function relies on the $\Simulate$ function, we can make use 
   $t,\sigma\drive{i_1}t_1,\sigma_1\drive{i_2}t_2,\sigma_2\drive{i_3}\cdots \drive{i_n}t_n,\sigma_n$ with $\Value(t_n,\sigma_n)$.
 
   By \cref{lem:sounddriving}, we know that $t,\sigma\drive{i_1}t_1,\sigma_1$ exists, since $t,\sigma\Consistent_{\emptyset}t,\sigma,\True$.
-  This also gives us that $\tilde{i_1}\sim i_1$, and $t_1,\sigma_1\Consistent_{[s_1\mapsto c_1]}\tilde{t}_1,\tilde{\sigma}_1,\phi_1$ with $s_1\in\tilde{i}_1$ and $c_1\in i_1$.
+  This also gives us that $\tilde{i_1}\sim i_1$, and $t_1,\sigma_1\Consistent_{[s_1\mapsto c_1]}\tilde{t}_1,\tilde{\sigma}_1,\phi_1$ with $s_1\in\tilde{\imath}_1$ and $c_1\in i_1$.
 
   By repeatedly applying \cref{lem:sounddriving}, until we arrive at $\tilde{t}_n,\sigma{t}_n$,
   we can show that there indeed exists an $I$ such that $t,\sigma\drive{I}^*v$ with $[s_1\mapsto c_1,\cdots,s_n\mapsto c_n]\tilde{v}=v$
@@ -131,22 +131,22 @@ Since the $\Hints$ function relies on the $\Simulate$ function, we can make use 
   which is defined as follows.
 
   \begin{align*}
-      t,\sigma\drive{}&\tilde{t}_1,\tilde{\sigma}_1,\tilde{i}_1,\phi_1&\\
-                      &\tilde{t}_1,\tilde{\sigma}_1\drive{}&\tilde{t}_2,\tilde{\sigma}_2,\tilde{i}_2,\phi_2\\
+      t,\sigma\drive{}&\tilde{t}_1,\tilde{\sigma}_1,\tilde{\imath}_1,\phi_1&\\
+                      &\tilde{t}_1,\tilde{\sigma}_1\drive{}&\tilde{t}_2,\tilde{\sigma}_2,\tilde{\imath}_2,\phi_2\\
                       &                                    &\tilde{t}_2,\tilde{\sigma}_2\drive{}&\cdots&\\
                       &                                    &                                    &\cdots&
-                      \drive{}\tilde{t}_n,\tilde{\sigma}_n,\tilde{i}_n,\phi_n
+                      \drive{}\tilde{t}_n,\tilde{\sigma}_n,\tilde{\imath}_n,\phi_n
   \end{align*}
 
   with $\Value(\tilde{t}_n,\tilde{\sigma}_n)=\tilde{v}$ and $\Sat(\phi_1\land\cdots\land\phi_n)$.
 
-  By \cref{lem:completedriving}, we know that $t,\sigma\drive{}\tilde{t}_1,\tilde{\sigma}_1,\tilde{i}_1,\phi_1$ exists,
+  By \cref{lem:completedriving}, we know that $t,\sigma\drive{}\tilde{t}_1,\tilde{\sigma}_1,\tilde{\imath}_1,\phi_1$ exists,
   since $t,\sigma,t\Consistent_{\emptyset}\sigma,\True$.
-  This also gives us that $\tilde{i}_1\sim i_1$ and $t_1,\sigma_1\Consistent_{[s_1\mapsto c_1]}\tilde{t}_1,\tilde{\sigma}_1,\phi_1$ with $s_1\in\tilde{i}_1$ and $c_1\in i_1$.
+  This also gives us that $\tilde{\imath}_1\sim i_1$ and $t_1,\sigma_1\Consistent_{[s_1\mapsto c_1]}\tilde{t}_1,\tilde{\sigma}_1,\phi_1$ with $s_1\in\tilde{\imath}_1$ and $c_1\in i_1$.
 
   By repeated application of \cref{lem:completedriving}, untill we arrive at $t_n,\sigma_n$,
   we can show that there exists a $\tilde{I}$ such that $t,\sigma\drive{}^*\tilde{t}_n,\tilde{\sigma}_n,\tilde{I},\Phi$,
-  namely $[\tilde{i}_1,\cdots,\tilde{i}_n]$.
+  namely $[\tilde{\imath}_1,\cdots,\tilde{\imath}_n]$.
 
 \end{proof}
 
@@ -164,15 +164,15 @@ if and only if $M\tilde{t}=t$, $M\tilde{\sigma}=\sigma$ and $M\Phi$
   \label{lem:sounddriving}
   For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
   we have that $t,\sigma\Consistent_M\tilde{t},\tilde{\sigma},\Phi$ implies
-  that for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{i},\phi)$ in $\tilde{t},\tilde{\sigma}\drive{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi}$,
-  $\Sat(\Phi\land\phi)$ implies that there exists an input $i$ such that $\tilde{i}\sim i$,  $t,\sigma\drive{i}t',\sigma'$ and $t',\sigma' \Consistent_{M.[s\mapsto c]} \tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{i}$ and $c\in i$.
+  that for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi)$ in $\tilde{t},\tilde{\sigma}\drive{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}$,
+  $\Sat(\Phi\land\phi)$ implies that there exists an input $i$ such that $\tilde{\imath}\sim i$,  $t,\sigma\drive{i}t',\sigma'$ and $t',\sigma' \Consistent_{M.[s\mapsto c]} \tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{\imath}$ and $c\in i$.
 \end{lemma}
 
 \begin{proof}[Soundness of driving]
   The symbolic driving semantics consists of only one rule, \refrule{SI-Handle}.
-  Given that $t,\sigma\Consistent_M\tilde{t},\tilde{\sigma},\Phi$ and $\tilde{t},\tilde{\sigma}\drive{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi_1}$,
-  \cref{lem:soundhandle} gives us that for each pair $(\tilde{t}',\tilde{\sigma}',\tilde{i},\phi_1)$
-  there exists an input $i$ such that $\tilde{i}\sim i$, $t,\sigma\handle{i}t',\sigma'$
+  Given that $t,\sigma\Consistent_M\tilde{t},\tilde{\sigma},\Phi$ and $\tilde{t},\tilde{\sigma}\drive{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi_1}$,
+  \cref{lem:soundhandle} gives us that for each pair $(\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi_1)$
+  there exists an input $i$ such that $\tilde{\imath}\sim i$, $t,\sigma\handle{i}t',\sigma'$
   and $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t'},\tilde{\sigma'},\Phi\land\phi_1$.
 
   Then, by \cref{lem:soundnorm}, given that $\tilde{t'},\tilde{\sigma'}\normalise\overline{\tilde{t''},\tilde{\sigma''}',\phi_2}$,
@@ -187,20 +187,20 @@ if and only if $M\tilde{t}=t$, $M\tilde{\sigma}=\sigma$ and $M\Phi$
   For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
   we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$ implies
   that for all inputs $i$ such that $t,\sigma\drive{i}t',\sigma'$,
-  there exists a symbolic input $\tilde{i}$, $\tilde{i}\sim i$ such that
-  $\tilde{t},\tilde{\sigma}\drive{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi}$, $\Sat(\Phi\land\phi)$ and $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{i}$ and $c\in i$.
+  there exists a symbolic input $\tilde{\imath}$, $\tilde{\imath}\sim i$ such that
+  $\tilde{t},\tilde{\sigma}\drive{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}$, $\Sat(\Phi\land\phi)$ and $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{\imath}$ and $c\in i$.
 \end{lemma}
 
-Where $\tilde{i}\sim i$ is defined as follows.
+Where $\tilde{\imath}\sim i$ is defined as follows.
 
 \begin{definition}[Input simulation]
-  A symbolic input $\tilde{i}$ simulates a concrete input $i$ denoted as $\tilde{i}\sim i$ in the following cases.\\
+  A symbolic input $\tilde{\imath}$ simulates a concrete input $i$ denoted as $\tilde{\imath}\sim i$ in the following cases.\\
   $s\sim a$, where $s$ is a symbol and $a$ a concrete action.\\
-  $\tilde{i}\sim i\implies \First \tilde{i} \sim \First i$\\
-  $\tilde{i}\sim i\implies \Second \tilde{i} \sim \Second i$
+  $\tilde{\imath}\sim i\implies \First \tilde{\imath} \sim \First i$\\
+  $\tilde{\imath}\sim i\implies \Second \tilde{\imath} \sim \Second i$
 \end{definition}
 
-And $s\in \tilde{i}$ and $c\in i$ are defined as follows.
+And $s\in \tilde{\imath}$ and $c\in i$ are defined as follows.
 
 \begin{definition}[Value from input]
   $c\in \First i = c\in i $\\
@@ -209,8 +209,8 @@ And $s\in \tilde{i}$ and $c\in i$ are defined as follows.
 \end{definition}
 
 \begin{definition}[Symbol from input]
-  $s\in \First \tilde{i} = s\in \tilde{i} $\\
-  $s\in \Second \tilde{i} = s\in \tilde{i} $\\
+  $s\in \First \tilde{\imath} = s\in \tilde{\imath} $\\
+  $s\in \Second \tilde{\imath} = s\in \tilde{\imath} $\\
   $s\in a = a $
 \end{definition}
 
@@ -222,9 +222,9 @@ Since the driving semantics depends on the handling and normalisation semantics,
 
   For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
   we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$ implies
-  that for all symbolic inputs $\tilde{i}$ such that $\tilde{t},\tilde{\sigma}\handle{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi}$ and
-  for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{i},\phi)$,
-  $\Sat(\Phi\land\phi)$ implies that there exists an input $i$ such that $\tilde{i}\sim i$,  $t,\sigma\handle{i}t',\sigma'$ and $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{i}$ and $c\in i$.
+  that for all symbolic inputs $\tilde{\imath}$ such that $\tilde{t},\tilde{\sigma}\handle{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}$ and
+  for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi)$,
+  $\Sat(\Phi\land\phi)$ implies that there exists an input $i$ such that $\tilde{\imath}\sim i$,  $t,\sigma\handle{i}t',\sigma'$ and $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{\imath}$ and $c\in i$.
 
 \end{lemma}
 
@@ -265,9 +265,9 @@ Since the driving semantics depends on the handling and normalisation semantics,
   For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
   we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$ implies
   that for all inputs $i$ such that $t,\sigma\handle{i}t',\sigma'$,
-  there exists a symbolic input $\tilde{i}$, $\tilde{i}\sim i$ such that
-  $\tilde{t},\tilde{\sigma}\handle{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{i},\phi}$,
-  and for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{i},\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{i}$ and $c\in i$.
+  there exists a symbolic input $\tilde{\imath}$, $\tilde{\imath}\sim i$ such that
+  $\tilde{t},\tilde{\sigma}\handle{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}$,
+  and for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{\imath}$ and $c\in i$.
 \end{lemma}
 
 \begin{lemma}[Completeness of normalisation]

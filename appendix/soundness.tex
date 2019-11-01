@@ -50,9 +50,9 @@ Since we have $t,\sigma\Consistent_M\tilde{t}_1\Next \tilde{e}_2,\tilde{\sigma},
 {
 In this case, we have two sets of symbolic executions.
 
-For all tuples $(\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\tilde{i},\phi_1)$, we know by application of the induction hypothesis that
-there exits an $i$ such that $\tilde{i}\sim i$, $t_1,\sigma\handle{i}t_1',\sigma'$ and
-$t_1',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1$ where $c\in i$ and $s\in \tilde{i}$.
+For all tuples $(\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\tilde{\imath},\phi_1)$, we know by application of the induction hypothesis that
+there exits an $i$ such that $\tilde{\imath}\sim i$, $t_1,\sigma\handle{i}t_1',\sigma'$ and
+$t_1',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1$ where $c\in i$ and $s\in \tilde{\imath}$.
 Therefore we also have $t_1'\Next e_2,\sigma_1'\Consistent_{M.[s\mapsto c]}\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\Phi\land\phi_1$.
 
 For all tuples $(\tilde{t}_2,\tilde{\sigma}_2',\Continue,\phi_2)$, we first have by \cref{lem:valpres} that
@@ -69,18 +69,18 @@ and $t_1,\sigma_2'\Consistent_M\tilde{t}_2,\tilde{\sigma}_2',\Phi\land\phi_2$
 %
 \case{\userule{SH-PassNext}}
 {
-For all tuples $(\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\tilde{i},\phi_1)$, we know by application of the induction hypothesis that
-there exits an $i$ such that $\tilde{i}\sim i$, $t_1,\sigma\handle{i}t_1',\sigma'$ and
-$t_1',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1$ where $c\in i$ and $s\in \tilde{i}$.
+For all tuples $(\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\tilde{\imath},\phi_1)$, we know by application of the induction hypothesis that
+there exits an $i$ such that $\tilde{\imath}\sim i$, $t_1,\sigma\handle{i}t_1',\sigma'$ and
+$t_1',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1$ where $c\in i$ and $s\in \tilde{\imath}$.
 Therefore we also have $t_1'\Next e_2,\sigma_1'\Consistent_{M.[s\mapsto c]}\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\Phi\land\phi_1$.
 }
 }
 
 \case{$\tilde{t}=\tilde{t}_1\Then \tilde{e}_2$}
 {One rule applies, namely \userule{SH-PassThen}\\
-For all tuples $(\tilde{t}_1'\Then\tilde{e}_2,\tilde{\sigma}',\tilde{i},\phi)$, we know by application of the induction hypothesis that
-there exists an $i$ such that $\tilde{i}\sim i$, $t_1,\sigma\handle{1}t_1',\sigma'$ and
-$t_1',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1$ where $c\in i$ and $s\in \tilde{i}$.
+For all tuples $(\tilde{t}_1'\Then\tilde{e}_2,\tilde{\sigma}',\tilde{\imath},\phi)$, we know by application of the induction hypothesis that
+there exists an $i$ such that $\tilde{\imath}\sim i$, $t_1,\sigma\handle{1}t_1',\sigma'$ and
+$t_1',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1$ where $c\in i$ and $s\in \tilde{\imath}$.
 Therefore we also have $t_1'\Then e_2,\sigma_1'\Consistent_{M.[s\mapsto c]}\tilde{t}_1'\Then \tilde{e}_2,\tilde{\sigma}_1',\Phi\land\phi_1,M.[s\mapsto c])$.
 }
 
@@ -122,16 +122,16 @@ In this case, one rule applies. \userule{SH-And}
 
 In this case, we have two sets of symbolic executions.
 
-  For all tuples $(\tilde{t}_1'\And\tilde{t}_2,\tilde{\sigma}_1',\First \tilde{i}_1,\phi_1)$,
+  For all tuples $(\tilde{t}_1'\And\tilde{t}_2,\tilde{\sigma}_1',\First \tilde{\imath}_1,\phi_1)$,
   we know by application of the induction hypothesis that there exists an $i$ such that
-  $\tilde{i}_1\sim i$, $t_1,\sigma\handle{i}t_1',\sigma_1'$ and
+  $\tilde{\imath}_1\sim i$, $t_1,\sigma\handle{i}t_1',\sigma_1'$ and
   $t_1',\sigma_1'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}_1',\Phi\land\phi_1$.
   Then by \refrule{H-FirstAnd}, we know that also $t_1\And t_2,\sigma\handle{\First i}t_1'\And t_2,\sigma_1'$.
   It follows trivially that $t_1'\And t_2,\sigma_1'\Consistent_{M.[s\mapsto c]}\tilde{t}_1'\And \tilde{t}_2,\tilde{\sigma}_1',\Phi\land\phi_1$.
 
-  For all tuples $(\tilde{t}_1\And\tilde{t}_2',\tilde{\sigma}_2',\Second \tilde{i}_2,\phi_2)$,
+  For all tuples $(\tilde{t}_1\And\tilde{t}_2',\tilde{\sigma}_2',\Second \tilde{\imath}_2,\phi_2)$,
   we know by application of the induction hypothesis that there exists an $i$ such that
-  $\tilde{i}_2\sim i$, $t_2,\sigma\handle{i}t_2',\sigma_2'$ and
+  $\tilde{\imath}_2\sim i$, $t_2,\sigma\handle{i}t_2',\sigma_2'$ and
   $t_2',\sigma_2'\Consistent_{M.[s\mapsto c]}\tilde{t}_2',\tilde{\sigma}_2',\Phi\land\phi_2$.
   Then by \refrule{H-SecondAnd}, we know that also $t_1\And t_2,\sigma\handle{\Second i}t_1\And t_2',\sigma_2'$.
   It follows trivially that $t_1\And t_2',\sigma_2'\Consistent_{M.[s\mapsto c]}\tilde{t}_1\And \tilde{t}_2',\tilde{\sigma}_2',\Phi\land\phi_2$.
