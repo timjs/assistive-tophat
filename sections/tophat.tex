@@ -1,14 +1,7 @@
 % !TEX root=../main.tex
 
-\section{Top and TopHat}
+\section{The TopHat language}
 \label{sec:tophat}
-
-This section briefly introduces the task-oriented programming paradigm \TOP,
-followed by a description of the task-oriented programming language \TOPHAT.
-
-
-
-\subsection{TopHat}
 
 TopHat (\TOPHAT) implements \TOP by embedding a task language in the simply typed lambda calculus with references, conditionals, primitive types and pairs.
 Symbolic \TOPHAT extends this with \todo{Mention other features.}
@@ -17,7 +10,7 @@ Below, the different components of \TOPHAT are explained in detail.
 The complete syntax and semantics can be found in previous work~\cite{Steenvoorden2019}.
 
 
-\subsubsection{Editors}
+\subsection{Editors}
 
 There are three different editors in \TOPHAT.
 \begin{description}
@@ -34,7 +27,7 @@ There are three different editors in \TOPHAT.
 \end{description}
 
 
-\subsubsection{Combinators}
+\subsection{Combinators}
 
 The following combinators are available in \TOPHAT.
 Here, $t$ stands for tasks and $e$ for arbitrary expressions.
@@ -67,7 +60,7 @@ When the right hand side of a step combinator evaluates to $\Fail$, the step wil
 
 
 
-\subsubsection{Observations}
+\subsection{Observations}
 
 Several observations can be made on tasks.
 Using the value function $\Value$, the current value of a task can be determined.
@@ -89,7 +82,8 @@ If that is the case, it uses the $\Failing$ function to see if stepping to the r
   } \label{}
 \end{figure}
 
-\subsubsection{Input}
+
+\subsection{Input}
 
 Input events drive evaluation of tasks.
 Because tasks are typed, input is typed as well.

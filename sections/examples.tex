@@ -8,11 +8,21 @@
 The dining philosophers problem is a classic concurrency problem in computer science.
 A number of philosophers sit at a round table with a meal in front of them.
 In between the plates lies one fork.
-In order to eat their meal, each philosopher as to acquire both forks.
-This of course means that the philosophers cannot all eat at the same time, since there are not enough forks.
+In order to eat their meal, each philosopher has to acquire both forks.
+This, of course, means that all philosophers cannot eat at the same time, since there are not enough forks.
+Deadlock can occur when all philosophers pick up the fork to their right (or left).
+Everybody has one fork, an therefor cannot start his meal, but is also not allowed to put his fork back on the table.
 
 We look at dining computer scientists instead.
-Dining computer scientists have a choice to take either the left or the right fork, provided that the fork is available.
+As the philosophers, the computer scientists have a choice to take either the left or the right fork, provided that the fork is available.
+However, events of picking up a fork are performed sequentially.
+That is, when one computer scientist decides to pick up his right fork,
+we will handle that event first,
+after which we will handle the choices from the other scientists.
+So, the order of the events is explicitly determined by the scientists.
+% This is regardless of choices interfering or not.
+It is therefore possible that Now, his right neighbour cannot pick up the fork to his left,
+this choice has been disabled.
 
 \cref{lst:dining} lists an implementation in \TOPHAT for this problem, with three computer scientists.
 The forks are represented by references containing Booleans.
@@ -46,6 +56,7 @@ For the sake of simplicity, they return the first fork, rather than setting the 
   scientist "Ada Lovelace" fork2 fork0) >>= \ _ .
     edit "Done"
 \end{TASK}
+
 
 \subsection{Tax subsidy request}
 
