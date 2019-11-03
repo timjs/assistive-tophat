@@ -31,6 +31,7 @@ The semantics mentioned in \cref{sec:tophat} also need to be extended to support
 The same holds for the observation functions.
 
 \todo{Say something about the different semantics, since those will be used in a later section!}
+\todo{Fix arrow of striding in figure.}
 
 \begin{figure}[h]
   \centering
@@ -47,27 +48,20 @@ The same holds for the observation functions.
 \boxed{\RelationH}
 \boxed{\RelationI}
 
-\begin{figure}[ht]
-  \centering \small
-  \usemacro{G-Values-Compact}
-  \usemacro{G-Tasks-Compact}
-  \caption{Syntax of values in \TOPHAT.}
-  \label{fig:syntaxvalues}
-\end{figure}
-\todo{Say something about inclusion:
-  $t\subset \tilde{t}$
-  $\sigma \subset \tilde{\sigma}$
+\todo{Say something about inclusions:
+  $t\subset \tilde{t}$,
+  $\sigma \subset \tilde{\sigma}$,
   $i\subset \tilde{\imath}$
 }
 
 \begin{definition}[Simulation]
   \todo{Improve definition.}
-  $t,\sigma\drive{}^* \overline{\tilde{v},\tilde{I},\tilde{\Phi}}$
+  $t,\sigma\interact{}^* \overline{\tilde{v},\tilde{I},\tilde{\Phi}}$
 \begin{align*}
-  t,\sigma             & \drive{} & \overline{\tilde{t}_1,\tilde{\sigma}_1,\tilde{\imath}_1,\phi_1}\\
-  \tilde{t}_1,\tilde{\sigma}_1         & \drive{} & \overline{\tilde{t}_2,\tilde{\sigma}_2,\tilde{\imath}_2,\phi_2}\\
+  t,\sigma             & \interact{} & \overline{\tilde{t}_1,\tilde{\sigma}_1,\tilde{\imath}_1,\phi_1}\\
+  \tilde{t}_1,\tilde{\sigma}_1         & \interact{} & \overline{\tilde{t}_2,\tilde{\sigma}_2,\tilde{\imath}_2,\phi_2}\\
                        & \vdots   & \\
-  \tilde{t}_{n-1},\tilde{\sigma}_{n-1} & \drive{} & \overline{\tilde{t}_n,\tilde{\sigma}_n,\tilde{\imath}_n,\phi_n}
+  \tilde{t}_{n-1},\tilde{\sigma}_{n-1} & \interact{} & \overline{\tilde{t}_n,\tilde{\sigma}_n,\tilde{\imath}_n,\phi_n}
 \end{align*}
 With $\Value(\tilde{t}_n,\tilde{\sigma}_n)=\tilde{v}$\\
 $\Value(\tilde{t}_{i<n},\tilde{\sigma}_{i<n})=\bot$\\

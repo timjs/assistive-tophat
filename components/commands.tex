@@ -115,12 +115,14 @@
   {\;\Downarrow\;}
 \newmacro{handle}[1]
   {\mathrel{\;\xrightarrow{#1}\;}}
-\newmacro{drive}[1]
+\newmacro{interact}[1]
   {\mathrel{\;\xRightarrow{#1}\;}}
+\newmacro{execute}[1]
+  {\mathrel{\;\xRightarrow{#1}^*\;}}
 
-\newmathcommand{symhandle}[rel]
+\newmathcommand{simhandle}[rel]
   {\;\leadsto\;}
-\newmathcommand{symdrive}[rel]
+\newmathcommand{siminteract}[rel]
   {\;\raisebox{-0.25ex}{$\leadsto$}\mathllap{\raisebox{+0.25ex}{$\leadsto$}}\;}
 \newmathcommand{simulate}[rel]
   {\;\raisebox{-0.25ex}{$\leadsto$}\mathllap{\raisebox{+0.25ex}{$\leadsto$}}^*\;}

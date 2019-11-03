@@ -306,17 +306,17 @@
 
 
 \newmacro{RelationSI}
-  {\tilde{t},\tilde{\sigma} \drive{} \overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}}
+  {\tilde{t},\tilde{\sigma} \interact{} \overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}}
 
 
 \newrule{SI-Handle}
   {\tilde{t},\tilde{\sigma} \handle{} \overline{\tilde{t}',\tilde{\sigma}',{\tilde{\imath},\phi_1}} \Quad
    \tilde{t}',\tilde{\sigma}' \tilde{\normalise} \overline{\tilde{t}'',\tilde{\sigma}'',\phi_2}}
-  {\tilde{t},\tilde{\sigma} \drive{} \overline{\tilde{t}'',\tilde{\sigma}'',\tilde{\imath},\phi_1 \land \phi_2}}
+  {\tilde{t},\tilde{\sigma} \interact{} \overline{\tilde{t}'',\tilde{\sigma}'',\tilde{\imath},\phi_1 \land \phi_2}}
 
 %% Firsts %%
 
 \newrule{R-Firsts}
-  {t,\sigma\drive{}^*\overline{\tilde{v},\tilde{\imath}:\tilde{is},\Phi}}
+  {t,\sigma\interact{}^*\overline{\tilde{v},\tilde{\imath}:\tilde{is},\Phi}}
   {\Firsts(t,\sigma,g) = \overline{\tilde{\imath},\Phi\land g \tilde{v}}}
   [\Sat(\Phi\land g\tilde{v})]
