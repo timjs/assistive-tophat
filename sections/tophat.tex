@@ -4,53 +4,62 @@
 \label{sec:tophat}
 
 Task-Oriented Programming (\TOP) is a paradigm first introduced by Plasmeijer et al.~\cite{DBLP:conf/ppdp/PlasmeijerLMAK12}.
-It was created to improve the development of software that models collaboration.
+It was created to improve the development of software that coordinates collaboration between users.
 \TOP provides programmers with a high level of programming abstraction,
 while being expressive enough to describe real world collaborations.
 It does so by using features from higher-order functional programming languages,
 combined with the notion of \emph{tasks}.
+Tasks model units of work, which can be performed by a human or by a computer.
+From a task specification, a \TOP implementation generates a distributive multi-user (web) application to support this collaboration.
 
-\todo{Explain interactive at the core.}
-\todo{Explain goal to support collaboration when executing workflows.}
-Tasks model \emph{units of work}, which can be performed by a human or by a computer.
-To support users during their work, tasks should be \emph{interactive}.
-That is, users can enter or update information into the system by using \emph{editors}.
-They can be \emph{observed}, so that other users or the system itself can make decisions based on the progress of the task.
-Tasks can be combined into bigger tasks by using \emph{combinators}.
-Basic combinators are chosen in such a way, that they represent a way of collaboration between users.
-New combinators can be created by making use of basic combinators and the higher order facilities of the host language.
-
-Tasks are typed.
-Not only to ensure safety at runtime,
-but also to automatically derive common program elements.
-\TOP systems automatically generate user interfaces and manage persistent storage of information.
-Programmers describe what work needs to be done in what way.
-From this specification, a \TOP implementation generates a multi-user (web) application.
+Tasks have a couple of properties, listed below.
+\begin{itemize}
+  \item
+    Tasks model \emph{collaboration}.
+    Programmers describe what work needs to be done in what way.
+  \item
+    Tasks are \emph{interactive}.
+    Users can enter or update information into the system by using \emph{editors}.
+  \item
+    Tasks can be \emph{observed}
+    Therefore, other users or the system itself can make decisions based on the progress of the task.
+  \item
+    Tasks are \emph{modular}.
+    They can be combined into bigger tasks by using \emph{combinators}.
+    Basic combinators are chosen in such a way, that they represent a way of collaboration between users.
+    New combinators can be created by making use of basic combinators and the higher order facilities of the host language.
+  \item
+    Tasks \emph{share information}.
+    Information is passed along control flow, or via references to shared data.
+  \item
+    Tasks are \emph{typed}.
+    This is not just to ensure safety at runtime,
+    but also to automatically derive common program elements.
+    \TOP systems automatically generate user interfaces and manage persistent storage of information.
+\end{itemize}
 
 \todo{citations}
 Currently, there are three systems implementing the ideas of \TOP.
-The defacto standard is the \ITASKS framework,
-which is an embedded domain specific language in the non-strict functional programming language Clean.
-\MTASKS is a \TOP implementation specifically designed for embedded systems.
-Steenvoorden, Naus, and Klinik created a formalisation of \TOP in \cite{},
-called \TOPHAT.
-This work builds further on \TOPHAT and \STOPHAT.
+The reference implementation is the \ITASKS framework~\cite{},
+which is an embedded domain specific language in the non-strict functional programming language Clean~\cite{}.
+\MTASKS~\cite{} is a \TOP implementation specifically designed for embedded systems.
+A formalisation of \TOP, called \TOPHAT (TopHat), has been created by Steenvoorden, Naus, and Klinik~\cite{}.
+This work builds further on \TOPHAT and its symbolic counterpart \STOPHAT~\cite{}.
 
-Since the idea was introduced, a lot of research as been done on \TOP.
-However, the basic principle remain the same.
-In the next subsections we describe the basic elements of every \TOP program.
+\TOPHAT implements \TOP by embedding a task language in the simply typed lambda calculus with references, conditionals, and pairs.
+\STOPHAT extends this with built in operators, lists, and symbols.
+References are used to model the shared data component of \TOP.
+Below, the different components of \TOPHAT are explained in detail.
+The complete syntax and semantics can be found in previous work~\cite{Steenvoorden2019}.
+In the next subsections we describe the basic constructs of the \TOPHAT language.
 
+% Since the idea was introduced, a lot of research as been done on \TOP.
+% However, the basic principle remain the same.
 % \TOP implementations like iTasks~\cite{????} also leverage aspects of the host language in order to allow for a higher level of abstraction,
 % such as generic programming and higher order tasks. \todo{is dit wel of niet top?}
 %
 %
 % The next section describes the formal \TOP implementation \TOPHAT.
-TopHat (\TOPHAT) implements \TOP by embedding a task language in the simply typed lambda calculus with references, conditionals, primitive types and pairs.
-Symbolic \TOPHAT extends this with \todo{Mention other features.}
-References are used to model the shared data component of \TOP.
-Below, the different components of \TOPHAT are explained in detail.
-The complete syntax and semantics can be found in previous work~\cite{Steenvoorden2019}.
-
 
 \subsection{Editors}
 
@@ -116,11 +125,6 @@ When the right hand side of a step combinator evaluates to $\Fail$, the step wil
 
 
 \subsection{Shared data}
-
-Tasks communicate with each other by passing data along control flow, or via globally shared data stores.
-
-\todo{Describe value passing: sequential and through shares.}
-
 
 \subsection{Observations}
 
