@@ -8,54 +8,64 @@
 The dining philosophers problem is a classic concurrency problem in computer science.
 A number of philosophers sit at a round table with a meal in front of them.
 In between the plates lies one fork.
-In order to eat their meal, each philosopher has to acquire both forks.
+In order to eat their meal, each philosopher has to acquire two forks.
 This, of course, means that all philosophers cannot eat at the same time, since there are not enough forks.
 Deadlock can occur when all philosophers pick up the fork to their right (or left).
-Everybody has one fork, an therefor cannot start his meal, but is also not allowed to put his fork back on the table.
+Then, everybody has one fork.
+Therefore, each philosopher cannot start his meal, and is also not allowed to put his fork back on the table.
 
-We look at dining computer scientists instead.
-As the philosophers, the computer scientists have a choice to take either the left or the right fork, provided that the fork is available.
-However, events of picking up a fork are performed sequentially.
-That is, when one computer scientist decides to pick up his right fork,
-we will handle that event first,
-after which we will handle the choices from the other scientists.
-So, the order of the events is explicitly determined by the scientists.
-% This is regardless of choices interfering or not.
-It is therefore possible that Now, his right neighbour cannot pick up the fork to his left,
-this choice has been disabled.
-
-\cref{lst:dining} lists an implementation in \TOPHAT for this problem, with three computer scientists.
-The forks are represented by references containing Booleans.
-The value $\True$ indicates that the fork is available,
-$\False$ indicates that the fork is being used.
-Each computer scientist takes as arguments the two forks that he or she can reach.
-After that, they can press continue if the second fork is also available.
-For the sake of simplicity, they return the first fork, rather than setting the second fork to False, and then setting both to True again.
-
-\lstset{emph={}}
+\lstset{emph={this, that, name, left, right}}
 \begin{TASK}[
     float=ht,
     numbers=right,
-    caption={Dining computer scientists problem with three computer scientists.},
+    caption={Dining philosophers problem with three computer scientists.},
     label=lst:dining]
-  let fork0 = ref True in
-  let fork1 = ref True in
-  let fork2 = ref True in
-  let scientist = \ name. \ leftFork. \ rightFork.
-    if !leftFork
-      then leftFork := False >>? \ <<>>.
-        if !rightFork then leftFork := True else fail
-      else fail
-    <?>
-    if !rightFork
-      then rightFork := False >>? \ <<>>.
-        if !leftFork then rightFork := True else fail
-       else fail in
-  (scientist "Alan Turing" fork0 fork1 <&>
-  scientist "Grace Hopper" fork1 fork2 <&>
-  scientist "Ada Lovelace" fork2 fork0) >>= \ _ .
-    edit "Done"
+  let fork0 = ref True in $\label{lst:phil:fork0}$
+  let fork1 = ref True in $\label{lst:phil:fork1}$
+  let fork2 = ref True in $\label{lst:phil:fork2}$
+  let pickup = \ this. \ that. $\label{lst:phil:this}$
+    if !this $\label{lst:phil:deref}$
+      then this := False >>? \ <<>>. $\label{lst:phil:mark-used}$
+        if !that then this := True else fail $\label{lst:phil:that}$
+      else fail in
+  let scientist = \ name. \ left. \ right. $\label{lst:phil:scientist}$
+    pickup left right <?> pickup right left in $\label{lst:phil:pick}$
+  scientist "Alan Turing" fork0 fork1 <&> $\label{lst:phil:scientist0}$
+  scientist "Grace Hopper" fork1 fork2 <&> $\label{lst:phil:scientist1}$
+  scientist "Ada Lovelace" fork2 fork0 >>= \ _ . $\label{lst:phil:scientist2}$
+    edit "Full bellies"
 \end{TASK}
+
+We look at dining computer scientists instead.
+\cref{lst:dining} lists an implementation in \TOPHAT for this problem, with three computer scientists.
+The forks are represented by references containing Booleans (\cref{lst:phil:fork0,lst:phil:fork1,lst:phil:fork2}).
+The value $\True$ indicates that the fork is available,
+$\False$ indicates that the fork is being used.
+
+Picking up a fork is only possible when the fork is available,
+i.e the reading the reference results is $\True$ (\cref{lst:phil:this}).
+This fork is then marked as being used (\cref{lst:phil:mark-used}).
+The use of references ensures that the neighbouring scientist cannot pick up this fork: this choice will be disabled.
+After that, one can press continue if the second fork is also available (\cref{lst:phil:that}).
+For the sake of simplicity, one returns the first fork, rather than setting the second fork to $\False$, and then setting both to $\True$ again.
+
+Each computer scientist takes as arguments a name and references to the two forks that he or she can reach (\cref{lst:phil:scientist}).
+They have a choice to take either the left or the right fork.
+This is represented with an user choice ($\Xor$, \cref{lst:phil:pick}).
+The last lines instantiate three computer scientists sitting next to each other (\cref{lst:phil:scientist0,lst:phil:scientist1,lst:phil:scientist2}).
+In \TOP terms, this means they collaborate in parallel ($\And$) while eating their dinner while sharing some resources,
+in this cease $\lbl{fork0}$, $\lbl{fork1}$, and $\lbl{fork2}$.
+
+Note that the events of picking up a fork are performed sequentially.
+That is, when one computer scientist decides to pick up his right fork, we will handle that event first.
+After that, we will handle the choices from the other scientists.
+So, the order of the events is explicitly determined by the scientists themselves.
+% This is regardless of choices interfering or not.
+
+\todo{Write analysis.}
+In \cref{sec:todo} we will analyse this example.
+Our goal is to hint each scientist which choice to make, in order to reach the common goal of full bellies.
+When the scientists follow these hints, no deadlock will occur.
 
 
 \subsection{Tax subsidy request}
@@ -75,7 +85,7 @@ The listing below gives the \TOPHAT code for this example.
 
 \lstset{emph={invoiceDate,today,confirmed,invoiceAmount,approved}}
 \begin{TASK}[
-    float=p,
+    float=ht,
     numbers=right,
     caption={Subsidy request and approval workflow at the Dutch tax office.},
     label=lst:tax]
@@ -83,12 +93,12 @@ The listing below gives the \TOPHAT code for this example.
   let provideDocuments = enter Amount <&> enter Date in
   let companyConfirm = edit True <?> edit False in
   let officerApprove = \ invoiceDate. \ today. \ confirmed.
-    edit False <?> if (today - invoiceDate < 365 /\ confirmed) |\label{lst:tax:officer-approve-def}| then edit True else fail in
-  getCurrentDate >>= \ today.|\label{lst:tax:citizen-info}|
-  provideDocuments <&> companyConfirm >>= \ <<<<invoiceAmount, invoiceDate>>, confirmed>>. |\label{lst:tax:documents-and-company-confirm}|
-  officerApprove invoiceDate today confirmed >>= \ approved.|\label{lst:tax:officer-approve}|
+    edit False <?> if (today - invoiceDate < 365 /\ confirmed) $\label{lst:tax:officer-approve-def}$ then edit True else fail in
+  getCurrentDate >>= \ today.$\label{lst:tax:citizen-info}$
+  provideDocuments <&> companyConfirm >>= \ <<<<invoiceAmount, invoiceDate>>, confirmed>>. $\label{lst:tax:documents-and-company-confirm}$
+  officerApprove invoiceDate today confirmed >>= \ approved.$\label{lst:tax:officer-approve}$
   let subsidyAmount = if approved then min 600 (invoiceAmount / 10) else 0 in
-    edit <<subsidyAmount, approved, confirmed, invoiceDate, today>>|\label{lst:tax:result}|
+    edit <<subsidyAmount, approved, confirmed, invoiceDate, today>>$\label{lst:tax:result}$
 \end{TASK}
 
 In previous work, we have shown that this code indeed adheres to the requirements listed above.
@@ -99,7 +109,7 @@ The end user wants the outcome of this program to be a subsidy amount larger tha
 
 Running the simulation function will result in the following set:
 
-\begin{table}[p]
+\begin{table}[ht]
   \centering
   \begin{tabular}{LLL}
     \toprule
