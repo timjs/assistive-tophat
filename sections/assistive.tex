@@ -1,6 +1,6 @@
 % !TEX root=../main.tex
 
-\section{Assistive TopHat}
+\section{Generating hints for TopHat}
 \label{sec:assistive}
 
 Our goal is to provide next step hints, that lead users closer to their goal.
@@ -18,3 +18,59 @@ Then, we take the first input so that we can return this to the user as a hint.
   \caption{Definition of next step hint function.}
   \label{}
 \end{figure}
+
+
+\subsection{Tax subsidy request}
+
+Running the simulation function will result in the following set:
+
+\begin{table}[ht]
+  \centering
+  \begin{tabular}{LLL}
+    \toprule
+    \text{Symbolic value} & \text{Symbolic input} & \text{Path condition} \\
+    \midrule
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second \First, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second \First, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \First, \First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \First, \First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \Second \First, \First \First s_{\id{a}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \Second \First, \First \Second s_{\id{i}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second \First, \First]  & \True \\
+    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second \First, \First]  & \True \\
+    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \First, \First \First s_{\id{a}}, \First \Second s_{\id{i}}, \First]  & \True \\
+    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \First, \First \Second s_{\id{i}}, \First \First s_{\id{a}}, \First]  & \True \\
+    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \Second \First, \First \First s_{\id{a}}, \First]  & \True \\
+    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \Second \First, \First \Second s_{\id{i}}, \First]  & \True \\
+    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second, \First]  & \True \\
+    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second, \First]  & \True \\
+    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \Second,\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \First]  & \True \\
+    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second, \First \Second s_{\id{i}}, \First \First s_{\id{a}}, \First]  & \True \\
+    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \Second, \First \First s_{\id{a}}, \First]  & \True \\
+    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \Second, \First \Second s_{\id{i}}, \First]  & \True \\
+    \bottomrule
+  \end{tabular}
+  \begin{tabular}{LLL}
+    \toprule
+    \text{Symbolic value} & \text{Symbolic input} & \text{Path condition} \\
+    \midrule
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second \First, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second \First, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \First, \First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \First, \First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \Second \First, \First \First s_{\id{a}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \Second \First, \First \Second s_{\id{i}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \bottomrule
+  \end{tabular}
+  \caption{}
+  \label{}
+\end{table}
+
+As a goal we set that the subsidy amount should be larger than zero. This leaves us with the following cases.
+
+From the end states we can conclude that invoiceAmount should be larger than zero in order for the result to be larger than zero. This results in an additional constraint.
+
+In the end, we can use the above to give hints to the user.
+
+First, a date must be entered. Then the user can choose to ender an amount larger than zero, a date that is within 365 from now, or a "RL".
+etc.

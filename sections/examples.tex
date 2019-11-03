@@ -72,16 +72,16 @@ When the scientists follow these hints, no deadlock will occur.
 
 The example program listed in this section is taken from our previous work on symbolic execution for \TOPHAT~\cite{Steenvoorden2019}.
 It models a simplified tax subsidy application process for citizens who have installed solar panels.
+This was first described by Stutterheim~et~al.\cite{conf/sfp/StutterheimAP17},
+who worked on modelling a fictional but realistic law about solar panel subsidies.
 
 A subsidy is only given under the following conditions.
 \begin{itemize}
 \item The roofing company has confirmed that they installed solar panels for the citizen.
 \item The tax officer has approved the request.
 \item The tax officer can only approve the request if the roofing company has confirmed, and the request is filed within one year of the invoice date.
-\item The amount of the granted subsidy is maximal 600 EUR.
+\item The amount of the granted subsidy is maximal €600.
 \end{itemize}
-
-The listing below gives the \TOPHAT code for this example.
 
 \lstset{emph={invoiceDate,today,confirmed,invoiceAmount,approved}}
 \begin{TASK}[
@@ -89,73 +89,22 @@ The listing below gives the \TOPHAT code for this example.
     numbers=right,
     caption={Subsidy request and approval workflow at the Dutch tax office.},
     label=lst:tax]
-  let getCurrentDate = enter Date in
   let provideDocuments = enter Amount <&> enter Date in
   let companyConfirm = edit True <?> edit False in
   let officerApprove = \ invoiceDate. \ today. \ confirmed.
     edit False <?> if (today - invoiceDate < 365 /\ confirmed) $\label{lst:tax:officer-approve-def}$ then edit True else fail in
-  getCurrentDate >>= \ today.$\label{lst:tax:citizen-info}$
+  update currentDate >>= \ today.$\label{lst:tax:citizen-info}$
   provideDocuments <&> companyConfirm >>= \ <<<<invoiceAmount, invoiceDate>>, confirmed>>. $\label{lst:tax:documents-and-company-confirm}$
   officerApprove invoiceDate today confirmed >>= \ approved.$\label{lst:tax:officer-approve}$
   let subsidyAmount = if approved then min 600 (invoiceAmount / 10) else 0 in
-    edit <<subsidyAmount, approved, confirmed, invoiceDate, today>>$\label{lst:tax:result}$
+  edit <<subsidyAmount, approved, confirmed, invoiceDate, today>>$\label{lst:tax:result}$
 \end{TASK}
 
+\Cref{lst:tax} gives the \TOPHAT code for this example.
+\todo{Explain code in example of leave it out?}
+%
 In previous work, we have shown that this code indeed adheres to the requirements listed above.
-
-Instead of assisting the developer, by proving the program correct, we would now like to support the end user that is requesting a subsidy.
-
+There we focussed on assisting the developer by proving the program correct.
+In this work we focus on supporting the end user that is requesting a subsidy.
 The end user wants the outcome of this program to be a subsidy amount larger than zero.
-
-Running the simulation function will result in the following set:
-
-\begin{table}[ht]
-  \centering
-  \begin{tabular}{LLL}
-    \toprule
-    \text{Symbolic value} & \text{Symbolic input} & \text{Path condition} \\
-    \midrule
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second \First, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second \First, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \First, \First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \First, \First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \Second \First, \First \First s_{\id{a}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \Second \First, \First \Second s_{\id{i}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
-    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second \First, \First]  & \True \\
-    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second \First, \First]  & \True \\
-    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \First, \First \First s_{\id{a}}, \First \Second s_{\id{i}}, \First]  & \True \\
-    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \First, \First \Second s_{\id{i}}, \First \First s_{\id{a}}, \First]  & \True \\
-    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \Second \First, \First \First s_{\id{a}}, \First]  & \True \\
-    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \Second \First, \First \Second s_{\id{i}}, \First]  & \True \\
-    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second, \First]  & \True \\
-    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second, \First]  & \True \\
-    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \Second,\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \First]  & \True \\
-    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second, \First \Second s_{\id{i}}, \First \First s_{\id{a}}, \First]  & \True \\
-    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \Second, \First \First s_{\id{a}}, \First]  & \True \\
-    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \Second, \First \Second s_{\id{i}}, \First]  & \True \\
-    \bottomrule
-  \end{tabular}
-  \begin{tabular}{LLL}
-    \toprule
-    \text{Symbolic value} & \text{Symbolic input} & \text{Path condition} \\
-    \midrule
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second \First, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second \First, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \First, \First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \First, \First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \Second \First, \First \First s_{\id{a}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \Second \First, \First \Second s_{\id{i}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
-    \bottomrule
-  \end{tabular}
-  \caption{}
-  \label{}
-\end{table}
-
-As a goal we set that the subsidy amount should be larger than zero. This leaves us with the following cases.
-
-From the end states we can conclude that invoiceAmount should be larger than zero in order for the result to be larger than zero. This results in an additional constraint.
-
-In the end, we can use the above to give hints to the user.
-
-First, a date must be entered. Then the user can choose to ender an amount larger than zero, a date that is within 365 from now, or a "RL".
-etc.
+In \cref{sec:todo} we will show how to generate hints for the end user to reach this goal.
