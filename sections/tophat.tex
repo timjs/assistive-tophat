@@ -38,7 +38,7 @@ Tasks have a couple of properties, listed below.
     \TOP systems automatically generate user interfaces and manage persistent storage of information.
 \end{itemize}
 
-\todo{citations}
+\todo{Citations.}
 Currently, there are three systems implementing the ideas of \TOP.
 The reference implementation is the \ITASKS framework~\cite{},
 which is an embedded domain specific language in the non-strict functional programming language Clean~\cite{}.
@@ -124,24 +124,31 @@ When the right hand side of a step combinator evaluates to $\Fail$, the step wil
 \subsection{Observations}
 
 Several observations can be made on tasks.
+
 Using the value function $\Value$, the current value of a task can be determined.
 The value function is a partial function, since not all tasks have a value.
 For example empty editors and steps do not have a value.
 
 One can also observe whether or not a task is failing, by means of the failing function $\Failing$.
-The task $\Fail$ is failing, as is a parallel combination of failing tasks ($\Fail \And \Fail$).
+For example, the task $\Fail$ is failing, as is a parallel combination of failing tasks $\Fail \And \Fail$.
+Both observation definitions can be found in \cref{fig:observations}
+
+\begin{figure}[h]
+  \begin{minipage}{\textwidth}
+    \centering \small
+    \usemacro{O-Value}  \usemacro{O-Failing}
+  \end{minipage}
+  \caption{
+    Observations on task $t$.
+    $\Value$ gets the value of $t$, $\Failing$ observes if it is unsafe to step to $t$.
+    Note that $\Value$ is a partial function.
+  }
+  \label{fig:observations}
+\end{figure}
 
 The step combinator makes use of both functions in order to determine if it can step.
 First, it uses $\Value$ to see if the left hand side produces a value.
 If that is the case, it uses the $\Failing$ function to see if stepping to the right hand side is successful.
-
-\begin{figure}[h]
-  \centering \small
-  \usemacro{O-Value}
-  \caption{
-    Value observation.
-  } \label{}
-\end{figure}
 
 
 \subsection{Input}
@@ -152,7 +159,7 @@ Editors only accept input of the correct type.
 Examples are replacing a value in an editor,
 or sending a continue event to a user step.
 When the system receives a valid event, it gives this event to the current task, which reduces to a new task.
-Everything in between interaction steps is evaluated atomically with respect to inputs.
+Everything in between two events is evaluated atomically with respect to inputs.
 This means that tasks are normalised up to the point they await new user interactions.
 % In this way the system communicates with the environment.
 
