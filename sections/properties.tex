@@ -10,16 +10,31 @@ This is a partial function since not all tasks have an observable value.
 All elements of firsts are valid hints.
 
 \begin{definition}[Evaluate]
-  $t,\sigma\interact{I}^* v$
+  $t,\sigma\interact{I}^* v$ where
+
+  \begin{minipage}[c]{0.4\textwidth}
+    \begin{align*}
+      t,\sigma             & \interact{i_1}  t_1,\sigma_1\\
+      t_1,\sigma_1         & \interact{i_2}  t_2,\sigma_2\\
+                           & \hspace{3mm}\vdots    \\
+      t_{n-1},\sigma_{n-1} & \interact{i_n}  t_n,\sigma_n
+    \end{align*}
+\end{minipage}
+\begin{minipage}[c]{0.1\textwidth}
+  \Quad
+\end{minipage}
+\begin{minipage}[c]{0.3\textwidth}
   \begin{align*}
-    t,\sigma             & \interact{i_1} & t_1,\sigma_1\\
-    t_1,\sigma_1         & \interact{i_2} & t_2,\sigma_2\\
-                         & \vdots   & \\
-    t_{n-1},\sigma_{n-1} & \interact{i_n} & t_n,\sigma_n
-  \end{align*}
-  With $\Value(t_n,\sigma_n)=v$\\
-  $\Value(t_{i<n},\sigma_{i<n})=\bot$\\
-  $I=i_1,\cdots,i_n$
+  \text{With }&\Value(t_n,\sigma_n)=v\\
+  &\Value(t_{i<n},\sigma_{i<n})=\bot\\
+  &I=i_1,\cdots,i_n
+\end{align*}
+\end{minipage}
+
+
+
+
+
 \end{definition}
 
 \subsection{Correctness of firsts}
