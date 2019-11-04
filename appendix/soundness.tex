@@ -460,57 +460,32 @@ This leads us to conclude $t_1\And t_2,\sigma\stride t_1'\And t_2',\sigma''$ and
   We prove Lemma~\ref{lem:soundeval} by induction over $\tilde{e}$.
 
   \case{$\tilde{e}=\tilde{v}$}
-    {One rule applies, namely \userule{SE-Value}
-    % Since this rule does not generate constraints, any $M$ will do.
-    % Since neither the state, nor the expression is altered by the evaluation rule \userule{E-Value},
-    % this case holds true trivially.
+    {One rule applies, namely \userule{SE-Value}\\
+    We assume $e,\sigma\Consistent_M\tilde{v},\tilde{\sigma},\Phi$ and $\tilde{v},\tilde{\sigma}\tilde{\eval}\tilde{v},\tilde{\sigma},\True$.
+    By \refrule{E-Value} we have $v,\sigma\eval v,\sigma$, so this case holds trivially.
     }
 
   \case{$\tilde{e}=\tuple{\tilde{e}_1,\tilde{e}_2}$}
     {One rule applies, namely \userule{SE-Pair}\\
-   %  Provided that $M\phi_1\wedge M\phi_2$,
-   %  we need to demonstrate that  \userule{E-Pair} with $\hat{\sigma}=M\sigma$,
-   %  $M\tuple{v_1,v_2} \equiv \tuple{\hat{v_1},\hat{v_2}}$ and $M\sigma''\equiv\hat{\sigma''}$.
-   %
-   %  From the induction hypothesis, we obtain the following.\\
-   %  $\forall M_1 .  M_1\phi_1 \implies e_1, M_1\sigma \hat{\eval}\hat{v_1},\hat{\sigma'}\land  M_1v_1\equiv \hat{v_1} \land  M_1\sigma'\equiv\hat{\sigma'}$ and
-   %  $\forall M_2 . M_2\phi_2 \implies e_2,M_2\sigma' \hat{\eval}\hat{v_2},\hat{\sigma''}\land M_2v_2\equiv \hat{v_2} \wedge M_2\sigma'\equiv\hat{\sigma''}$
-   %
-   %  Since $M$ satisfies both $\phi_1$ and $\phi_2$,
-   %  and we know that $M\sigma'\equiv \hat{\sigma'}$
-   %  we obtain that $e_1,M\sigma \hat{\eval}\hat{v_1},\hat{\sigma'}$,
-   %  $e_2,M\sigma'\hat{\eval}\hat{v_2},\hat{\sigma''}$, $M\sigma'\equiv \hat{\sigma'}$,
-   % $M v_1\equiv \hat{v_1}$ and $M v_2 \equiv \hat{v_2}$ and therefore $M\tuple{v_1,v_2} \equiv \tuple{\hat{v_1},\hat{v_2}}$.
-   %  From the IH we directly obtain that $M \sigma'' \equiv\hat{\sigma''}$.
+    Provided that $e,\sigma\Consistent_m\tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma},\Phi$ and $\tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma}\tilde{\eval}\tuple{\tilde{v}_1,\tilde{v}_2},\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$,
+    we obtain from the induction hypothesis that $e_1,\sigma\eval v_1,\sigma'$ with $v_1,\sigma'\Consistent_m\tilde{v}_1,\tilde{\sigma}',\Phi\land\phi_1$.
+    Then by a second application of the induction hypothesis, we obtain that $e_2,\sigma'\eval v_2,\sigma''$ with $v_2,\sigma''\Consistent_m\tilde{v}_2,\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.
+    From this, we can conclude that $\tuple{e_1,e_2},\sigma\eval\tuple{v_1,v_2},\sigma''$ with $\tuple{v_1,v_2},\sigma''\Consistent_m\tuple{\tilde{v}_1,\tilde{v}_2},\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.
     }
 
-  \case{$\tilde{e}=\Fst \tilde{e}$}
+  \case{$\tilde{e}=\Fst \tuple{\tilde{e}_1,\tilde{e}_2}$}
   {
     One rule applies, namely \userule{SE-First}\\
-    % Provided that $M\phi$,
-    % we need to demonstrate that \userule{E-First} with $\hat{\sigma}=M\sigma$,
-    % $M v_1\equiv \hat{v_1}$ and $M\sigma'\equiv\hat{\sigma'}$.
-    %
-    % From the induction hypothesis, we obtain the following.\\
-    % $\forall M_1 . M_1\phi \implies e, M_1\sigma\hat{\eval}\tuple{\hat{v_1},\hat{v_2}},\hat{\sigma'}\land M_1\tuple{v_1,v_2}\equiv \tuple{\hat{v_1},\hat{v_2}}\land M_1\sigma'\equiv\hat{\sigma'}$
-    %
-    % Since $M$ satisfies $\phi$,
-    % we directly obtain that $\Fst e,\sigma\hat{\eval}\hat{v_1}$,
-    % $M v_1\equiv \hat{v_1}$ and $M\sigma'\equiv\hat{\sigma'}$.
+    Provided that $e,\sigma\Consistent_m\Fst\tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma},\Phi$ and $\Fst\tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma}\tilde{\eval}\tilde{v}_1,\tilde{\sigma}'',\Phi\land\phi$,
+    we obtain from the induction hypothesis that $e_1,\sigma\eval v_1,\sigma'$ with $v_1,\sigma'\Consistent_m\tilde{v}_1,\tilde{\sigma}',\Phi\land\phi$.
+    From this, we can conclude that $\Fst\tuple{e_1,e_2},\sigma\eval v_1,\sigma'$.
     }
 
-  \case{$e=\Snd e$}
+  \case{$e=\Snd \tuple{\tilde{e}_1,\tilde{e}_2}$}
   { One rule applies, namely \userule{SE-Second}\\
-    % Provided that $M\phi$,
-    % we need to demonstrate that \userule{E-Second} with $\hat{\sigma}=M\sigma$,
-    % $M v_2\equiv \hat{v_2}$ and $M\sigma'\equiv\hat{\sigma'}$.
-    %
-    % From the induction hypothesis, we obtain the following.\\
-    % $\forall M_1 . M_1\phi \implies e, M_1\sigma\hat{\eval}\tuple{\hat{v_1},\hat{v_2}},\hat{\sigma'}\land M_1\tuple{v_1,v_2}\equiv \tuple{\hat{v_1},\hat{v_2}}\land M_1\sigma'\equiv\hat{\sigma'}$
-    %
-    % Since $M$ satisfies $\phi$,
-    % we directly obtain that $\Snd e,\sigma\hat{\eval}\hat{v_2}$,
-    % $M v_2\equiv \hat{v_2}$ and $M\sigma'\equiv\hat{\sigma'}$.
+  Provided that $e,\sigma\Consistent_m\Snd\tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma},\Phi$ and $\Snd\tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma}\tilde{\eval}\tilde{v}_2,\tilde{\sigma}'',\Phi\land\phi$,
+  we obtain from the induction hypothesis that $e_1,\sigma\eval v_2,\sigma'$ with $v_2,\sigma'\Consistent_m\tilde{v}_1,\tilde{\sigma}',\Phi\land\phi$.
+  From this, we can conclude that $\Snd\tuple{e_1,e_2},\sigma\eval v_2,\sigma'$.
     }
 
   \case{$\tilde{e}=\tilde{e}_1::\tilde{e}_2$}
@@ -649,7 +624,7 @@ This leads us to conclude $t_1\And t_2,\sigma\stride t_1'\And t_2',\sigma''$ and
 
   \case{$\tilde{e}=\tilde{e}_1:=\tilde{e}_2$}
     {
-    % One rule applies, namely \userule{SE-Assign}\\
+    One rule applies, namely \userule{SE-Assign}\\
     % Provided that $M\phi_1\wedge M\phi_2$,
     % we need to demonstrate that \userule{E-Assign} with $\hat{\sigma}=M\sigma$,
     % $M\unit \equiv \unit$, which holds true trivially,
@@ -684,9 +659,8 @@ This leads us to conclude $t_1\And t_2,\sigma\stride t_1'\And t_2',\sigma''$ and
   \case{$\tilde{e}=\Enter \tau$}
     {
     One rule applies, namely \userule{SE-Enter}\\
-    % Provided that $M\phi$, we need to demonstrate that \userule{E-Enter} with $\hat{\sigma}=M\sigma$,
-    % $M \Enter \tau \equiv \Enter \tau$, which holds trivially since types do not hold symbols,
-    % and $M\sigma\equiv\hat{\sigma}$, which also hols trivially from the premise.
+    We assume $e,\sigma\Consistent_M\Enter\tau,\tilde{\sigma},\Phi$ and $\Enter\tau,\tilde{\sigma}\tilde{\eval}\Enter\tau,\tilde{\sigma},\True$.
+    By \refrule{E-Enter} we have $\Enter\tau,\sigma\eval \Enter\tau,\sigma$, so this case holds trivially.
     }
 
   \case{$\tilde{e}=\Update \tilde{e}$}
@@ -751,18 +725,15 @@ This leads us to conclude $t_1\And t_2,\sigma\stride t_1'\And t_2',\sigma''$ and
 
   \case{$\tilde{e}=\tilde{e}_1\Xor \tilde{e}_2$}
     {  One rule applies, namely \userule{SE-Xor}\\
-      % Provided that $M\phi$, we need to demonstrate that \userule{E-Xor} with $\hat{\sigma}=M\sigma$,
-      % $M e_1\Xor e_2 \equiv \hat{e_1}\Xor\hat{e_2}$,
-      % which holds trivially,
-      % and $M\sigma\equiv\hat{\sigma}$, which also holds trivially from the premise.
+    We assume $e,\sigma\Consistent_M\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma},\Phi$ and $\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma}\tilde{\eval}\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma},\True$.
+    By \refrule{E-Xor} we have $e_1\Xor e_2,\sigma\eval e_1\Xor e_2,\sigma$, so this case holds trivially.
 
     }
 
   \case{$\tilde{e}=\Fail$}
     {  One rule applies, namely \userule{SE-Fail}\\
-      % Provided that $M\phi$, we need to demonstrate that \userule{E-Fail} with $\hat{\sigma}=M\sigma$,
-      % $M \Fail \equiv \Fail$, which holds trivially since fail do not hold symbols,
-      % and $M\sigma\equiv\hat{\sigma}$, which also hols trivially from the premise.
+    We assume $e,\sigma\Consistent_M\Fail,\tilde{\sigma},\Phi$ and $\Fail,\tilde{\sigma}\tilde{\eval}\Fail,\tilde{\sigma},\True$.
+    By \refrule{E-Fail} we have $\Fail,\sigma\eval \Fail,\sigma$, so this case holds trivially.
 
     }
 
