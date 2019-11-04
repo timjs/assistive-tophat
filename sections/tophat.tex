@@ -4,7 +4,7 @@
 \label{sec:tophat}
 
 Task-Oriented Programming (\TOP) is a paradigm first introduced by Plasmeijer et al.~\cite{DBLP:conf/ppdp/PlasmeijerLMAK12}.
-It was created to improve the development of software that coordinates collaboration between users.
+It was created to improve the development and quality of software that coordinates collaboration between users.
 \TOP provides programmers with a high level of programming abstraction,
 while being expressive enough to describe real world collaborations.
 It does so by using features from higher-order functional programming languages,
@@ -15,24 +15,24 @@ From a task specification, a \TOP implementation generates a distributive multi-
 Tasks have a couple of properties, listed below.
 \begin{itemize}
   \item
-    Tasks model \emph{collaboration}.
+    Tasks model \emph{collaboration}.\\
     Programmers describe what work needs to be done in what way.
   \item
-    Tasks are \emph{interactive}.
+    Tasks are \emph{interactive}.\\
     Users can enter or update information into the system by using \emph{editors}.
   \item
-    Tasks can be \emph{observed}
+    Tasks can be \emph{observed}.\\
     Therefore, other users or the system itself can make decisions based on the progress of the task.
   \item
-    Tasks are \emph{modular}.
+    Tasks are \emph{modular}.\\
     They can be combined into bigger tasks by using \emph{combinators}.
     Basic combinators are chosen in such a way, that they represent a way of collaboration between users.
     New combinators can be created by making use of basic combinators and the higher order facilities of the host language.
   \item
-    Tasks \emph{share information}.
+    Tasks \emph{share information}.\\
     Information is passed along control flow, or via references to shared data.
   \item
-    Tasks are \emph{typed}.
+    Tasks are \emph{typed}.\\
     This is not just to ensure safety at runtime,
     but also to automatically derive common program elements.
     \TOP systems automatically generate user interfaces and manage persistent storage of information.
@@ -47,11 +47,12 @@ A formalisation of \TOP, called \TOPHAT (TopHat), has been created by Steenvoord
 This work builds further on \TOPHAT and its symbolic counterpart \STOPHAT~\cite{}.
 
 \TOPHAT implements \TOP by embedding a task language in the simply typed lambda calculus with references, conditionals, and pairs.
-\STOPHAT extends this with built in operators, lists, and symbols.
+\STOPHAT extends this with built in operators, lists, and most importantly symbols.
 References are used to model the shared data component of \TOP.
 Below, the different components of \TOPHAT are explained in detail.
 The complete syntax and semantics can be found in previous work~\cite{Steenvoorden2019}.
 In the next subsections we describe the basic constructs of the \TOPHAT language.
+\cref{sec:symbolic} details \STOPHAT.
 
 % Since the idea was introduced, a lot of research as been done on \TOP.
 % However, the basic principle remain the same.
@@ -69,7 +70,7 @@ Users can change the value held by an editor, in the same way they can manipulat
 
 When a \TOP implementation generates an application from a task specification, it derives user interfaces for the editors.
 The appearance of an editor is influenced by its type.
-For example, editors for strings can be represented by simple input fields, dates by calendars, and locations by pins on a map.
+For example, editors of type strings can be represented by simple input fields, dates by calendars, and locations by pins on a map.
 
 There are three different editors in \TOPHAT.
 \begin{description}
@@ -97,19 +98,19 @@ Here, $t$ stands for tasks and $e$ for arbitrary expressions.
 \begin{description}
   \item[$t \Then e$] Step.\\
     Users can work on task $t$.
-    As soon as $t$ has a value, that value is passed on to the right hand side $e$.
+    As soon as $t$ has an observable value, that value is passed on to the right hand side $e$.
     The expression $e$ is a function, taking the value as an argument, resulting in a new task.
   \item[$t \Next e$] User Step.\\
     Users can work on task $t$.
-    When $t$ has a value, the step becomes enabled.
-    Then, Users can send a continue event to the combinator.
+    When $t$ has an observable value, the step becomes enabled.
+    Then, users can send a continue event to the combinator.
     When that happens, the value of $t$ is passed to the right hand side, with which it continues,
     in the same way as normal steps do.
   \item[$t_1 \And t_2$] Pairing.\\
     Users can work on tasks $t_1$ and $t_2$ in at the same time.
   \item[$t_1 \Or t_2$] Choice.\\
     The system chooses between $t_1$ or $t_2$,
-    based on which task first has a value.
+    based on which task first has an observable value.
     If both tasks have a value, the system chooses the left one.
   \item[$e_1 \Xor e_2$] User choice.\\
     A user has to make a choice between either the left or the right hand side.
@@ -124,13 +125,20 @@ When the right hand side of a step combinator evaluates to $\Fail$, the step wil
 \subsection{Observations}
 
 Several observations can be made on tasks.
+These observations are used by the system to determine the progress of combinators,
+to draw the user interface, and they will also be used by Assistive \TOPHAT to provide next step hints.
 
 Using the value function $\Value$, the current value of a task can be determined.
 The value function is a partial function, since not all tasks have a value.
 For example empty editors and steps do not have a value.
+For the parallel and internal choice combinators, their value depends on the value of the subtasks.
+Parallel only as a value if both tasks have an observable value.
+Internal choice has a value if either of the two tasks has an observable value.
 
 One can also observe whether or not a task is failing, by means of the failing function $\Failing$.
-For example, the task $\Fail$ is failing, as is a parallel combination of failing tasks $\Fail \And \Fail$.
+A task is considered to be failing if a user cannot interact with it.
+For example, the valued editor is not failing, since the user can update it with a new value.
+The task $\Fail$ is failing, as is a parallel combination of failing tasks $\Fail \And \Fail$, since no input can be send to those tasks.
 Both observation definitions can be found in \cref{fig:observations}
 
 \begin{figure}[h]
