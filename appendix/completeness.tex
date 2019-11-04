@@ -3,6 +3,42 @@
 \section{Completeness proofs}
 \label{sec:completenessproofs}
 
+\begin{lemma}[Completeness of handling]
+  \label{lem:completeHandle}
+  For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
+  we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$ implies
+  that for all inputs $i$ such that $t,\sigma\handle{i}t',\sigma'$,
+  there exists a symbolic input $\tilde{\imath}$, $\tilde{\imath}\sim i$ such that
+  $\tilde{t},\tilde{\sigma}\handle{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}$,
+  and for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{\imath}$ and $c\in i$.
+\end{lemma}
+
+\begin{lemma}[Completeness of normalisation]
+  \label{lem:completeNormalise}
+  For all concrete expressions $e$, concrete states $\sigma$, symbolic expressions $\tilde{e}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
+  we have that $e,\sigma\Consistent_{M}\tilde{e},\tilde{\sigma},\Phi$
+  and $e,\sigma\hat{\normalise} t,\sigma'$,
+  then $\tilde{e},\tilde{\sigma}\normalise\overline{\tilde{t},\tilde{\sigma}',\phi}$,
+  and for all pairs $(\tilde{t},\tilde{\sigma}',\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $t,\sigma'\Consistent_{M}\tilde{t},\tilde{\sigma}',\Phi\land\phi$.
+\end{lemma}
+
+\begin{lemma}[Completeness of striding]
+  \label{lem:completeStride}
+  For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
+  we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$
+  and $t,\sigma\hat{\stride} t',\sigma'$,
+  then $\tilde{t},\tilde{\sigma}\stride\overline{\tilde{t'},\tilde{\sigma}',\phi}$,
+  and for all pairs $(\tilde{t'},\tilde{\sigma}',\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $t',\sigma'\Consistent_{M}\tilde{t'},\tilde{\sigma}',\Phi\land\phi$.
+\end{lemma}
+
+\begin{lemma}[Completeness of evaluate]
+  \label{lem:completeEval}
+  For all concrete expressions $e$, concrete states $\sigma$, symbolic expressions $\tilde{e}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
+  we have that $e,\sigma\Consistent_{M}\tilde{e},\tilde{\sigma},\Phi$
+  and $e,\sigma\hat{\eval} v,\sigma'$,
+  then $\tilde{e},\tilde{\sigma}\eval\overline{\tilde{v},\tilde{\sigma}',\phi}$,
+  and for all pairs $(\tilde{v},\tilde{\sigma}',\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $v,\sigma'\Consistent_{M}\tilde{v},\tilde{\sigma}',\Phi\land\phi$.
+\end{lemma}
 
 \begin{proof}[Completeness of handle]
 

@@ -3,11 +3,39 @@
 \section{Properties}
 \label{sec:properties}
 
-We define an evaluation function that takes a task, state and list of inputs,
+In this section, we intend to validate our approach by proving that our hints function is correct.
+We consider our function to be correct when it produces correct hints.
+Intuitively, for a set of next step hints to be correct, they should adhere to the following requirements.
+
+\begin{itemize}
+  \item valid steps a user can actually take.
+  \item bring the user closer to the desired goal.
+  \item contain ALL steps that bring the user closer to their goal.
+\end{itemize}
+
+We separate these requirements into two lemma's, namely soundness and completeness.
+
+\begin{theorem}[Soundness of hints]
+  \label{thm:soundhint}
+
+For all tasks $t$, states $\sigma$ and goals $g$,
+for every next step hint $(\tilde{\imath},\Phi)$ in $\Hints(t,\sigma,g)$,
+there exists a sequence of inputs $I$ and input $i$ such that $\tilde{\imath}\sim i$,
+$\Sat([s\mapsto c]\Phi)$, $t,\sigma\interact{i} t',\sigma'\interact{I}^* v$ and $gv$.
+\end{theorem}
+
+\begin{theorem}[Completeness of hints]
+  \label{thm:completehint}
+  For all tasks $t$, states $\sigma$, lists of input $(i:is)$ and goals $g$,
+  if $t,\sigma,\interact{i:is}^*v$ and $g v$, then there exists a symbolic input $\tilde{\imath}$ and path condition $\Phi$
+  such that $(\tilde{\imath},\Phi)\in\Hints(t,\sigma)$ with $\tilde{\imath}\sim i$ and $\Sat([s\mapsto c]\Phi)$ with $c\in i$ and $s\in i$.
+\end{theorem}
+
+The theorems above make use of an evaluation function.
+This function takes a task, state and list of inputs,
 and returns the value of the task after application of all inputs.
 This is a partial function since not all tasks have an observable value.
-
-All elements of firsts are valid hints.
+The definition of evaluate is given in \cref{def:evaluate}.
 
 \begin{definition}[Evaluate]
   $t,\sigma\interact{I}^* v$ where
@@ -30,35 +58,12 @@ All elements of firsts are valid hints.
   &I=i_1,\cdots,i_n
 \end{align*}
 \end{minipage}
-
-
-
-
-
+\label{def:evaluate}
 \end{definition}
 
-\subsection{Correctness of firsts}
 
-The most important property we would like to prove, is the correctness of the hints calculated by firsts.
-Intuitively, for a set of next step hints to be correct, they should be
-- valid steps a user can actually take
-- bring the user closer to the desired goal
-- contain ALL steps that bring the user closer to their goal.
-
-We separate this property into two parts.
-
-
-\begin{lemma}[Soundness of firsts]
-  \label{lem:soundfirsts}
-
-For all tasks $t$, states $\sigma$ and goals $g$,
-for every next step hint $(\tilde{\imath},\Phi)$ in $\Hints(t,\sigma,g)$,
-there exists a sequence of inputs $I$ and input $i$ such that $\tilde{\imath}\sim i$,
-$\Sat([s\mapsto c]\Phi)$, $t,\sigma\interact{i} t',\sigma'\interact{I}^* v$ and $gv$.
-\end{lemma}
-
-\begin{proof}
-  \cref{lem:soundfirsts} follows from the premise of \refrule{R-Hints} and \cref{lem:soundsimulate} as follows.
+\begin{proof}[\cref{thm:soundhint}]
+  \cref{thm:soundhint} follows from the premise of \refrule{R-Hints} and \cref{lem:soundsimulate} as follows.
 
   The premise of \refrule{R-Hints} gives us that for every pair $\tilde{\imath},\Phi)$ produced by $\Hints$,
   there exists a pair $(\tilde{v},\tilde{\imath}:\tilde{is},\Phi)$ with $\Sat(\Phi\land g \tilde{v})$.
@@ -66,14 +71,8 @@ $\Sat([s\mapsto c]\Phi)$, $t,\sigma\interact{i} t',\sigma'\interact{I}^* v$ and 
   $t,\sigma\interact{I}^*v$ and $g v$.
 \end{proof}
 
-\begin{lemma}[Completeness of firsts]
-  \label{lem:completefirsts}
-  For all tasks $t$, states $\sigma$, lists of input $(i:is)$ and goals $g$,
-  if $t,\sigma,\interact{i:is}^*v$ and $g v$, then there exists a symbolic input $\tilde{\imath}$ and path condition $\Phi$
-  such that $(\tilde{\imath},\Phi)\in\Hints(t,\sigma)$ with $\tilde{\imath}\sim i$ and $\Sat([s\mapsto c]\Phi)$ with $c\in i$ and $s\in i$.
-\end{lemma}
 
-\begin{proof}
+\begin{proof}[\cref{thm:completehint}]
   In order to prove that $i$ is contained in $\Hints(t,\sigma)$, we need to show that the premise of \refrule{R-Hints} holds.
 
   This means showing that $(\tilde{v},\tilde{\imath}:\tilde{is},\Phi)\in t,\sigma\interact{}^*$, with $\tilde{\imath}\sim i$ and $\Sat([s_0\mapsto c_0,\cdots,s_n\mapsto c_n]\land g\tilde{v})$, where $[c_0,\cdots,c_n]\in i:is$ and $[s_0,\cdots,s_n]\in \tilde{\imath}:\tilde{is}$.
@@ -81,8 +80,9 @@ $\Sat([s\mapsto c]\Phi)$, $t,\sigma\interact{i} t',\sigma'\interact{I}^* v$ and 
   By \cref{lem:completesimulate}, we directly obtain that this indeed exists. Therefore we know that $\tilde{\imath}$ and $\Phi$ exist.
 \end{proof}
 
-
-Since the $\Hints$ function relies on the $\Simulate$ function, we can make use of soundness and completeness of that function with respect to $\Evaluate$, when proving the lemma's above.
+Since the $\Hints$ function relies on the $\Simulate$ function,
+we can make use of soundness and completeness of that function with respect to $\Evaluate$, when proving the lemma's above.
+Soundness and completeness for $\Simulate$ is defined below, together with the proofs for these lemma's.
 
 \begin{lemma}[Soundness of simulate]
   \label{lem:soundsimulate}
@@ -165,7 +165,7 @@ Since the $\Hints$ function relies on the $\Simulate$ function, we can make use 
 
 \end{proof}
 
-$\Evaluate$ and $\Simulate$ make use of the driving and symbolic driving semantics respectively, so we again first prove those sound and complete with respect to each other.
+$\Evaluate$ and $\Simulate$ make use of the driving and symbolic driving semantics respectively, so we also need prove those sound and complete with respect to each other.
 
 
 \begin{definition}[Consistence relation $\Consistent$]
@@ -215,102 +215,32 @@ Where $\tilde{\imath}\sim i$ is defined as follows.
   $\tilde{\imath}\sim i\implies \Second \tilde{\imath} \sim \Second i$
 \end{definition}
 
-And $s\in \tilde{\imath}$ and $c\in i$ are defined as follows.
-
-\begin{definition}[Value from input]
-  $c\in \First i = c\in i $\\
-  $c\in \Second i = c\in i $\\
-  $c\in a = a $
-\end{definition}
-
-\begin{definition}[Symbol from input]
-  $s\in \First \tilde{\imath} = s\in \tilde{\imath} $\\
-  $s\in \Second \tilde{\imath} = s\in \tilde{\imath} $\\
-  $s\in a = a $
-\end{definition}
-
-Since the driving semantics depends on the handling and normalisation semantics, we need to show that they too are sound and complete, before we can prove the lemma's above.
-
-
-\begin{lemma}[Soundness of handling]
-  \label{lem:soundhandle}
-
-  For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
-  we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$ implies
-  that for all symbolic inputs $\tilde{\imath}$ such that $\tilde{t},\tilde{\sigma}\handle{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}$ and
-  for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi)$,
-  $\Sat(\Phi\land\phi)$ implies that there exists an input $i$ such that $\tilde{\imath}\sim i$,  $t,\sigma\handle{i}t',\sigma'$ and $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{\imath}$ and $c\in i$.
-
-\end{lemma}
-
-
-
-\begin{lemma}[Soundness of normalisation]
-  \label{lem:soundnorm}
-  For all concrete expressions $e$, concrete states $\sigma$, symbolic expressions $\tilde{e}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
-  we have that $e,\sigma\Consistent_{M}\tilde{e},\tilde{\sigma},\Phi$ implies
-  that if $\tilde{e},\tilde{\sigma}\tilde{\normalise}\overline{\tilde{t},\tilde{\sigma}',\phi}$,
-  then for all pairs $(\tilde{t},\tilde{\sigma}',\phi)$ it holds that $\Sat(\Phi\land\phi)$ implies
-  that $e,\sigma\normalise t,\sigma'$ with $t,\sigma'\Consistent_{M}\tilde{t},\tilde{\sigma'},\Phi\land\phi$.
-\end{lemma}
-
-\begin{lemma}[Soundness of striding]
-  \label{lem:soundstride}
-  for all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
-  we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$ implies
-  that if $\tilde{t},\tilde{\sigma}\stride\overline{\tilde{t}',\tilde{\sigma}',\phi}$,
-  then for all pairs $(\tilde{t}',\tilde{\sigma}',\phi)$ it holds that $\Sat(\Phi\land\phi)$ implies
-  that $t,\sigma\hat{\stride}t',\sigma'$ with $t',\sigma'\Consistent_{M}\tilde{t'},\tilde{\sigma'},\Phi\land\phi$.
-\end{lemma}
-
-\begin{lemma}[Soundness of evaluation]
-  \label{lem:soundeval}
-  For all concrete expressions $e$, concrete states $\sigma$, symbolic expressions $\tilde{e}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
-  we have that $e,\sigma\Consistent_{M}\tilde{e},\tilde{\sigma},\Phi$ implies
-  that if $\tilde{e},\tilde{\sigma}\eval\overline{\tilde{v},\tilde{\sigma}',\phi}$,
-  then for all pairs $(\tilde{v},\tilde{\sigma}',\phi)$ it holds that $\Sat(\Phi\land\phi)$ implies
-  that $e,\sigma\hat{\eval}v,\sigma'$ with $v,\sigma'\Consistent_{M}\tilde{v},\tilde{\sigma'},\Phi\land\phi$.
-\end{lemma}
+And $s\in \tilde{\imath}$ and $c\in i$ are defined as follows.\\
+\\
+\noindent
+\begin{minipage}[c]{0.5\textwidth}
+  \begin{definition}[Value from input]\\
+    $c\in \First i = c\in i $\\
+    $c\in \Second i = c\in i $\\
+    $c\in a = a $
+  \end{definition}
+\end{minipage}
+\begin{minipage}[c]{0.5\textwidth}
+  \begin{definition}[Symbol from input]\\
+    $s\in \First \tilde{\imath} = s\in \tilde{\imath} $\\
+    $s\in \Second \tilde{\imath} = s\in \tilde{\imath} $\\
+    $s\in a = a $
+  \end{definition}
+\end{minipage}\\
+\\
 
 
 
 
-\begin{lemma}[Completeness of handling]
-  \label{lem:completeHandle}
-  For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
-  we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$ implies
-  that for all inputs $i$ such that $t,\sigma\handle{i}t',\sigma'$,
-  there exists a symbolic input $\tilde{\imath}$, $\tilde{\imath}\sim i$ such that
-  $\tilde{t},\tilde{\sigma}\handle{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}$,
-  and for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{\imath}$ and $c\in i$.
-\end{lemma}
+Since the driving semantics in turn depends on the handling and normalisation semantics, we need to show that they too are sound and complete.
+These lemma's and proofs are listed in the appendix.
 
-\begin{lemma}[Completeness of normalisation]
-  \label{lem:completeNormalise}
-  For all concrete expressions $e$, concrete states $\sigma$, symbolic expressions $\tilde{e}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
-  we have that $e,\sigma\Consistent_{M}\tilde{e},\tilde{\sigma},\Phi$
-  and $e,\sigma\hat{\normalise} t,\sigma'$,
-  then $\tilde{e},\tilde{\sigma}\normalise\overline{\tilde{t},\tilde{\sigma}',\phi}$,
-  and for all pairs $(\tilde{t},\tilde{\sigma}',\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $t,\sigma'\Consistent_{M}\tilde{t},\tilde{\sigma}',\Phi\land\phi$.
-\end{lemma}
 
-\begin{lemma}[Completeness of striding]
-  \label{lem:completeStride}
-  For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
-  we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$
-  and $t,\sigma\hat{\stride} t',\sigma'$,
-  then $\tilde{t},\tilde{\sigma}\stride\overline{\tilde{t'},\tilde{\sigma}',\phi}$,
-  and for all pairs $(\tilde{t'},\tilde{\sigma}',\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $t',\sigma'\Consistent_{M}\tilde{t'},\tilde{\sigma}',\Phi\land\phi$.
-\end{lemma}
-
-\begin{lemma}[Completeness of evaluate]
-  \label{lem:completeEval}
-  For all concrete expressions $e$, concrete states $\sigma$, symbolic expressions $\tilde{e}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
-  we have that $e,\sigma\Consistent_{M}\tilde{e},\tilde{\sigma},\Phi$
-  and $e,\sigma\hat{\eval} v,\sigma'$,
-  then $\tilde{e},\tilde{\sigma}\eval\overline{\tilde{v},\tilde{\sigma}',\phi}$,
-  and for all pairs $(\tilde{v},\tilde{\sigma}',\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $v,\sigma'\Consistent_{M}\tilde{v},\tilde{\sigma}',\Phi\land\phi$.
-\end{lemma}
 
 % The problem with the lemma's above, is that they assume that you start out with the same task and state.
 % In the case of $\Evaluate$ and $\Simulate$, this is not true, since in the sequential application of (symbolic) drive, the expressions differ.

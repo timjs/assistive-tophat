@@ -3,6 +3,46 @@
 \section{Soundness proofs}
 \label{sec:soundnessproofs}
 
+\begin{lemma}[Soundness of handling]
+  \label{lem:soundhandle}
+
+  For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
+  we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$ implies
+  that for all symbolic inputs $\tilde{\imath}$ such that $\tilde{t},\tilde{\sigma}\handle{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}$ and
+  for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi)$,
+  $\Sat(\Phi\land\phi)$ implies that there exists an input $i$ such that $\tilde{\imath}\sim i$,  $t,\sigma\handle{i}t',\sigma'$ and $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{\imath}$ and $c\in i$.
+
+\end{lemma}
+
+
+
+\begin{lemma}[Soundness of normalisation]
+  \label{lem:soundnorm}
+  For all concrete expressions $e$, concrete states $\sigma$, symbolic expressions $\tilde{e}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
+  we have that $e,\sigma\Consistent_{M}\tilde{e},\tilde{\sigma},\Phi$ implies
+  that if $\tilde{e},\tilde{\sigma}\tilde{\normalise}\overline{\tilde{t},\tilde{\sigma}',\phi}$,
+  then for all pairs $(\tilde{t},\tilde{\sigma}',\phi)$ it holds that $\Sat(\Phi\land\phi)$ implies
+  that $e,\sigma\normalise t,\sigma'$ with $t,\sigma'\Consistent_{M}\tilde{t},\tilde{\sigma'},\Phi\land\phi$.
+\end{lemma}
+
+\begin{lemma}[Soundness of striding]
+  \label{lem:soundstride}
+  for all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
+  we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$ implies
+  that if $\tilde{t},\tilde{\sigma}\stride\overline{\tilde{t}',\tilde{\sigma}',\phi}$,
+  then for all pairs $(\tilde{t}',\tilde{\sigma}',\phi)$ it holds that $\Sat(\Phi\land\phi)$ implies
+  that $t,\sigma\hat{\stride}t',\sigma'$ with $t',\sigma'\Consistent_{M}\tilde{t'},\tilde{\sigma'},\Phi\land\phi$.
+\end{lemma}
+
+\begin{lemma}[Soundness of evaluation]
+  \label{lem:soundeval}
+  For all concrete expressions $e$, concrete states $\sigma$, symbolic expressions $\tilde{e}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
+  we have that $e,\sigma\Consistent_{M}\tilde{e},\tilde{\sigma},\Phi$ implies
+  that if $\tilde{e},\tilde{\sigma}\eval\overline{\tilde{v},\tilde{\sigma}',\phi}$,
+  then for all pairs $(\tilde{v},\tilde{\sigma}',\phi)$ it holds that $\Sat(\Phi\land\phi)$ implies
+  that $e,\sigma\hat{\eval}v,\sigma'$ with $v,\sigma'\Consistent_{M}\tilde{v},\tilde{\sigma'},\Phi\land\phi$.
+\end{lemma}
+
 
 \begin{proof}[Soundness of handle]
 
