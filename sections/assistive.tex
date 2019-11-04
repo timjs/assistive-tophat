@@ -74,3 +74,14 @@ In the end, we can use the above to give hints to the user.
 
 First, a date must be entered. Then the user can choose to ender an amount larger than zero, a date that is within 365 from now, or a "RL".
 etc.
+
+
+\subsection{Implementation}
+\label{sec:implementation}
+
+\lstset{language=Haskell}
+\footnotesize\noindent%
+\texttt{firsts :: MonadTrack Text m => MonadSupply Nat m => MonadState Heap m => MonadZero m =>}\\
+\texttt{Val ('TyTask ('TyPrim t)) -> Goal t -> m ( Input, Pred 'TyPrimBool )}\\
+%\texttt{firsts t g = [ ( i, p' ) | ( v, i:_, p ) <- simulate t [] Yes, let p' = p :/\: g v, satisfiable p' ]}
+\normalsize
