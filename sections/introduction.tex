@@ -11,16 +11,15 @@ In settings like hospitals, first responders and military operations, these syst
 %they are a problem because
 
 Automation and digitalisation of workflows and business processes comes at a cost.
-Using them requires workers to undergo training, and often relies on their experience and expertise.
+Using them requires workers to undergo training, and often relies on their experience and expertise~\cite{}\todo{cite}.
 
 %our approach overcomes this because
 To overcome these drawbacks, we propose to integrate a next step hint assistive system into the workflow software.
 By combining previous research on symbolic execution for Task Oriented Programming~\cite{Naus2019} and end-user feedback systems for rule based problems~\cite{DBLP:conf/sfp/NausJ16},
 we were able to develop a next step hint end-user feedback system for the Task Oriented Programming langugage \TOPHAT~\cite{Steenvoorden2019}.
-
+Our solution, which we call Assistive \TOPHAT, generates next step hints from existing code, and does not require extra work by the programmer.
 
 \todo{Specify a bit more the scope of the paper.}
-\todo{Introduce Assistive name.}
 
 
 \subsection{Contributions}
@@ -37,8 +36,8 @@ This paper makes the following contributions.
 \subsection{Structure}
 
 \cref{sec:tophat} first introduces the Task-Oriented Programming (\TOP) paradigm and the Task-Oriented Programming language \TOPHAT.
+\cref{sec:examples} lists three example programs to illustrate \TOPHAT work.
 In \cref{sec:symbolic}, symbolic execution for \TOPHAT is briefly introduced.
-\cref{sec:examples} then goes on to illustrate how assistive \TOPHAT should work, by giving an example.
 \cref{sec:assistive} follows with a description of assistive \TOPHAT.
 In \cref{sec:properties} soundness and completeness of the assistive system are shown.
 An implementation of the system in Haskell is described in \cref{sec:implementation}.
