@@ -38,13 +38,12 @@ Tasks have a couple of properties, listed below.
     \TOP systems automatically generate user interfaces and manage persistent storage of information.
 \end{itemize}
 
-\todo{Citations.}
 Currently, there are three systems implementing the ideas of \TOP.
-The reference implementation is the \ITASKS framework~\cite{},
-which is an embedded domain specific language in the non-strict functional programming language Clean~\cite{}.
-\MTASKS~\cite{} is a \TOP implementation specifically designed for embedded systems.
-A formalisation of \TOP, called \TOPHAT (TopHat), has been created by Steenvoorden, Naus, and Klinik~\cite{}.
-This work builds further on \TOPHAT and its symbolic counterpart \STOPHAT~\cite{}.
+The reference implementation is the \ITASKS framework~\cite{DBLP:conf/ppdp/PlasmeijerLMAK12},
+which is an embedded domain specific language in the non-strict functional programming language Clean~\cite{plasmeijer2002clean}.
+\MTASKS~\cite{DBLP:conf/cgo/KoopmanLP18} is a \TOP implementation specifically designed for embedded systems.
+A formalisation of \TOP, called \TOPHAT (TopHat), has been created by Steenvoorden, Naus, and Klinik~\cite{DBLP:conf/ppdp/SteenvoordenNK19}.
+This work builds further on \TOPHAT and its symbolic counterpart \STOPHAT~\cite{Naus2019}.
 
 \TOPHAT implements \TOP by embedding a task language in the simply typed lambda calculus with references, conditionals, and pairs.
 \STOPHAT extends this with built in operators, lists, and most importantly symbols.
