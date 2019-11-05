@@ -83,7 +83,7 @@ Any concrete value $c$ of the same type as $l$ will do. Now we have to show that
  {
 Since we have $t,\sigma\Consistent_M\tilde{t}_1\Next \tilde{e}_2,\tilde{\sigma},\Phi$, we know that $M \tilde{t}_1\Next \tilde{e}_2=t$, which comes down to $t_1\Next e_2$ for some concrete $t_1$ and $e_2$.
 
- In this case, two rules apply.\\
+ In this case, three rules apply.\\
 
  \case{\userule{SH-Next}}
 
@@ -108,6 +108,14 @@ and $t_1,\sigma_2'\Consistent_M\tilde{t}_2,\tilde{\sigma}_2',\Phi\land\phi_2$
 }
 %
 \case{\userule{SH-PassNext}}
+{
+For all tuples $(\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\tilde{\imath},\phi_1)$, we know by application of the induction hypothesis that
+there exits an $i$ such that $\tilde{\imath}\sim i$, $t_1,\sigma\handle{i}t_1',\sigma'$ and
+$t_1',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1$ where $c\in i$ and $s\in \tilde{\imath}$.
+Therefore we also have $t_1'\Next e_2,\sigma_1'\Consistent_{M.[s\mapsto c]}\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\Phi\land\phi_1$.
+}
+
+\case{\userule{SH-PassNextFail}}
 {
 For all tuples $(\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\tilde{\imath},\phi_1)$, we know by application of the induction hypothesis that
 there exits an $i$ such that $\tilde{\imath}\sim i$, $t_1,\sigma\handle{i}t_1',\sigma'$ and
