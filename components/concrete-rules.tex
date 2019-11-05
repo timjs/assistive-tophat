@@ -160,10 +160,10 @@
 
 
 \newrule{E-App}
-  {e_1,{\sigma}{\eval} \lambda x:\tau.{e_1}',{\sigma}'\Quad
-   e_2,{\sigma}'{\eval} {v_2},{\sigma}''\Quad
-   e_1'[x\mapsto v_2],{\sigma}''{\eval} {v_1},{\sigma}'''}
-  {e_1 e_2,{\sigma} {\eval} {v_1},{\sigma}'''}
+  {e_1               ,\sigma   \eval \lambda x:\tau.e_1',\sigma'\Quad
+   e_2               ,\sigma'  \eval v_2                ,\sigma''\Quad
+   e_1'[x\mapsto v_2],\sigma'' \eval v_1                ,\sigma'''}
+  {e_1 e_2           ,\sigma   \eval v_1                ,\sigma'''}
 
 
 \newrule{E-IfTrue}
