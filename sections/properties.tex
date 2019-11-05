@@ -3,6 +3,11 @@
 \section{Properties}
 \label{sec:properties}
 
+
+
+
+\subsection{Correctness of hints}
+
 In this section, we intend to validate our approach by proving that our hints function is correct.
 We consider our function to be correct when it produces correct hints.
 Intuitively, for a set of next step hints to be correct, they should adhere to the following requirements.
@@ -82,7 +87,14 @@ The definition of evaluate is given in \cref{def:evaluate}.
 
 Since the $\Hints$ function relies on the $\Simulate$ function,
 we can make use of soundness and completeness of that function with respect to $\Evaluate$, when proving the lemma's above.
+
+
+\subsection{Correctness of simulate}
+
 Soundness and completeness for $\Simulate$ is defined below, together with the proofs for these lemma's.
+
+
+
 
 \begin{lemma}[Soundness of simulate]
   \label{lem:soundsimulate}
@@ -94,6 +106,87 @@ Soundness and completeness for $\Simulate$ is defined below, together with the p
   with $[s_i\mapsto c_i]\tilde{v}=v$ and $[s_i\mapsto c_i]\Phi$
   where $s_i\in\tilde{i_i}$ and $c_i\in i_i$.
 \end{lemma}
+
+
+\begin{figure}[t]
+
+\begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick % line style
+        ]
+
+
+        % j = 0
+        \node (0)  {$t,\sigma$};
+        \node (l0) [right of=0,xshift=1.4cm] {$t,\sigma\Consistent_{[\ ]} t,\sigma,\True$};
+
+        % j = 1
+        \node (c1) [below left of=0] {$t_1,\sigma_1$};
+        \node (s1) [below right of=0] {$\tilde{t_1},\tilde{\sigma_1},\phi_1$};
+        \node (l1) [right of=s1,text width=4cm] {\begin{tabular}{l}
+        $t_1,\sigma_1\Consistent_{[s_1\mapsto c_1]}\tilde{t_1},\tilde{\sigma_1},\phi_1$\\
+                                  $\Sat(\phi_1)$\\
+                                  $\Value(t_1,\sigma_1)=\bot$\end{tabular}};
+
+        %
+        \node (cc) [below of=c1,yshift=1.5cm] {\vdots};
+        \node (ss) [below of=s1,yshift=1.5cm] {\vdots};
+
+        % j = k
+        \node (ck) [below of=cc,yshift=1.5cm] {$t_k,\sigma_k$};
+        \node (sk) [below of=ss,yshift=1.5cm] {$\tilde{t_k},\tilde{\sigma_k},\phi_k$};
+        \node (lk) [right of=sk,text width=4cm] {\begin{tabular}{l}
+        $t_k,\sigma_k\Consistent_{[s_1\mapsto c_1,\cdots,s_k\mapsto c_k]}\tilde{t_k},\tilde{\sigma_k},\phi_1\land\cdots\land\phi_k$\\
+        $\Sat(\phi_1\land\cdots\land\phi_k)$\\
+        $\Value(t_k,\sigma_k)=\bot$\end{tabular}};
+
+        %
+        \node (ccc) [below of=ck,yshift=1.5cm] {\vdots};
+        \node (sss) [below of=sk,yshift=1.5cm] {\vdots};
+
+        \node (cn) [below of=ccc,yshift=1.5cm] {$t_n,\sigma_n$};
+        \node (sn) [below of=sss,yshift=1.5cm] {$\tilde{t_n},\tilde{\sigma_n},\phi_n$};
+        \node (l1) [right of=sn,text width=4cm] {\begin{tabular}{l}
+        $t_n,\sigma_n\Consistent_{[s_1\mapsto c_1,\cdots,s_n\mapsto c_n]}\tilde{t_n},\tilde{\sigma_n},\phi_1\land\cdots\land\phi_n$\\
+        $\Sat(\phi_1\land\cdots\land\phi_n)$\\
+        $\Value(t_n,\sigma_n)=v$\end{tabular}};
+
+        \path[->] (0) edge node {$i_1$} (c1);
+        \path[->] (0) edge node {$\tilde{i_1}$} (s1);
+
+        \path[->] (c1) edge node { } (cc);
+        \path[->] (s1) edge node { } (ss);
+
+        \path[->] (cc) edge node { $i_k$} (ck);
+        \path[->] (ss) edge node { $\tilde{i_k}$} (sk);
+
+        \path[->] (ck) edge node { } (ccc);
+        \path[->] (sk) edge node { } (sss);
+
+        \path[->] (ccc) edge node { } (cn);
+        \path[->] (sss) edge node { } (sn);
+
+        \path[->] (ccc) edge node {$i_n$} (cn);
+        \path[->] (sss) edge node {$\tilde{i_n}$} (sn);
+
+        \path[dashed,->] ([yshift=.25em]c1.east) edge node {\cref{lem:completedriving}} ([yshift=.25em]s1.west);
+        \path[dashed,->] ([yshift=-.25em]s1.west) edge node {\cref{lem:sounddriving}} ([yshift=-.25em]c1.east);
+
+        \path[dashed,->] ([yshift=.25em]ck.east) edge node {\cref{lem:completedriving}} ([yshift=.25em]sk.west);
+        \path[dashed,->] ([yshift=-.25em]sk.west) edge node {\cref{lem:sounddriving}} ([yshift=-.25em]ck.east);
+
+        \path[dashed,->] ([yshift=.25em]cn.east) edge node {\cref{lem:completesimulate}} ([yshift=.25em]sn.west);
+        \path[dashed,->] ([yshift=-.25em]sn.west) edge node {\cref{lem:soundsimulate}} ([yshift=-.25em]cn.east);
+
+    \end{tikzpicture}
+    \caption{Proof structure}
+      \label{fig:proofstructure}
+\end{figure}
+
+
 
 \begin{proof}[Soundness of simulate]
   The structure of this proof is outlined in \cref{fig:proofstructure}.
@@ -239,90 +332,3 @@ And $s\in \tilde{\imath}$ and $c\in i$ are defined as follows.\\
 
 Since the driving semantics in turn depends on the handling and normalisation semantics, we need to show that they too are sound and complete.
 These lemma's and proofs are listed in the appendix.
-
-
-
-% The problem with the lemma's above, is that they assume that you start out with the same task and state.
-% In the case of $\Evaluate$ and $\Simulate$, this is not true, since in the sequential application of (symbolic) drive, the expressions differ.
-% Below, a graphical representation is shown of this process.
-\begin{figure}
-
-\begin{tikzpicture}[
-            > = stealth, % arrow head style
-            shorten > = 1pt, % don't touch arrow head to node
-            auto,
-            node distance = 3cm, % distance between nodes
-            semithick % line style
-        ]
-
-
-        % j = 0
-        \node (0)  {$(t,\sigma)$};
-        \node (l0) [right of=0] {$t,\sigma\Consistent_\emptyset t,\sigma,\True$};
-
-        % j = 1
-        \node (c1) [below left of=0] {$(t_1,\sigma_1)$};
-        \node (s1) [below right of=0] {$(\tilde{t_1},\tilde{\sigma_1},\phi_1)$};
-        \node (l1) [right of=s1,text width=4cm] {\begin{tabular}{l}
-        $t_1,\sigma_1\Consistent_{[s_1\mapsto c_1]}\tilde{t_1},\tilde{\sigma_1},\phi_1$\\
-                                  $\Sat(\phi_1)$\\
-                                  $\Value(t_1,\sigma_1)=\bot$\end{tabular}};
-
-        %
-        \node (cc) [below of=c1] {\vdots};
-        \node (ss) [below of=s1] {\vdots};
-
-        % j = k
-        \node (ck) [below of=cc] {$(t_1,\sigma_1)$};
-        \node (sk) [below of=ss] {$(\tilde{t_1},\tilde{\sigma_1},\phi_1)$};
-        \node (lk) [right of=sk,text width=4cm] {\begin{tabular}{l}
-        $t_k,\sigma_k\Consistent_{[s_1\mapsto c_1,\cdots,s_k\mapsto c_k]}\tilde{t_k},\tilde{\sigma_k},\phi_1\land\cdots\land\phi_k$\\
-        $\Sat(\phi_1\land\cdots\land\phi_k)$\\
-        $\Value(t_k,\sigma_k)=\bot$\end{tabular}};
-
-        %
-        \node (ccc) [below of=ck] {\vdots};
-        \node (sss) [below of=sk] {\vdots};
-
-        \node (cn) [below of=ccc] {$(t_n,\sigma_n)$};
-        \node (sn) [below of=sss] {$(\tilde{t_n},\tilde{\sigma_n},\phi_n)$};
-        \node (l1) [right of=sn,text width=4cm] {\begin{tabular}{l}
-        $t_n,\sigma_n\Consistent_{[s_1\mapsto c_1,\cdots,s_n\mapsto c_n]}\tilde{t_n},\tilde{\sigma_n},\phi_1\land\cdots\land\phi_n$\\
-        $\Sat(\phi_1\land\cdots\land\phi_n)$\\
-        $\Value(t_n,\sigma_n)=v$\end{tabular}};
-
-        \path[->] (0) edge node {$i_1$} (c1);
-        \path[->] (0) edge node {$\tilde{i_1}$} (s1);
-
-        \path[->] (c1) edge node { } (cc);
-        \path[->] (s1) edge node { } (ss);
-
-        \path[->] (cc) edge node { $i_k$} (ck);
-        \path[->] (ss) edge node { $\tilde{i_k}$} (sk);
-
-        \path[->] (ck) edge node { } (ccc);
-        \path[->] (sk) edge node { } (sss);
-
-        \path[->] (ccc) edge node { } (cn);
-        \path[->] (sss) edge node { } (sn);
-
-        \path[->] (ccc) edge node {$i_n$} (cn);
-        \path[->] (sss) edge node {$\tilde{i_n}$} (sn);
-
-        \path[dashed,->] ([yshift=.25em]c1.east) edge node {\cref{lem:completedriving}} ([yshift=.25em]s1.west);
-        \path[dashed,->] ([yshift=-.25em]s1.west) edge node {\cref{lem:sounddriving}} ([yshift=-.25em]c1.east);
-
-        \path[dashed,->] ([yshift=.25em]ck.east) edge node {\cref{lem:completedriving}} ([yshift=.25em]sk.west);
-        \path[dashed,->] ([yshift=-.25em]sk.west) edge node {\cref{lem:sounddriving}} ([yshift=-.25em]ck.east);
-
-        \path[dashed,->] ([yshift=.25em]cn.east) edge node {\cref{lem:completesimulate}} ([yshift=.25em]sn.west);
-        \path[dashed,->] ([yshift=-.25em]sn.west) edge node {\cref{lem:soundsimulate}} ([yshift=-.25em]cn.east);
-
-    \end{tikzpicture}
-    \caption{Proof structure}
-      \label{fig:proofstructure}
-\end{figure}
-% to be added to the figure above:\\
-% $\Value(t_n,\sigma_n)=v$\\
-% $\Value(t_{i<n},\sigma_{i<n})=\bot$\\
-% etc
