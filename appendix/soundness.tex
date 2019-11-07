@@ -3,6 +3,54 @@
 \section{Soundness proofs}
 \label{sec:soundnessproofs}
 
+
+\begin{proof}[Soundness of simulate]
+  The structure of this proof is outlined in \cref{fig:proofstructure}.
+
+  We have $t$ and $\sigma$ such that $t,\sigma\interact{}^*\overline{\tilde{v},\tilde{I},\Phi}$.
+  By definition of simulation $(\interact{}^*)$, we know that for each tuple $(\tilde{v},\tilde{I},\Phi)$,
+  the following sequence of symbolic drive steps has occurred.
+  \begin{align*}
+      t,\sigma\interact{}&\tilde{t}_1,\tilde{\sigma}_1,\tilde{\imath}_1,\phi_1&\\
+                      &\tilde{t}_1,\tilde{\sigma}_1\interact{}&\tilde{t}_2,\tilde{\sigma}_2,\tilde{\imath}_2,\phi_2\\
+                      &                                    &\tilde{t}_2,\tilde{\sigma}_2\interact{}&\cdots&\\
+                      &                                    &                                    &\cdots&
+                      \interact{}\tilde{t}_n,\tilde{\sigma}_n,\tilde{\imath}_n,\phi_n
+  \end{align*}
+
+  with $\Value(\tilde{t}_n,\tilde{\sigma}_n)=\tilde{v}$ and $\Sat(\phi_1\land\cdots\land\phi_n)$.
+
+  We need to show that there exits an $I$ such that $t,\sigma\interact{I}^*v$, which is defined similarly as follows.
+
+  $t,\sigma\interact{i_1}t_1,\sigma_1\interact{i_2}t_2,\sigma_2\interact{i_3}\cdots \interact{i_n}t_n,\sigma_n$ with $\Value(t_n,\sigma_n)$.
+
+  By \cref{lem:sounddriving}, we know that $t,\sigma\interact{i_1}t_1,\sigma_1$ exists, since $t,\sigma\Consistent_{\emptyset}t,\sigma,\True$.
+  This also gives us that $\tilde{i_1}\sim i_1$, and $t_1,\sigma_1\Consistent_{[s_1\mapsto c_1]}\tilde{t}_1,\tilde{\sigma}_1,\phi_1$ with $s_1\in\tilde{\imath}_1$ and $c_1\in i_1$.
+
+  By repeatedly applying \cref{lem:sounddriving}, until we arrive at $\tilde{t}_n,\sigma{t}_n$,
+  we can show that there indeed exists an $I$ such that $t,\sigma\interact{I}^*v$ with $[s_1\mapsto c_1,\cdots,s_n\mapsto c_n]\tilde{v}=v$
+  and $[s_1\mapsto c_1,\cdots,s_n\mapsto c_n]\Phi$, namely $I=[i_1,\cdots,i_n]$.
+
+\end{proof}
+
+
+
+
+
+
+\begin{proof}[Soundness of driving]
+  The symbolic driving semantics consists of only one rule, \refrule{SI-Handle}.
+  Given that $t,\sigma\Consistent_M\tilde{t},\tilde{\sigma},\Phi$ and $\tilde{t},\tilde{\sigma}\interact{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi_1}$,
+  \cref{lem:soundhandle} gives us that for each pair $(\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi_1)$
+  there exists an input $i$ such that $\tilde{\imath}\sim i$, $t,\sigma\handle{i}t',\sigma'$
+  and $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t'},\tilde{\sigma'},\Phi\land\phi_1$.
+
+  Then, by \cref{lem:soundnorm}, given that $\tilde{t'},\tilde{\sigma'}\normalise\overline{\tilde{t''},\tilde{\sigma''}',\phi_2}$,
+  we obtain that for each pair $(\tilde{t''},\tilde{\sigma''}',\phi_2)$, we have that $\Sat(\Phi\land\phi_1\land\phi_2)$ implies
+  that $t',\sigma'\hat{\normalise}t'',\sigma''$ with $t'',\sigma''\Consistent_{M.[s\mapsto c]}\tilde{t''},\tilde{\sigma''},\Phi\land\phi_1\land\phi_2$.
+\end{proof}
+
+
 \begin{lemma}[Soundness of handling]
   \label{lem:soundhandle}
 
@@ -48,7 +96,7 @@
 
   We prove \cref{lem:soundhandle} by induction over $\tilde{t}$.
 
-  \case{$\tilde{t}=\Enter \tau$}
+  \Case{$\tilde{t}=\Enter \tau$}
  {One rule applies, namely \userule{SH-Fill}\\
  Since we have $t,\sigma\Consistent_M\Enter \tau,\tilde{\sigma},\Phi$, we know that $t$ must be $\Enter \tau$ too, $\tilde{t}$ contains no symbols.
  There exists only one symbolic execution, namely $\Enter \tau,\tilde{\sigma}\handle{}\Edit s,\tilde{\sigma},s,\True$.
@@ -57,7 +105,7 @@
  Any concrete value $c$ of type $\tau$ will do. Now we have to show that we end up with $\Edit c,\sigma\Consistent_{M.[s\mapsto c]}\Edit s,\tilde{\sigma},\Phi\land\True$, which holds trivially.
  }
 
-  \case{$\tilde{t}=\Edit \tilde{v}$}
+  \Case{$\tilde{t}=\Edit \tilde{v}$}
   {One rule applies, namely \userule{SH-Change}\\
   Since we have $t,\sigma\Consistent_M\Edit \tilde{v},\tilde{\sigma},\Phi$, we know that either $\tilde{v}$ is a concrete value, or $M$ contains a mapping such that $M\tilde{v}$ becomes a concrete value $c$. We know therefore that $t$ must be $\Edit c$.
 
@@ -68,7 +116,7 @@
   }
 
 
-\case{$\tilde{t}=\Update l$}
+\Case{$\tilde{t}=\Update l$}
 {One rule applies, namely \userule{SH-Update}\\
 
 Since we have $t,\sigma\Consistent_M\Update l,\tilde{\sigma},\Phi$, we know that $t$ must be $\Update l$ too, $\tilde{t}$ contains no symbols.
@@ -79,13 +127,13 @@ Any concrete value $c$ of the same type as $l$ will do. Now we have to show that
 }
 
 
-\case{$\tilde{t}=\tilde{t}_1\Next \tilde{e}_2$}
+\Case{$\tilde{t}=\tilde{t}_1\Next \tilde{e}_2$}
  {
 Since we have $t,\sigma\Consistent_M\tilde{t}_1\Next \tilde{e}_2,\tilde{\sigma},\Phi$, we know that $M \tilde{t}_1\Next \tilde{e}_2=t$, which comes down to $t_1\Next e_2$ for some concrete $t_1$ and $e_2$.
 
  In this case, three rules apply.\\
 
- \case{\userule{SH-Next}}
+ \Case{\userule{SH-Next}}
 
 {
 In this case, we have two sets of symbolic executions.
@@ -107,7 +155,7 @@ At this point, by application of \cref{lem:soundnorm}, we obtain that $e_2\ v_1,
 and $t_1,\sigma_2'\Consistent_M\tilde{t}_2,\tilde{\sigma}_2',\Phi\land\phi_2$
 }
 %
-\case{\userule{SH-PassNext}}
+\Case{\userule{SH-PassNext}}
 {
 For all tuples $(\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\tilde{\imath},\phi_1)$, we know by application of the induction hypothesis that
 there exits an $i$ such that $\tilde{\imath}\sim i$, $t_1,\sigma\handle{i}t_1',\sigma'$ and
@@ -115,7 +163,7 @@ $t_1',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}',\Phi\land\
 Therefore we also have $t_1'\Next e_2,\sigma_1'\Consistent_{M.[s\mapsto c]}\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\Phi\land\phi_1$.
 }
 
-\case{\userule{SH-PassNextFail}}
+\Case{\userule{SH-PassNextFail}}
 {
 For all tuples $(\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\tilde{\imath},\phi_1)$, we know by application of the induction hypothesis that
 there exits an $i$ such that $\tilde{\imath}\sim i$, $t_1,\sigma\handle{i}t_1',\sigma'$ and
@@ -124,7 +172,7 @@ Therefore we also have $t_1'\Next e_2,\sigma_1'\Consistent_{M.[s\mapsto c]}\tild
 }
 }
 
-\case{$\tilde{t}=\tilde{t}_1\Then \tilde{e}_2$}
+\Case{$\tilde{t}=\tilde{t}_1\Then \tilde{e}_2$}
 {One rule applies, namely \userule{SH-PassThen}\\
 For all tuples $(\tilde{t}_1'\Then\tilde{e}_2,\tilde{\sigma}',\tilde{\imath},\phi)$, we know by application of the induction hypothesis that
 there exists an $i$ such that $\tilde{\imath}\sim i$, $t_1,\sigma\handle{1}t_1',\sigma'$ and
@@ -132,10 +180,10 @@ $t_1',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}',\Phi\land\
 Therefore we also have $t_1'\Then e_2,\sigma_1'\Consistent_{M.[s\mapsto c]}\tilde{t}_1'\Then \tilde{e}_2,\tilde{\sigma}_1',\Phi\land\phi_1,M.[s\mapsto c])$.
 }
 
-\case{$\tilde{t}=\tilde{e}_1\Xor \tilde{e}_2$}
+\Case{$\tilde{t}=\tilde{e}_1\Xor \tilde{e}_2$}
  {
 In this case, three rules apply.\\
-   \case{\userule{SH-Pick}}
+   \Case{\userule{SH-Pick}}
    {
    In this case, we have two sets of symbolic executions.
 
@@ -149,14 +197,14 @@ In this case, three rules apply.\\
    \todo{is it problematic that $i$ is not captured in the relation here?}
    }
 %
- \case{\userule{SH-PickLeft}}
+ \Case{\userule{SH-PickLeft}}
   {
   For all tuples $(\tilde{t}_1,\tilde{\sigma}_1,\Left,\phi_1)$,
   we obtain from \cref{lem:soundnorm} that $e_1,\sigma\normalise t_1,\sigma_1$ with
   $t_1,\sigma_1\Consistent_M\tilde{t}_1,\tilde{\sigma}_1,\Phi\land\phi_1$.
 %
 }
-  \case{\userule{SH-PickRight}}
+  \Case{\userule{SH-PickRight}}
   {
   For all tuples $(\tilde{t}_2,\tilde{\sigma}_2,\Right,\phi_2)$,
   we obtain from \cref{lem:soundnorm} that $e_2,\sigma\normalise t_2,\sigma_2$ with
@@ -164,7 +212,7 @@ In this case, three rules apply.\\
   }
  }
 %
-\case{$\tilde{t}=\tilde{t}_1\And \tilde{t}_2$}
+\Case{$\tilde{t}=\tilde{t}_1\And \tilde{t}_2$}
 {
 In this case, one rule applies. \userule{SH-And}
 
@@ -185,7 +233,7 @@ In this case, we have two sets of symbolic executions.
   It follows trivially that $t_1\And t_2',\sigma_2'\Consistent_{M.[s\mapsto c]}\tilde{t}_1\And \tilde{t}_2',\tilde{\sigma}_2',\Phi\land\phi_2$.
 }
 %
- \case{$\tilde{t}=\tilde{e}_1\Or \tilde{e}_2$}
+ \Case{$\tilde{t}=\tilde{e}_1\Or \tilde{e}_2$}
 {One rule applies, namely \userule{SH-Or}\\
 \todo{I forgot this case}
 %
@@ -220,7 +268,7 @@ In this case, we have two sets of symbolic executions.
 
 \begin{proof}[$\Value$ preserves consistence]
 
-  \case{$\tilde{t}=\Edit s$}
+  \Case{$\tilde{t}=\Edit s$}
     {
     If we have $t,\sigma\Consistent_M\Edit s,\tilde{\sigma},\Phi$, then we know that $t$ must be $\Edit c$ for some concrete value of the same type as $s$.
 
@@ -229,7 +277,7 @@ In this case, we have two sets of symbolic executions.
     Therefore $c,\sigma\Consistent_M s,\tilde{\sigma},\Phi$.
     }
 
-  \case{$\tilde{t}=\Enter \tau$}
+  \Case{$\tilde{t}=\Enter \tau$}
     {
     If we have $t,\sigma\Consistent_M\Enter \tau,\tilde{\sigma},\Phi$, then we know that $t$ is also $\Enter\tau$.
 
@@ -237,7 +285,7 @@ In this case, we have two sets of symbolic executions.
     so this case holds trivially.
     }
 
-  \case{$\tilde{t}=\Update l$}
+  \Case{$\tilde{t}=\Update l$}
     {
     If we have $t,\sigma\Consistent_M\Update l,\tilde{\sigma},\Phi$, then we know that $t$ is also $\Update l$.
 
@@ -246,14 +294,14 @@ In this case, we have two sets of symbolic executions.
     We now need to show that $M(\tilde{\sigma}(l))=\sigma(l)$. From the premise we know that $M\tilde{\sigma}=\sigma$, from which this immediately follows.
     }
 
-  \case{$\tilde{t}=\Fail$}
+  \Case{$\tilde{t}=\Fail$}
     {
     If we have $t,\sigma\Consistent_M\Fail,\tilde{\sigma},\Phi$, then we know that $t$ is also $\Fail$.
 
     By definition of $\Value$, $\Value(\Fail,\sigma)=\bot$ and $\Value(\Fail,\tilde{\sigma})=\bot$, so we know that this case holds trivially.
     }
 
-  \case{$\tilde{t}=\tilde{t}_1\Then \tilde{e}_2$}
+  \Case{$\tilde{t}=\tilde{t}_1\Then \tilde{e}_2$}
     {
     If we have $t,\sigma\Consistent_M\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma},\Phi$, then we know that $t$ is $t_1\Then e_2$.
 
@@ -262,7 +310,7 @@ In this case, we have two sets of symbolic executions.
     }
 
 
-  \case{$\tilde{t}=\tilde{t}_1\Next \tilde{e}_2$}
+  \Case{$\tilde{t}=\tilde{t}_1\Next \tilde{e}_2$}
     {
     If we have $t,\sigma\Consistent_M\tilde{t}_1\Next \tilde{e}_2,\tilde{\sigma},\Phi$, then we know that $t$ is $t_1\Next e_2$.
 
@@ -270,7 +318,7 @@ In this case, we have two sets of symbolic executions.
 
     }
 
-  \case{$\tilde{t}=\tilde{t}_1\And \tilde{t}_2$}
+  \Case{$\tilde{t}=\tilde{t}_1\And \tilde{t}_2$}
     {
     If we have $t,\sigma\Consistent_M\tilde{t}_1\And \tilde{t}_2,\tilde{\sigma},\Phi$, then we know that $t$ is also $t_1\And t_2$.
 
@@ -286,7 +334,7 @@ In this case, we have two sets of symbolic executions.
 
     }
 
-  \case{$\tilde{t}=\tilde{t}_1\Or \tilde{t}_2$}
+  \Case{$\tilde{t}=\tilde{t}_1\Or \tilde{t}_2$}
     {
     If we have $t,\sigma\Consistent_M\tilde{t}_1\Or \tilde{t}_2,\tilde{\sigma},\Phi$, then we know that $t$ is also $t_1\Or t_2$.
 
@@ -304,7 +352,7 @@ In this case, we have two sets of symbolic executions.
 
     }
 
-  \case{$\tilde{t}=\tilde{t}_1\Xor \tilde{t}_2$}
+  \Case{$\tilde{t}=\tilde{t}_1\Xor \tilde{t}_2$}
     {
     If we have $t,\sigma\Consistent_M\tilde{t}_1\Xor \tilde{t}_2,\tilde{\sigma},\Phi$, then we know that $t$ is $t_1\Xor t_2$.
 
@@ -350,35 +398,35 @@ $t',\sigma''\normalise t'',\sigma'''$ with $t'',\sigma'''\Consistent_M\tilde{t}'
 
 
 
-  \case{$\tilde{t}=\Edit \tilde{v}$}
+  \Case{$\tilde{t}=\Edit \tilde{v}$}
   { One rule applies, namely \userule{SS-Edit}\\
     Given that $t,\sigma\Consistent_M\Edit\tilde{v},\tilde{\sigma},\Phi$ and $\Edit\tilde{v},\tilde{\sigma}\tilde{\stride}\Edit\tilde{v},\tilde{\sigma},\True$,
     we know that $t=\Edit M \tilde{v}$, and we have $\Edit M \tilde{v},\sigma\stride\Edit M\tilde{v},\sigma$ by \refrule{S-Edit} and
     $\Edit M \tilde{v},\sigma\Consistent_M\Edit\tilde{v},\tilde{\sigma},\Phi$, since none of the tasks and states were altered.
    }
   %
-   \case{$t=\Enter \tau$}
+   \Case{$t=\Enter \tau$}
   {One rule applies, namely \userule{SS-Fill}\\
   Given that $t,\sigma\Consistent_M\Enter \tau,\tilde{\sigma},\Phi$ and $\Enter \tau,\tilde{\sigma}\tilde{\stride}\Enter \tau,\tilde{\sigma},\True$,
   we know that $t=\Enter \tau$, and we have $\Enter \tau,\sigma\stride\Enter \tau,\sigma$ by \refrule{S-Fill} and
   $\Enter \tau,\sigma\Consistent_M\Edit\tilde{v},\tilde{\sigma},\Phi$, since none of the tasks and states were altered.
   }
 
-  \case{$t=\Update l$}
+  \Case{$t=\Update l$}
    {One rule applies, namely \userule{SS-Update}\\
    Given that $t,\sigma\Consistent_M\Update l,\tilde{\sigma},\Phi$ and $\Update l,\tilde{\sigma}\tilde{\stride}\Update l,\tilde{\sigma},\True$,
    we know that $t=\Update l$, and we have $\Update l,\sigma\stride\Update l,\sigma$ by \refrule{S-Update} and
    $\Update l,\sigma\Consistent_M\Update l,\tilde{\sigma},\Phi$, since none of the tasks and states were altered.
   }
 
-  \case{$t=\Fail$}
+  \Case{$t=\Fail$}
    {One rule applies, namely \userule{SS-Fail}\\
    Given that $t,\sigma\Consistent_M\Fail,\tilde{\sigma},\Phi$ and $\Fail,\tilde{\sigma}\tilde{\stride}\Fail,\tilde{\sigma},\True$,
    we know that $t=\Fail$, and we have $\Fail,\sigma\stride\Fail,\sigma$ by \refrule{S-Fail} and
    $\Fail,\sigma\Consistent_M\Fail,\tilde{\sigma},\Phi$, since none of the tasks and states were altered.
    }
   %
-  \case{$t=\tilde{e}_1\Xor \tilde{e}_2$}
+  \Case{$t=\tilde{e}_1\Xor \tilde{e}_2$}
    {One rule applies, namely \userule{SS-Xor}\\
    Given that $t,\sigma\Consistent_M\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma},\Phi$ and $\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma}\tilde{\stride}\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma},\True$,
    we know that $t=M\tilde{e}_1\Xor M\tilde{e}_2$, and we have $M\tilde{e}_1\Xor M\tilde{e}_2,\sigma\stride M\tilde{e}_1\Xor M\tilde{e}_2,\sigma$ by \refrule{S-Xor} and
@@ -388,23 +436,23 @@ $t',\sigma''\normalise t'',\sigma'''$ with $t'',\sigma'''\Consistent_M\tilde{t}'
 
 
 
-\case{$\tilde{t}=\tilde{t}_1\Then \tilde{e}_2$}
+\Case{$\tilde{t}=\tilde{t}_1\Then \tilde{e}_2$}
  {
 Three rules apply.\\
- \case{\userule{SS-ThenStay}}
+ \Case{\userule{SS-ThenStay}}
    {
      Provided that $t,\sigma\Consistent_M\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma},\Phi$
      and $\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma}\tilde{\stride}\tilde{t}'_1\Then \tilde{e}_2,\tilde{\sigma}',\phi_1$,
      we obtain from the induction hypothesis that $t_1,\sigma\stride t_1',\sigma'$ and $t_1',\sigma'\Consistent_M\tilde{t}_1',\tilde{\sigma}',\Phi$.
      From this, we can directly conclude that $t_1\Then e_2,\sigma\stride t_1'\Then e_2,\sigma'$ and $t_1'\Then e_2,\sigma'\Consistent_M\tilde{t}_1'\Then\tilde{e}_2,\tilde{\sigma}',\Phi$.
   }
- \case{\userule{SS-ThenFail}}
+ \Case{\userule{SS-ThenFail}}
    { Provided that $t,\sigma\Consistent_M\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma},\Phi$
    and $\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma}\tilde{\stride}\tilde{t}'_1\Then \tilde{e}_2,\tilde{\sigma}',\phi_1$,
    we obtain from the induction hypothesis that $t_1,\sigma\stride t_1',\sigma'$ and $t_1',\sigma'\Consistent_M\tilde{t}_1',\tilde{\sigma}',\Phi$.
    From this, we can directly conclude that $t_1\Then e_2,\sigma\stride t_1'\Then e_2,\sigma'$ and $t_1'\Then e_2,\sigma'\Consistent_M\tilde{t}_1'\Then\tilde{e}_2,\tilde{\sigma}',\Phi$.
    }
- \case{\userule{SS-ThenCont}}
+ \Case{\userule{SS-ThenCont}}
    {Provided that $t,\sigma\Consistent_M\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma},\Phi$
    and $\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma}\tilde{\stride}\tilde{t}_2,\tilde{\sigma}',\phi_1\land\phi_2$
    with $\tilde{t}_1,\tilde{\sigma}\tilde{\stride}\tilde{t}_1',\tilde{\sigma}',\phi_1$ and $\Value(\tilde{t}_1',\tilde{\sigma}')=\tilde{v}_1$,
@@ -419,23 +467,23 @@ Three rules apply.\\
    }
  }
 
-\case{$\tilde{t}=\tilde{t}_1\Or \tilde{t}_2$}
+\Case{$\tilde{t}=\tilde{t}_1\Or \tilde{t}_2$}
  {
 One of three rules applies.\\
-\case{\userule{SS-OrLeft}}
+\Case{\userule{SS-OrLeft}}
    {Provided that $t,\sigma\Consistent_M\tilde{t}_1\Or \tilde{t}_2,\tilde{\sigma},\Phi$
    and $\tilde{t}_1\Or \tilde{t}_2,\tilde{\sigma}\tilde{\stride}\tilde{t}'_1,\tilde{\sigma}',\phi$,
    we obtain from the induction hypothesis that $t_1,\sigma\stride t_1',\sigma'$ and $t_1',\sigma'\Consistent_M\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi$.
    From this, we can directly conclude that $t_1\Or t_2,\sigma\stride t_1',\sigma'$.
   }
- \case{\userule{SS-OrRight}}
+ \Case{\userule{SS-OrRight}}
    { Provided that $t,\sigma\Consistent_M\tilde{t}_1\Or \tilde{t}_2,\tilde{\sigma},\Phi$
    and $\tilde{t}_1\Or \tilde{t}_2,\tilde{\sigma}\tilde{\stride}\tilde{t}'_2,\tilde{\sigma}'',\phi_1\land\phi_2$,
    we obtain from the induction hypothesis that $t_1,\sigma\stride t_1',\sigma'$ and $t_1',\sigma'\Consistent_M\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1$.
    Then by a second application of the induction hypothesis, we obtain that $t_2,\sigma'\stride t_2',\sigma''$ and $t_2',\sigma''\Consistent_M\tilde{t}_2',\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.
    This leads us to conclude $t_1\Or t_2,\sigma\stride t_2',\sigma''$.
    }
-\case{\userule{SS-OrNone}}
+\Case{\userule{SS-OrNone}}
   {  Provided that $t,\sigma\Consistent_M\tilde{t}_1\Or \tilde{t}_2,\tilde{\sigma},\Phi$
   and $\tilde{t}_1\Or \tilde{t}_2,\tilde{\sigma}\tilde{\stride}\tilde{t}'_2,\tilde{\sigma}'',\phi_1\land\phi_2$,
   we obtain from the induction hypothesis that $t_1,\sigma\stride t_1',\sigma'$ and $t_1',\sigma'\Consistent_M\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1$.
@@ -444,7 +492,7 @@ One of three rules applies.\\
    }
  }
 
- \case{$\tilde{t}=\tilde{t}_1\Next \tilde{e}_2$}
+ \Case{$\tilde{t}=\tilde{t}_1\Next \tilde{e}_2$}
  {One rule applies, namely \userule{SS-Next}\\
  Provided that $t,\sigma\Consistent_M\tilde{t}_1\Next \tilde{e}_2,\tilde{\sigma},\Phi$
  and $\tilde{t}_1\Next \tilde{e}_2,\tilde{\sigma}\tilde{\stride}\tilde{t}'_1\Then \tilde{e}_2,\tilde{\sigma}',\phi$,
@@ -452,7 +500,7 @@ One of three rules applies.\\
  From this, we can directly conclude that $t_1\Next e_2,\sigma\stride t_1'\Next e_2,\sigma'$ and $t_1'\Next e_2,\sigma'\Consistent_M\tilde{t}_1'\Next\tilde{e}_2,\tilde{\sigma}',\Phi\land\phi$.
 }
 
-\case{$\tilde{t}=\tilde{t}_1\And \tilde{t}_2$}
+\Case{$\tilde{t}=\tilde{t}_1\And \tilde{t}_2$}
 {One rule applies, namely \userule{SS-And}\\
 Provided that $t,\sigma\Consistent_M\tilde{t}_1\And \tilde{t}_2,\tilde{\sigma},\Phi$
 and $\tilde{t}_1\And \tilde{t}_2,\tilde{\sigma}\tilde{\stride}\tilde{t}'_1\And\tilde{t}'_2,\tilde{\sigma}'',\phi_1\land\phi_2$,
@@ -468,13 +516,13 @@ This leads us to conclude $t_1\And t_2,\sigma\stride t_1'\And t_2',\sigma''$ and
 
   We prove Lemma~\ref{lem:soundeval} by induction over $\tilde{e}$.
 
-  \case{$\tilde{e}=\tilde{v}$}
+  \Case{$\tilde{e}=\tilde{v}$}
     {One rule applies, namely \userule{SE-Value}\\
     We assume $e,\sigma\Consistent_M\tilde{v},\tilde{\sigma},\Phi$ and $\tilde{v},\tilde{\sigma}\tilde{\eval}\tilde{v},\tilde{\sigma},\True$.
     By \refrule{E-Value} we have $v,\sigma\eval v,\sigma$, so this case holds trivially.
     }
 
-  \case{$\tilde{e}=\tuple{\tilde{e}_1,\tilde{e}_2}$}
+  \Case{$\tilde{e}=\tuple{\tilde{e}_1,\tilde{e}_2}$}
     {One rule applies, namely \userule{SE-Pair}\\
     Provided that $e,\sigma\Consistent_m\tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma},\Phi$ and $\tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma}\tilde{\eval}\tuple{\tilde{v}_1,\tilde{v}_2},\tilde{\sigma}'',\phi_1\land\phi_2$,
     we obtain from the induction hypothesis that $e_1,\sigma\eval v_1,\sigma'$ with $v_1,\sigma'\Consistent_m\tilde{v}_1,\tilde{\sigma}',\Phi\land\phi_1$.
@@ -482,7 +530,7 @@ This leads us to conclude $t_1\And t_2,\sigma\stride t_1'\And t_2',\sigma''$ and
     From this, we can conclude that $\tuple{e_1,e_2},\sigma\eval\tuple{v_1,v_2},\sigma''$ with $\tuple{v_1,v_2},\sigma''\Consistent_m\tuple{\tilde{v}_1,\tilde{v}_2},\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.
     }
 
-  \case{$\tilde{e}=\Fst \tuple{\tilde{e}_1,\tilde{e}_2}$}
+  \Case{$\tilde{e}=\Fst \tuple{\tilde{e}_1,\tilde{e}_2}$}
   {
     One rule applies, namely \userule{SE-First}\\
     Provided that $e,\sigma\Consistent_m\Fst\tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma},\Phi$ and $\Fst\tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma}\tilde{\eval}\tilde{v}_1,\tilde{\sigma}'',\phi$,
@@ -490,14 +538,14 @@ This leads us to conclude $t_1\And t_2,\sigma\stride t_1'\And t_2',\sigma''$ and
     From this, we can conclude that $\Fst\tuple{e_1,e_2},\sigma\eval v_1,\sigma'$.
     }
 
-  \case{$e=\Snd \tuple{\tilde{e}_1,\tilde{e}_2}$}
+  \Case{$e=\Snd \tuple{\tilde{e}_1,\tilde{e}_2}$}
   { One rule applies, namely \userule{SE-Second}\\
   Provided that $e,\sigma\Consistent_m\Snd\tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma},\Phi$ and $\Snd\tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma}\tilde{\eval}\tilde{v}_2,\tilde{\sigma}'',\phi$,
   we obtain from the induction hypothesis that $e_1,\sigma\eval v_2,\sigma'$ with $v_2,\sigma'\Consistent_m\tilde{v}_1,\tilde{\sigma}',\Phi\land\phi$.
   From this, we can conclude that $\Snd\tuple{e_1,e_2},\sigma\eval v_2,\sigma'$.
     }
 
-  \case{$\tilde{e}=\tilde{e}_1::\tilde{e}_2$}
+  \Case{$\tilde{e}=\tilde{e}_1::\tilde{e}_2$}
     {One rule applies, namely \userule{SE-Cons}\\
     Provided that $e,\sigma\Consistent_m\tilde{e}_1::\tilde{e}_2,\tilde{\sigma},\Phi$ and $\tilde{e}_1::\tilde{e}_2,\tilde{\sigma}\tilde{\eval}\tilde{v}_1::\tilde{v}_2,\tilde{\sigma}'',\phi_1\land\phi_2$,
     we obtain from the induction hypothesis that $e_1,\sigma\eval v_1,\sigma'$ with $v_1,\sigma'\Consistent_m\tilde{v}_1,\tilde{\sigma}',\Phi\land\phi_1$.
@@ -505,21 +553,21 @@ This leads us to conclude $t_1\And t_2,\sigma\stride t_1'\And t_2',\sigma''$ and
     From this, we can conclude that $e_1 :: e_2,\sigma\eval v_1 :: v_2,\sigma''$ with $v_1 :: v_2,\sigma''\Consistent_m\tilde{v}_1 :: \tilde{v}_2,\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.
    }
 
-  \case{$\tilde{e}=\Head \tilde{e}$}
+  \Case{$\tilde{e}=\Head \tilde{e}$}
     {One rule applies, namely \userule{SE-Head}\\
     Provided that $e,\sigma\Consistent_m\Head \tilde{e},\tilde{\sigma},\Phi$ and $\Head \tilde{e},\tilde{\sigma}\tilde{\eval}\tilde{v}_1,\tilde{\sigma}',\phi$,
     we obtain from the induction hypothesis that $e,\sigma\eval v_1::v_2,\sigma'$ with $v_1::v_2,\sigma'\Consistent_m\tilde{v}_1::\tilde{v}_2,\tilde{\sigma}',\Phi\land\phi$.
     From this, we can conclude that $\Head e,\sigma\eval v_1,\sigma'$.
     }
 
-  \case{$\tilde{e}=\Tail \tilde{e}$}
+  \Case{$\tilde{e}=\Tail \tilde{e}$}
     {One rule applies, namely \userule{SE-Tail}\\
     Provided that $e,\sigma\Consistent_m\Tail \tilde{e},\tilde{\sigma},\Phi$ and $\Tail \tilde{e},\tilde{\sigma}\tilde{\eval}\tilde{v}_2,\tilde{\sigma}',\phi$,
     we obtain from the induction hypothesis that $e,\sigma\eval v_1::v_2,\sigma'$ with $v_1::v_2,\sigma'\Consistent_m\tilde{v}_1::\tilde{v}_2,\tilde{\sigma}',\Phi\land\phi$.
     From this, we can conclude that $\Tail e,\sigma\eval v_2,\sigma'$.
       }
 
-  \case{$\tilde{e}=\tilde{e}_1 \tilde{e}_2$}
+  \Case{$\tilde{e}=\tilde{e}_1 \tilde{e}_2$}
     {One rule applies, namely\\ \userule{SE-App}\\
 
     Provided that $e,\sigma\Consistent_m\tilde{e}_1 \tilde{e}_2,\tilde{\sigma},\Phi$ and $\tilde{e}_1 \tilde{e}_2,\tilde{\sigma}\tilde{\eval}\tilde{v}_1,\tilde{\sigma}''',\phi_1\land\phi_2\land\phi_3$,
@@ -530,7 +578,7 @@ This leads us to conclude $t_1\And t_2,\sigma\stride t_1'\And t_2',\sigma''$ and
     From this, we can conclude that $e_1 e_2,\sigma\eval v_1,\sigma'''$.
     }
 
-  \case{$\tilde{e}=\If{\tilde{e}_1}{\tilde{e}_2}{\tilde{e}_3}$}
+  \Case{$\tilde{e}=\If{\tilde{e}_1}{\tilde{e}_2}{\tilde{e}_3}$}
      {One rule applies, namely\\ \userule{SE-If}\\
      \todo{this case requires more than simply IH application}
      % In case that $M\phi_1\land M\phi_2 \land Mv_1$,
@@ -564,21 +612,21 @@ This leads us to conclude $t_1\And t_2,\sigma\stride t_1'\And t_2',\sigma''$ and
      % Furthermore, $M$ satisfies $\phi_3$, so we directly obtain that $Mv_3=\hat{v_3}$ and $M\sigma''=\hat{\sigma''}$.
     }
 
-  \case{$\tilde{e}=\Ref \tilde{e}$}
+  \Case{$\tilde{e}=\Ref \tilde{e}$}
     {One rule applies, namely \userule{SE-Ref}\\
     Provided that $e,\sigma\Consistent_m\Ref \tilde{e},\tilde{\sigma},\Phi$ and $\Ref \tilde{e},\tilde{\sigma}\tilde{\eval}l,\tilde{\sigma}'[l\mapsto\tilde{v}],\phi$,
     we obtain from the induction hypothesis that $e,\sigma\eval v_1,\sigma'$ with $v_1,\sigma'\Consistent_m\tilde{v}_1,\tilde{\sigma}',\Phi\land\phi$.
     From this, we can conclude that $\Ref e,\sigma\eval l,\sigma'[l\mapsto v]$ with $l,\sigma'[l\mapsto v]\Consistent_m l,\tilde{\sigma}'[l\mapsto \tilde{v}],\Phi\land\phi$.
     }
 
-  \case{$\tilde{e}=!\tilde{e}$}
+  \Case{$\tilde{e}=!\tilde{e}$}
     {One rule applies, namely \userule{SE-Deref}\\
     Provided that $e,\sigma\Consistent_m !\tilde{e},\tilde{\sigma},\Phi$ and $!\tilde{e},\tilde{\sigma}\tilde{\eval}\tilde{\sigma}'(l),\tilde{\sigma}',\phi$,
     we obtain from the induction hypothesis that $e,\sigma\eval l,\sigma'$ with $l,\sigma'\Consistent_m l,\tilde{\sigma}',\Phi\land\phi$.
     From this, we can conclude that $!e,\sigma\eval \sigma'(l),\sigma'$ with $\sigma'(l),\sigma'\Consistent_m \tilde{\sigma}'(l),\tilde{\sigma}',\Phi\land\phi$.
   }
 
-  \case{$\tilde{e}=\tilde{e}_1:=\tilde{e}_2$}
+  \Case{$\tilde{e}=\tilde{e}_1:=\tilde{e}_2$}
     {
     One rule applies, namely \userule{SE-Assign}\\
     Provided that $e,\sigma\Consistent_m\tilde{e}_1:=\tilde{e}_2,\tilde{\sigma},\Phi$ and $\tilde{e}_1:=\tilde{e}_2,\tilde{\sigma}\tilde{\eval}\unit,\tilde{\sigma}''[l\mapsto \tilde{v}_2],\phi_1\land\phi_2$,
@@ -587,7 +635,7 @@ This leads us to conclude $t_1\And t_2,\sigma\stride t_1'\And t_2',\sigma''$ and
     From this, we can conclude that $e_1 := e_2,\sigma\eval \unit,\sigma''[l\mapsto v_2]$ with $\unit,\sigma''[l\mapsto v_2]\Consistent_m\unit,\tilde{\sigma}''[l\mapsto\tilde{v}_2],\Phi\land\phi_1\land\phi_2$.
     }
 
-  \case{$\tilde{e}=\Edit \tilde{e}$}
+  \Case{$\tilde{e}=\Edit \tilde{e}$}
     {One rule applies, namely \userule{SE-Edit}\\
     Provided that $e,\sigma\Consistent_m \Edit\tilde{e},\tilde{\sigma},\Phi$ and $\Edit\tilde{e},\tilde{\sigma}\tilde{\eval}\Edit\tilde{v},\tilde{\sigma}',\phi$,
     we obtain from the induction hypothesis that $e,\sigma\eval v,\sigma'$ with $v,\sigma'\Consistent_m \tilde{v},\tilde{\sigma}',\Phi\land\phi$.
@@ -595,14 +643,14 @@ This leads us to conclude $t_1\And t_2,\sigma\stride t_1'\And t_2',\sigma''$ and
 
     }
 
-  \case{$\tilde{e}=\Enter \tau$}
+  \Case{$\tilde{e}=\Enter \tau$}
     {
     One rule applies, namely \userule{SE-Enter}\\
     We assume $e,\sigma\Consistent_M\Enter\tau,\tilde{\sigma},\Phi$ and $\Enter\tau,\tilde{\sigma}\tilde{\eval}\Enter\tau,\tilde{\sigma},\True$.
     By \refrule{E-Enter} we have $\Enter\tau,\sigma\eval \Enter\tau,\sigma$, so this case holds trivially.
     }
 
-  \case{$\tilde{e}=\Update \tilde{e}$}
+  \Case{$\tilde{e}=\Update \tilde{e}$}
     {One rule applies, namely \userule{SE-Update}\\
     Provided that $e,\sigma\Consistent_m \Update\tilde{e},\tilde{\sigma},\Phi$ and $\Update\tilde{e},\tilde{\sigma}\tilde{\eval}\Update l,\tilde{\sigma}',\phi$,
     we obtain from the induction hypothesis that $e,\sigma\eval l,\sigma'$ with $l,\sigma'\Consistent_m l,\tilde{\sigma}',\Phi\land\phi$.
@@ -610,7 +658,7 @@ This leads us to conclude $t_1\And t_2,\sigma\stride t_1'\And t_2',\sigma''$ and
 
     }
 
-  \case{$\tilde{e}=\tilde{e}_1\Then \tilde{e}_2$}
+  \Case{$\tilde{e}=\tilde{e}_1\Then \tilde{e}_2$}
     {One rule applies, namely \userule{SE-Then}\\
     Provided that $e,\sigma\Consistent_m \tilde{e}_1\Then \tilde{e}_2,\tilde{\sigma},\Phi$ and $\tilde{e}_1\Then \tilde{e}_2,\tilde{\sigma}\tilde{\eval}\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma}',\phi$,
     we obtain from the induction hypothesis that $e_1,\sigma\eval t_1,\sigma'$ with $t_1,\sigma'\Consistent_m \tilde{t}_1,\tilde{\sigma}',\Phi\land\phi$.
@@ -618,7 +666,7 @@ This leads us to conclude $t_1\And t_2,\sigma\stride t_1'\And t_2',\sigma''$ and
 
     }
 
-  \case{$\tilde{e}=\tilde{e}_1\Next \tilde{e}_2$}
+  \Case{$\tilde{e}=\tilde{e}_1\Next \tilde{e}_2$}
     {One rule applies, namely \userule{SE-Next}\\
     Provided that $e,\sigma\Consistent_m \tilde{e}_1\Next \tilde{e}_2,\tilde{\sigma},\Phi$ and $\tilde{e}_1\Next \tilde{e}_2,\tilde{\sigma}\tilde{\eval}\tilde{t}_1\Next \tilde{e}_2,\tilde{\sigma}',\phi$,
     we obtain from the induction hypothesis that $e_1,\sigma\eval t_1,\sigma'$ with $t_1,\sigma'\Consistent_m \tilde{t}_1,\tilde{\sigma}',\Phi\land\phi$.
@@ -626,7 +674,7 @@ This leads us to conclude $t_1\And t_2,\sigma\stride t_1'\And t_2',\sigma''$ and
 
     }
 
-  \case{$\tilde{e}=\tilde{e}_1\Or \tilde{e}_2$}
+  \Case{$\tilde{e}=\tilde{e}_1\Or \tilde{e}_2$}
     {One rule applies, namely \userule{SE-Or}\\
     Provided that $e,\sigma\Consistent_m\tilde{e}_1 \Or \tilde{e}_2,\tilde{\sigma},\Phi$ and $\tilde{e}_1 \Or \tilde{e}_2,\tilde{\sigma}\tilde{\eval}\tilde{v}_1\Or \tilde{v}_2,\tilde{\sigma}'',\phi_1\land\phi_2$,
     we obtain from the induction hypothesis that $e_1,\sigma\eval v_1,\sigma'$ with $v_1,\sigma'\Consistent_m\tilde{v}_1,\tilde{\sigma}',\Phi\land\phi_1$.
@@ -635,14 +683,14 @@ This leads us to conclude $t_1\And t_2,\sigma\stride t_1'\And t_2',\sigma''$ and
 
     }
 
-  \case{$\tilde{e}=\tilde{e}_1\Xor \tilde{e}_2$}
+  \Case{$\tilde{e}=\tilde{e}_1\Xor \tilde{e}_2$}
     {  One rule applies, namely \userule{SE-Xor}\\
     We assume $e,\sigma\Consistent_M\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma},\Phi$ and $\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma}\tilde{\eval}\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma},\True$.
     By \refrule{E-Xor} we have $e_1\Xor e_2,\sigma\eval e_1\Xor e_2,\sigma$, so this case holds trivially.
 
     }
 
-  \case{$\tilde{e}=\Fail$}
+  \Case{$\tilde{e}=\Fail$}
     {  One rule applies, namely \userule{SE-Fail}\\
     We assume $e,\sigma\Consistent_M\Fail,\tilde{\sigma},\Phi$ and $\Fail,\tilde{\sigma}\tilde{\eval}\Fail,\tilde{\sigma},\True$.
     By \refrule{E-Fail} we have $\Fail,\sigma\eval \Fail,\sigma$, so this case holds trivially.
