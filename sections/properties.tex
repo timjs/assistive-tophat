@@ -98,13 +98,21 @@ And $s\in \tilde{\imath}$ and $c\in i$ are defined as follows.\\
 Our strategy to prove these two lemma's is outlined in \cref{fig:proofstructure}.
 
 \begin{figure}[t]
+  \tikzstyle{drive} = [decoration={markings,mark=at position
+     1 with {\arrow[semithick]{angle 60}}},
+     double distance=1.4pt, shorten >= 2.3pt,
+     preaction = {decorate},
+     postaction = {draw,line width=1pt, white,shorten >= 2.3pt}]
+  \tikzstyle{sdrive} = [decoration={markings,mark=at position
+     1 with {\arrow[semithick]{angle 60}}},
+     preaction = {decorate}]
 
 \begin{tikzpicture}[
             > = stealth, % arrow head style
             shorten > = 1pt, % don't touch arrow head to node
             auto,
             node distance = 3cm, % distance between nodes
-            semithick % line style
+            semithick, % line style
         ]
 
 
@@ -114,7 +122,7 @@ Our strategy to prove these two lemma's is outlined in \cref{fig:proofstructure}
 
         % j = 1
         \node (c1) [below left of=0] {$t_1,\sigma_1$};
-        \node (s1) [below right of=0] {$\tilde{t_1},\tilde{\sigma_1},\phi_1$};
+        \node (s1) [below right of=0] {$\tilde{t}_1,\tilde{\sigma}_1,\tilde{i}_1,\phi_1$};
         \node (l1) [right of=s1,text width=4cm] {\begin{tabular}{l}
         $t_1,\sigma_1\Consistent_{[s_1\mapsto c_1]}\tilde{t_1},\tilde{\sigma_1},\phi_1$\\
                                   $\Sat(\phi_1)$\\
@@ -126,7 +134,7 @@ Our strategy to prove these two lemma's is outlined in \cref{fig:proofstructure}
 
         % j = k
         \node (ck) [below of=cc,yshift=1.5cm] {$t_k,\sigma_k$};
-        \node (sk) [below of=ss,yshift=1.5cm] {$\tilde{t_k},\tilde{\sigma_k},\phi_k$};
+        \node (sk) [below of=ss,yshift=1.5cm] {$\tilde{t}_k,\tilde{\sigma}_k,\tilde{i}_k\phi_k$};
         \node (lk) [right of=sk,text width=4cm] {\begin{tabular}{l}
         $t_k,\sigma_k\Consistent_{[s_1\mapsto c_1,\cdots,s_k\mapsto c_k]}\tilde{t_k},\tilde{\sigma_k},\phi_1\land\cdots\land\phi_k$\\
         $\Sat(\phi_1\land\cdots\land\phi_k)$\\
@@ -137,29 +145,31 @@ Our strategy to prove these two lemma's is outlined in \cref{fig:proofstructure}
         \node (sss) [below of=sk,yshift=1.5cm] {\vdots};
 
         \node (cn) [below of=ccc,yshift=1.5cm] {$t_n,\sigma_n$};
-        \node (sn) [below of=sss,yshift=1.5cm] {$\tilde{t_n},\tilde{\sigma_n},\phi_n$};
+        \node (sn) [below of=sss,yshift=1.5cm] {$\tilde{t}_n,\tilde{\sigma}_n,\tilde{i}_n,\phi_n$};
         \node (l1) [right of=sn,text width=4cm] {\begin{tabular}{l}
         $t_n,\sigma_n\Consistent_{[s_1\mapsto c_1,\cdots,s_n\mapsto c_n]}\tilde{t_n},\tilde{\sigma_n},\phi_1\land\cdots\land\phi_n$\\
         $\Sat(\phi_1\land\cdots\land\phi_n)$\\
-        $\Value(t_n,\sigma_n)=v$\end{tabular}};
+        $\Value(t_n,\sigma_n)=v$\Quad $\Value(\tilde{t}_n,\tilde{\sigma}_n)=\tilde{v}$\\
+        $I=[i_1,\cdots,i_n]$\Quad $\tilde{I}=[\tilde{i}_1,\cdots,\tilde{i}_n]$\end{tabular}};
 
-        \path[->] (0) edge node {$i_1$} (c1);
-        \path[->] (0) edge node {$\tilde{i_1}$} (s1);
+        \draw[drive] (0) to (c1);
+        \node (0label) [below left of=0,yshift=1.3cm,xshift=0.8cm] {$i_1$};
+        \draw[sdrive] (0) -- (s1);
 
-        \path[->] (c1) edge node { } (cc);
-        \path[->] (s1) edge node { } (ss);
+        \draw[drive] (c1) to (cc);
+        \draw[sdrive] (s1) -- (ss);
 
-        \path[->] (cc) edge node { $i_k$} (ck);
-        \path[->] (ss) edge node { $\tilde{i_k}$} (sk);
+        \draw[drive] (cc) to (ck);
+        \node (cclabel) [below left of=cc,yshift=1.5cm,xshift=1.8cm] {$i_k$};
+        \draw[sdrive] (ss) -- (sk);
 
-        \path[->] (ck) edge node { } (ccc);
-        \path[->] (sk) edge node { } (sss);
+        \draw[drive] (ck) to (ccc);
+        \draw[sdrive] (sk) -- (sss);
 
-        \path[->] (ccc) edge node { } (cn);
-        \path[->] (sss) edge node { } (sn);
+        \draw[drive] (ccc) to (cn);
+        \node (cnlabel) [below left of=ccc,yshift=1.5cm,xshift=1.8cm] {$i_n$};
+        \draw[sdrive] (sss) -- (sn);
 
-        \path[->] (ccc) edge node {$i_n$} (cn);
-        \path[->] (sss) edge node {$\tilde{i_n}$} (sn);
 
         \path[dashed,->] ([yshift=.25em]c1.east) edge node {\cref{lem:completedriving}} ([yshift=.25em]s1.west);
         \path[dashed,->] ([yshift=-.25em]s1.west) edge node {\cref{lem:sounddriving}} ([yshift=-.25em]c1.east);
@@ -169,6 +179,7 @@ Our strategy to prove these two lemma's is outlined in \cref{fig:proofstructure}
 
         \path[dashed,->] ([yshift=.25em]cn.east) edge node {\cref{lem:completesimulate}} ([yshift=.25em]sn.west);
         \path[dashed,->] ([yshift=-.25em]sn.west) edge node {\cref{lem:soundsimulate}} ([yshift=-.25em]cn.east);
+
 
     \end{tikzpicture}
     \caption{Proof structure}
