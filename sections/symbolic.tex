@@ -19,7 +19,7 @@ $\tuple{s_1,s_0}$, provided that the path condition $s_0 > s_1$ holds, or
 $\tuple{s_0,s_1}$, with path condition $s_0 \leq s_1$.
 
 Now, the property that we want to prove for this program is that no matter what the input is, the second element should always be larger than the first, which we write as $\psi(a,b)= b \leq a$.
-Looking at the two symbolic runs, we can immediately conclude that this property.
+Looking at the two symbolic runs, we can immediately conclude that this property holds.
 Of course this is a trivial example, one can conclude or even prove that the property holds without symbolic execution.
 But when applying this technique to larger programs, it is a powerful tool to show that a program behaves as expected.
 \cref{sec:assistivedining,sec:assistivetax} illustrates this by applying symbolic execution to larger examples.
@@ -27,10 +27,10 @@ But when applying this technique to larger programs, it is a powerful tool to sh
 
 \subsection{Symbolic TopHat}
 
-In order to support symbolic execution in \TOPHAT, we extend the task language, states and input with symbols.
+To support symbolic execution in \TOPHAT, we extend the task language, states and input with symbols.
 The semantics mentioned in \cref{sec:tophat} also need to be extended to support symbols.
 The same holds for the observation functions.
-
+\fixme{introduce all the variables and SAT here!}
 \todo{Say something about inclusions:
   $t\subset \tilde{t}$,
   $\sigma \subset \tilde{\sigma}$,

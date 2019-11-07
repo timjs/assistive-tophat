@@ -3,11 +3,10 @@
 \section{Related work}
 \label{sec:relatedwork}
 
-This paper is an advancement of the research into supporting end-users of workflow systems.
 In previous work, we have attempted to provide end-users with next step hints by viewing workflows as rule based problems~\cite{DBLP:conf/sfp/NausJ16}.
 By abstracting over workflows, reasoning about them becomes simpler.
 A standard search algorithm can be run to find a path to the desired goal state.
-Two drawbacks of this approach however are that only global hints can be given, and that a programmer needs to augment existing workflows with extra information in order to convert it to a rule-based problem.
+Two drawbacks of this approach however are that only very general hints can be given, that range over multiple steps, and that a programmer needs to augment existing workflows with extra information in order to convert it to a rule-based problem.
 
 Stutterheim et al.~\cite{DBLP:conf/sfp/StutterheimPA14} have developed Tonic, a task visualiser for iTasks with limited path prediction capabilities.
 The main goal is not to provide hints to end-users, but the system is able to handle the complete task language, and visualise the effects of user input on the progression of tasks.
@@ -57,3 +56,32 @@ They are graphical in nature, based on petrinets.
 
 
 \subsection{Intelligent tutoring systems}
+
+Over het automatisch genereren van hints in tutoring systemen:
+
+Ons artikel:
+
+Bastiaan Heeren and Johan Jeuring. Feedback services for stepwise exercises. Science of Computer Programming, volume 88, pages 110 – 129, 2014~\cite{DBLP:journals/scp/HeerenJ14}.
+
+beschrijft oa (p9): The design of our domain reasoners providing feedback services is based on two assumptions: all feedback is calculated automatically from a high-level description of an exercise class, and this calculation is generic (domain independent).
+
+(hierbij bevat feedback ook hints.) Deze aanpak is ook gebaseerd op formele beschrijvingen van hoe je je doel wilt bereiken, en lijkt dus sterk op wat jullie doen. We kunnen strategieën `afspelen’ dus we hebben ook een vorm van symbolische executie (Bastiaan noemde het vroeger oracle’s, die concrete waarden konden genereren), maar daar zijn we niet heel expliciet over.
+
+Een vergelijkbare aanpak is
+
+Luc Paquette, Jean-François Lebeau, Gabriel Beaulieu, André Mayers
+Automating Next-Step Hints Generation Using ASTUS
+International Conference on Intelligent Tutoring Systems
+ITS 2012: Intelligent Tutoring Systems pp 201-211~\cite{DBLP:conf/its/PaquetteLBM12}
+
+Specifiek voor het programmeerdomein, heel veel verschillende aanpakken:
+
+Hieke Keuning, Johan Jeuring, and Bastiaan Heeren. A systematic literature review of automated feedback generation for programming exercises. In ACM Transactions on Computing Education (TOCE), volume 19 (1), 2019~\cite{DBLP:journals/jeric/KeuningJH19}.
+
+geeft een overview van de verschillende aanpakken om automatisch feedback and hints te genereren bij het construeren van programma’s.
+
+Helpt dit, of zou je liever wat anders wensen? Er bestaat ook veel werk over data-driven hint generation, maar dat lijkt me eerlijk gezegd niet relevant voor jullie.
+
+Met groet,
+
+Johan

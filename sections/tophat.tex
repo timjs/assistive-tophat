@@ -137,7 +137,7 @@ Internal choice has a value if either of the two tasks has an observable value.
 One can also observe whether or not a task is failing, by means of the failing function $\Failing$.
 A task is considered to be failing if a user cannot interact with it.
 For example, the valued editor is not failing, since the user can update it with a new value.
-The task $\Fail$ is failing, as is a parallel combination of failing tasks $\Fail \And \Fail$, since no input can be send to those tasks.
+The task $\Fail$ is failing, as is a parallel combination of failing tasks $\Fail \And \Fail$, since both the left and the right task cannot be interacted with.
 Both observation definitions can be found in \cref{fig:observations}
 
 \begin{figure}[h]
@@ -165,12 +165,12 @@ Because tasks are typed, input is typed as well.
 Editors only accept input of the correct type.
 Examples are replacing a value in an editor,
 or sending a continue event to a user step.
-When the system receives a valid event, it gives this event to the current task, which reduces to a new task.
+When the system receives a valid event, it gives this event to the current task, which evaluates to a new task.
 Everything in between two events is evaluated atomically with respect to inputs.
 This means that tasks are normalised up to the point they await new user interactions.
 % In this way the system communicates with the environment.
 
-Input events are synchronous, which means the order of execution is completely determined by the order of the events.
+Input events are synchronous, which means that the order of execution is completely determined by the order of the events.
 In particular, the order of input events determine the progression of parallel branches.
 
 

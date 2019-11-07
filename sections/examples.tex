@@ -41,14 +41,14 @@ Snacks are modelled using a custom type.
 
 The dining philosophers problem is a classic concurrency problem in computer science.
 A number of philosophers sit at a round table with a meal in front of them.
-In between the plates lies one fork.
+In between the plates lies a fork.
 In order to eat their meal, each philosopher has to acquire two forks.
 Only after eating their meal, are the philosophers allowed to place the two forks back on the table.
 This, of course, means that all philosophers cannot eat at the same time, since there are not enough forks.
 Deadlock can occur when all philosophers pick up the fork to their right (or left).
 Then, everybody has one fork.
 This means that each philosopher cannot start his or her meal, and is also not allowed to put his fork back on the table.
-
+\fixme{explain $!$ and $:=$}
 \lstset{emph={this, that, name, left, right}}
 \begin{TASK}[
     float=ht,
@@ -78,7 +78,7 @@ The value $\True$ indicates that the fork is available,
 $\False$ indicates that the fork is being used.
 
 Picking up a fork is only possible when the fork is available,
-i.e reading the reference results is $\True$ (\cref{lst:phil:this}).
+i.e reading the reference results is $\True$ (\cref{lst:phil:deref}).
 This fork is then marked as being used (\cref{lst:phil:mark-used}).
 The use of references ensures that the neighbouring scientist cannot pick up this fork: this choice will be disabled.
 After that, one can press continue if the second fork is also available (\cref{lst:phil:that}).
@@ -139,17 +139,11 @@ A subsidy is only given under the following conditions.
 To enhance readability of the example,
 we omit type annotations and make use of pattern matching on tuples.
 The program works as follows.
-First, the citizen has to enter their personal information (\cref{lst:tax:citizen-info}).
-In the original demonstrator this included the citizen service number, name, and home address.
-Here, we simplified the example so that the citizen only has to enter the invoice date.
-A date is specified using an integer representing the number of days since 1 January 2000.
 
-In the next step (\cref{lst:tax:documents-and-company-confirm}), in parallel the citizen has to provide the invoice documents of the installed solar panels, while the roofing company has to confirm that they have actually installed solar panels at the citizen's address.
+In parallel, the citizen has to provide the invoice documents of the installed solar panels, while the roofing company has to confirm that they have actually installed solar panels at the citizen's address (\cref{lst:tax:documents-and-company-confirm}).
 Once the invoice and the confirmation are there, the tax officer has to approve the request (\cref{lst:tax:officer-approve}).
 The officer can always decline the request, but they can only approve it if the roofing company has confirmed and the application date is within one year of the invoice date (\cref{lst:tax:officer-approve-def}).
 The result of the program is the amount of the subsidy, together with all information needed to prove the required properties (\cref{lst:tax:result}).
-
-The result of the overall task is a tuple with the subsidy amount, the officer's approval, the roofing company's confirmation, the invoice amount, the invoice date, and today's date.
 
 In previous work, we have shown that this code indeed adheres to the requirements listed above.
 There we focussed on assisting the developer by proving the program correct.
