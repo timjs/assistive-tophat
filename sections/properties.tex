@@ -103,9 +103,8 @@ Our strategy to prove these two lemma's is outlined in \cref{fig:proofstructure}
      double distance=1.4pt, shorten >= 2.3pt,
      preaction = {decorate},
      postaction = {draw,line width=1pt, white,shorten >= 2.3pt}]
-  \tikzstyle{sdrive} = [decoration={markings,mark=at position
-     1 with {\arrow[semithick]{angle 60}}},
-     preaction = {decorate}]
+  \tikzstyle{sdrive} = [->,decorate, decoration={coil,aspect=0,amplitude=.5mm},
+     double distance=1.4pt, shorten >= 2.3pt,]
 
 \begin{tikzpicture}[
             > = stealth, % arrow head style
