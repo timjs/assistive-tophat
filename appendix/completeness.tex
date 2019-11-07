@@ -374,156 +374,194 @@
 
   \Case{$e=v$}
     {One rule applies, namely \userule{E-Value}\\
-    % We assume $e,\sigma\Consistent_M\tilde{v},\tilde{\sigma},\Phi$ and $\tilde{v},\tilde{\sigma}\tilde{\eval}\tilde{v},\tilde{\sigma},\True$.
-    % By \refrule{E-Value} we have $v,\sigma\eval v,\sigma$, so this case holds trivially.
+    Since $v,\sigma\Consistent_M \tilde{e},\tilde{\sigma},\Phi$, we know that $\tilde{e}=\tilde{v}$.
+    By \refrule{SE-Value}, we have $\tilde{v},\tilde{\sigma}\tilde{\eval}\tilde{v},\tilde{\sigma},\True$.
+    Since the expressions did not change, this case holds trivially.
     }
 
   \Case{$e=\tuple{e_1,e_2}$}
-    {One rule applies, namely \userule{E-Pair}\\
-    % Provided that $e,\sigma\Consistent_m\tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma},\Phi$ and $\tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma}\tilde{\eval}\tuple{\tilde{v}_1,\tilde{v}_2},\tilde{\sigma}'',\phi_1\land\phi_2$,
-    % we obtain from the induction hypothesis that $e_1,\sigma\eval v_1,\sigma'$ with $v_1,\sigma'\Consistent_m\tilde{v}_1,\tilde{\sigma}',\Phi\land\phi_1$.
-    % Then by a second application of the induction hypothesis, we obtain that $e_2,\sigma'\eval v_2,\sigma''$ with $v_2,\sigma''\Consistent_m\tilde{v}_2,\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.
-    % From this, we can conclude that $\tuple{e_1,e_2},\sigma\eval\tuple{v_1,v_2},\sigma''$ with $\tuple{v_1,v_2},\sigma''\Consistent_m\tuple{\tilde{v}_1,\tilde{v}_2},\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.
+    {
+    Provided that $\tuple{e_1, e_2},\sigma\Consistent_M \tilde{e},\tilde{\sigma},\Phi$ and \userule{E-Pair},
+    then by application of the induction hypothesis we obtain $\tilde{e}_1,\tilde{\sigma}\tilde{\eval}\tilde{v}_1,\tilde{\sigma}',\phi_1$
+    and $v_1,\sigma'\Consistent_M \tilde{v}_1,\tilde{\sigma}',\Phi\land\phi_1$.
+    A second application of the induction hypothesis gives us  $\tilde{e}_2,\tilde{\sigma}'\tilde{\eval}\tilde{v}_2,\tilde{\sigma}'',\phi_2$
+    and $v_2,\sigma''\Consistent_M \tilde{v}_2,\tilde{\sigma}'',\Phi\land\phi_2$.
+    By \refrule{SE-Pair}, we have $\tuple{\tilde{e}_1, \tilde{e}_2},\tilde{\sigma}\tilde{\eval}\tuple{\tilde{v}_1,\tilde{v}_2},\tilde{\sigma}'',\phi_1\land\phi_2$ and $\tuple{v_1,v_2},\sigma''\Consistent_M \tuple{\tilde{v}_1,\tilde{v}_2},\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.
     }
 
   \Case{$e=\Fst \tuple{e_1,e_2}$}
   {
-    One rule applies, namely \userule{E-First}\\
-    % Provided that $e,\sigma\Consistent_m\Fst\tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma},\Phi$ and $\Fst\tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma}\tilde{\eval}\tilde{v}_1,\tilde{\sigma}'',\phi$,
-    % we obtain from the induction hypothesis that $e_1,\sigma\eval v_1,\sigma'$ with $v_1,\sigma'\Consistent_m\tilde{v}_1,\tilde{\sigma}',\Phi\land\phi$.
-    % From this, we can conclude that $\Fst\tuple{e_1,e_2},\sigma\eval v_1,\sigma'$.
+    Provided that $\Fst \tuple{e_1,e_2},\sigma\Consistent_M \tilde{e},\tilde{\sigma},\Phi$ and \userule{E-First},
+    then by application of the induction hypothesis we obtain $\tilde{e}_1,\tilde{\sigma}\tilde{\eval}\tilde{v}_1,\tilde{\sigma}',\phi$
+    and $v_1,\sigma'\Consistent_M \tilde{v}_1,\tilde{\sigma}',\Phi\land\phi$.
+    By \refrule{SE-First}, we have $\Fst \tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma}\tilde{\eval}\tilde{v}_1,\tilde{\sigma}',\phi$.
     }
 
   \Case{$e=\Snd \tuple{e_1,e_2}$}
-  { One rule applies, namely \userule{E-Second}\\
-  % Provided that $e,\sigma\Consistent_m\Snd\tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma},\Phi$ and $\Snd\tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma}\tilde{\eval}\tilde{v}_2,\tilde{\sigma}'',\phi$,
-  % we obtain from the induction hypothesis that $e_1,\sigma\eval v_2,\sigma'$ with $v_2,\sigma'\Consistent_m\tilde{v}_1,\tilde{\sigma}',\Phi\land\phi$.
-  % From this, we can conclude that $\Snd\tuple{e_1,e_2},\sigma\eval v_2,\sigma'$.
+  {
+  Provided that $\Snd \tuple{e_1,e_2},\sigma\Consistent_M \tilde{e},\tilde{\sigma},\Phi$ and \userule{E-Second},
+  then by application of the induction hypothesis we obtain $\tilde{e}_2,\tilde{\sigma}\tilde{\eval}\tilde{v}_2,\tilde{\sigma}',\phi$
+  and $v_2,\sigma'\Consistent_M \tilde{v}_2,\tilde{\sigma}',\Phi\land\phi$.
+  By \refrule{SE-Second}, we have $\Snd \tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma}\tilde{\eval}\tilde{v}_2,\tilde{\sigma}',\phi$.
     }
 
   \Case{$e=e_1::e_2$}
-    {One rule applies, namely \userule{E-Cons}\\
-    % Provided that $e,\sigma\Consistent_m\tilde{e}_1::\tilde{e}_2,\tilde{\sigma},\Phi$ and $\tilde{e}_1::\tilde{e}_2,\tilde{\sigma}\tilde{\eval}\tilde{v}_1::\tilde{v}_2,\tilde{\sigma}'',\phi_1\land\phi_2$,
-    % we obtain from the induction hypothesis that $e_1,\sigma\eval v_1,\sigma'$ with $v_1,\sigma'\Consistent_m\tilde{v}_1,\tilde{\sigma}',\Phi\land\phi_1$.
-    % Then by a second application of the induction hypothesis, we obtain that $e_2,\sigma'\eval v_2,\sigma''$ with $v_2,\sigma''\Consistent_m\tilde{v}_2,\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.
-    % From this, we can conclude that $e_1 :: e_2,\sigma\eval v_1 :: v_2,\sigma''$ with $v_1 :: v_2,\sigma''\Consistent_m\tilde{v}_1 :: \tilde{v}_2,\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.
+    {
+    Provided that $e_1:: e_2,\sigma\Consistent_M \tilde{e},\tilde{\sigma},\Phi$ and \userule{E-Cons},
+    then by application of the induction hypothesis we obtain $\tilde{e}_1,\tilde{\sigma}\tilde{\eval}\tilde{v}_1,\tilde{\sigma}',\phi_1$
+    and $v_1,\sigma'\Consistent_M \tilde{v}_1,\tilde{\sigma}',\Phi\land\phi_1$.
+    A second application of the induction hypothesis gives us  $\tilde{e}_2,\tilde{\sigma}'\tilde{\eval}\tilde{v}_2,\tilde{\sigma}'',\phi_2$
+    and $v_2,\sigma''\Consistent_M \tilde{v}_2,\tilde{\sigma}'',\Phi\land\phi_2$.
+    By \refrule{SE-Cons}, we have $\tilde{e}_1 :: \tilde{e}_2,\tilde{\sigma}\tilde{\eval}\tilde{v}_1::\tilde{v}_2,\tilde{\sigma}'',\phi_1\land\phi_2$ and $v_1::v_2,\sigma''\Consistent_M \tilde{v}_1::\tilde{v}_2,\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.
    }
 
   \Case{$e=\Head e$}
-    {One rule applies, namely \userule{E-Head}\\
-    % Provided that $e,\sigma\Consistent_m\Head \tilde{e},\tilde{\sigma},\Phi$ and $\Head \tilde{e},\tilde{\sigma}\tilde{\eval}\tilde{v}_1,\tilde{\sigma}',\phi$,
-    % we obtain from the induction hypothesis that $e,\sigma\eval v_1::v_2,\sigma'$ with $v_1::v_2,\sigma'\Consistent_m\tilde{v}_1::\tilde{v}_2,\tilde{\sigma}',\Phi\land\phi$.
-    % From this, we can conclude that $\Head e,\sigma\eval v_1,\sigma'$.
+    {
+    Provided that $\Head e,\sigma\Consistent_M \tilde{e},\tilde{\sigma},\Phi$ and \userule{E-Head},
+    then by application of the induction hypothesis we obtain $\tilde{e},\tilde{\sigma}\tilde{\eval}\tilde{v}_1 :: \tilde{v}_2,\tilde{\sigma}',\phi$
+    and $v_1::v_2,\sigma'\Consistent_M \tilde{v}_1 :: \tilde{v}_2,\tilde{\sigma}',\Phi\land\phi$.
+    By \refrule{SE-Head}, we have $\tilde{v}_1 :: \tilde{v}_2,\tilde{\sigma}\tilde{\eval}\tilde{v}_1,\tilde{\sigma}',\phi$.
     }
 
   \Case{$e=\Tail e$}
-    {One rule applies, namely \userule{E-Tail}\\
-    % Provided that $e,\sigma\Consistent_m\Tail \tilde{e},\tilde{\sigma},\Phi$ and $\Tail \tilde{e},\tilde{\sigma}\tilde{\eval}\tilde{v}_2,\tilde{\sigma}',\phi$,
-    % we obtain from the induction hypothesis that $e,\sigma\eval v_1::v_2,\sigma'$ with $v_1::v_2,\sigma'\Consistent_m\tilde{v}_1::\tilde{v}_2,\tilde{\sigma}',\Phi\land\phi$.
-    % From this, we can conclude that $\Tail e,\sigma\eval v_2,\sigma'$.
+    {
+    Provided that $\Tail e,\sigma\Consistent_M \tilde{e},\tilde{\sigma},\Phi$ and \userule{E-Tail},
+    then by application of the induction hypothesis we obtain $\tilde{e},\tilde{\sigma}\tilde{\eval}\tilde{v}_1 :: \tilde{v}_2,\tilde{\sigma}',\phi$
+    and $v_1::v_2,\sigma'\Consistent_M \tilde{v}_1 :: \tilde{v}_2,\tilde{\sigma}',\Phi\land\phi$.
+    By \refrule{SE-Tail}, we have $\tilde{v}_1 :: \tilde{v}_2,\tilde{\sigma}\tilde{\eval}\tilde{v}_2,\tilde{\sigma}',\phi$.
       }
 
   \Case{$e=e_1 e_2$}
-    {One rule applies, namely\\ \userule{E-App}\\
+    {
 
-    % Provided that $e,\sigma\Consistent_m\tilde{e}_1 \tilde{e}_2,\tilde{\sigma},\Phi$ and $\tilde{e}_1 \tilde{e}_2,\tilde{\sigma}\tilde{\eval}\tilde{v}_1,\tilde{\sigma}''',\phi_1\land\phi_2\land\phi_3$,
-    % we obtain from the induction hypothesis that $e_1,\sigma\eval \lambda x:\tau.{e_1}',\sigma'$ with $\lambda x:\tau.{e_1}',\sigma'\Consistent_m\lambda x:\tau.\tilde{e}_1',\tilde{\sigma}',\Phi\land\phi_1$.
-    % Then by a second application of the induction hypothesis, we obtain that $e_2,\sigma'\eval v_2,\sigma''$ with $v_2,\sigma''\Consistent_m\tilde{v}_2,\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.
-    % A third and final application of the induction hypothesis gives us that $e_1'[x\mapsto v_2],\sigma'' \eval v_1,\sigma'''$ with
-    % $v_1,\sigma'''\Consistent_m\tilde{v}_1,\tilde{\sigma}''',\Phi\land\phi_1\land\phi_2\land\phi_3$.
-    % From this, we can conclude that $e_1 e_2,\sigma\eval v_1,\sigma'''$.
+    Provided that $e_1 e_2,\sigma\Consistent_M \tilde{e},\tilde{\sigma},\Phi$ and\\
+    \userule{E-App},
+    then by application of the induction hypothesis we obtain $\tilde{e}_1,\tilde{\sigma}\tilde{\eval}\lambda x:\tau .\tilde{e}_1',\tilde{\sigma}',\phi_1$
+    and $\lambda x:\tau .e_1',\sigma'\Consistent_M \lambda x:\tau .\tilde{e}_1',\tilde{\sigma}',\Phi\land\phi_1$.
+    A second application of the induction hypothesis gives us  $\tilde{e}_2,\tilde{\sigma}'\tilde{\eval}\tilde{v}_2,\tilde{\sigma}'',\phi_2$
+    and $v_2,\sigma''\Consistent_M \tilde{v}_2,\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.
+    Then finally by a third application of the induction hypothesis, we get  $\tilde{e}_1'[x\mapsto \tilde{v}_2],\tilde{\sigma}''\tilde{\eval}\tilde{v}_1,\tilde{\sigma}''',\phi_3$
+    and $v_1,\sigma'''\Consistent_M \tilde{v}_1,\tilde{\sigma}''',\Phi\land\phi_1\land\phi_2\land\phi_3$.
+    By \refrule{SE-App}, we have $\tilde{e}_1 \tilde{e}_2,\tilde{\sigma}\tilde{\eval}\tilde{v}_1,\tilde{\sigma}''',\phi_1\land\phi_2\land\phi_2$.
     }
-    \Case{$e=\If{e_1}{e_2}{e_3}$}
-       {One rule applies, namely\\ \userule{E-IfTrue}\\
 
-      }
   \Case{$e=\If{e_1}{e_2}{e_3}$}
-     {One rule applies, namely\\ \userule{E-IfFalse}\\
+     {\Case{1}
+     {
+     Provided that $\If{e_1}{e_2}{e_3},\sigma\Consistent_M \tilde{e},\tilde{\sigma},\Phi$ and\\
+     \userule{E-IfTrue},
+     then by application of the induction hypothesis we obtain $\tilde{e}_1,\tilde{\sigma}\tilde{\eval}\tilde{v}_1,\tilde{\sigma}',\phi_1$
+     and $\True,\sigma'\Consistent_M \tilde{v}_1,\tilde{\sigma}',\Phi\land\phi_1$.
+     A second application of the induction hypothesis gives us  $\tilde{e}_2,\tilde{\sigma}'\tilde{\eval}\tilde{v}_2,\tilde{\sigma}'',\phi_2$
+     and $v_2,\sigma''\Consistent_M \tilde{v}_2,\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.
+     By \refrule{SE-If}, we have $\If{\tilde{e}_1}{\tilde{e}_2}{\tilde{e}_3},\tilde{\sigma}\tilde{\eval}\tilde{v}_2,\tilde{\sigma}'',\phi_1\land\phi_2\land \tilde{v}_1$.
+     }
+      \Case{2}{
+      Provided that $\If{e_1}{e_2}{e_3},\sigma\Consistent_M \tilde{e},\tilde{\sigma},\Phi$ and\\
+      \userule{E-IfFalse},
+      then by application of the induction hypothesis we obtain $\tilde{e}_1,\tilde{\sigma}\tilde{\eval}\tilde{v}_1,\tilde{\sigma}',\phi_1$
+      and $\False,\sigma'\Consistent_M \tilde{v}_1,\tilde{\sigma}',\Phi\land\phi_1$.
+      A second application of the induction hypothesis gives us  $\tilde{e}_3,\tilde{\sigma}'\tilde{\eval}\tilde{v}_3,\tilde{\sigma}'',\phi_2$
+      and $v_3,\sigma''\Consistent_M \tilde{v}_3,\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.
+      By \refrule{SE-If}, we have $\If{\tilde{e}_1}{\tilde{e}_2}{\tilde{e}_3},\tilde{\sigma}\tilde{\eval}\tilde{v}_3,\tilde{\sigma}'',\phi_1\land\phi_3\land \neg\tilde{v}_1$.
+      }
 
     }
 
   \Case{$e=\Ref e$}
-    {One rule applies, namely \userule{E-Ref}\\
-    % Provided that $e,\sigma\Consistent_m\Ref \tilde{e},\tilde{\sigma},\Phi$ and $\Ref \tilde{e},\tilde{\sigma}\tilde{\eval}l,\tilde{\sigma}'[l\mapsto\tilde{v}],\phi$,
-    % we obtain from the induction hypothesis that $e,\sigma\eval v_1,\sigma'$ with $v_1,\sigma'\Consistent_m\tilde{v}_1,\tilde{\sigma}',\Phi\land\phi$.
-    % From this, we can conclude that $\Ref e,\sigma\eval l,\sigma'[l\mapsto v]$ with $l,\sigma'[l\mapsto v]\Consistent_m l,\tilde{\sigma}'[l\mapsto \tilde{v}],\Phi\land\phi$.
+    {
+    Provided that $\Ref e,\sigma\Consistent_M \tilde{e},\tilde{\sigma},\Phi$ and \userule{E-Ref},
+    then by application of the induction hypothesis we obtain $\tilde{e},\tilde{\sigma}\tilde{\eval}\tilde{v},\tilde{\sigma}',\phi$
+    and $v,\sigma'\Consistent_M \tilde{v},\tilde{\sigma}',\Phi\land\phi$.
+    By \refrule{SE-Ref}, we have $\Ref \tilde{e},\tilde{\sigma}\tilde{\eval}l,\tilde{\sigma}'[l\mapsto\tilde{v}],\phi$ and $l,\sigma'[l\mapsto v]\Consistent_M l,\tilde{\sigma}'[f\mapsto \tilde{v}],\Phi\land\phi$.
     }
 
   \Case{$e=!e$}
-    {One rule applies, namely \userule{E-Deref}\\
-    % Provided that $e,\sigma\Consistent_m !\tilde{e},\tilde{\sigma},\Phi$ and $!\tilde{e},\tilde{\sigma}\tilde{\eval}\tilde{\sigma}'(l),\tilde{\sigma}',\phi$,
-    % we obtain from the induction hypothesis that $e,\sigma\eval l,\sigma'$ with $l,\sigma'\Consistent_m l,\tilde{\sigma}',\Phi\land\phi$.
-    % From this, we can conclude that $!e,\sigma\eval \sigma'(l),\sigma'$ with $\sigma'(l),\sigma'\Consistent_m \tilde{\sigma}'(l),\tilde{\sigma}',\Phi\land\phi$.
+    {
+    Provided that $!e,\sigma\Consistent_M \tilde{e},\tilde{\sigma},\Phi$ and \userule{E-Deref},
+    then by application of the induction hypothesis we obtain $\tilde{e},\tilde{\sigma}\tilde{\eval}l,\tilde{\sigma}',\phi$
+    and $l,\sigma'\Consistent_M l,\tilde{\sigma}',\Phi\land\phi$.
+    By \refrule{SE-Deref}, we have $!\tilde{e},\tilde{\sigma}\tilde{\eval}\tilde{\sigma}'(l),\tilde{\sigma}',\phi$ and $\sigma'(l),\sigma'\Consistent_M \tilde{\sigma}'(l),\tilde{\sigma}',\Phi\land\phi$.
   }
 
   \Case{$e=e_1:=e_2$}
     {
-    One rule applies, namely \userule{E-Assign}\\
-    % Provided that $e,\sigma\Consistent_m\tilde{e}_1:=\tilde{e}_2,\tilde{\sigma},\Phi$ and $\tilde{e}_1:=\tilde{e}_2,\tilde{\sigma}\tilde{\eval}\unit,\tilde{\sigma}''[l\mapsto \tilde{v}_2],\phi_1\land\phi_2$,
-    % we obtain from the induction hypothesis that $e_1,\sigma\eval l,\sigma'$ with $l,\sigma'\Consistent_m l,\tilde{\sigma}',\Phi\land\phi_1$.
-    % Then by a second application of the induction hypothesis, we obtain that $e_2,\sigma'\eval v_2,\sigma''$ with $v_2,\sigma''\Consistent_m\tilde{v}_2,\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.
-    % From this, we can conclude that $e_1 := e_2,\sigma\eval \unit,\sigma''[l\mapsto v_2]$ with $\unit,\sigma''[l\mapsto v_2]\Consistent_m\unit,\tilde{\sigma}''[l\mapsto\tilde{v}_2],\Phi\land\phi_1\land\phi_2$.
+    Provided that $e_1:= e_2,\sigma\Consistent_M \tilde{e},\tilde{\sigma},\Phi$ and \userule{E-Assign},
+    then by application of the induction hypothesis we obtain $\tilde{e}_1,\tilde{\sigma}\tilde{\eval}l,\tilde{\sigma}',\phi_1$
+    and $l,\sigma'\Consistent_M l,\tilde{\sigma}',\Phi\land\phi_1$.
+    A second application of the induction hypothesis gives us  $\tilde{e}_2,\tilde{\sigma}'\tilde{\eval}\tilde{v}_2,\tilde{\sigma}'',\phi_2$
+    and $v_2,\sigma''\Consistent_M \tilde{v}_2,\tilde{\sigma}'',\Phi\land\phi_2$.
+    By \refrule{SE-Assign}, we have $\tilde{e}_1 := \tilde{e}_2,\tilde{\sigma}\tilde{\eval}\unit,\tilde{\sigma}''[l\mapsto\tilde{v}_2],\phi_1\land\phi_2$ and $\Unit,\sigma''[l\mapsto v_2]\Consistent_M \Unit,\tilde{\sigma}''[l\mapsto\tilde{v}_2],\Phi\land\phi_1\land\phi_2$.
     }
 
   \Case{$e=\Edit e$}
-    {One rule applies, namely \userule{E-Edit}\\
-    % Provided that $e,\sigma\Consistent_m \Edit\tilde{e},\tilde{\sigma},\Phi$ and $\Edit\tilde{e},\tilde{\sigma}\tilde{\eval}\Edit\tilde{v},\tilde{\sigma}',\phi$,
-    % we obtain from the induction hypothesis that $e,\sigma\eval v,\sigma'$ with $v,\sigma'\Consistent_m \tilde{v},\tilde{\sigma}',\Phi\land\phi$.
-    % From this, we can conclude that $\Edit e,\sigma\eval \Edit v,\sigma'$ with $\Edit v,\sigma'\Consistent_m \Edit\tilde{v},\tilde{\sigma}',\Phi\land\phi$.
+    {
+    Provided that $\Edit e,\sigma\Consistent_M \tilde{e},\tilde{\sigma},\Phi$ and \userule{E-Edit},
+    then by application of the induction hypothesis we obtain $\tilde{e},\tilde{\sigma}\tilde{\eval}\tilde{v},\tilde{\sigma}',\phi$
+    and $v,\sigma'\Consistent_M \tilde{v},\tilde{\sigma}',\Phi\land\phi$.
+    By \refrule{SE-Edit}, we have $\Edit\tilde{e},\tilde{\sigma}\tilde{\eval}\Edit\tilde{v},\tilde{\sigma}',\phi$ and $\Edit v,\sigma'\Consistent_M \Edit \tilde{v},\tilde{\sigma}',\Phi\land\phi$.
 
     }
 
   \Case{$e=\Enter \tau$}
     {
     One rule applies, namely \userule{E-Enter}\\
-    % We assume $e,\sigma\Consistent_M\Enter\tau,\tilde{\sigma},\Phi$ and $\Enter\tau,\tilde{\sigma}\tilde{\eval}\Enter\tau,\tilde{\sigma},\True$.
-    % By \refrule{E-Enter} we have $\Enter\tau,\sigma\eval \Enter\tau,\sigma$, so this case holds trivially.
+    Since $\Enter \tau,\sigma\Consistent_M \tilde{e},\tilde{\sigma},\Phi$, we know that $\tilde{e}=\Enter \tau$.
+    By \refrule{SE-Enter}, we have $\Enter \tau,\tilde{\sigma}\tilde{\eval}\Enter \tau,\tilde{\sigma},\True$.
+    Since the expressions did not change, this case holds trivially.
     }
 
   \Case{$e=\Update e$}
-    {One rule applies, namely \userule{E-Update}\\
-    % Provided that $e,\sigma\Consistent_m \Update\tilde{e},\tilde{\sigma},\Phi$ and $\Update\tilde{e},\tilde{\sigma}\tilde{\eval}\Update l,\tilde{\sigma}',\phi$,
-    % we obtain from the induction hypothesis that $e,\sigma\eval l,\sigma'$ with $l,\sigma'\Consistent_m l,\tilde{\sigma}',\Phi\land\phi$.
-    % From this, we can conclude that $\Update e,\sigma\eval \Update l ,\sigma'$ with $\Update l,\sigma'\Consistent_m \Update l,\tilde{\sigma}',\Phi\land\phi$.
+    {Provided that $\Update e,\sigma\Consistent_M \tilde{e},\tilde{\sigma},\Phi$ and \userule{E-Update},
+    then by application of the induction hypothesis we obtain $\tilde{e},\tilde{\sigma}\tilde{\eval}l,\tilde{\sigma}',\phi$
+    and $l,\sigma'\Consistent_M l,\tilde{\sigma}',\Phi\land\phi$.
+    By \refrule{SE-Update}, we have $\Update\tilde{e},\tilde{\sigma}\tilde{\eval}\Update l,\tilde{\sigma}',\phi$ and $\Update l,\sigma'\Consistent_M \Update l ,\tilde{\sigma}',\Phi\land\phi$.
 
     }
 
   \Case{$e=e_1\Then e_2$}
-    {One rule applies, namely \userule{E-Then}\\
-    % Provided that $e,\sigma\Consistent_m \tilde{e}_1\Then \tilde{e}_2,\tilde{\sigma},\Phi$ and $\tilde{e}_1\Then \tilde{e}_2,\tilde{\sigma}\tilde{\eval}\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma}',\phi$,
-    % we obtain from the induction hypothesis that $e_1,\sigma\eval t_1,\sigma'$ with $t_1,\sigma'\Consistent_m \tilde{t}_1,\tilde{\sigma}',\Phi\land\phi$.
-    % From this, we can conclude that $e_1\Then e_2,\sigma\eval t_1\Then e_2,\sigma'$ with $t_1\Then e_2,\sigma'\Consistent_m \tilde{t}_1\Then e_2,\tilde{\sigma}',\Phi\land\phi$.
+    {
+    Provided that $e_1\Then e_2,\sigma\Consistent_M \tilde{e},\tilde{\sigma},\Phi$ and \userule{E-Then},
+    then by application of the induction hypothesis we obtain $\tilde{e}_1,\tilde{\sigma}\tilde{\eval}\tilde{v}_1,\tilde{\sigma}',\phi$
+    and $v_1,\sigma'\Consistent_M \tilde{v}_1,\tilde{\sigma}',\Phi\land\phi$.
+    By \refrule{SE-Then}, we have $\tilde{e}_1\Then \tilde{e}_2,\tilde{\sigma}\tilde{\eval}\tilde{v}_1\Then\tilde{e}_2,\tilde{\sigma}',\phi$ and $v_1\Then e_2 ,\sigma'\Consistent_M \tilde{v}_1\Then\tilde{e}_2 ,\tilde{\sigma}',\Phi\land\phi$.
 
     }
 
   \Case{$e=e_1\Next e_2$}
-    {One rule applies, namely \userule{E-Next}\\
-    % Provided that $e,\sigma\Consistent_m \tilde{e}_1\Next \tilde{e}_2,\tilde{\sigma},\Phi$ and $\tilde{e}_1\Next \tilde{e}_2,\tilde{\sigma}\tilde{\eval}\tilde{t}_1\Next \tilde{e}_2,\tilde{\sigma}',\phi$,
-    % we obtain from the induction hypothesis that $e_1,\sigma\eval t_1,\sigma'$ with $t_1,\sigma'\Consistent_m \tilde{t}_1,\tilde{\sigma}',\Phi\land\phi$.
-    % From this, we can conclude that $e_1\Next e_2,\sigma\eval t_1\Next e_2,\sigma'$ with $t_1\Next e_2,\sigma'\Consistent_m \tilde{t}_1\Next e_2,\tilde{\sigma}',\Phi\land\phi$.
+    {
+    Provided that $e_1\Next e_2,\sigma\Consistent_M \tilde{e},\tilde{\sigma},\Phi$ and \userule{E-Next},
+    then by application of the induction hypothesis we obtain $\tilde{e}_1,\tilde{\sigma}\tilde{\eval}\tilde{v}_1,\tilde{\sigma}',\phi$
+    and $v_1,\sigma'\Consistent_M \tilde{v}_1,\tilde{\sigma}',\Phi\land\phi$.
+    By \refrule{SE-Next}, we have $\tilde{e}_1\Next \tilde{e}_2,\tilde{\sigma}\tilde{\eval}\tilde{v}_1\Next\tilde{e}_2,\tilde{\sigma}',\phi$ and $v_1\Then e_2 ,\sigma'\Consistent_M \tilde{v}_1\Next\tilde{e}_2 ,\tilde{\sigma}',\Phi\land\phi$.
 
     }
 
   \Case{$e=e_1\Or e_2$}
-    {One rule applies, namely \userule{E-Or}\\
-    % Provided that $e,\sigma\Consistent_m\tilde{e}_1 \Or \tilde{e}_2,\tilde{\sigma},\Phi$ and $\tilde{e}_1 \Or \tilde{e}_2,\tilde{\sigma}\tilde{\eval}\tilde{v}_1\Or \tilde{v}_2,\tilde{\sigma}'',\phi_1\land\phi_2$,
-    % we obtain from the induction hypothesis that $e_1,\sigma\eval v_1,\sigma'$ with $v_1,\sigma'\Consistent_m\tilde{v}_1,\tilde{\sigma}',\Phi\land\phi_1$.
-    % Then by a second application of the induction hypothesis, we obtain that $e_2,\sigma'\eval v_2,\sigma''$ with $v_2,\sigma''\Consistent_m\tilde{v}_2,\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.
-    % From this, we can conclude that $e_1 \Or e_2,\sigma\eval v_1 \Or v_2,\sigma''$ with $v_1 \Or v_2,\sigma''\Consistent_m\tilde{v}_1 \Or \tilde{v}_2,\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.
+    {
+    Provided that $e_1\Or e_2,\sigma\Consistent_M \tilde{e},\tilde{\sigma},\Phi$ and \userule{E-Or},
+    then by application of the induction hypothesis we obtain $\tilde{e}_1,\tilde{\sigma}\tilde{\eval}\tilde{t}_1,\tilde{\sigma}',\phi_1$
+    and $t_1,\sigma'\Consistent_M \tilde{t}_1,\tilde{\sigma}',\Phi\land\phi_1$.
+    A second application of the induction hypothesis gives us  $\tilde{e}_2,\tilde{\sigma}'\tilde{\eval}\tilde{t}_2,\tilde{\sigma}'',\phi_2$
+    and $t_2,\sigma''\Consistent_M \tilde{t}_2,\tilde{\sigma}'',\Phi\land\phi_2$.
+    By \refrule{SE-Or}, we have $\tilde{e}_1\Or \tilde{e}_2,\tilde{\sigma}\tilde{\eval}\tilde{t}_1\Or\tilde{t}_2,\tilde{\sigma}'',\phi_1\land\phi_2$ and $t_1\Or t_2 ,\sigma''\Consistent_M \tilde{t}_1\Or\tilde{t}_2 ,\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.
 
     }
 
   \Case{$e=e_1\Xor e_2$}
     {  One rule applies, namely \userule{E-Xor}\\
-    % We assume $e,\sigma\Consistent_M\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma},\Phi$ and $\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma}\tilde{\eval}\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma},\True$.
-    % By \refrule{E-Xor} we have $e_1\Xor e_2,\sigma\eval e_1\Xor e_2,\sigma$, so this case holds trivially.
+    Since $e_1\Xor e_2,\sigma\Consistent_M \tilde{e},\tilde{\sigma},\Phi$, we know that $\tilde{e}=\tilde{e}_1\Xor \tilde{e}_2$.
+    By \refrule{SE-Xor}, we have $\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma}\tilde{\eval}\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma},\True$.
+    Since the expressions did not change, this case holds trivially.
 
     }
 
   \Case{$e=\Fail$}
     {  One rule applies, namely \userule{E-Fail}\\
-    % We assume $e,\sigma\Consistent_M\Fail,\tilde{\sigma},\Phi$ and $\Fail,\tilde{\sigma}\tilde{\eval}\Fail,\tilde{\sigma},\True$.
-    % By \refrule{E-Fail} we have $\Fail,\sigma\eval \Fail,\sigma$, so this case holds trivially.
+    Since $\Fail,\sigma\Consistent_M \tilde{e},\tilde{\sigma},\Phi$, we know that $\tilde{e}=\Fail$.
+    By \refrule{SE-Fail}, we have $\Fail,\tilde{\sigma}\tilde{\eval}\Fail,\tilde{\sigma},\True$.
+    Since the expressions did not change, this case holds trivially.
+
 
     }
 \end{proof}
