@@ -355,6 +355,12 @@
   {\newmacro{#1}{\placerule[#1]{#2}{#3}[#4]}}
 \newmacro{userule}
   {\usemacro}
+\newmacro{Userule}[1]
+    %{\parbox[b][1.1cm][t]{\linewidth}{\userule{#1}}}
+    {\begin{tabular}[b]{c}
+      \userule{#1}\\
+      \vspace{-.45cm} 
+  \end{tabular}}
 \newmacro{refrule}[1]
   {\ifthenelse{\isundefined{#1}}
     {\GenericError{}{Rule `#1` is not defined}{}{}}
