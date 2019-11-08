@@ -46,36 +46,36 @@ When we run the simulation function $\simulate$, we obtain all symbolic results,
     \toprule
     \text{Symbolic value} & \text{Symbolic input} & \text{Path condition} \\
     \midrule
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second \First, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second \First, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \First, \First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \First, \First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \Second \First, \First \First s_{\id{a}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \Second \First, \First \Second s_{\id{i}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
-    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second \First, \First]  & \True \\
-    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second \First, \First]  & \True \\
-    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \First, \First \First s_{\id{a}}, \First \Second s_{\id{i}}, \First]  & \True \\
-    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \First, \First \Second s_{\id{i}}, \First \First s_{\id{a}}, \First]  & \True \\
-    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \Second \First, \First \First s_{\id{a}}, \First]  & \True \\
-    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \Second \First, \First \Second s_{\id{i}}, \First]  & \True \\
-    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second, \First]  & \True \\
-    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second, \First]  & \True \\
-    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \Second,\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \First]  & \True \\
-    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second, \First \Second s_{\id{i}}, \First \First s_{\id{a}}, \First]  & \True \\
-    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \Second, \First \First s_{\id{a}}, \First]  & \True \\
-    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \Second, \First \Second s_{\id{i}}, \First]  & \True \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second \First, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [\First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second \First, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [\Second \First, \First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [\Second \First, \First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [\First \Second s_{\id{i}}, \Second \First, \First \First s_{\id{a}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [\First \First s_{\id{a}}, \Second \First, \First \Second s_{\id{i}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second \First, \First]  & \True \\
+    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [\First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second \First, \First]  & \True \\
+    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [\Second \First, \First \First s_{\id{a}}, \First \Second s_{\id{i}}, \First]  & \True \\
+    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [\Second \First, \First \Second s_{\id{i}}, \First \First s_{\id{a}}, \First]  & \True \\
+    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [\First \Second s_{\id{i}}, \Second \First, \First \First s_{\id{a}}, \First]  & \True \\
+    \tuple{                        0,  \False, \True, s_{\id{i}}, s_{\id{t}}} & [\First \First s_{\id{a}}, \Second \First, \First \Second s_{\id{i}}, \First]  & \True \\
+    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second, \First]  & \True \\
+    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [\First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second, \First]  & \True \\
+    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [\Second \Second,\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \First]  & \True \\
+    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [\Second, \First \Second s_{\id{i}}, \First \First s_{\id{a}}, \First]  & \True \\
+    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [\First \Second s_{\id{i}}, \Second, \First \First s_{\id{a}}, \First]  & \True \\
+    \tuple{                        0,  \False,\False, s_{\id{i}}, s_{\id{t}}} & [\First \First s_{\id{a}}, \Second, \First \Second s_{\id{i}}, \First]  & \True \\
     \bottomrule
   \end{tabular}
   \begin{tabular}{LLL}
     \toprule
     \text{Symbolic value} & \text{Symbolic input} & \text{Path condition} \\
     \midrule
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second \First, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second \First, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \First, \First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\Second \First, \First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \Second s_{\id{i}}, \Second \First, \First \First s_{\id{a}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [s_{\id{t}},\First \First s_{\id{a}}, \Second \First, \First \Second s_{\id{i}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second \First, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [\First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second \First, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [\Second \First, \First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [\Second \First, \First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [\First \Second s_{\id{i}}, \Second \First, \First \First s_{\id{a}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
+    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, s_{\id{t}}} & [\First \First s_{\id{a}}, \Second \First, \First \Second s_{\id{i}}, \Second] & s_{\id{t}}-s_{\id{i}}<365 \\
     \bottomrule
   \end{tabular}
   \caption{}
