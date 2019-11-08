@@ -175,12 +175,37 @@ In particular, the order of input events determine the progression of parallel b
 
 
 \subsection{Semantics}
-\todo{Fix arrow of striding in figure.}
+
 \begin{figure}[h]
-  \centering
-  \includegraphics[width=0.8\columnwidth,page=5]{figures/drawings-crop.pdf}
-  \caption{
-    Semantic functions defined in this report and their relation.
-  }
-  \label{fig:semantic-functions}
-\end{figure}
+\centering
+\begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 1pt, % don't touch arrow head to node
+            auto,
+            node distance = 3cm, % distance between nodes
+            semithick, % line style
+        ]
+
+        \node (interact)  {Interact ($\interact{}$)};
+        \node (handle) [above of=interact,yshift=-1.2cm] {Handle ($\handle{}$)};
+        \node (normalise) [left of=interact,xshift=-1cm] {Normalise ($\normalise$)};
+        \node (stride) [left of=handle,xshift=-1cm] {Stride ($\stride$)};
+        \node (evaluate) [left of=normalise,xshift=-1cm] {Evaluate ($\eval$)};
+
+
+        \path[->,right] (interact) edge node {uses} (handle);
+        \path[->,above] (interact) edge node {uses} (normalise);
+
+        \path[->] (handle) edge node {uses} (normalise);
+
+        \path[->,right] (normalise) edge node {uses} (stride);
+        \path[->,above] (normalise) edge node {uses} (evaluate);
+
+        \path[->] (stride) edge node {uses} (evaluate);
+
+    \end{tikzpicture}
+    \caption{
+      Semantic functions defined in this report and their relation.
+    }
+    \label{fig:semantic-functions}
+  \end{figure}
