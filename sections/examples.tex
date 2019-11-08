@@ -49,9 +49,13 @@ Deadlock can occur when all philosophers pick up the fork to their right (or lef
 Then, everybody has one fork.
 This means that each philosopher cannot start his or her meal, and is also not allowed to put his fork back on the table.
 \fixme{explain $!$ and $:=$}
+
+
+\begin{minipage}[c]{0.6\textwidth}
+
 \lstset{emph={this, that, name, left, right}}
 \begin{TASK}[
-    float=ht,
+    %float=ht,
     numbers=right,
     caption={Dining philosophers problem with three computer scientists.},
     label=lst:dining]
@@ -70,7 +74,35 @@ This means that each philosopher cannot start his or her meal, and is also not a
   scientist "Ada Lovelace" fork2 fork0 >>= \ _ . $\label{lst:phil:scientist2}$
     edit "Full bellies"
 \end{TASK}
+\end{minipage}
+\begin{minipage}[r]{0.4\textwidth}
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1,style={line width=0.75pt}]
 
+
+%Plates
+\draw   (253,137) .. controls (253,97.24) and (285.24,65) .. (325,65) .. controls (364.76,65) and (397,97.24) .. (397,137) .. controls (397,176.76) and (364.76,209) .. (325,209) .. controls (285.24,209) and (253,176.76) .. (253,137) -- cycle ;
+\draw   (357,142) .. controls (357,133.16) and (364.16,126) .. (373,126) .. controls (381.84,126) and (389,133.16) .. (389,142) .. controls (389,150.84) and (381.84,158) .. (373,158) .. controls (364.16,158) and (357,150.84) .. (357,142) -- cycle ;
+\draw   (289,96) .. controls (289,87.16) and (296.16,80) .. (305,80) .. controls (313.84,80) and (321,87.16) .. (321,96) .. controls (321,104.84) and (313.84,112) .. (305,112) .. controls (296.16,112) and (289,104.84) .. (289,96) -- cycle ;
+
+
+%Forks
+\draw    (263.96,126.23) -- (294.46,131.79) ;
+\draw    (293.63,136.33) .. controls (283.96,134.24) and (283.96,126.86) .. (294.79,128.16) ;
+
+\draw    (351.54,191.12) -- (335.85,164.38) ;
+\draw    (339.84,162.04) .. controls (344.56,170.75) and (338.97,175.55) .. (332.89,166.5) ;
+
+\draw    (364.51,91.97) -- (342.43,113.74) ;
+\draw    (339.19,110.45) .. controls (346.47,103.74) and (352.5,107.98) .. (345.22,116.09) ;
+
+
+%Table
+\draw   (278,167) .. controls (278,158.16) and (285.16,151) .. (294,151) .. controls (302.84,151) and (310,158.16) .. (310,167) .. controls (310,175.84) and (302.84,183) .. (294,183) .. controls (285.16,183) and (278,175.84) .. (278,167) -- cycle ;
+
+\end{tikzpicture}
+
+\end{minipage}\\
+\\
 We look at dining computer scientists instead.
 \cref{lst:dining} lists an implementation in \TOPHAT for this problem, with three computer scientists.
 The forks are represented by references containing Booleans (\cref{lst:phil:fork0,lst:phil:fork1,lst:phil:fork2}).
