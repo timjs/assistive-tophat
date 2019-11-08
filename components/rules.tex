@@ -1,4 +1,4 @@
-% !TEX root=main.tex
+% !TEX root=../main.tex
 
 
 %% Typing %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -12,213 +12,213 @@
 
 
 \newmacro{RelationSE}
-  {\tilde{e},\tilde{\sigma} \tilde{\eval} \overline{\tilde{v},\tilde{\sigma}',\phi}}
+  {\tilde{e},\tilde{\sigma} \simeval \overline{\tilde{v},\tilde{\sigma}',\phi}}
 
 
 \newrule{SE-Value}
   {}
-  {\tilde{v},\tilde{\sigma}\tilde{\eval} \tilde{v},{\tilde{\sigma},\True}}
+  {\tilde{v},\tilde{\sigma}\simeval \tilde{v},{\tilde{\sigma},\True}}
 
 
 \newrule{SE-App}
-  {\tilde{e}_1,\tilde{\sigma}\tilde{\eval} \overline{\lambda x:\tau.\tilde{e}_1',\tilde{\sigma}',{\phi_1}} \Quad
-   \tilde{e}_2,\tilde{\sigma}'\tilde{\eval} \overline{\tilde{v}_2,\tilde{\sigma}'',{\phi_2}} \Quad
-   \tilde{e}_1'[x\mapsto \tilde{v}_2],\tilde{\sigma}''\tilde{\eval} \overline{\tilde{v}_1,\tilde{\sigma}''',{\phi_3}}}
-  {\tilde{e}_1 \tilde{e}_2,\tilde{\sigma} \tilde{\eval} \overline{\tilde{v}_1,\tilde{\sigma}''',{\phi_1\land\phi_2\land\phi_3}}}
+  {\tilde{e}_1,\tilde{\sigma}\simeval \overline{\lambda x:\tau.\tilde{e}_1',\tilde{\sigma}',{\phi_1}} \Quad
+   \tilde{e}_2,\tilde{\sigma}'\simeval \overline{\tilde{v}_2,\tilde{\sigma}'',{\phi_2}} \Quad
+   \tilde{e}_1'[x\mapsto \tilde{v}_2],\tilde{\sigma}''\simeval \overline{\tilde{v}_1,\tilde{\sigma}''',{\phi_3}}}
+  {\tilde{e}_1 \tilde{e}_2,\tilde{\sigma} \simeval \overline{\tilde{v}_1,\tilde{\sigma}''',{\phi_1\land\phi_2\land\phi_3}}}
 
 \newrule{SE-If}
-  {\tilde{e}_1,\tilde{\sigma}\tilde{\eval} \overline{\tilde{v}_1,\tilde{\sigma}',{\phi_1}} \Quad
-   {\tilde{e}_2,\tilde{\sigma}'\tilde{\eval} \overline{\tilde{v}_2,\tilde{\sigma}'',\phi_2}} \Quad
-   {\tilde{e}_3,\tilde{\sigma}'\tilde{\eval} \overline{\tilde{v}_3,\tilde{\sigma}''',\phi_3}}}
-  {\If{\tilde{e}_1}{\tilde{e}_2}{\tilde{e}_3},\tilde{\sigma}\tilde{\eval} {\overline{\tilde{v}_2,\tilde{\sigma}'',\phi_1 \land \phi_2\land \tilde{v}_1} \cup \overline{\tilde{v}_3,\tilde{\sigma}''',\phi_1 \land \phi_3 \land \lnot \tilde{v}_1}}}
+  {\tilde{e}_1,\tilde{\sigma}\simeval \overline{\tilde{v}_1,\tilde{\sigma}',{\phi_1}} \Quad
+   {\tilde{e}_2,\tilde{\sigma}'\simeval \overline{\tilde{v}_2,\tilde{\sigma}'',\phi_2}} \Quad
+   {\tilde{e}_3,\tilde{\sigma}'\simeval \overline{\tilde{v}_3,\tilde{\sigma}''',\phi_3}}}
+  {\If{\tilde{e}_1}{\tilde{e}_2}{\tilde{e}_3},\tilde{\sigma}\simeval {\overline{\tilde{v}_2,\tilde{\sigma}'',\phi_1 \land \phi_2\land \tilde{v}_1} \cup \overline{\tilde{v}_3,\tilde{\sigma}''',\phi_1 \land \phi_3 \land \lnot \tilde{v}_1}}}
 
 \newrule{SE-Pair}
-  {\tilde{e}_1,\tilde{\sigma}\tilde{\eval} \overline{\tilde{v}_1,\tilde{\sigma}',{\phi_1}} \Quad
-   \tilde{e}_2,\tilde{\sigma}'\tilde{\eval} \overline{\tilde{v}_2,\tilde{\sigma}'',{\phi_2}}}
-  {\tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma}\tilde{\eval}\overline{\tuple{\tilde{v}_1,\tilde{v}_2},\tilde{\sigma}'',{\phi_1\land\phi_2}}}
+  {\tilde{e}_1,\tilde{\sigma}\simeval \overline{\tilde{v}_1,\tilde{\sigma}',{\phi_1}} \Quad
+   \tilde{e}_2,\tilde{\sigma}'\simeval \overline{\tilde{v}_2,\tilde{\sigma}'',{\phi_2}}}
+  {\tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma}\simeval\overline{\tuple{\tilde{v}_1,\tilde{v}_2},\tilde{\sigma}'',{\phi_1\land\phi_2}}}
 
 \newrule{SE-First}
-  {\tilde{e}_1,\tilde{\sigma}\tilde{\eval}\overline{\tilde{v}_1,\tilde{\sigma}',{\phi}}}
-  {\Fst\tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma}\tilde{\eval}\overline{\tilde{v}_1,\tilde{\sigma}',{\phi}} }
+  {\tilde{e}_1,\tilde{\sigma}\simeval\overline{\tilde{v}_1,\tilde{\sigma}',{\phi}}}
+  {\Fst\tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma}\simeval\overline{\tilde{v}_1,\tilde{\sigma}',{\phi}} }
 
 \newrule{SE-Second}
-  {\tilde{e}_2,\tilde{\sigma}\tilde{\eval}\overline{\tilde{v}_2,\tilde{\sigma}',{\phi}}}
-  {\Snd\tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma}\tilde{\eval}\overline{\tilde{v}_2,\tilde{\sigma}',\phi} }
+  {\tilde{e}_2,\tilde{\sigma}\simeval\overline{\tilde{v}_2,\tilde{\sigma}',{\phi}}}
+  {\Snd\tuple{\tilde{e}_1,\tilde{e}_2},\tilde{\sigma}\simeval\overline{\tilde{v}_2,\tilde{\sigma}',\phi} }
 
 
 %%%%%%%
 
 \newrule{SE-Cons}
-  {\tilde{e}_1,\tilde{\sigma} \tilde{\eval} \tilde{v}_1,\tilde{\sigma}',\phi_1\Quad
-   \tilde{e}_2,\tilde{\sigma}' \tilde{\eval} \tilde{v}_2,\tilde{\sigma}'',\phi_2}
-  {\tilde{e}_1 :: \tilde{e}_2,\tilde{\sigma} \tilde{\eval} \tilde{v}_1:: \tilde{v}_2,\tilde{\sigma}'',\phi_1\land\phi_2}
+  {\tilde{e}_1,\tilde{\sigma} \simeval \tilde{v}_1,\tilde{\sigma}',\phi_1\Quad
+   \tilde{e}_2,\tilde{\sigma}' \simeval \tilde{v}_2,\tilde{\sigma}'',\phi_2}
+  {\tilde{e}_1 :: \tilde{e}_2,\tilde{\sigma} \simeval \tilde{v}_1:: \tilde{v}_2,\tilde{\sigma}'',\phi_1\land\phi_2}
 
 \newrule{SE-Head}
-  {\tilde{e},\tilde{\sigma} \tilde{\eval} \tilde{v}_1::\tilde{v}_2,\tilde{\sigma}',{\phi}}
-  {\Head \tilde{e},\tilde{\sigma} \tilde{\eval} \tilde{v}_1,\tilde{\sigma}',{\phi}}
+  {\tilde{e},\tilde{\sigma} \simeval \tilde{v}_1::\tilde{v}_2,\tilde{\sigma}',{\phi}}
+  {\Head \tilde{e},\tilde{\sigma} \simeval \tilde{v}_1,\tilde{\sigma}',{\phi}}
 
 \newrule{SE-Tail}
-{\tilde{e},\tilde{\sigma} \tilde{\eval} \tilde{v}_1::\tilde{v}_2,\tilde{\sigma}',{\phi}}
-{\Tail \tilde{e},\tilde{\sigma} \tilde{\eval} \tilde{v}_2,\tilde{\sigma}',{\phi}}
+{\tilde{e},\tilde{\sigma} \simeval \tilde{v}_1::\tilde{v}_2,\tilde{\sigma}',{\phi}}
+{\Tail \tilde{e},\tilde{\sigma} \simeval \tilde{v}_2,\tilde{\sigma}',{\phi}}
 
 
 %%%%%
 \newrule{SE-Ref}
-  {\tilde{e},\tilde{\sigma}\tilde{\eval} \overline{\tilde{v},\tilde{\sigma}',\phi} \Quad
+  {\tilde{e},\tilde{\sigma}\simeval \overline{\tilde{v},\tilde{\sigma}',\phi} \Quad
    l\not\in Dom(\sigma')}
-  {\Ref \tilde{e},\tilde{\sigma}\tilde{\eval} \overline{l,\tilde{\sigma}'[l\mapsto \tilde{v}],\phi}}
+  {\Ref \tilde{e},\tilde{\sigma}\simeval \overline{l,\tilde{\sigma}'[l\mapsto \tilde{v}],\phi}}
 
 \newrule{SE-Deref}
-  {\tilde{e},\tilde{\sigma}\tilde{\eval} \overline{l,\tilde{\sigma}',{\phi}}}
-  {!\tilde{e},\tilde{\sigma}\tilde{\eval} \overline{\tilde{\sigma}'(l),\tilde{\sigma}',{\phi}}}
+  {\tilde{e},\tilde{\sigma}\simeval \overline{l,\tilde{\sigma}',{\phi}}}
+  {!\tilde{e},\tilde{\sigma}\simeval \overline{\tilde{\sigma}'(l),\tilde{\sigma}',{\phi}}}
 
 \newrule{SE-Assign}
-  {\tilde{e}_1,\tilde{\sigma}\tilde{\eval} \overline{l,\tilde{\sigma}',\phi_1} \Quad
-   \tilde{e}_2,\tilde{\sigma}'\tilde{\eval} \overline{\tilde{v}_2,\tilde{\sigma}'',\phi_2}}
-  {\tilde{e}_1:=\tilde{e}_2,\tilde{\sigma}\tilde{\eval} \overline{\unit,\tilde{\sigma}''[l\mapsto \tilde{v}_2],\phi_1\wedge\phi_2}}
+  {\tilde{e}_1,\tilde{\sigma}\simeval \overline{l,\tilde{\sigma}',\phi_1} \Quad
+   \tilde{e}_2,\tilde{\sigma}'\simeval \overline{\tilde{v}_2,\tilde{\sigma}'',\phi_2}}
+  {\tilde{e}_1:=\tilde{e}_2,\tilde{\sigma}\simeval \overline{\unit,\tilde{\sigma}''[l\mapsto \tilde{v}_2],\phi_1\wedge\phi_2}}
 
 \newrule{SE-Edit}
-  {\tilde{e},\tilde{\sigma} \tilde{\eval} \overline{\tilde{v},\tilde{\sigma}',\phi}}
-  {\Edit \tilde{e} , \tilde{\sigma}\tilde{\eval} \overline{\Edit \tilde{v},\tilde{\sigma}',\phi}}
+  {\tilde{e},\tilde{\sigma} \simeval \overline{\tilde{v},\tilde{\sigma}',\phi}}
+  {\Edit \tilde{e} , \tilde{\sigma}\simeval \overline{\Edit \tilde{v},\tilde{\sigma}',\phi}}
 
 \newrule{SE-Enter}
   {}
-  {\Enter \tau,\tilde{\sigma} \tilde{\eval} \Enter \tau,\tilde{\sigma},\True}
+  {\Enter \tau,\tilde{\sigma} \simeval \Enter \tau,\tilde{\sigma},\True}
 
 \newrule{SE-Update}
-  {\tilde{e},\tilde{\sigma}\tilde{\eval} \overline{l,\tilde{\sigma}',\phi}}
-  {\Update \tilde{e} ,\tilde{\sigma}\tilde{\eval} \overline{\Update l,\tilde{\sigma}',\phi}}
+  {\tilde{e},\tilde{\sigma}\simeval \overline{l,\tilde{\sigma}',\phi}}
+  {\Update \tilde{e} ,\tilde{\sigma}\simeval \overline{\Update l,\tilde{\sigma}',\phi}}
 
 
 \newrule{SE-Fail}
   {}
-  {\Fail,\tilde{\sigma} \tilde{\eval} \Fail,\tilde{\sigma},{\True}}
+  {\Fail,\tilde{\sigma} \simeval \Fail,\tilde{\sigma},{\True}}
 
 
 \newrule{SE-Then}
-  {\tilde{e}_1 ,\tilde{\sigma}\tilde{\eval} \overline{\tilde{t}_1,\tilde{\sigma}',{\phi}}}
-  {\tilde{e}_1 \Then \tilde{e}_2,\tilde{\sigma} \tilde{\eval} \overline{\tilde{t}_1 \Then \tilde{e}_2,\tilde{\sigma}',{\phi}}}
+  {\tilde{e}_1 ,\tilde{\sigma}\simeval \overline{\tilde{t}_1,\tilde{\sigma}',{\phi}}}
+  {\tilde{e}_1 \Then \tilde{e}_2,\tilde{\sigma} \simeval \overline{\tilde{t}_1 \Then \tilde{e}_2,\tilde{\sigma}',{\phi}}}
 
 \newrule{SE-Next}
-  {\tilde{e}_1 ,\tilde{\sigma}\tilde{\eval} \overline{\tilde{t}_1,\tilde{\sigma}',{\phi}}}
-  {\tilde{e}_1 \Next \tilde{e}_2 ,\tilde{\sigma}\tilde{\eval} \overline{\tilde{t}_1 \Next \tilde{e}_2,\tilde{\sigma}',{\phi}}}
+  {\tilde{e}_1 ,\tilde{\sigma}\simeval \overline{\tilde{t}_1,\tilde{\sigma}',{\phi}}}
+  {\tilde{e}_1 \Next \tilde{e}_2 ,\tilde{\sigma}\simeval \overline{\tilde{t}_1 \Next \tilde{e}_2,\tilde{\sigma}',{\phi}}}
 
 
 \newrule{SE-And}
-  {\tilde{e}_1 ,\tilde{\sigma}\tilde{\eval} \overline{\tilde{t}_1 ,\tilde{\sigma}',\phi_1} \Quad
-   \tilde{e}_2 ,\tilde{\sigma}'\tilde{\eval} \overline{\tilde{t}_2,\tilde{\sigma}'',\phi_2}}
-  {\tilde{e}_1 \And \tilde{e}_2 ,\tilde{\sigma}\tilde{\eval} \overline{\tilde{t}_1 \And \tilde{t}_2,\tilde{\sigma}'',\phi_1\land\phi_2}}
+  {\tilde{e}_1 ,\tilde{\sigma}\simeval \overline{\tilde{t}_1 ,\tilde{\sigma}',\phi_1} \Quad
+   \tilde{e}_2 ,\tilde{\sigma}'\simeval \overline{\tilde{t}_2,\tilde{\sigma}'',\phi_2}}
+  {\tilde{e}_1 \And \tilde{e}_2 ,\tilde{\sigma}\simeval \overline{\tilde{t}_1 \And \tilde{t}_2,\tilde{\sigma}'',\phi_1\land\phi_2}}
 
 
 \newrule{SE-Or}
-  {\tilde{e}_1 ,\tilde{\sigma}\tilde{\eval} \overline{\tilde{t}_1 ,\tilde{\sigma}',\phi_1} \Quad
-   \tilde{e}_2 ,\tilde{\sigma}'\tilde{\eval} \overline{\tilde{t}_2,\tilde{\sigma}'',\phi_2}}
-  {\tilde{e}_1 \Or \tilde{e}_2 ,\tilde{\sigma}\tilde{\eval} \overline{\tilde{t}_1 \Or \tilde{t}_2,\tilde{\sigma}'',\phi_1\land\phi_2}}
+  {\tilde{e}_1 ,\tilde{\sigma}\simeval \overline{\tilde{t}_1 ,\tilde{\sigma}',\phi_1} \Quad
+   \tilde{e}_2 ,\tilde{\sigma}'\simeval \overline{\tilde{t}_2,\tilde{\sigma}'',\phi_2}}
+  {\tilde{e}_1 \Or \tilde{e}_2 ,\tilde{\sigma}\simeval \overline{\tilde{t}_1 \Or \tilde{t}_2,\tilde{\sigma}'',\phi_1\land\phi_2}}
 
 \newrule{SE-Xor}
   {}
-  {\tilde{e}_1 \Xor \tilde{e}_2 ,\tilde{\sigma}\tilde{\eval} \tilde{e}_1 \Xor \tilde{e}_2,\tilde{\sigma},{\True}}
+  {\tilde{e}_1 \Xor \tilde{e}_2 ,\tilde{\sigma}\simeval \tilde{e}_1 \Xor \tilde{e}_2,\tilde{\sigma},{\True}}
 
 %% Normalisation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \newmacro{RelationSS}
-  {\tilde{t},\tilde{\sigma}\tilde{\stride} \overline{\tilde{t}',\tilde{\sigma}',\phi}}
+  {\tilde{t},\tilde{\sigma}\simstride \overline{\tilde{t}',\tilde{\sigma}',\phi}}
 
 
 \newrule{SS-Edit}
   { }
-  {\Edit \tilde{v},\tilde{\sigma} \tilde{\stride} \Edit \tilde{v},\tilde{\sigma},\True}
+  {\Edit \tilde{v},\tilde{\sigma} \simstride \Edit \tilde{v},\tilde{\sigma},\True}
 
 \newrule{SS-Fill}
   { }
-  {\Enter \tau,\tilde{\sigma} \tilde{\stride} \Enter \tau,\tilde{\sigma},\True}
+  {\Enter \tau,\tilde{\sigma} \simstride \Enter \tau,\tilde{\sigma},\True}
 
 \newrule{SS-Update}
   { }
-  {\Update l,\tilde{\sigma} \tilde{\stride} \Update l,\tilde{\sigma},\True}
+  {\Update l,\tilde{\sigma} \simstride \Update l,\tilde{\sigma},\True}
 
 
 \newrule{SS-Fail}
   { }
-  {\Fail,\tilde{\sigma} \tilde{\stride} \Fail,\tilde{\sigma},\True}
+  {\Fail,\tilde{\sigma} \simstride \Fail,\tilde{\sigma},\True}
 
 
 \newrule{SS-ThenStay}
-  {\tilde{t}_1,\tilde{\sigma} \tilde{\stride} \overline{\tilde{t}_1',\tilde{\sigma}',\phi}}
-  {\tilde{t}_1 \Then \tilde{e}_2,\tilde{\sigma} \tilde{\stride} \overline{\tilde{t}_1' \Then \tilde{e}_2,\tilde{\sigma}',\phi}}
+  {\tilde{t}_1,\tilde{\sigma} \simstride \overline{\tilde{t}_1',\tilde{\sigma}',\phi}}
+  {\tilde{t}_1 \Then \tilde{e}_2,\tilde{\sigma} \simstride \overline{\tilde{t}_1' \Then \tilde{e}_2,\tilde{\sigma}',\phi}}
   [\Value(\tilde{t}_1',\tilde{\sigma}') = \bot]
 
 \newrule{SS-ThenFail}
-  {\tilde{t}_1,\tilde{\sigma} \tilde{\stride} \overline{\tilde{t}_1',\tilde{\sigma}',\phi} \Quad
-   \tilde{e}_2\ \tilde{v}_1,\tilde{\sigma}' \tilde{\eval} \overline{\tilde{t}_2,\tilde{\sigma}'',\_}}
-  {\tilde{t}_1 \Then \tilde{e}_2,\tilde{\sigma} \tilde{\stride} \overline{\tilde{t}_1' \Then \tilde{e}_2,\tilde{\sigma}',\phi}}
+  {\tilde{t}_1,\tilde{\sigma} \simstride \overline{\tilde{t}_1',\tilde{\sigma}',\phi} \Quad
+   \tilde{e}_2\ \tilde{v}_1,\tilde{\sigma}' \simeval \overline{\tilde{t}_2,\tilde{\sigma}'',\_}}
+  {\tilde{t}_1 \Then \tilde{e}_2,\tilde{\sigma} \simstride \overline{\tilde{t}_1' \Then \tilde{e}_2,\tilde{\sigma}',\phi}}
   [\Value(\tilde{t}_1',\tilde{\sigma}') = \tilde{v}_1 \land \Failing(\tilde{t}_2,\tilde{\sigma}'')]
 
 \newrule{SS-ThenCont}
-  {\tilde{t}_1,\tilde{\sigma} \tilde{\stride} \overline{\tilde{t}_1',\tilde{\sigma}',\phi_1} \Quad
-  \tilde{e}_2\ \tilde{v}_1,\tilde{\sigma}' \tilde{\eval} \overline{\tilde{t}_2 ,\tilde{\sigma}'',\phi_2}}
+  {\tilde{t}_1,\tilde{\sigma} \simstride \overline{\tilde{t}_1',\tilde{\sigma}',\phi_1} \Quad
+  \tilde{e}_2\ \tilde{v}_1,\tilde{\sigma}' \simeval \overline{\tilde{t}_2 ,\tilde{\sigma}'',\phi_2}}
    % t_2,\sigma'' \stride t_2',\sigma'''}
-  {\tilde{t}_1 \Then \tilde{e}_2,\tilde{\sigma} \tilde{\stride} \overline{t_2,\sigma'',{\phi_1\land\phi_2}}}
+  {\tilde{t}_1 \Then \tilde{e}_2,\tilde{\sigma} \simstride \overline{t_2,\sigma'',{\phi_1\land\phi_2}}}
   [\Value(\tilde{t}_1',\tilde{\sigma}') = \tilde{v}_1 \land \lnot\Failing(\tilde{t}_2,\tilde{\sigma}'')]
 
 \newrule{SS-Next}
-  {\tilde{t}_1,\tilde{\sigma} \tilde{\stride} \overline{\tilde{t}_1',\tilde{\sigma}',\phi}}
-  {\tilde{t}_1 \Next \tilde{e}_2,\tilde{\sigma} \tilde{\stride} \overline{\tilde{t}_1' \Next \tilde{e}_2,\tilde{\sigma}',\phi}}
+  {\tilde{t}_1,\tilde{\sigma} \simstride \overline{\tilde{t}_1',\tilde{\sigma}',\phi}}
+  {\tilde{t}_1 \Next \tilde{e}_2,\tilde{\sigma} \simstride \overline{\tilde{t}_1' \Next \tilde{e}_2,\tilde{\sigma}',\phi}}
 
 
 \newrule{SS-And}
-  {\tilde{t}_1,\tilde{\sigma}  \tilde{\stride} \overline{\tilde{t}_1',\tilde{\sigma}',\phi_1 } \Quad
-   \tilde{t}_2,\tilde{\sigma}' \tilde{\stride} \overline{\tilde{t}_2',\tilde{\sigma}'',\phi_2}}
-  {\tilde{t}_1 \And \tilde{t}_2,\tilde{\sigma} \tilde{\stride} \overline{\tilde{t}_1' \And \tilde{t}_2',\tilde{\sigma}'',\phi_1\land\phi_2}}
+  {\tilde{t}_1,\tilde{\sigma}  \simstride \overline{\tilde{t}_1',\tilde{\sigma}',\phi_1 } \Quad
+   \tilde{t}_2,\tilde{\sigma}' \simstride \overline{\tilde{t}_2',\tilde{\sigma}'',\phi_2}}
+  {\tilde{t}_1 \And \tilde{t}_2,\tilde{\sigma} \simstride \overline{\tilde{t}_1' \And \tilde{t}_2',\tilde{\sigma}'',\phi_1\land\phi_2}}
 
 
 \newrule{SS-OrLeft}
- {\tilde{t}_1,\tilde{\sigma}  \tilde{\stride} \overline{\tilde{t}_1',\tilde{\sigma}',\phi}}
- {\tilde{t}_1 \Or \tilde{t}_2,\tilde{\sigma} \tilde{\stride} \overline{\tilde{t}_1',\tilde{\sigma}',\phi}}
+ {\tilde{t}_1,\tilde{\sigma}  \simstride \overline{\tilde{t}_1',\tilde{\sigma}',\phi}}
+ {\tilde{t}_1 \Or \tilde{t}_2,\tilde{\sigma} \simstride \overline{\tilde{t}_1',\tilde{\sigma}',\phi}}
   [\Value(\tilde{t}_1',\tilde{\sigma}') = \tilde{v}_1]
 
 \newrule{SS-OrRight}
-  {\tilde{t}_1,\tilde{\sigma}  \tilde{\stride} \overline{\tilde{t}_1',\tilde{\sigma}',\phi_1}  \Quad
-   \tilde{t}_2,\tilde{\sigma}' \tilde{\stride} \overline{\tilde{t}_2',\tilde{\sigma}'',\phi_2}}
-  {\tilde{t}_1 \Or \tilde{t}_2,\tilde{\sigma} \tilde{\stride} \overline{\tilde{t}_2',\tilde{\sigma}'',\phi_1\land\phi_2}}
+  {\tilde{t}_1,\tilde{\sigma}  \simstride \overline{\tilde{t}_1',\tilde{\sigma}',\phi_1}  \Quad
+   \tilde{t}_2,\tilde{\sigma}' \simstride \overline{\tilde{t}_2',\tilde{\sigma}'',\phi_2}}
+  {\tilde{t}_1 \Or \tilde{t}_2,\tilde{\sigma} \simstride \overline{\tilde{t}_2',\tilde{\sigma}'',\phi_1\land\phi_2}}
   [\Value(\tilde{t}_1',\tilde{\sigma}') = \bot \land \Value(\tilde{t}_2',\tilde{\sigma}'') = \tilde{v}_2]
 
 \newrule{SS-OrNone}
-  {\tilde{t}_1,\tilde{\sigma}  \tilde{\stride} \overline{\tilde{t}_1',\tilde{\sigma}' ,\phi_1} \Quad
-   \tilde{t}_2,\tilde{\sigma}' \tilde{\stride} \overline{\tilde{t}_2',\tilde{\sigma}'',\phi_2}}
-  {\tilde{t}_1 \Or \tilde{t}_2,\tilde{\sigma} \tilde{\stride} \overline{\tilde{t}_1' \Or \tilde{t}_2',\tilde{\sigma}'',\phi_1\land\phi_2}}
+  {\tilde{t}_1,\tilde{\sigma}  \simstride \overline{\tilde{t}_1',\tilde{\sigma}' ,\phi_1} \Quad
+   \tilde{t}_2,\tilde{\sigma}' \simstride \overline{\tilde{t}_2',\tilde{\sigma}'',\phi_2}}
+  {\tilde{t}_1 \Or \tilde{t}_2,\tilde{\sigma} \simstride \overline{\tilde{t}_1' \Or \tilde{t}_2',\tilde{\sigma}'',\phi_1\land\phi_2}}
   [\Value(\tilde{t}_1',\tilde{\sigma}') = \bot \land \Value(\tilde{t}_2',\tilde{\sigma}'') = \bot]
 
 
 \newrule{SS-Xor}
   {\ }
-  {\tilde{e}_1 \Xor \tilde{e}_2,\tilde{\sigma} \tilde{\stride} \tilde{e}_1 \Xor \tilde{e}_2,\tilde{\sigma},\True}
+  {\tilde{e}_1 \Xor \tilde{e}_2,\tilde{\sigma} \simstride \tilde{e}_1 \Xor \tilde{e}_2,\tilde{\sigma},\True}
 
 \newrule{SS-Eval}
-    {\tilde{e},\tilde{\sigma} \tilde{\eval} \overline{\tilde{e}',\tilde{\sigma}',\phi_1}  \Quad
-     \tilde{e}',\tilde{\sigma}' \tilde{\stride} \overline{\tilde{e}'',\tilde{\sigma}'',\phi_2}}
-    {\tilde{e},\tilde{\sigma} \tilde{\stride} \overline{\tilde{e}'',\tilde{\sigma}'',\phi_1\land\phi_2}}
+    {\tilde{e},\tilde{\sigma} \simeval \overline{\tilde{e}',\tilde{\sigma}',\phi_1}  \Quad
+     \tilde{e}',\tilde{\sigma}' \simstride \overline{\tilde{e}'',\tilde{\sigma}'',\phi_2}}
+    {\tilde{e},\tilde{\sigma} \simstride \overline{\tilde{e}'',\tilde{\sigma}'',\phi_1\land\phi_2}}
     [\tilde{e} \neq \tilde{e}']
 
 %% Normalisation %%
 
 
 \newmacro{RelationSN}
-  {\tilde{e},\tilde{\sigma} \tilde{\normalise} \overline{\tilde{t},\tilde{\sigma}',\phi}}
+  {\tilde{e},\tilde{\sigma} \simnormalise \overline{\tilde{t},\tilde{\sigma}',\phi}}
 
 
 \newrule{SN-Done}
-    {\tilde{e},\tilde{\sigma} \tilde{\eval} \overline{\tilde{t},\tilde{\sigma}',\phi_1}  \Quad
-     \tilde{t},\tilde{\sigma}' \tilde{\stride} \overline{\tilde{t}',\tilde{\sigma}'',\phi_2}}
-    {\tilde{e},\tilde{\sigma} \tilde{\normalise} \overline{\tilde{t},\tilde{\sigma}',\phi_1}}
+    {\tilde{e},\tilde{\sigma} \simeval \overline{\tilde{t},\tilde{\sigma}',\phi_1}  \Quad
+     \tilde{t},\tilde{\sigma}' \simstride \overline{\tilde{t}',\tilde{\sigma}'',\phi_2}}
+    {\tilde{e},\tilde{\sigma} \simnormalise \overline{\tilde{t},\tilde{\sigma}',\phi_1}}
     [\tilde{\sigma}'=\tilde{\sigma}'' \land \tilde{t}=\tilde{t}']
 
 \newrule{SN-Repeat}
-    {\tilde{e},\tilde{\sigma} \tilde{\eval} \overline{\tilde{t},\tilde{\sigma}',\phi_1}  \Quad
-     \tilde{t},\tilde{\sigma}' \tilde{\stride} \overline{\tilde{t}',\tilde{\sigma}'',\phi_2 } \Quad
-     \tilde{t}',\tilde{\sigma}'' \tilde{\normalise} \overline{\tilde{t}'',\tilde{\sigma}''',\phi_3}}
-    {\tilde{e},\tilde{\sigma} \tilde{\normalise} \overline{\tilde{t}'',\tilde{\sigma}''',\phi_1 \land \phi_2 \land \phi_3}}
+    {\tilde{e},\tilde{\sigma} \simeval \overline{\tilde{t},\tilde{\sigma}',\phi_1}  \Quad
+     \tilde{t},\tilde{\sigma}' \simstride \overline{\tilde{t}',\tilde{\sigma}'',\phi_2 } \Quad
+     \tilde{t}',\tilde{\sigma}'' \simnormalise \overline{\tilde{t}'',\tilde{\sigma}''',\phi_3}}
+    {\tilde{e},\tilde{\sigma} \simnormalise \overline{\tilde{t}'',\tilde{\sigma}''',\phi_1 \land \phi_2 \land \phi_3}}
     [\tilde{\sigma}'\neq \tilde{\sigma}''\vee \tilde{t}\neq \tilde{t}']
 
 
@@ -227,12 +227,12 @@
 
 
 \newmacro{RelationSH}
-  {\tilde{t},\tilde{\sigma} \handle{} \overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}}
+  {\tilde{t},\tilde{\sigma} \simhandle \overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}}
 
 
 \newrule{SH-Change}
   { \text{fresh }s}
-  {\Edit \tilde{v},\tilde{\sigma} \handle{} \Edit s,\tilde{\sigma},s,\True}
+  {\Edit \tilde{v},\tilde{\sigma} \simhandle \Edit s,\tilde{\sigma},s,\True}
   [\tilde{v},s:\tau]
 
 % \newrule{SH-Empty}
@@ -242,63 +242,63 @@
 
 \newrule{SH-Fill}
   { \text{fresh }\tilde{s}}
-  {\Enter \tau,\tilde{\sigma} \handle{} \Edit s,\tilde{\sigma},s,\True}
+  {\Enter \tau,\tilde{\sigma} \simhandle \Edit s,\tilde{\sigma},s,\True}
   [s:\tau]
 
 \newrule{SH-Update}
   { \text{fresh }s}
-  {\Update l,\tilde{\sigma} \handle{} \Update l,\tilde{\sigma}[l \mapsto s],s,\True}
+  {\Update l,\tilde{\sigma} \simhandle \Update l,\tilde{\sigma}[l \mapsto s],s,\True}
   [\sigma(l),s:\tau]
 
 \newrule{SH-PassThen}
-  {\tilde{t}_1,\tilde{\sigma} \handle{} \overline{\tilde{t}_1',\tilde{\sigma}',\tilde{\imath},\phi}}
-  {\tilde{t}_1 \Then \tilde{e}_2,\tilde{\sigma} \handle{} \overline{\tilde{t}_1' \Then \tilde{e}_2,\tilde{\sigma}',\tilde{\imath},\phi}}
+  {\tilde{t}_1,\tilde{\sigma} \simhandle \overline{\tilde{t}_1',\tilde{\sigma}',\tilde{\imath},\phi}}
+  {\tilde{t}_1 \Then \tilde{e}_2,\tilde{\sigma} \simhandle \overline{\tilde{t}_1' \Then \tilde{e}_2,\tilde{\sigma}',\tilde{\imath},\phi}}
 
 \newrule{SH-PassNext}
-  {\tilde{t}_1,\tilde{\sigma} \handle{} \overline{\tilde{t}_1',\tilde{\sigma}',\tilde{\imath},\phi}}
-  {\tilde{t}_1 \Next \tilde{e}_2,\tilde{\sigma} \handle{} \overline{\tilde{t}_1' \Next \tilde{e}_2,\tilde{\sigma}',\tilde{\imath},\phi}}
+  {\tilde{t}_1,\tilde{\sigma} \simhandle \overline{\tilde{t}_1',\tilde{\sigma}',\tilde{\imath},\phi}}
+  {\tilde{t}_1 \Next \tilde{e}_2,\tilde{\sigma} \simhandle \overline{\tilde{t}_1' \Next \tilde{e}_2,\tilde{\sigma}',\tilde{\imath},\phi}}
   [\Value{(\tilde{t}_1,\tilde{\sigma})} = \bot]
 
 \newrule{SH-PassNextFail}
-  {\tilde{t}_1,\tilde{\sigma} \handle{} \overline{\tilde{t}_1',\tilde{\sigma}_1',\tilde{\imath},\phi} \Quad
-  \tilde{e}_2\ \tilde{v}_1,\tilde{\sigma} \tilde{\normalise} \overline{\tilde{t}_2,\tilde{\sigma}_2',{\vphantom{i}\_}}}
-  {\tilde{t}_1 \Next \tilde{e}_2,\tilde{\sigma} \handle{} \overline{\tilde{t}_1' \Next \tilde{e}_2,\tilde{\sigma}_1',\tilde{\imath},\phi}}
+  {\tilde{t}_1,\tilde{\sigma} \simhandle \overline{\tilde{t}_1',\tilde{\sigma}_1',\tilde{\imath},\phi} \Quad
+  \tilde{e}_2\ \tilde{v}_1,\tilde{\sigma} \simnormalise \overline{\tilde{t}_2,\tilde{\sigma}_2',{\vphantom{i}\_}}}
+  {\tilde{t}_1 \Next \tilde{e}_2,\tilde{\sigma} \simhandle \overline{\tilde{t}_1' \Next \tilde{e}_2,\tilde{\sigma}_1',\tilde{\imath},\phi}}
   [\Value{(\tilde{t}_1,\tilde{\sigma})} = \tilde{v}_1 \land \Failing{(\tilde{t}_2,\tilde{\sigma}_2')}]
 
 \newrule{SH-Next}
-  {\tilde{t}_1,\tilde{\sigma} \handle{} \overline{\tilde{t}_1',\tilde{\sigma}_1',\tilde{\imath},\phi_1} \Quad
-  \tilde{e}_2\ \tilde{v}_1,\tilde{\sigma} \tilde{\normalise} \overline{\tilde{t}_2,\tilde{\sigma}_2',\phi_2}}
-  {\tilde{t}_1 \Next \tilde{e}_2,\tilde{\sigma} \handle{} {\overline{\tilde{t}_1' \Next \tilde{e}_2,\tilde{\sigma}_1',\tilde{\imath},\phi_1}\cup\overline{\tilde{t}_2,\tilde{\sigma}_2',\Continue,\phi_2}}}
+  {\tilde{t}_1,\tilde{\sigma} \simhandle \overline{\tilde{t}_1',\tilde{\sigma}_1',\tilde{\imath},\phi_1} \Quad
+  \tilde{e}_2\ \tilde{v}_1,\tilde{\sigma} \simnormalise \overline{\tilde{t}_2,\tilde{\sigma}_2',\phi_2}}
+  {\tilde{t}_1 \Next \tilde{e}_2,\tilde{\sigma} \simhandle {\overline{\tilde{t}_1' \Next \tilde{e}_2,\tilde{\sigma}_1',\tilde{\imath},\phi_1}\cup\overline{\tilde{t}_2,\tilde{\sigma}_2',\Continue,\phi_2}}}
   [\Value{(\tilde{t}_1,\tilde{\sigma})} = \tilde{v}_1 \land \neg\Failing{(\tilde{t}_2,\tilde{\sigma}')}]
 
 
 \newrule{SH-And}
-  {\tilde{t}_1,\tilde{\sigma} \handle{} \overline{\tilde{t}_1',\tilde{\sigma}_1',\tilde{\imath}_1,\phi_1} \Quad
-   \tilde{t}_2,\tilde{\sigma} \handle{} \overline{\tilde{t}_2',\tilde{\sigma}_2',\tilde{\imath}_2,\phi_2}}
-  {\tilde{t}_1 \And \tilde{t}_2,\tilde{\sigma} \handle{} {\overline{\tilde{t}_1' \And \tilde{t}_2,\tilde{\sigma}_1',\First \tilde{\imath}_1,\phi_1}\cup \overline{\tilde{t}_1 \And \tilde{t}_2',\tilde{\sigma}_2'',\Second \tilde{\imath}_2,\phi_2}}}
+  {\tilde{t}_1,\tilde{\sigma} \simhandle \overline{\tilde{t}_1',\tilde{\sigma}_1',\tilde{\imath}_1,\phi_1} \Quad
+   \tilde{t}_2,\tilde{\sigma} \simhandle \overline{\tilde{t}_2',\tilde{\sigma}_2',\tilde{\imath}_2,\phi_2}}
+  {\tilde{t}_1 \And \tilde{t}_2,\tilde{\sigma} \simhandle {\overline{\tilde{t}_1' \And \tilde{t}_2,\tilde{\sigma}_1',\First \tilde{\imath}_1,\phi_1}\cup \overline{\tilde{t}_1 \And \tilde{t}_2',\tilde{\sigma}_2'',\Second \tilde{\imath}_2,\phi_2}}}
 
 \newrule{SH-Or}
-  {\tilde{t}_1,\tilde{\sigma} \handle{} \overline{\tilde{t}_1',\tilde{\sigma}_1',\tilde{\imath}_1,\phi_1}\Quad
-  \tilde{t}_2,\tilde{\sigma} \handle{} \overline{\tilde{t}_2',\tilde{\sigma}_2',\tilde{\imath}_2,\phi_2}}
-  {\tilde{t}_1 \Or \tilde{t}_2,\tilde{\sigma} \handle{} {\overline{\tilde{t}_1' \Or \tilde{t}_2,\tilde{\sigma}_1',\First \tilde{\imath}_1,\phi_1}\cup\overline{\tilde{t}_1 \Or \tilde{t}_2',\tilde{\sigma}_2',\Second \tilde{\imath}_2,\phi_2}}}
+  {\tilde{t}_1,\tilde{\sigma} \simhandle \overline{\tilde{t}_1',\tilde{\sigma}_1',\tilde{\imath}_1,\phi_1}\Quad
+  \tilde{t}_2,\tilde{\sigma} \simhandle \overline{\tilde{t}_2',\tilde{\sigma}_2',\tilde{\imath}_2,\phi_2}}
+  {\tilde{t}_1 \Or \tilde{t}_2,\tilde{\sigma} \simhandle {\overline{\tilde{t}_1' \Or \tilde{t}_2,\tilde{\sigma}_1',\First \tilde{\imath}_1,\phi_1}\cup\overline{\tilde{t}_1 \Or \tilde{t}_2',\tilde{\sigma}_2',\Second \tilde{\imath}_2,\phi_2}}}
 
 
 \newrule{SH-PickLeft}
-  {\tilde{e}_1,\tilde{\sigma}\tilde{\normalise} \overline{\tilde{t}_1,\tilde{\sigma}_1,\phi_1} \Quad
-   \tilde{e}_2,\tilde{\sigma} \tilde{\normalise} \overline{\tilde{t}_2,\tilde{\sigma}_2,\phi_2}}
-  {\tilde{e}_1 \Xor \tilde{e}_2,\tilde{\sigma} \handle{} \tilde{t}_1,\tilde{\sigma}_1,\Left,\phi_1}
+  {\tilde{e}_1,\tilde{\sigma}\simnormalise \overline{\tilde{t}_1,\tilde{\sigma}_1,\phi_1} \Quad
+   \tilde{e}_2,\tilde{\sigma} \simnormalise \overline{\tilde{t}_2,\tilde{\sigma}_2,\phi_2}}
+  {\tilde{e}_1 \Xor \tilde{e}_2,\tilde{\sigma} \simhandle \tilde{t}_1,\tilde{\sigma}_1,\Left,\phi_1}
   [\neg\Failing(\tilde{t}_1,\tilde{\sigma}_1) \land \Failing(\tilde{t}_2,\tilde{\sigma}_2)]
 
 \newrule{SH-PickRight}
-  {\tilde{e}_1,\tilde{\sigma} \tilde{\normalise} \overline{\tilde{t}_1,\tilde{\sigma}_1,\phi_1} \Quad
-   \tilde{e}_2,\tilde{\sigma} \tilde{\normalise} \overline{\tilde{t}_2,\tilde{\sigma}_2,\phi_2}}
-  {\tilde{e}_1 \Xor \tilde{e}_2,\tilde{\sigma} \handle{} \tilde{t}_2,\tilde{\sigma}_2,\Right,\phi_2}
+  {\tilde{e}_1,\tilde{\sigma} \simnormalise \overline{\tilde{t}_1,\tilde{\sigma}_1,\phi_1} \Quad
+   \tilde{e}_2,\tilde{\sigma} \simnormalise \overline{\tilde{t}_2,\tilde{\sigma}_2,\phi_2}}
+  {\tilde{e}_1 \Xor \tilde{e}_2,\tilde{\sigma} \simhandle \tilde{t}_2,\tilde{\sigma}_2,\Right,\phi_2}
   [\Failing(\tilde{t}_1,\tilde{\sigma}_1) \land \neg\Failing(\tilde{t}_2,\tilde{\sigma}_2)]
 
 \newrule{SH-Pick}
   {\tilde{e}_1,\tilde{\sigma} \normalise \overline{\tilde{t}_1,\tilde{\sigma}_1,\phi_1} \Quad
    \tilde{e}_2,\tilde{\sigma} \normalise \overline{\tilde{t}_2,\tilde{\sigma}_2,\phi_2}}
-  {\tilde{e}_1 \Xor \tilde{e}_2,\tilde{\sigma} \handle{} {\overline{\tilde{t}_1,\tilde{\sigma}_1,\Left,\phi_1}\cup\overline{\tilde{t}_2,\tilde{\sigma}_2,\Right,\phi_2}}}
+  {\tilde{e}_1 \Xor \tilde{e}_2,\tilde{\sigma} \simhandle {\overline{\tilde{t}_1,\tilde{\sigma}_1,\Left,\phi_1}\cup\overline{\tilde{t}_2,\tilde{\sigma}_2,\Right,\phi_2}}}
   [\neg\Failing(\tilde{t}_1,\tilde{\sigma}_1) \land \neg\Failing(\tilde{t}_2,\tilde{\sigma}_2)]
 
 
@@ -306,17 +306,17 @@
 
 
 \newmacro{RelationSI}
-  {\tilde{t},\tilde{\sigma} \interact{} \overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}}
+  {\tilde{t},\tilde{\sigma} \siminteract \overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}}
 
 
 \newrule{SI-Handle}
-  {\tilde{t},\tilde{\sigma} \handle{} \overline{\tilde{t}',\tilde{\sigma}',{\tilde{\imath},\phi_1}} \Quad
-   \tilde{t}',\tilde{\sigma}' \tilde{\normalise} \overline{\tilde{t}'',\tilde{\sigma}'',\phi_2}}
-  {\tilde{t},\tilde{\sigma} \interact{} \overline{\tilde{t}'',\tilde{\sigma}'',\tilde{\imath},\phi_1 \land \phi_2}}
+  {\tilde{t},\tilde{\sigma} \simhandle \overline{\tilde{t}',\tilde{\sigma}',{\tilde{\imath},\phi_1}} \Quad
+   \tilde{t}',\tilde{\sigma}' \simnormalise \overline{\tilde{t}'',\tilde{\sigma}'',\phi_2}}
+  {\tilde{t},\tilde{\sigma} \siminteract \overline{\tilde{t}'',\tilde{\sigma}'',\tilde{\imath},\phi_1 \land \phi_2}}
 
 %% Firsts %%
 
 \newrule{R-Firsts}
-  {t,\sigma\interact{}^*\overline{\tilde{v},\tilde{\imath}:\tilde{is},\Phi}}
+  {t,\sigma\siminteract^*\overline{\tilde{v},\tilde{\imath}:\tilde{is},\Phi}}
   {\Firsts(t,\sigma,g) = \overline{\tilde{\imath},\Phi\land g \tilde{v}}}
   [\Sat(\Phi\land g\tilde{v})]

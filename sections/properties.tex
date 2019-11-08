@@ -18,10 +18,10 @@ These properties are defined as soundness and completeness respectively.
 The simulate function can be considered a big-step symbolic execution semantics.
 In order to prove certain properties with respect to the concrete semantics,
 we need a concrete big-step concrete execution semantics.
-Therefore the evaluate function is defined.
+Therefore the execute function is defined.
 
-\begin{definition}[Evaluate]
-  $t,\sigma\interact{I}^* v$ where
+\begin{definition}[Execute]
+  $t,\sigma\execute{I} v$ where
 
   \begin{minipage}[c]{0.4\textwidth}
     \begin{align*}
@@ -44,7 +44,7 @@ Therefore the evaluate function is defined.
 \label{def:evaluate}
 \end{definition}
 
-Using the evaluate definition, we can state soundness and completeness for $\Simulate$ are listed below.
+Using the execute definition, we can state soundness and completeness for $\Simulate$ are listed below.
 
 \begin{lemma}[Soundness of simulate]
   \label{lem:soundsimulate}
@@ -52,7 +52,7 @@ Using the evaluate definition, we can state soundness and completeness for $\Sim
   such that $t,\sigma\simulate\overline{\tilde{v},\tilde{I},\Phi}$
   then for all results $(\tilde{v},\tilde{I}=[\tilde{\imath}_0,\cdots,\tilde{\imath}_n],\Phi)$
   there exists a concrete input $I$ with the same length as the symbolic input $\tilde{I}$
-  such that $t,\sigma\interact{I}^*v$
+  such that $t,\sigma\execute{I}v$
   with $[s_i\mapsto c_i]\tilde{v}=v$ and $[s_i\mapsto c_i]\Phi$
   where $s_i\in\tilde{i_i}$ and $c_i\in i_i$.
 \end{lemma}
@@ -60,7 +60,7 @@ Using the evaluate definition, we can state soundness and completeness for $\Sim
 \begin{lemma}[Completeness of simulate]
   \label{lem:completesimulate}
   For all tasks $t$, states $\sigma$ and lists of input $I$
-  such that $t,\sigma\interact{I}^*v$
+  such that $t,\sigma\execute{I}v$
   there exists a symbolic value $\tilde{v}$ and a symbolic input $\tilde{I}$ with the same length as $I$,
   such that $(\tilde{v},\tilde{I},\Phi)\in t,\sigma\simulate$,
   with $\tilde{i_i}\sim i_i$, $[s_i\mapsto c_i]\tilde{v}=v$ and $[s_i\mapsto c_i]\Phi$,
@@ -221,7 +221,7 @@ Now \cref{lem:sounddriving} and \cref{lem:completedriving} express soundness and
   \label{lem:sounddriving}
   For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
   we have that $t,\sigma\Consistent_M\tilde{t},\tilde{\sigma},\Phi$ implies
-  that for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi)$ in $\tilde{t},\tilde{\sigma}\interact{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}$,
+  that for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi)$ in $\tilde{t},\tilde{\sigma}\siminteract\overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}$,
   $\Sat(\Phi\land\phi)$ implies that there exists an input $i$ such that $\tilde{\imath}\sim i$,  $t,\sigma\interact{i}t',\sigma'$ and $t',\sigma' \Consistent_{M.[s\mapsto c]} \tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{\imath}$ and $c\in i$.
 \end{lemma}
 
@@ -231,7 +231,7 @@ Now \cref{lem:sounddriving} and \cref{lem:completedriving} express soundness and
   we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$ implies
   that for all inputs $i$ such that $t,\sigma\interact{i}t',\sigma'$,
   there exists a symbolic input $\tilde{\imath}$, $\tilde{\imath}\sim i$ such that
-  $\tilde{t},\tilde{\sigma}\interact{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}$, $\Sat(\Phi\land\phi)$ and $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{\imath}$ and $c\in i$.
+  $\tilde{t},\tilde{\sigma}\siminteract\overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}$, $\Sat(\Phi\land\phi)$ and $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{\imath}$ and $c\in i$.
 \end{lemma}
 
 In other words, if a symbolic and concrete task and state are related, they will still be related after (symbolic) handling.
@@ -262,13 +262,13 @@ We separate these requirements into two lemma's, namely soundness and completene
 For all tasks $t$, states $\sigma$ and goals $g$,
 for every next step hint $(\tilde{\imath},\Phi)$ in $\Hints(t,\sigma,g)$,
 there exists a sequence of inputs $I$ and input $i$ such that $\tilde{\imath}\sim i$,
-$\Sat([s\mapsto c]\Phi)$, $t,\sigma\interact{i} t',\sigma'\interact{I}^* v$ and $gv$.
+$\Sat([s\mapsto c]\Phi)$, $t,\sigma\interact{i} t',\sigma'\execute{I} v$ and $gv$.
 \end{theorem}
 
 \begin{theorem}[Completeness of hints]
   \label{thm:completehint}
   For all tasks $t$, states $\sigma$, lists of input $(i:is)$ and goals $g$,
-  if $t,\sigma,\interact{i:is}^*v$ and $g v$, then there exists a symbolic input $\tilde{\imath}$ and path condition $\Phi$
+  if $t,\sigma,\execute{i:is} v$ and $g v$, then there exists a symbolic input $\tilde{\imath}$ and path condition $\Phi$
   such that $(\tilde{\imath},\Phi)\in\Hints(t,\sigma)$ with $\tilde{\imath}\sim i$ and $\Sat([s\mapsto c]\Phi)$ with $c\in i$ and $s\in i$.
 \end{theorem}
 
@@ -281,12 +281,12 @@ The proofs of these two threorems are quite straight forward.
   The definition of $\Hints$ gives us that for every pair $(\tilde{\imath},\Phi)$ produced by $\Hints$,
   there exists a pair $(\tilde{v},\tilde{\imath}:\tilde{is},\Phi)$ with $\Sat(\Phi\land g \tilde{v})$.
   Then by \cref{lem:soundsimulate} we have that there exists a sequence of concrete inputs $I$ such that
-  $t,\sigma\interact{I}^*v$ and $g v$.
+  $t,\sigma\execute{I}v$ and $g v$.
 \end{proof}
 
 
 \begin{proof}[\cref{thm:completehint}]
-  In order to prove that $i$ is contained in $\Hints(t,\sigma)$, we need to show that $(\tilde{v},\tilde{\imath}:\tilde{is},\Phi)\in t,\sigma\interact{}^*$, with $\tilde{\imath}\sim i$ and $\Sat([s_0\mapsto c_0,\cdots,s_n\mapsto c_n]\land g\tilde{v})$, where $[c_0,\cdots,c_n]\in i:is$ and $[s_0,\cdots,s_n]\in \tilde{\imath}:\tilde{is}$.
+  In order to prove that $i$ is contained in $\Hints(t,\sigma)$, we need to show that $(\tilde{v},\tilde{\imath}:\tilde{is},\Phi)\in t,\sigma\simulate$, with $\tilde{\imath}\sim i$ and $\Sat([s_0\mapsto c_0,\cdots,s_n\mapsto c_n]\land g\tilde{v})$, where $[c_0,\cdots,c_n]\in i:is$ and $[s_0,\cdots,s_n]\in \tilde{\imath}:\tilde{is}$.
 
   By \cref{lem:completesimulate}, we directly obtain that this indeed exists. Therefore we know that $\tilde{\imath}$ and $\Phi$ exist.
 \end{proof}

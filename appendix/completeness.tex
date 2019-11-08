@@ -216,7 +216,7 @@
   We prove Lemma~\ref{lem:completeNormalise} by induction over $e$.
 
   % From the premise, we can assume that $e,\sigma\Consistent_M\tilde{e},\tilde{\sigma},\Phi$.
-  % Now, given that $\tilde{e},\sigma{e}\tilde{\normalise} \overline{\tilde{t},\tilde{\sigma}',\phi}$,
+  % Now, given that $\tilde{e},\sigma{e}\simnormalise \overline{\tilde{t},\tilde{\sigma}',\phi}$,
   % we need to demonstrate that for all pairs $(\tilde{t},\tilde{\sigma}',\phi)$,
   % $\Sat(\Phi\land\phi)$ implies that $e,\sigma\normalise t,\sigma'$ with $t,\sigma'\Consistent_M\tilde{t},\tilde{\sigma}',\Phi\land\phi$.
 
@@ -243,7 +243,7 @@
 
 
 
-  % Provided that $t,\sigma\Consistent_M\tilde{t},\tilde{\sigma},\Phi$ and $\tilde{t},\tilde{\sigma}\tilde{\stride} \overline{\tilde{t}',\tilde{\sigma}',\phi}$,
+  % Provided that $t,\sigma\Consistent_M\tilde{t},\tilde{\sigma},\Phi$ and $\tilde{t},\tilde{\sigma}\simstride \overline{\tilde{t}',\tilde{\sigma}',\phi}$,
   % we want to show that for all pairs $(\tilde{t}',\tilde{\sigma}',\phi)$,
   % we have $\Sat(\Phi\land\phi)$ implies that $t,\sigma\stride t',\sigma'$
   % We prove Lemma~\ref{lem:soundstride} by induction over $t$.
@@ -252,35 +252,35 @@
 
   \Case{$t=\Edit v$}
   { One rule applies, namely \userule{S-Edit}\\
-    % Given that $t,\sigma\Consistent_M\Edit\tilde{v},\tilde{\sigma},\Phi$ and $\Edit\tilde{v},\tilde{\sigma}\tilde{\stride}\Edit\tilde{v},\tilde{\sigma},\True$,
+    % Given that $t,\sigma\Consistent_M\Edit\tilde{v},\tilde{\sigma},\Phi$ and $\Edit\tilde{v},\tilde{\sigma}\simstride\Edit\tilde{v},\tilde{\sigma},\True$,
     % we know that $t=\Edit M \tilde{v}$, and we have $\Edit M \tilde{v},\sigma\stride\Edit M\tilde{v},\sigma$ by \refrule{S-Edit} and
     % $\Edit M \tilde{v},\sigma\Consistent_M\Edit\tilde{v},\tilde{\sigma},\Phi$, since none of the tasks and states were altered.
    }
   %
    \Case{$t=\Enter \tau$}
   {One rule applies, namely \userule{S-Fill}\\
-  % Given that $t,\sigma\Consistent_M\Enter \tau,\tilde{\sigma},\Phi$ and $\Enter \tau,\tilde{\sigma}\tilde{\stride}\Enter \tau,\tilde{\sigma},\True$,
+  % Given that $t,\sigma\Consistent_M\Enter \tau,\tilde{\sigma},\Phi$ and $\Enter \tau,\tilde{\sigma}\simstride\Enter \tau,\tilde{\sigma},\True$,
   % we know that $t=\Enter \tau$, and we have $\Enter \tau,\sigma\stride\Enter \tau,\sigma$ by \refrule{S-Fill} and
   % $\Enter \tau,\sigma\Consistent_M\Edit\tilde{v},\tilde{\sigma},\Phi$, since none of the tasks and states were altered.
   }
 
   \Case{$t=\Update l$}
    {One rule applies, namely \userule{S-Update}\\
-   % Given that $t,\sigma\Consistent_M\Update l,\tilde{\sigma},\Phi$ and $\Update l,\tilde{\sigma}\tilde{\stride}\Update l,\tilde{\sigma},\True$,
+   % Given that $t,\sigma\Consistent_M\Update l,\tilde{\sigma},\Phi$ and $\Update l,\tilde{\sigma}\simstride\Update l,\tilde{\sigma},\True$,
    % we know that $t=\Update l$, and we have $\Update l,\sigma\stride\Update l,\sigma$ by \refrule{S-Update} and
    % $\Update l,\sigma\Consistent_M\Update l,\tilde{\sigma},\Phi$, since none of the tasks and states were altered.
   }
 
   \Case{$t=\Fail$}
    {One rule applies, namely \userule{S-Fail}\\
-   % Given that $t,\sigma\Consistent_M\Fail,\tilde{\sigma},\Phi$ and $\Fail,\tilde{\sigma}\tilde{\stride}\Fail,\tilde{\sigma},\True$,
+   % Given that $t,\sigma\Consistent_M\Fail,\tilde{\sigma},\Phi$ and $\Fail,\tilde{\sigma}\simstride\Fail,\tilde{\sigma},\True$,
    % we know that $t=\Fail$, and we have $\Fail,\sigma\stride\Fail,\sigma$ by \refrule{S-Fail} and
    % $\Fail,\sigma\Consistent_M\Fail,\tilde{\sigma},\Phi$, since none of the tasks and states were altered.
    }
   %
   \Case{$t=e_1\Xor e_2$}
    {One rule applies, namely \userule{S-Xor}\\
-   % Given that $t,\sigma\Consistent_M\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma},\Phi$ and $\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma}\tilde{\stride}\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma},\True$,
+   % Given that $t,\sigma\Consistent_M\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma},\Phi$ and $\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma}\simstride\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma},\True$,
    % we know that $t=M\tilde{e}_1\Xor M\tilde{e}_2$, and we have $M\tilde{e}_1\Xor M\tilde{e}_2,\sigma\stride M\tilde{e}_1\Xor M\tilde{e}_2,\sigma$ by \refrule{S-Xor} and
    % $M\tilde{e}_1\Xor M\tilde{e}_2,\sigma\Consistent_M\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma},\Phi$, since none of the tasks and states were altered.
    }
@@ -294,22 +294,22 @@
   \Case{\userule{S-ThenStay}}
    {
      % Provided that $t,\sigma\Consistent_M\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma},\Phi$
-     % and $\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma}\tilde{\stride}\tilde{t}'_1\Then \tilde{e}_2,\tilde{\sigma}',\phi_1$,
+     % and $\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma}\simstride\tilde{t}'_1\Then \tilde{e}_2,\tilde{\sigma}',\phi_1$,
      % we obtain from the induction hypothesis that $t_1,\sigma\stride t_1',\sigma'$ and $t_1',\sigma'\Consistent_M\tilde{t}_1',\tilde{\sigma}',\Phi$.
      % From this, we can directly conclude that $t_1\Then e_2,\sigma\stride t_1'\Then e_2,\sigma'$ and $t_1'\Then e_2,\sigma'\Consistent_M\tilde{t}_1'\Then\tilde{e}_2,\tilde{\sigma}',\Phi$.
   }
   \Case{\userule{S-ThenFail}}
    {
    % Provided that $t,\sigma\Consistent_M\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma},\Phi$
-   % and $\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma}\tilde{\stride}\tilde{t}'_1\Then \tilde{e}_2,\tilde{\sigma}',\phi_1$,
+   % and $\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma}\simstride\tilde{t}'_1\Then \tilde{e}_2,\tilde{\sigma}',\phi_1$,
    % we obtain from the induction hypothesis that $t_1,\sigma\stride t_1',\sigma'$ and $t_1',\sigma'\Consistent_M\tilde{t}_1',\tilde{\sigma}',\Phi$.
    % From this, we can directly conclude that $t_1\Then e_2,\sigma\stride t_1'\Then e_2,\sigma'$ and $t_1'\Then e_2,\sigma'\Consistent_M\tilde{t}_1'\Then\tilde{e}_2,\tilde{\sigma}',\Phi$.
    }
   \Case{\userule{S-ThenCont}}
    {
    % Provided that $t,\sigma\Consistent_M\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma},\Phi$
-   % and $\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma}\tilde{\stride}\tilde{t}_2,\tilde{\sigma}',\phi_1\land\phi_2$
-   % with $\tilde{t}_1,\tilde{\sigma}\tilde{\stride}\tilde{t}_1',\tilde{\sigma}',\phi_1$ and $\Value(\tilde{t}_1',\tilde{\sigma}')=\tilde{v}_1$,
+   % and $\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma}\simstride\tilde{t}_2,\tilde{\sigma}',\phi_1\land\phi_2$
+   % with $\tilde{t}_1,\tilde{\sigma}\simstride\tilde{t}_1',\tilde{\sigma}',\phi_1$ and $\Value(\tilde{t}_1',\tilde{\sigma}')=\tilde{v}_1$,
    % we obtain from the induction hypothesis that $t_1,\sigma\stride t_1',\sigma'$ and $t_1',\sigma'\Consistent_M\tilde{t}_1',\tilde{\sigma}',\Phi$.
    % Then from the consistence relation, we can conclude that $\Value(t_1',\sigma')=\Value(M t_1',M \sigma')=M\tilde{v}_1$.
    %
@@ -326,14 +326,14 @@
   \Case{\userule{S-OrLeft}}
    {
    % Provided that $t,\sigma\Consistent_M\tilde{t}_1\Or \tilde{t}_2,\tilde{\sigma},\Phi$
-   % and $\tilde{t}_1\Or \tilde{t}_2,\tilde{\sigma}\tilde{\stride}\tilde{t}'_1,\tilde{\sigma}',\phi$,
+   % and $\tilde{t}_1\Or \tilde{t}_2,\tilde{\sigma}\simstride\tilde{t}'_1,\tilde{\sigma}',\phi$,
    % we obtain from the induction hypothesis that $t_1,\sigma\stride t_1',\sigma'$ and $t_1',\sigma'\Consistent_M\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi$.
    % From this, we can directly conclude that $t_1\Or t_2,\sigma\stride t_1',\sigma'$.
   }
   \Case{\userule{S-OrRight}}
    {
    % Provided that $t,\sigma\Consistent_M\tilde{t}_1\Or \tilde{t}_2,\tilde{\sigma},\Phi$
-   % and $\tilde{t}_1\Or \tilde{t}_2,\tilde{\sigma}\tilde{\stride}\tilde{t}'_2,\tilde{\sigma}'',\phi_1\land\phi_2$,
+   % and $\tilde{t}_1\Or \tilde{t}_2,\tilde{\sigma}\simstride\tilde{t}'_2,\tilde{\sigma}'',\phi_1\land\phi_2$,
    % we obtain from the induction hypothesis that $t_1,\sigma\stride t_1',\sigma'$ and $t_1',\sigma'\Consistent_M\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1$.
    % Then by a second application of the induction hypothesis, we obtain that $t_2,\sigma'\stride t_2',\sigma''$ and $t_2',\sigma''\Consistent_M\tilde{t}_2',\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.
    % This leads us to conclude $t_1\Or t_2,\sigma\stride t_2',\sigma''$.
@@ -341,7 +341,7 @@
   \Case{\userule{S-OrNone}}
   {
   % Provided that $t,\sigma\Consistent_M\tilde{t}_1\Or \tilde{t}_2,\tilde{\sigma},\Phi$
-  % and $\tilde{t}_1\Or \tilde{t}_2,\tilde{\sigma}\tilde{\stride}\tilde{t}'_2,\tilde{\sigma}'',\phi_1\land\phi_2$,
+  % and $\tilde{t}_1\Or \tilde{t}_2,\tilde{\sigma}\simstride\tilde{t}'_2,\tilde{\sigma}'',\phi_1\land\phi_2$,
   % we obtain from the induction hypothesis that $t_1,\sigma\stride t_1',\sigma'$ and $t_1',\sigma'\Consistent_M\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1$.
   % Then by a second application of the induction hypothesis, we obtain that $t_2,\sigma'\stride t_2',\sigma''$ and $t_2',\sigma''\Consistent_M\tilde{t}_2',\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.
   % This leads us to conclude $t_1\Or t_2,\sigma\stride t_1'\Or t_2',\sigma''$ and $t_1'\Or t_2',\sigma''\Consistent_M\tilde{t}_1'\Or\tilde{t}_2',\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.
@@ -352,7 +352,7 @@
   {
   One rule applies, namely \userule{S-Next}\\
   % Provided that $t,\sigma\Consistent_M\tilde{t}_1\Next \tilde{e}_2,\tilde{\sigma},\Phi$
-  % and $\tilde{t}_1\Next \tilde{e}_2,\tilde{\sigma}\tilde{\stride}\tilde{t}'_1\Then \tilde{e}_2,\tilde{\sigma}',\phi$,
+  % and $\tilde{t}_1\Next \tilde{e}_2,\tilde{\sigma}\simstride\tilde{t}'_1\Then \tilde{e}_2,\tilde{\sigma}',\phi$,
   % we obtain from the induction hypothesis that $t_1,\sigma\stride t_1',\sigma'$ and $t_1',\sigma'\Consistent_M\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi$.
   % From this, we can directly conclude that $t_1\Next e_2,\sigma\stride t_1'\Next e_2,\sigma'$ and $t_1'\Next e_2,\sigma'\Consistent_M\tilde{t}_1'\Next\tilde{e}_2,\tilde{\sigma}',\Phi\land\phi$.
   }
@@ -361,7 +361,7 @@
   {
   One rule applies, namely \userule{S-And}\\
   % Provided that $t,\sigma\Consistent_M\tilde{t}_1\And \tilde{t}_2,\tilde{\sigma},\Phi$
-  % and $\tilde{t}_1\And \tilde{t}_2,\tilde{\sigma}\tilde{\stride}\tilde{t}'_1\And\tilde{t}'_2,\tilde{\sigma}'',\phi_1\land\phi_2$,
+  % and $\tilde{t}_1\And \tilde{t}_2,\tilde{\sigma}\simstride\tilde{t}'_1\And\tilde{t}'_2,\tilde{\sigma}'',\phi_1\land\phi_2$,
   % we obtain from the induction hypothesis that $t_1,\sigma\stride t_1',\sigma'$ and $t_1',\sigma'\Consistent_M\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1$.
   % Then by a second application of the induction hypothesis, we obtain that $t_2,\sigma'\stride t_2',\sigma''$ and $t_2',\sigma''\Consistent_M\tilde{t}_2',\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.
   % This leads us to conclude $t_1\And t_2,\sigma\stride t_1'\And t_2',\sigma''$ and $t_1'\And t_2',\sigma''\Consistent_M\tilde{t}_1'\And\tilde{t}_2',\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$.

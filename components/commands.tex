@@ -118,8 +118,14 @@
 \newmacro{interact}[1]
   {\mathrel{\;\xRightarrow{#1}\;}}
 \newmacro{execute}[1]
-  {\mathrel{\;\xRightarrow{#1}^*\;}}
+  {\mathrel{\;\xRightarrow{#1}\!\!^*\;}}
 
+\newmathcommand{simeval}[rel]
+  {\;\tilde{\downarrow}\;}
+\newmathcommand{simstride}[rel]
+  {\;\tilde{\dashrightarrow}\;}
+\newmathcommand{simnormalise}[rel]
+  {\;\tilde{\Downarrow}\;}
 \newmathcommand{simhandle}[rel]
   {\;\leadsto\;}
 \newmathcommand{siminteract}[rel]
