@@ -39,7 +39,7 @@
   For all concrete tasks $t$, concrete states $\sigma$, concrete inputs $i$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
   we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$ and
   $t,\sigma\handle{i}t',\sigma'$ together with
-  $\tilde{t},\tilde{\sigma}\handle{}\overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}$,
+  $\tilde{t},\tilde{\sigma}\simhandle\overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}$,
   and for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi)$ we have that $\Sat(\Phi\land\phi)$ and $\imath\sim i$ implies $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{\imath}$ and $c\in i$.
 \end{lemma}
 
@@ -48,7 +48,7 @@
   For all concrete expressions $e$, concrete states $\sigma$, symbolic expressions $\tilde{e}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
   we have that $e,\sigma\Consistent_{M}\tilde{e},\tilde{\sigma},\Phi$
   and $e,\sigma\normalise t,\sigma'$,
-  then $\tilde{e},\tilde{\sigma}\normalise\overline{\tilde{t},\tilde{\sigma}',\phi}$,
+  then $\tilde{e},\tilde{\sigma}\simnormalise\overline{\tilde{t},\tilde{\sigma}',\phi}$,
   and for all pairs $(\tilde{t},\tilde{\sigma}',\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $t,\sigma'\Consistent_{M}\tilde{t},\tilde{\sigma}',\Phi\land\phi$.
 \end{lemma}
 
@@ -57,7 +57,7 @@
   For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
   we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$
   and $t,\sigma\stride t',\sigma'$,
-  then $\tilde{t},\tilde{\sigma}\stride\overline{\tilde{t'},\tilde{\sigma}',\phi}$,
+  then $\tilde{t},\tilde{\sigma}\simstride\overline{\tilde{t'},\tilde{\sigma}',\phi}$,
   and for all pairs $(\tilde{t'},\tilde{\sigma}',\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $t',\sigma'\Consistent_{M}\tilde{t'},\tilde{\sigma}',\Phi\land\phi$.
 \end{lemma}
 
@@ -66,7 +66,7 @@
   For all concrete expressions $e$, concrete states $\sigma$, symbolic expressions $\tilde{e}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
   we have that $e,\sigma\Consistent_{M}\tilde{e},\tilde{\sigma},\Phi$
   and $e,\sigma\eval v,\sigma'$,
-  then $\tilde{e},\tilde{\sigma}\eval\overline{\tilde{v},\tilde{\sigma}',\phi}$,
+  then $\tilde{e},\tilde{\sigma}\simeval\overline{\tilde{v},\tilde{\sigma}',\phi}$,
   and for all pairs $(\tilde{v},\tilde{\sigma}',\phi)$ we have that $\Sat(\Phi\land\phi)$ implies $v,\sigma'\Consistent_{M}\tilde{v},\tilde{\sigma}',\Phi\land\phi$.
 \end{lemma}
 
@@ -251,38 +251,38 @@
 
 
   \Case{$t=\Edit v$}
-  { One rule applies, namely \userule{S-Edit}\\
-    % Given that $t,\sigma\Consistent_M\Edit\tilde{v},\tilde{\sigma},\Phi$ and $\Edit\tilde{v},\tilde{\sigma}\simstride\Edit\tilde{v},\tilde{\sigma},\True$,
-    % we know that $t=\Edit M \tilde{v}$, and we have $\Edit M \tilde{v},\sigma\stride\Edit M\tilde{v},\sigma$ by \refrule{S-Edit} and
-    % $\Edit M \tilde{v},\sigma\Consistent_M\Edit\tilde{v},\tilde{\sigma},\Phi$, since none of the tasks and states were altered.
+  {
+    Provided that $\Edit v,\sigma\Consistent_M\tilde{t},\tilde{\sigma},\Phi$ and \userule{S-Edit},
+    we can conclude that $\tilde{t}=\Edit\tilde{v}$ and then by \refrule{SS-Edit}, $\Edit\tilde{v},\tilde{\sigma}\simstride\Edit\tilde{v},\tilde{\sigma}$.
+    Since the  expressions do not change in this case, consistency holds trivially.
    }
   %
    \Case{$t=\Enter \tau$}
-  {One rule applies, namely \userule{S-Fill}\\
-  % Given that $t,\sigma\Consistent_M\Enter \tau,\tilde{\sigma},\Phi$ and $\Enter \tau,\tilde{\sigma}\simstride\Enter \tau,\tilde{\sigma},\True$,
-  % we know that $t=\Enter \tau$, and we have $\Enter \tau,\sigma\stride\Enter \tau,\sigma$ by \refrule{S-Fill} and
-  % $\Enter \tau,\sigma\Consistent_M\Edit\tilde{v},\tilde{\sigma},\Phi$, since none of the tasks and states were altered.
+  {
+  Provided that $\Enter\tau ,\sigma\Consistent_M\tilde{t},\tilde{\sigma},\Phi$ and \userule{S-Fill},
+  we can conclude that $\tilde{t}=\Enter\tau$ and then by \refrule{SS-Fill}, $\Enter\tau,\tilde{\sigma}\simstride\Enter\tau,\tilde{\sigma}$.
+  Since the  expressions do not change in this case, consistency holds trivially.
   }
 
   \Case{$t=\Update l$}
-   {One rule applies, namely \userule{S-Update}\\
-   % Given that $t,\sigma\Consistent_M\Update l,\tilde{\sigma},\Phi$ and $\Update l,\tilde{\sigma}\simstride\Update l,\tilde{\sigma},\True$,
-   % we know that $t=\Update l$, and we have $\Update l,\sigma\stride\Update l,\sigma$ by \refrule{S-Update} and
-   % $\Update l,\sigma\Consistent_M\Update l,\tilde{\sigma},\Phi$, since none of the tasks and states were altered.
+   {
+   Provided that $\Update l,\sigma\Consistent_M\tilde{t},\tilde{\sigma},\Phi$ and \userule{S-Update},
+   we can conclude that $\tilde{t}=\Update l$ and then by \refrule{SS-Update}, $\Update l,\tilde{\sigma}\simstride\Update l,\tilde{\sigma}$.
+   Since the  expressions do not change in this case, consistency holds trivially.
   }
 
   \Case{$t=\Fail$}
-   {One rule applies, namely \userule{S-Fail}\\
-   % Given that $t,\sigma\Consistent_M\Fail,\tilde{\sigma},\Phi$ and $\Fail,\tilde{\sigma}\simstride\Fail,\tilde{\sigma},\True$,
-   % we know that $t=\Fail$, and we have $\Fail,\sigma\stride\Fail,\sigma$ by \refrule{S-Fail} and
-   % $\Fail,\sigma\Consistent_M\Fail,\tilde{\sigma},\Phi$, since none of the tasks and states were altered.
+   {
+   Provided that $\Fail,\sigma\Consistent_M\tilde{t},\tilde{\sigma},\Phi$ and \userule{S-Fail},
+   we can conclude that $\tilde{t}=\Fail$ and then by \refrule{SS-Fail}, $\Fail,\tilde{\sigma}\simstride\Fail,\tilde{\sigma}$.
+   Since the  expressions do not change in this case, consistency holds trivially.
    }
   %
   \Case{$t=e_1\Xor e_2$}
-   {One rule applies, namely \userule{S-Xor}\\
-   % Given that $t,\sigma\Consistent_M\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma},\Phi$ and $\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma}\simstride\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma},\True$,
-   % we know that $t=M\tilde{e}_1\Xor M\tilde{e}_2$, and we have $M\tilde{e}_1\Xor M\tilde{e}_2,\sigma\stride M\tilde{e}_1\Xor M\tilde{e}_2,\sigma$ by \refrule{S-Xor} and
-   % $M\tilde{e}_1\Xor M\tilde{e}_2,\sigma\Consistent_M\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma},\Phi$, since none of the tasks and states were altered.
+   {
+   Provided that $e_1\Xor e_2,\sigma\Consistent_M\tilde{t},\tilde{\sigma},\Phi$ and \userule{S-Xor},
+   we can conclude that $\tilde{t}=\tilde{e}_1\Xor \tilde{e}_2$ and then by \refrule{SS-Xor}, $\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma}\simstride\tilde{e}_1\Xor \tilde{e}_2,\tilde{\sigma}$.
+   Since the  expressions do not change in this case, consistency holds trivially.
    }
 
 
@@ -293,10 +293,11 @@
   Three rules apply.\\
   \Case{\userule{S-ThenStay}}
    {
-     % Provided that $t,\sigma\Consistent_M\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma},\Phi$
-     % and $\tilde{t}_1\Then \tilde{e}_2,\tilde{\sigma}\simstride\tilde{t}'_1\Then \tilde{e}_2,\tilde{\sigma}',\phi_1$,
-     % we obtain from the induction hypothesis that $t_1,\sigma\stride t_1',\sigma'$ and $t_1',\sigma'\Consistent_M\tilde{t}_1',\tilde{\sigma}',\Phi$.
-     % From this, we can directly conclude that $t_1\Then e_2,\sigma\stride t_1'\Then e_2,\sigma'$ and $t_1'\Then e_2,\sigma'\Consistent_M\tilde{t}_1'\Then\tilde{e}_2,\tilde{\sigma}',\Phi$.
+     Provided that $t_1\Then e_2,\sigma\Consistent_M \tilde{t},\tilde{\sigma},\Phi$ and \userule{S-ThenStay},
+     then by the induction hypothesis, we have $\tilde{t}_1,\tilde{\sigma}\simstride\tilde{t}_1',\tilde{\sigma}',\phi$
+     and $t_1',\sigma'\Consistent_M\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi$.
+     Then by \refrule{SS-ThenStay}, we have $\tilde{t}_1\Then\tilde{e}_2,\sigma\simstride\tilde{t}_1'\Then\tilde{e}_2,\sigma',\phi$
+     and $t_1'\Then e_2,\sigma'\Consistent_M\tilde{t}_1'\Then \tilde{e}_2,\tilde{\sigma}',\Phi\land\phi$.
   }
   \Case{\userule{S-ThenFail}}
    {
