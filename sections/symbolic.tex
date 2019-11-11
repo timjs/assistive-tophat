@@ -30,7 +30,8 @@ But when applying this technique to larger programs, it is a powerful tool to sh
 To support symbolic execution in \TOPHAT, we extend the task language, states and input with symbols.
 The semantics mentioned in \cref{sec:tophat} also need to be extended to support symbols.
 The same holds for the observation functions.
-\fixme{introduce all the variables and SAT here!}
+The simulation that drives the symbolic execution an now be defined as follows.
+
 \todo{Say something about inclusions:
   $t\subset \tilde{t}$,
   $\sigma \subset \tilde{\sigma}$,
@@ -38,7 +39,7 @@ The same holds for the observation functions.
 }
 
 \begin{definition}[Simulation]
-  $t,\sigma\simulate \overline{\tilde{v},\tilde{I},\tilde{\Phi}}$ where
+  $t,\sigma\simulate \overline{\tilde{v},\tilde{I},\Phi}$ where
 
   \begin{minipage}[c]{0.4\textwidth}
     \begin{align*}
@@ -60,23 +61,15 @@ The same holds for the observation functions.
     &\Sat(\Phi)
   \end{align*}
 \end{minipage}
-
-
 \end{definition}
 
-\todo{Tell that this is a DIFFERENT simulation definition than what is used in the previous paper.}
+Here, $t$ is the task program to be symbolically executed, under state $\sigma$,
+resulting in a set of tuples containing the resulting symbolic value $\tilde{v}$, a list of symbolic inputs $\tilde{I}$ and a path condition $\Phi$ for that specific execution.
+
+Only viable executions are permitted, this is enforced by validating the satisfiability of the path condition, denoted as $\Sat(\Phi)$.
+
+The simulation definition used in this paper differs from the one in previous work~\cite{Naus2019}.
+Previously, infinite symbolic executions were filtered out by allowing two steps look-ahead in case of idempotent executions.
+The definition above only allows finite executions by definition.
+
 \todo{use vending machine example to illustrate symbolic tophat (?)}
-% \begin{figure}[ht]
-%   \small
-%   \usemacro{G-SExpressions-Compact}
-%   \caption{Syntax of expressions in Symbolic \TOPHAT.}
-%   \label{fig:syntaxexprsymtophat}
-% \end{figure}
-%
-% \begin{figure}[ht]
-%   \small
-%   \usemacro{G-SValues-Compact}
-%   \usemacro{G-STasks-Compact}
-%   \caption{Syntax of values in Symbolic \TOPHAT.}
-%   \label{fig:syntaxvalues}
-% \end{figure}
