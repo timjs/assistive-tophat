@@ -64,8 +64,8 @@ This means that each philosopher cannot start his or her meal, and is also not a
   let fork2 = ref True in $\label{lst:phil:fork2}$
   let pickup = \ this. \ that. $\label{lst:phil:this}$
     if !this $\label{lst:phil:deref}$
-      then this := False >>? \ <<>>. $\label{lst:phil:mark-used}$
-        if !that then this := True else fail $\label{lst:phil:that}$
+      then edit this := False >>? \ _. $\label{lst:phil:mark-used}$
+        if !that then edit this := True else fail $\label{lst:phil:that}$
       else fail in
   let scientist = \ name. \ left. \ right. $\label{lst:phil:scientist}$
     pickup left right <?> pickup right left in $\label{lst:phil:pick}$
