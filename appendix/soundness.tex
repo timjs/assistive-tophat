@@ -47,7 +47,7 @@
 
   Then, by \cref{lem:soundnorm}, given that $\tilde{t'},\tilde{\sigma'}\normalise\overline{\tilde{t''},\tilde{\sigma''}',\phi_2}$,
   we obtain that for each pair $(\tilde{t''},\tilde{\sigma''}',\phi_2)$, we have that $\Sat(\Phi\land\phi_1\land\phi_2)$ implies
-  that $t',\sigma'\hat{\normalise}t'',\sigma''$ with $t'',\sigma''\Consistent_{M.[s\mapsto c]}\tilde{t''},\tilde{\sigma''},\Phi\land\phi_1\land\phi_2$.
+  that $t',\sigma'\simnormalise t'',\sigma''$ with $t'',\sigma''\Consistent_{M.[s\mapsto c]}\tilde{t''},\tilde{\sigma''},\Phi\land\phi_1\land\phi_2$.
 \end{proof}
 
 
@@ -79,7 +79,7 @@
   we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$ implies
   that if $\tilde{t},\tilde{\sigma}\simstride\overline{\tilde{t}',\tilde{\sigma}',\phi}$,
   then for all pairs $(\tilde{t}',\tilde{\sigma}',\phi)$ it holds that $\Sat(\Phi\land\phi)$ implies
-  that $t,\sigma\hat{\stride}t',\sigma'$ with $t',\sigma'\Consistent_{M}\tilde{t'},\tilde{\sigma'},\Phi\land\phi$.
+  that $t,\sigma\simstride t',\sigma'$ with $t',\sigma'\Consistent_{M}\tilde{t'},\tilde{\sigma'},\Phi\land\phi$.
 \end{lemma}
 
 \begin{lemma}[Soundness of evaluation]
@@ -88,7 +88,7 @@
   we have that $e,\sigma\Consistent_{M}\tilde{e},\tilde{\sigma},\Phi$ implies
   that if $\tilde{e},\tilde{\sigma}\simeval\overline{\tilde{v},\tilde{\sigma}',\phi}$,
   then for all pairs $(\tilde{v},\tilde{\sigma}',\phi)$ it holds that $\Sat(\Phi\land\phi)$ implies
-  that $e,\sigma\hat{\eval}v,\sigma'$ with $v,\sigma'\Consistent_{M}\tilde{v},\tilde{\sigma'},\Phi\land\phi$.
+  that $e,\sigma\simeval v,\sigma'$ with $v,\sigma'\Consistent_{M}\tilde{v},\tilde{\sigma'},\Phi\land\phi$.
 \end{lemma}
 
 
@@ -97,19 +97,19 @@
   We prove \cref{lem:soundhandle} by induction over $\tilde{t}$.
 
   \Case{$\tilde{t}=\Enter \tau$}
- {One rule applies, namely \Userule{SH-Fill}\\
+ {
  Since we have $t,\sigma\Consistent_M\Enter \tau,\tilde{\sigma},\Phi$, we know that $t$ must be $\Enter \tau$ too, $\tilde{t}$ contains no symbols.
- There exists only one symbolic execution, namely $\Enter \tau,\tilde{\sigma}\simhandle\Edit s,\tilde{\sigma},s,\True$.
+ There exists only one symbolic execution, namely \Userule{SH-Fill}.
  We need to show that there exists an $i$ such that $s\sim i$ and $\Edit v,\sigma\handle{i}t',\sigma'$.
 
  Any concrete value $c$ of type $\tau$ will do. Now we have to show that we end up with $\Edit c,\sigma\Consistent_{M.[s\mapsto c]}\Edit s,\tilde{\sigma},\Phi\land\True$, which holds trivially.
  }
 
   \Case{$\tilde{t}=\Edit \tilde{v}$}
-  {One rule applies, namely \Userule{SH-Change}\\
+  {
   Since we have $t,\sigma\Consistent_M\Edit \tilde{v},\tilde{\sigma},\Phi$, we know that either $\tilde{v}$ is a concrete value, or $M$ contains a mapping such that $M\tilde{v}$ becomes a concrete value $c$. We know therefore that $t$ must be $\Edit c$.
 
-  There exists only one symbolic execution, namely $\Edit \tilde{v},\tilde{\sigma}\simhandle\Edit s,\tilde{\sigma},s,\True$.
+  There exists only one symbolic execution, namely \Userule{SH-Change}.
   We need to show that there exists an $i$ such that $s\sim i$ and $\Edit c,\sigma\handle{i}t',\sigma'$.
 
   Any concrete value $c'$ of the same type as $c$ will do. Now we have to show that we end up with $\Edit c',\sigma\Consistent_{M.[s\mapsto c']}\Edit s,\tilde{\sigma},\Phi\land\True$, which holds trivially.
@@ -117,10 +117,9 @@
 
 
 \Case{$\tilde{t}=\Update l$}
-{One rule applies, namely \Userule{SH-Update}\\
-
+{
 Since we have $t,\sigma\Consistent_M\Update l,\tilde{\sigma},\Phi$, we know that $t$ must be $\Update l$ too, $\tilde{t}$ contains no symbols.
-There exists only one symbolic execution, namely $\Update l,\tilde{\sigma}\simhandle\Update l,\tilde{\sigma}[l\mapsto s],s,\True$.
+There exists only one symbolic execution, namely \Userule{SH-Update}.
 We need to show that there exists an $i$ such that $s\sim i$ and $\Update l,\sigma\handle{i}t',\sigma'$.
 
 Any concrete value $c$ of the same type as $l$ will do. Now we have to show that we end up with $\Update l,\sigma[l\mapsto c]\Consistent_{M.[s\mapsto c]}\Update l,\tilde{\sigma}[l\mapsto s],\Phi\land\True$, which holds trivially.
@@ -154,7 +153,7 @@ and $M\tilde{e}_2=e_2$, which follows from the premise as well.
 At this point, by application of \cref{lem:soundnorm}, we obtain that $e_2\ v_1,\sigma\normalise t_2,\sigma_2'$
 and $t_1,\sigma_2'\Consistent_M\tilde{t}_2,\tilde{\sigma}_2',\Phi\land\phi_2$
 }
-%
+
 \Case{\Userule{SH-PassNext}}
 {
 For all tuples $(\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\tilde{\imath},\phi_1)$, we know by application of the induction hypothesis that
