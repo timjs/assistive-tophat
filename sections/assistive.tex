@@ -56,18 +56,54 @@ Then in \cref{sec:implementation}, our implementation of assistive \TOPHAT is pr
 \subsection{Dining Computer Scientists}
 \label{sec:assistivedining}
 
+%recall
 Recall the example program Dining Computer Scientists from \cref{sec:dining}.
 Three computer scientist sit at a table and have to coordinate in order to eat their meals.
 
-\todo{complete this section}
+%what hints do we want to give?
+We want to calculate all possible next steps that lead to the goal.
+The goal in this example is for all computer scientists to finish their meal.
+
+%write the goal
+In terms of the resulting task value, this means that we want to arrive at the value "Full bellies".
+Witten as a predicate, we get $g=\lambda v\rightarrow v = "\text{Full bellies}"$.
+
+%what does the result of H look like?
+Let us assume that both Grace Hopper and Ada Lovelace have already picked up the forks to their left (fork1 and fork2 respectively).
+We then find ourselves in the following situation.
+
+
+\begin{align*}
+t =\ &\text{scientist} "\text{Alan Turing}" \text{fork0}\ \text{fork1} \And\\
+    &\unit \Next \lambda \unit .\\
+    &\Quad \If{!\text{fork2}}{\text{fork1} := \True}{\Fail} \And\\
+    &\unit \Next \lambda \unit .\\
+    &\Quad \If{!\text{fork0}}{\text{fork2} := \True}{\Fail} Then \lambda \_.\\
+    &\Quad \Edit "\text{Full bellies}"\\
+\sigma =\ &\{\text{fork0}\mapsto \True, \text{fork1}\mapsto \False,\text{fork2}\mapsto \False\}
+\end{align*}
+
+Calling $\Hints(t,\sigma,g)$ will result in the following set.
+
+$\{ \tuple{\Second\Second\Continue,\True}\}$
+
+This means that the only step towards the goal $g$ is for Ada Lovelace to pick up the right fork.
+Although it is also possible for Alan Turing to pick up the fork to his left, this step is not a valid hint.
+Performing this action will result in deadlock.
 
 \subsection{Tax subsidy request}
 \label{sec:assistivetax}
 
+%recall
 \cref{sec:tax} lists an example program in \TOPHAT for applying for a solar panel tax refund.
+
+%what hints do we want to give?
 In order to calculate next step hints for the end-user, we employ the $\Hints$ function.
+
+%write the goal
 The goal of the user, receiving a refund larger than zero, can be formulated as $\lambda \tuple{v,\_,\_,\_,\_}\rightarrow v>0$.
 
+%what does the result of H look like?
 When we run the simulation function $\simulate$, we obtain all symbolic results, as listed in \cref{table:tax}.
 
 \begin{table}[ht]
