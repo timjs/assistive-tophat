@@ -3,16 +3,21 @@
 \section{Generating hints for TopHat}
 \label{sec:assistive}
 The section introduces our Assistive \TOPHAT system.
+%What do we wanna do?
 The goal of Assistive \TOPHAT is to provide next step hints, that brings users closer to their goal.
-Goals are formulated in therms of the result value of a task.
+During the execution of a \TOPHAT program, users are presented with input fields, choices and continue buttons.
+The way in which the task progresses and the resulting task value depends on their input.
+For any point in the execution, we want to present the user with all options that are on the path to the goal that they have selected.
+These options are either concrete steps, like continue, pick the left task or pick the right task,
+or a value to be entered into an editor.
+Since the concrete value also influences the flow of the program, these values can come with restrictions.
+For example, enter an integer, but this integer must be larger than zero.
 
-A task $t$ is considered done, as soon as it has an observable value $v$.
-To observe this value, the function $\Value$ as defined in section~\ref{sec:tophat} is used.
+%How do we do this?
 
-After obtaining the set of all symbolic executions, we need to filter out executions that do not fulfil the goal condition, or those where the goal is in conflict with the path condition.
-
-Then, we take the first input so that we can return this to the user as a hint.
-This functionality is implemented in using the $\Hints$ function listed in \cref{fig:hints}.
+In order to calculate next step hints, first a goal must be formulated.
+Since we are concerned with the resulting task value, the goal must be a predicate over the resulting value.
+A task $\tilde{t}$ is considered done, as soon as it has an observable value $\tilde{v}$.
 
 \begin{figure}
   \usemacro{O-Hints}
@@ -20,8 +25,33 @@ This functionality is implemented in using the $\Hints$ function listed in \cref
   \label{fig:hints}
 \end{figure}
 
-The simulation function $\simulate$ is called, then its results are filtered using the goal $g$.
-The result of the function is a set of pairs containing the first step hint, accompanied by its path condition.
+
+Hints are calculated by means of the $\Hints$ function listed in \cref{fig:hints}.
+As input it receives the task $t$ and state $\sigma$, together with the goal predicate $g$.
+First, the simulate function is called on the task and input.
+We only want to use the symbolic executions that satisfy the goal condition.
+Executions that satisfy the goal $g(\tilde{v})$ are selected.
+Since $\tilde{v}$ could contain symbols, it might be the case that $g(\tilde{v})$ is symbolic.
+Therefore, we also require that the conjunction with the path condition $\Phi$ is satisfiable ($\Sat(\Phi\land g(\tilde{v}))$).
+
+From the executions that fulfil this requirement, we return the first symbolic input $\tilde{i}$ from the complete list of inputs $\tilde{i}::\tilde{I}$,
+together with the full condition that must hold ($\Sat(\Phi\land g(\tilde{v}))$).
+The resulting set contains pairs of symbolic input guarded by a condition.
+
+%How is the result of hints used?
+
+When a user requests a next step hint, the current task and state are passed to $\Hints$, together with the selected goal.
+The resulting set cannot directly be presented to the user.
+Pairs containing a concrete step ($\Continue,\Left,\Right$), can be given as hints without their path condition.
+Pairs containing a symbolic input as hint ($s,\First s,$ etc) should be presented with the path condition.
+Since the path condition contains all constraints of the symbolic execution, it may contain constraints on symbols other than the next step hint.
+These constraints should be removed from the information shown to the user, as they do not include useful information.
+
+
+\fixme{write something here about function that removes redundant constraints}
+
+\cref{sec:assistivedining,sec:assistivetax} describe the application of assistive \TOPHAT to two examples from \cref{sec:examples}.
+Then in \cref{sec:implementation}, our implementation of assistive \TOPHAT is presented.
 
 \subsection{Dining Computer Scientists}
 \label{sec:assistivedining}
