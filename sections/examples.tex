@@ -17,6 +17,7 @@ we can create a vending machine that dispenses a biscuit for one coin and a choc
     float=ht,
     numbers=right,
     caption={Vending machine dispensing biscuits or chocolate.},
+    captionpos=b,
     label=lst:vending]
   let vend : Task Snack = enter Int >>? \n. $\label{lst:vend:enter}$
     if n == 1 then edit Biscuit             $\label{lst:vend:branch}$
@@ -48,16 +49,17 @@ This, of course, means that all philosophers cannot eat at the same time, since 
 Deadlock can occur when all philosophers pick up the fork to their right (or left).
 Then, everybody has one fork.
 This means that each philosopher cannot start his or her meal, and is also not allowed to put his fork back on the table.
-\fixme{explain $!$ and $:=$}
+\fixme{explain $!$ and $:=$}\\
 
-
-\begin{minipage}[c]{0.6\textwidth}
+\noindent
+\begin{minipage}[r]{0.55\textwidth}
 
 \lstset{emph={this, that, name, left, right}}
 \begin{TASK}[
     %float=ht,
     numbers=right,
     caption={Dining philosophers problem with three computer scientists.},
+    captionpos=b,
     label=lst:dining]
   let fork0 = ref True in $\label{lst:phil:fork0}$
   let fork1 = ref True in $\label{lst:phil:fork1}$
@@ -75,7 +77,11 @@ This means that each philosopher cannot start his or her meal, and is also not a
     edit "Full bellies"
 \end{TASK}
 \end{minipage}
+\begin{minipage}[r]{0.05\textwidth}
+  \
+\end{minipage}
 \begin{minipage}[r]{0.4\textwidth}
+  \vspace{1cm}
 \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1,style={line width=0.75pt}]
 
 
@@ -100,7 +106,8 @@ This means that each philosopher cannot start his or her meal, and is also not a
 \draw   (278,167) .. controls (278,158.16) and (285.16,151) .. (294,151) .. controls (302.84,151) and (310,158.16) .. (310,167) .. controls (310,175.84) and (302.84,183) .. (294,183) .. controls (285.16,183) and (278,175.84) .. (278,167) -- cycle ;
 
 \end{tikzpicture}
-
+\vspace{1cm}
+  \captionof{figure}{Rendering with three philosophers.}
 \end{minipage}\\
 \\
 We look at dining computer scientists instead.
@@ -155,6 +162,7 @@ A subsidy is only given under the following conditions.
     float=ht,
     numbers=right,
     caption={Subsidy request and approval workflow at the Dutch tax office.},
+    captionpos=b,
     label=lst:tax]
   let provideDocuments = enter Amount <&> enter Date in
   let companyConfirm = edit True <?> edit False in
