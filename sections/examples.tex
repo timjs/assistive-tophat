@@ -48,8 +48,7 @@ Only after eating their meal, are the philosophers allowed to place the two fork
 This, of course, means that all philosophers cannot eat at the same time, since there are not enough forks.
 Deadlock can occur when all philosophers pick up the fork to their right (or left).
 Then, everybody has one fork.
-This means that each philosopher cannot start his or her meal, and is also not allowed to put his fork back on the table.
-\fixme{explain $!$ and $:=$}\\
+This means that each philosopher cannot start his or her meal, and is also not allowed to put his fork back on the table.\\
 
 \noindent
 \begin{minipage}[r]{0.55\textwidth}
@@ -113,6 +112,7 @@ This means that each philosopher cannot start his or her meal, and is also not a
 We look at dining computer scientists instead.
 \cref{lst:dining} lists an implementation in \TOPHAT for this problem, with three computer scientists.
 The forks are represented by references containing Booleans (\cref{lst:phil:fork0,lst:phil:fork1,lst:phil:fork2}).
+Reading a reference $l$ is denoted as $!l$, assigning a new value $v$ to a reference $l$ is written as $l:=v$.
 The value $\True$ indicates that the fork is available,
 $\False$ indicates that the fork is being used.
 
