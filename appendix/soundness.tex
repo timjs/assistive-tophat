@@ -234,25 +234,21 @@ In this case, we have two sets of symbolic executions.
 %
  \Case{$\tilde{t}=\tilde{e}_1\Or \tilde{e}_2$}
 {One rule applies, namely \Userule{SH-Or}\\
-\todo{I forgot this case}
-%
-% In the case that $M\phi_1$, we need to demonstrate that \Userule{H-FirstOr} with $\hat{\sigma}=M\sigma$ and $M\First i =\First j$,
-% $M t_1'\Or t_2\equiv \hat{t_1'}\And t_2$ and $M\sigma'\equiv \hat{\sigma'}$.
-%
-% By the induction hypothesis we obtain the following.\\
-% $\forall M_1 . M_1 \phi_1 \implies t_1,M_1\sigma \xrightarrow[]{M_1 i} \hat{t_1'},\hat{\sigma'}\land M_1 t_1'\equiv\hat{t_1'}\land M_1\sigma' \equiv \hat{\sigma'}$.
-%
-% Since $M$ satisfies $\phi$, we have $t_1,M\sigma\xrightarrow[]{M i} \hat{t_1'},\hat{\sigma'}$ and $M\sigma'\equiv\hat{\sigma'}$,
-% which we needed to show, as well as $M t_1'\Or t_2\equiv \hat{t_1'}\And t_2$, which follows from $M t_1' \equiv \hat{t_1'}$.
-%
-% In the case that $M\phi_2$, we need to demonstrate that \Userule{H-SecondOr} with $\hat{\sigma}=M\sigma$ and $M\Second i = \Second j$,
-% $M t_1\Or t_2'\equiv t_1\And \hat{t_2}$ and $M\sigma'\equiv \hat{\sigma'}$.
-%
-% By the induction hypothesis we obtain the following.\\
-% $\forall M_1 . M_1 \phi_1 \implies t_2,M_1\sigma \xrightarrow[]{M_1 i} \hat{t_2'},\hat{\sigma'}\land M_1 t_2'\equiv\hat{t_2'}\land M_1\sigma' \equiv \hat{\sigma'}$
-%
-% Since $M$ satisfies $\phi$, we have $t_2,M\sigma\xrightarrow[]{M i} \hat{t_2'},\hat{\sigma'}$ and $M\sigma'\equiv\hat{\sigma'}$,
-% which we needed to show, as well as $M t_1\Or t_2'\equiv t_1\And \hat{t_2'}$, which follows from $M t_2' \equiv \hat{t_2'}$.
+In this case, we have two sets of symbolic executions.
+
+  For all tuples $(\tilde{t}_1'\Or\tilde{t}_2,\tilde{\sigma}_1',\First \tilde{\imath}_1,\phi_1)$,
+  we know by application of the induction hypothesis that there exists an $i$ such that
+  $\tilde{\imath}_1\sim i$, $t_1,\sigma\handle{i}t_1',\sigma_1'$ and
+  $t_1',\sigma_1'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}_1',\Phi\land\phi_1$.
+  Then by \refrule{H-FirstOr}, we know that also $t_1\Or t_2,\sigma\handle{\First i}t_1'\Or t_2,\sigma_1'$.
+  It follows trivially that $t_1'\Or t_2,\sigma_1'\Consistent_{M.[s\mapsto c]}\tilde{t}_1'\Or \tilde{t}_2,\tilde{\sigma}_1',\Phi\land\phi_1$.
+
+  For all tuples $(\tilde{t}_1\Or\tilde{t}_2',\tilde{\sigma}_2',\Second \tilde{\imath}_2,\phi_2)$,
+  we know by application of the induction hypothesis that there exists an $i$ such that
+  $\tilde{\imath}_2\sim i$, $t_2,\sigma\handle{i}t_2',\sigma_2'$ and
+  $t_2',\sigma_2'\Consistent_{M.[s\mapsto c]}\tilde{t}_2',\tilde{\sigma}_2',\Phi\land\phi_2$.
+  Then by \refrule{H-SecondOr}, we know that also $t_1\Or t_2,\sigma\handle{\Second i}t_1\Or t_2',\sigma_2'$.
+  It follows trivially that $t_1\Or t_2',\sigma_2'\Consistent_{M.[s\mapsto c]}\tilde{t}_1\Or \tilde{t}_2',\tilde{\sigma}_2',\Phi\land\phi_2$.
 }
 
 \end{proof}
