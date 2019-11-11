@@ -574,37 +574,14 @@ This leads us to conclude $t_1\And t_2,\sigma\stride t_1'\And t_2',\sigma''$ and
     }
 
   \Case{$\tilde{e}=\If{\tilde{e}_1}{\tilde{e}_2}{\tilde{e}_3}$}
-     {One rule applies, namely\\ \Userule{SE-If}\\
-     \todo{this case requires more than simply IH application}
-     % In case that $M\phi_1\land M\phi_2 \land Mv_1$,
-     % we need to demonstrate that
-     % \Userule{E-IfTrue} with $\hat{\sigma}=M\sigma$,
-     % $M v_2 = \hat{v_2}$ and $M\sigma''=\hat{\sigma''}$.
-     %
-     % From the induction hypothesis, we obtain the following.\\
-     % $\forall M_1 . M_1\phi_1 \implies e_1,M_1\sigma\hat{\eval}\hat{v_1},\hat{\sigma'}
-     % \land M_1v_1 \equiv \hat{v_1} \land M_1\sigma'\equiv\hat{\sigma'}$
-     % and\\
-     % $\forall M_2 . M_2\phi_2 \implies e_2,M_2\sigma'\hat{\eval}\hat{v_2},\hat{\sigma''}
-     % \land M_2 v_2 \equiv \hat{v_2} \land M_2\sigma'' \equiv\hat{\sigma''}$.
-     %
-     % Since $M$ satisfies $\phi_1$, and $M v_1=\True$, we know from the application of the induction hypothesis above, that $\hat{v_1}=\True$.\\
-     % Furthermore, $M$ satisfies $\phi_2$, so we directly obtain that $Mv_2=\hat{v_2}$ and $M\sigma''=\hat{\sigma''}$.
-     %
-     % In case that $M\phi_1\land M\phi_3 \land M\neg v_1$,
-     % we need to demonstrate that
-     % \Userule{E-IfFalse} with $\hat{\sigma}=M\sigma$,
-     % $M v_3 = \hat{v_3}$ and $M\sigma''=\hat{\sigma''}$.\\
-     %
-     % From the induction hypothesis, we obtain the following.\\
-     % $\forall M_1 . M_1\phi_1 \implies e_1,M_1\sigma\hat{\eval}\hat{v_1},\hat{\sigma'}
-     % \land M_1v_1 \equiv \hat{v_1} \land M_1\sigma'\equiv\hat{\sigma'}$
-     % and\\
-     % $\forall M_3 . M_3\phi_3 \implies e_3,M_3\sigma'\hat{\eval}\hat{v_3},\hat{\sigma''}
-     % \land M_3 v_3 \equiv \hat{v_3} \land M_3\sigma'' \equiv\hat{\sigma''}$.
-     %
-     % Since $M$ satisfies $\phi_1$, and $M v_1=\False$, we know from the application of the induction hypothesis above, that $\hat{v_1}=\False$.\\
-     % Furthermore, $M$ satisfies $\phi_3$, so we directly obtain that $Mv_3=\hat{v_3}$ and $M\sigma''=\hat{\sigma''}$.
+     {One rule applies, namely\\ \userule{SE-If}\\
+     Provided that $e,\sigma\Consistent_m\If{\tilde{e}_1}{\tilde{e}_2}{\tilde{e}_3},\tilde{\sigma},\Phi$ and \userule{SE-IF},
+     we obtain from the induction hypothesis that $e_1,\sigma\eval v_1,\sigma'$ with $v_1,\sigma'\Consistent_m \tilde{v}_1,\tilde{\sigma}',\Phi\land\phi_1$.
+     At this point, we have two potential branches.
+     Applying the induction hypothesis to either of them, we obtain that $e_2,\sigma'\eval v_2,\sigma''$ with $v_2,\sigma''\Consistent_m\tilde{v}_2,\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$
+     and $e_3,\sigma'\eval v_3,\sigma''$ with $v_3,\sigma''\Consistent_m\tilde{v}_3,\tilde{\sigma}'',\Phi\land\phi_1\land\phi_3$.
+     From this, we can conclude that $\If{e_1}{e_2}{e_3},\sigma\eval v_2,\sigma''$ with $v_2,\sigma''\Consistent_M\tilde{v}_2,\tilde{\sigma}'',\Phi\land\phi_1\land\phi_2$
+     or $\If{e_1}{e_2}{e_3},\sigma\eval v_3,\sigma''$ with $v_3,\sigma''\Consistent_M\tilde{v}_3,\tilde{\sigma}'',\Phi\land\phi_1\land\phi_3$.
     }
 
   \Case{$\tilde{e}=\Ref \tilde{e}$}
