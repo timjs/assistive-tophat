@@ -19,69 +19,45 @@ The following sections give an overview of the work done in those areas.
 \subsection{Symbolic execution}
 
 
-Symbolic execution \cite{King1975,Boyer1975} is typically being applied to imperative programming languages, for example Bucur et al.~\cite{BucurKC2014} prototype a symbolic execution engine for interpreted imperative languages.
-Cadar et al.~\cite{CadarDE2008} use it to generate test cases for programs that can be compiled to LLVM bytecode.
-Jaffar et al.~\cite{JaffarMNS2012} use it for verifying safety properties of C programs.
-
-In recent years it has been used for functional programming languages as well.
-To name some examples, there is ongoing work by Hallahan et al.~\cite{HallahanXP2017} and Xue~\cite{Xue2019} to implement a symbolic execution engine for Haskell.
+Symbolic execution \cite{King1975,Boyer1975} is typically being applied to imperative programming languages,
+but in recent years it has been used for functional programming languages as well.
+Ongoing work by Hallahan et al.~\cite{HallahanXP2017} and Xue~\cite{Xue2019} aims to implement a symbolic execution engine for Haskell.
 Giantios et al.~\cite{GiantsiosPS2017} use symbolic execution for a mix of concrete and symbolic testing of programs written in a subset of Core Erlang.
 Their goal is to find executions that lead to a runtime error, either due to an assertion violation or an unhandled exception.
-Chang et al.~\cite{ChangKT2018} present a symbolic execution engine for a typed lambda calculus with mutable state where only some language constructs recognize symbolic values.
+Chang et al.~\cite{ChangKT2018} present a symbolic execution engine for a typed lambda calculus with mutable state where only some language constructs recognise symbolic values.
 They claim that their approach is easier to implement than full symbolic execution and simplifies the burden on the solver, while still considering all execution paths.
-
-The difficulty of symbolic execution for functional languages lies in symbolic higher-order values, that is functions as arguments to other functions.
-Hallahan et al solve this with a technique called \emph{defunctionalization}, which requires all source code to be present, so that a symbolic function can only be one of the present lambda expressions or function definitions.
-Giantosis et al also require all source code to be present, but they only analyze first-order functions.
-They can execute higher-order functions, but only with concrete arguments.
-Our method also requires closed well-typed terms, so we never execute a higher-order function in isolation.
-Furthermore, we currently do not allow functions and tasks as task values.
-Together, this means that symbolic values can never be functions.
-\todo{THIS SECTION IS COPIED OVER FROM SYMBOLIC TOPHAT! DO NOT SEND IN LIKE THIS!}
 
 \subsection{Workflow modelling}
 
-Workflows have been studied extensively from different viewpoints.
-Since many software exists that automates workflows, it is a research topic that potentially can have a huge impact on society.
+Workflow modelling have been studied extensively from different viewpoints.
+Since many software exists that automates workflows, it is a research topic that potentially has a huge impact on society.
 
 \emph{Workflow patterns} are regarded as special design patterns in software engineering.
 Similar to the combinators in \TOP, they describe recurring patterns in workflow systems.
 Van der Aalst et al.~\cite{journals/dpd/AalstHKB03} identify common patterns, and examine their availability in industry workflow frameworks.
 
-\emph{Workflow Nets} allow for the moddeling an analysis of business processes.
-They are graphical in nature, based on petrinets.
-
-\emph{iTasks} is an implementation of \TOP.
-
+\emph{Workflow Nets} allow for the modelling an analysis of business processes~\cite{DBLP:journals/jcsc/Aalst98}.
+Worflow Nets are a subclass of Petri nets, and are therefore graphical in nature.
+Research on Workflow Nets includes verification of models~\cite{DBLP:conf/apn/Aalst97} and complexity analysis~\cite{DBLP:journals/infsof/LassenA09}, just to name a few.
 
 
-\subsection{Intelligent tutoring systems}
+\emph{iTasks}~\cite{DBLP:conf/ppdp/PlasmeijerLMAK12} is an implementation of \TOP in the programming language Clean.
+It differs from the above mentioned modelling techniques, since it is not graphical in nature.
+iTasks supports higher order workflows, and leverages techniques from functional and generic programming.
 
-Over het automatisch genereren van hints in tutoring systemen:
 
-Ons artikel:
+\subsection{Automatic hint generation in intelligent tutoring systems}
 
-Bastiaan Heeren and Johan Jeuring. Feedback services for stepwise exercises. Science of Computer Programming, volume 88, pages 110 – 129, 2014~\cite{DBLP:journals/scp/HeerenJ14}.
+The intelligent tutoring systems (ITS) research community is very large.
+Work that is most relevant to our own is the research into automatic hint generation.
+More traditional ITS rely heavily on experts to write dedicated hints for every specific case of an exercise.
+Automatic hint generation attempts to overcome this burden by calculating a hint rather than having every case specified.
 
-beschrijft oa (p9): The design of our domain reasoners providing feedback services is based on two assumptions: all feedback is calculated automatically from a high-level description of an exercise class, and this calculation is generic (domain independent).
+Heeren et al.~\cite{DBLP:journals/scp/HeerenJ14} develop a framework for so called domain reasoners that allow for automatic hint generation.
+Feedback is calculated automatically from a high-level description of an exercise class.
+Their approach is applicable to domains like logic, mathematics and linear algebra.
+Paquette et al.~\cite{DBLP:conf/its/PaquetteLBM12} present a different automatic next-step hint ITS, that is used to provide hints to students in a programming exercise.
 
-(hierbij bevat feedback ook hints.) Deze aanpak is ook gebaseerd op formele beschrijvingen van hoe je je doel wilt bereiken, en lijkt dus sterk op wat jullie doen. We kunnen strategieën `afspelen’ dus we hebben ook een vorm van symbolische executie (Bastiaan noemde het vroeger oracle’s, die concrete waarden konden genereren), maar daar zijn we niet heel expliciet over.
-
-Een vergelijkbare aanpak is
-
-Luc Paquette, Jean-François Lebeau, Gabriel Beaulieu, André Mayers
-Automating Next-Step Hints Generation Using ASTUS
-International Conference on Intelligent Tutoring Systems
-ITS 2012: Intelligent Tutoring Systems pp 201-211~\cite{DBLP:conf/its/PaquetteLBM12}
-
-Specifiek voor het programmeerdomein, heel veel verschillende aanpakken:
-
-Hieke Keuning, Johan Jeuring, and Bastiaan Heeren. A systematic literature review of automated feedback generation for programming exercises. In ACM Transactions on Computing Education (TOCE), volume 19 (1), 2019~\cite{DBLP:journals/jeric/KeuningJH19}.
-
-geeft een overview van de verschillende aanpakken om automatisch feedback and hints te genereren bij het construeren van programma’s.
-
-Helpt dit, of zou je liever wat anders wensen? Er bestaat ook veel werk over data-driven hint generation, maar dat lijkt me eerlijk gezegd niet relevant voor jullie.
-
-Met groet,
-
-Johan
+Based on the work mentioned above by Heeren et al., an ITS for Haskell exercises has been developed by Gerdes et al.~\cite{DBLP:journals/aiedu/GerdesHJB17}.
+It tuns out that programming exercises is a popular area for Automatic hint generation.
+Keuning et al.~\cite{DBLP:journals/jeric/KeuningJH19} have written an excellent literature study of this research area.
