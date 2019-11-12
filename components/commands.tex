@@ -110,7 +110,7 @@
 \newmathcommand{stride}[rel]
   % {\;\rightarrow\!\shortmid\;}
   % {\;\rightsquigarrow\;}
-  {\;\dashrightarrow\;}
+  {\;\mapsto\;}
 \newmathcommand{normalise}[rel]
   {\;\Downarrow\;}
 \newmacro{handle}[1]
@@ -120,18 +120,21 @@
 \newmacro{execute}[1]
   {\mathrel{\;\xRightarrow{#1}\!\!^*\;}}
 
+\newmathcommand{Leadsto}[rel]
+  {\raisebox{-0.25ex}{$\leadsto$}\mathllap{\raisebox{+0.25ex}{$\leadsto$}}}
+
 \newmathcommand{simeval}[rel]
-  {\;\tilde{\downarrow}\;}
+  {\;\rotatebox[origin=c]{-90}{$\leadsto$}\;}
 \newmathcommand{simstride}[rel]
-  {\;\tilde{\dashrightarrow}\;}
+  {\;\mapstochar\kern+0.1em\leadsto\;}
 \newmathcommand{simnormalise}[rel]
-  {\;\tilde{\Downarrow}\;}
+  {\;\rotatebox[origin=c]{-90}{$\Leadsto$}\;}
 \newmathcommand{simhandle}[rel]
   {\;\leadsto\;}
 \newmathcommand{siminteract}[rel]
-  {\;\raisebox{-0.25ex}{$\leadsto$}\mathllap{\raisebox{+0.25ex}{$\leadsto$}}\;}
+  {\;\Leadsto\;}
 \newmathcommand{simulate}[rel]
-  {\;\raisebox{-0.25ex}{$\leadsto$}\mathllap{\raisebox{+0.25ex}{$\leadsto$}}^*\;}
+  {\;\Leadsto^*\;}
   % {\;\raisebox{-0.4ex}{$\leadsto$}\mathllap{\raisebox{+0.4ex}{$\leadsto$}}\kern-0.4ex\circ
   % \approx\!\!>\!\!\circ\;}
   % {\;\bullet\!\!\!\Rightarrow\;\wr\!\!\!\Rightarrow\;}

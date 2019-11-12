@@ -268,7 +268,7 @@
 %% Normalisation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newmacro{RelationS}
-  {t,{\sigma} {\stride} {t'},{\sigma}'}
+  {t,\sigma \stride t',\sigma'}
 
 
 \newrule{S-Edit}
@@ -349,7 +349,7 @@
 %% Normalisation %%
 
 \newmacro{RelationN}
-  {e,{\sigma} {\normalise} {t},{\sigma}'}
+  {e,\sigma \normalise t,\sigma'}
 
 
 \newrule{N-Done}
@@ -370,7 +370,7 @@
 %% Handling %%
 
 \newmacro{RelationH}
-  {t,{\sigma} \handle{i} {t'},{\sigma}'}
+  {t,\sigma \handle{i} t',\sigma'}
 
 
 \newrule{H-Change}
@@ -440,7 +440,7 @@
 %% Driving %%
 
 \newmacro{RelationI}
-  {{t},{\sigma} \interact{i} {t}',{\sigma}'}
+  {t,\sigma \interact{i} t',\sigma'}
 
 
 
