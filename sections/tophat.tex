@@ -54,6 +54,7 @@ In the next subsections we describe the basic constructs of the \TOPHAT language
 
 
 \subsection{Editors}
+\label{sub:editors}
 
 Editors form the entry points for interaction and communication with the outside world.
 They are the most basic tasks and can be seen as an abstraction over widgets in a \GUI library or forms on a webpage.
@@ -79,6 +80,7 @@ There are three different editors in \TOPHAT.
 
 
 \subsection{Combinators}
+\label{sub:combinators}
 
 Editors can be combined into larger tasks using combinators.
 The order in which editors and tasks are executed is specified with combinators. Tasks can be performed in sequence, in parallel or a choice can be made between tasks.
@@ -167,6 +169,22 @@ In particular, the order of input events determine the progression of parallel b
 
 
 \subsection{Semantics}
+
+The semantics of \TOPHAT are defined in three layers.
+The first layer consists of the standard big step semantics for the simply typed $\lambda$-calculus.
+We call this semantics evaluation ($\eval$).
+All task specific language constructs, as described previously in \cref{sub:editors,sub:combinators},
+are normalised using a dedicated big step semantics ($\normalise$) in the second layer.
+Normalisation can be regarded as preparing tasks for user input.
+It makes use of a helper small step semantics called striding ($\stride$).
+
+Above semantics are internal to the system and do not take any user interaction into account.
+Therefore, on the third level, the small step interaction semantics ($\interact{}$) first handles any user input $i$ using the handle semantics ($\handle{}$)
+and then normalises the resulting task so it is ready to handle the next user input.
+
+\Cref{fig:semantic-functions} contains an overview of these semantics and their relations.
+Semantic rules can be found in the appendix.
+For a thorough explanation of all rules, we refer to previous work \cite{DBLP:conf/ppdp/SteenvoordenNK19}.
 
 \begin{figure}[h]
 \centering
