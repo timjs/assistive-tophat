@@ -3,34 +3,34 @@
 \section{The TopHat language}
 \label{sec:tophat}
 
-Task-Oriented Programming (\TOP) is a paradigm first introduced by Plasmeijer et al.~\cite{DBLP:conf/ppdp/PlasmeijerLMAK12}.
-It was created to improve the development and quality of software that coordinates collaboration between users.
+The Task-Oriented Programming (\TOP) paradigm was first introduced by Plasmeijer et al.~\cite{DBLP:conf/ppdp/PlasmeijerLMAK12}.
+It is created to improve the development and quality of software that coordinates collaboration between users.
 \TOP provides programmers with a high level of programming abstraction,
-while being expressive enough to describe real world collaborations.
+while still being expressive enough to describe real world collaborations.
 It does so by using features from higher-order functional programming languages,
 combined with the notion of \emph{tasks}.
 Tasks model units of work, which can be performed by a human or by a computer.
-From a task specification, a \TOP implementation generates a distributive multi-user (web) application to support this collaboration.
+From a task specification, a \TOP implementation generates a distributive multi-user (web) application.
 
 Tasks have a couple of properties, listed below.
 \begin{itemize}
   \item
     Tasks model \emph{collaboration}.\\
-    Programmers describe what work needs to be done in what way.
+    Programmers describe what work needs to be done, by who and in what way.
   \item
     Tasks are \emph{interactive}.\\
-    Users can enter or update information into the system by using \emph{editors}.
+    Users can enter or update information into the system by using \emph{editors}. They can progress to the next task, or choose between tasks.
   \item
     Tasks can be \emph{observed}.\\
-    Therefore, other users or the system itself can make decisions based on the progress of the task.
+    Therefore, other users or the system itself can make decisions based on the observed progress of the task.
   \item
     Tasks are \emph{modular}.\\
     They can be combined into bigger tasks by using \emph{combinators}.
-    Basic combinators are chosen in such a way, that they represent a way of collaboration between users.
-    New combinators can be created by making use of basic combinators and the higher order facilities of the host language.
+    The basic combinators are chosen in such a way, that they represent basic collaboration patterns.
+    New combinators can be created by making use of basic combinators and the (higher order) facilities of the host language.
   \item
     Tasks \emph{share information}.\\
-    Information is passed along control flow, or via references to shared data.
+    Information is passed along control flow, or via references to shared data, in order for tasks to exchange information.
   \item
     Tasks are \emph{typed}.\\
     This is not just to ensure safety at runtime,
@@ -38,37 +38,29 @@ Tasks have a couple of properties, listed below.
     \TOP systems automatically generate user interfaces and manage persistent storage of information.
 \end{itemize}
 
-Currently, there are three systems implementing the ideas of \TOP.
+Currently, there are three systems implementing the \TOP paradigm.
 The reference implementation is the \ITASKS framework~\cite{DBLP:conf/ppdp/PlasmeijerLMAK12},
 which is an embedded domain specific language in the non-strict functional programming language Clean~\cite{plasmeijer2002clean}.
 \MTASKS~\cite{DBLP:conf/cgo/KoopmanLP18} is a \TOP implementation specifically designed for embedded systems.
 A formalisation of \TOP, called \TOPHAT (TopHat), has been created by Steenvoorden, Naus, and Klinik~\cite{DBLP:conf/ppdp/SteenvoordenNK19}.
-This work builds further on \TOPHAT and its symbolic counterpart \STOPHAT~\cite{Naus2019}.
+Assistive \TOPHAT builds on \TOPHAT and its symbolic counterpart \STOPHAT~\cite{Naus2019}.
 
 \TOPHAT implements \TOP by embedding a task language in the simply typed lambda calculus with references, conditionals, and pairs.
 \STOPHAT extends this with built in operators, lists, and most importantly symbols.
 References are used to model the shared data component of \TOP.
-Below, the different components of \TOPHAT are explained in detail.
 The complete syntax and semantics can be found in previous work~\cite{DBLP:conf/ppdp/SteenvoordenNK19}.
 In the next subsections we describe the basic constructs of the \TOPHAT language.
 \cref{sec:symbolic} details \STOPHAT.
 
-% Since the idea was introduced, a lot of research as been done on \TOP.
-% However, the basic principle remain the same.
-% \TOP implementations like iTasks~\cite{????} also leverage aspects of the host language in order to allow for a higher level of abstraction,
-% such as generic programming and higher order tasks. \todo{is dit wel of niet top?}
-%
-%
-% The next section describes the formal \TOP implementation \TOPHAT.
 
 \subsection{Editors}
 
 Editors form the entry points for interaction and communication with the outside world.
-They are the most basic tasks and can be seen as an abstraction over widgets in a \GUI library or on webpage forms.
+They are the most basic tasks and can be seen as an abstraction over widgets in a \GUI library or forms on a webpage.
 Users can change the value held by an editor, in the same way they can manipulate widgets in a \GUI.
 
 When a \TOP implementation generates an application from a task specification, it derives user interfaces for the editors.
-The appearance of an editor is influenced by its type.
+The appearance of an editor depends on its type.
 For example, editors of type strings can be represented by simple input fields, dates by calendars, and locations by pins on a map.
 
 There are three different editors in \TOPHAT.
@@ -93,17 +85,17 @@ The order in which editors and tasks are executed is specified with combinators.
 
 
 The following combinators are available in \TOPHAT.
-Here, $t$ stands for tasks and $e$ for arbitrary expressions.
+Here, $t$ stands for tasks and $e$ for expressions.
 \begin{description}
   \item[$t \Then e$] Step.\\
     Users can work on task $t$.
-    As soon as $t$ has an observable value, that value is passed on to the right hand side $e$.
+    As soon as $t$ has an observable value, as defined in the next section, that value is passed on to the right hand side $e$.
     The expression $e$ is a function, taking the value as an argument, resulting in a new task.
   \item[$t \Next e$] User Step.\\
     Users can work on task $t$.
     When $t$ has an observable value, the step becomes enabled.
     Then, users can send a continue event to the combinator.
-    When that happens, the value of $t$ is passed to the right hand side, with which it continues,
+    When that happens, the value of $t$ is applied to the right hand side function $e$, with which it continues,
     in the same way as normal steps do.
   \item[$t_1 \And t_2$] Pair.\\
     Users can work on tasks $t_1$ and $t_2$ in at the same time.
@@ -111,9 +103,10 @@ Here, $t$ stands for tasks and $e$ for arbitrary expressions.
     The system chooses between $t_1$ or $t_2$,
     based on which task first has an observable value.
     If both tasks have a value, the system chooses the left one.
+    When neither of the two tasks has an observable value, users can continue to work on both tasks until one of them does.
   \item[$e_1 \Xor e_2$] User choice.\\
     A user has to make a choice between either the left or the right hand side.
-    The user continues to work on the chosen task.
+    After picking a side, the user can work on that task.
 \end{description}
 
 In addition to editors and combinators, \TOPHAT also contains the fail task ($\Fail$).
@@ -129,13 +122,13 @@ to draw the user interface, and they will also be used by Assistive \TOPHAT to p
 
 Using the value function $\Value$, the current value of a task can be determined.
 The value function is a partial function, since not all tasks have a value.
-For example empty editors and steps do not have a value.
-For the parallel and internal choice combinators, their value depends on the value of the subtasks.
-Parallel only as a value if both tasks have an observable value.
+For example empty editors do not have a value.
+The value of tasks composed of parallel and internal choice combinators, depends on the value of the subtasks.
+Parallel only has a value if both tasks have an observable value.
 Internal choice has a value if either of the two tasks has an observable value.
 
 One can also observe whether or not a task is failing, by means of the failing function $\Failing$.
-A task is considered to be failing if a user cannot interact with it.
+A task is considered to be failing if, after normalisation, a user cannot interact with it.
 For example, the valued editor is not failing, since the user can update it with a new value.
 The task $\Fail$ is failing, as is a parallel combination of failing tasks $\Fail \And \Fail$, since both the left and the right task cannot be interacted with.
 Both observation definitions can be found in \cref{fig:observations}
@@ -160,14 +153,13 @@ If that is the case, it uses the $\Failing$ function to see if stepping to the r
 
 \subsection{Input}
 
-Input events drive evaluation of tasks.
+Input events drive the evaluation of tasks.
 Because tasks are typed, input is typed as well.
 Editors only accept input of the correct type.
-Examples are replacing a value in an editor,
-or sending a continue event to a user step.
-When the system receives a valid event, it gives this event to the current task, which evaluates to a new task.
+For example, an editor can only be updated with a new value, if it has the same type as the old value.
+When the system receives a valid event, it applies this event to the current task, which evaluates to a new task.
 Everything in between two events is evaluated atomically with respect to inputs.
-This means that tasks are normalised up to the point they await new user interactions.
+This means that tasks are normalised up to the point where they await new user interactions.
 % In this way the system communicates with the environment.
 
 Input events are synchronous, which means that the order of execution is completely determined by the order of the events.
