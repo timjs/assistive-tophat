@@ -131,32 +131,57 @@ This means that each philosopher cannot start his or her meal, and is also not a
   \
 \end{minipage}
 \begin{minipage}[r]{0.4\textwidth}
-  \vspace{1cm}
-\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1,style={line width=0.75pt}]
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
+
+  \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-0.8,xscale=0.8]
+  %uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+
+  %Shape: Circle [id:dp8519268538531043]
+  \draw   (229,147.5) .. controls (229,90.89) and (274.89,45) .. (331.5,45) .. controls (388.11,45) and (434,90.89) .. (434,147.5) .. controls (434,204.11) and (388.11,250) .. (331.5,250) .. controls (274.89,250) and (229,204.11) .. (229,147.5) -- cycle ;
+  %Shape: Circle [id:dp8204933417548707]
+  \draw   (305,84) .. controls (305,70.19) and (316.19,59) .. (330,59) .. controls (343.81,59) and (355,70.19) .. (355,84) .. controls (355,97.81) and (343.81,109) .. (330,109) .. controls (316.19,109) and (305,97.81) .. (305,84) -- cycle ;
+  %Shape: Circle [id:dp7478076126793654]
+  \draw   (360,180) .. controls (360,166.19) and (371.19,155) .. (385,155) .. controls (398.81,155) and (410,166.19) .. (410,180) .. controls (410,193.81) and (398.81,205) .. (385,205) .. controls (371.19,205) and (360,193.81) .. (360,180) -- cycle ;
+  %Shape: Circle [id:dp3120260710082954]
+  \draw   (253,183) .. controls (253,169.19) and (264.19,158) .. (278,158) .. controls (291.81,158) and (303,169.19) .. (303,183) .. controls (303,196.81) and (291.81,208) .. (278,208) .. controls (264.19,208) and (253,196.81) .. (253,183) -- cycle ;
+  %Straight Lines [id:da6820891014633774]
+  \draw    (331,190) -- (331,236) ;
 
 
-%Plates
-\draw   (253,137) .. controls (253,97.24) and (285.24,65) .. (325,65) .. controls (364.76,65) and (397,97.24) .. (397,137) .. controls (397,176.76) and (364.76,209) .. (325,209) .. controls (285.24,209) and (253,176.76) .. (253,137) -- cycle ;
-\draw   (357,142) .. controls (357,133.16) and (364.16,126) .. (373,126) .. controls (381.84,126) and (389,133.16) .. (389,142) .. controls (389,150.84) and (381.84,158) .. (373,158) .. controls (364.16,158) and (357,150.84) .. (357,142) -- cycle ;
-\draw   (289,96) .. controls (289,87.16) and (296.16,80) .. (305,80) .. controls (313.84,80) and (321,87.16) .. (321,96) .. controls (321,104.84) and (313.84,112) .. (305,112) .. controls (296.16,112) and (289,104.84) .. (289,96) -- cycle ;
+  %Curve Lines [id:da1548185264621137]
+  \draw    (323.5,190) .. controls (324.5,210) and (336.5,210) .. (337.5,190) ;
 
 
-%Forks
-\draw    (263.96,126.23) -- (294.46,131.79) ;
-\draw    (293.63,136.33) .. controls (283.96,134.24) and (283.96,126.86) .. (294.79,128.16) ;
 
-\draw    (351.54,191.12) -- (335.85,164.38) ;
-\draw    (339.84,162.04) .. controls (344.56,170.75) and (338.97,175.55) .. (332.89,166.5) ;
-
-\draw    (364.51,91.97) -- (342.43,113.74) ;
-\draw    (339.19,110.45) .. controls (346.47,103.74) and (352.5,107.98) .. (345.22,116.09) ;
+  %Straight Lines [id:da4306446303925887]
+  \draw    (294.3,133.27) -- (256.15,107.56) ;
 
 
-%Table
-\draw   (278,167) .. controls (278,158.16) and (285.16,151) .. (294,151) .. controls (302.84,151) and (310,158.16) .. (310,167) .. controls (310,175.84) and (302.84,183) .. (294,183) .. controls (285.16,183) and (278,175.84) .. (278,167) -- cycle ;
+  %Curve Lines [id:da9253738091345234]
+  \draw    (298.49,127.05) .. controls (281.34,116.7) and (274.64,126.65) .. (290.66,138.66) ;
 
-\end{tikzpicture}
-\vspace{1cm}
+
+
+  %Straight Lines [id:da7927760692654279]
+  \draw    (362.12,130.68) -- (402.39,108.44) ;
+
+
+  %Curve Lines [id:da6105283277592903]
+  \draw    (365.75,137.25) .. controls (382.77,126.7) and (376.97,116.2) .. (358.98,124.99) ;
+
+
+
+
+  % Text Node
+  \draw (252,242) node  [align=left] {Alan};
+  % Text Node
+  \draw (330,24) node  [align=left] {Grace};
+  % Text Node
+  \draw (416,243) node  [align=left] {Ada};
+
+
+  \end{tikzpicture}
+  \vspace{0.7cm}
   \captionof{figure}{Rendering with three philosophers.}
 \end{minipage}\\
 \\
