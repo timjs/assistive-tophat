@@ -37,6 +37,57 @@ When the user presses the continue button, the machine dispenses either a biscui
 Snacks are modelled using a custom type.
 
 
+\subsection{Tax subsidy request}
+\label{sec:tax}
+
+The example program listed in this section is taken from our previous work on symbolic execution for \TOPHAT~\cite{DBLP:conf/ppdp/SteenvoordenNK19}.
+It models a simplified tax subsidy application process for citizens who have installed solar panels.
+This was first described by Stutterheim~et~al.\cite{conf/sfp/StutterheimAP17},
+who worked on modelling a fictional but realistic law about solar panel subsidies.
+
+A subsidy is only given under the following conditions.
+\begin{itemize}
+\item The roofing company has confirmed that they installed solar panels for the citizen.
+\item The tax officer has approved the request.
+\item The tax officer can only approve the request if the roofing company has confirmed, and the request is filed within one year of the invoice date.
+\item The amount of the granted subsidy is at most €600.
+\end{itemize}
+
+\lstset{emph={invoiceDate,confirmed,invoiceAmount,approved}}
+\begin{TASK}[
+    float=ht,
+    numbers=right,
+    caption={Subsidy request and approval workflow at the Dutch tax office.},
+    captionpos=b,
+    label=lst:tax]
+  let today = $\Today$ in
+  let provideDocuments = enter Amount <&> enter Date in
+  let companyConfirm = edit True <?> edit False in
+  let officerApprove = \ invoiceDate. \ today. \ confirmed.
+    edit False <?> if (today - invoiceDate < $\OneYear$ /\ confirmed) $\label{lst:tax:officer-approve-def}$ then edit True else fail in
+  provideDocuments <&> companyConfirm >>= \ <<<<invoiceAmount, invoiceDate>>, confirmed>>. $\label{lst:tax:documents-and-company-confirm}$
+  officerApprove invoiceDate today confirmed >>= \ approved.$\label{lst:tax:officer-approve}$
+  let subsidyAmount = if approved then min 600 (invoiceAmount / 10) else 0 in
+  edit <<subsidyAmount, approved, confirmed, invoiceDate, today>>$\label{lst:tax:result}$
+\end{TASK}
+
+\Cref{lst:tax} gives the \TOPHAT code for this example.
+To enhance readability of the example,
+we omit type annotations and make use of pattern matching on tuples.
+The program works as follows.
+
+In parallel, the citizen has to provide the invoice documents of the installed solar panels, while the roofing company has to confirm that they have actually installed solar panels at the citizen's address (\cref{lst:tax:documents-and-company-confirm}).
+Once the invoice and the confirmation are there, the tax officer has to approve the request (\cref{lst:tax:officer-approve}).
+The officer can always decline the request, but they can only approve it if the roofing company has confirmed and the application date is within one year of the invoice date (\cref{lst:tax:officer-approve-def}).
+The result of the program is the amount of the subsidy, together with all information needed to prove the required properties (\cref{lst:tax:result}).
+
+In previous work, we have shown that this code indeed adheres to the requirements listed above.
+There we focussed on assisting the developer by proving the program correct.
+In this work we focus on supporting the end user that is requesting a subsidy.
+The end user wants the outcome of this program to be a subsidy amount larger than zero.
+In \cref{sec:assistivetax} we will show how to generate hints for the end user to reach this goal.
+
+
 \subsection{Dining Computer Scientists Problem}
 \label{sec:dining}
 
@@ -139,54 +190,3 @@ So, the order of the events is explicitly determined by the scientists themselve
 In \cref{sec:assistivedining} we will analyse this example.
 Our goal is to provide each scientist with a hint on which choice to make, in order to reach the common goal of full bellies.
 When the scientists follow these hints, no deadlock will occur.
-
-
-\subsection{Tax subsidy request}
-\label{sec:tax}
-
-The example program listed in this section is taken from our previous work on symbolic execution for \TOPHAT~\cite{DBLP:conf/ppdp/SteenvoordenNK19}.
-It models a simplified tax subsidy application process for citizens who have installed solar panels.
-This was first described by Stutterheim~et~al.\cite{conf/sfp/StutterheimAP17},
-who worked on modelling a fictional but realistic law about solar panel subsidies.
-
-A subsidy is only given under the following conditions.
-\begin{itemize}
-\item The roofing company has confirmed that they installed solar panels for the citizen.
-\item The tax officer has approved the request.
-\item The tax officer can only approve the request if the roofing company has confirmed, and the request is filed within one year of the invoice date.
-\item The amount of the granted subsidy is at most €600.
-\end{itemize}
-
-\lstset{emph={invoiceDate,today,confirmed,invoiceAmount,approved}}
-\begin{TASK}[
-    float=ht,
-    numbers=right,
-    caption={Subsidy request and approval workflow at the Dutch tax office.},
-    captionpos=b,
-    label=lst:tax]
-  let provideDocuments = enter Amount <&> enter Date in
-  let companyConfirm = edit True <?> edit False in
-  let officerApprove = \ invoiceDate. \ today. \ confirmed.
-    edit False <?> if (today - invoiceDate < 365 /\ confirmed) $\label{lst:tax:officer-approve-def}$ then edit True else fail in
-  update currentDate >>= \ today.$\label{lst:tax:citizen-info}$
-  provideDocuments <&> companyConfirm >>= \ <<<<invoiceAmount, invoiceDate>>, confirmed>>. $\label{lst:tax:documents-and-company-confirm}$
-  officerApprove invoiceDate today confirmed >>= \ approved.$\label{lst:tax:officer-approve}$
-  let subsidyAmount = if approved then min 600 (invoiceAmount / 10) else 0 in
-  edit <<subsidyAmount, approved, confirmed, invoiceDate, today>>$\label{lst:tax:result}$
-\end{TASK}
-
-\Cref{lst:tax} gives the \TOPHAT code for this example.
-To enhance readability of the example,
-we omit type annotations and make use of pattern matching on tuples.
-The program works as follows.
-
-In parallel, the citizen has to provide the invoice documents of the installed solar panels, while the roofing company has to confirm that they have actually installed solar panels at the citizen's address (\cref{lst:tax:documents-and-company-confirm}).
-Once the invoice and the confirmation are there, the tax officer has to approve the request (\cref{lst:tax:officer-approve}).
-The officer can always decline the request, but they can only approve it if the roofing company has confirmed and the application date is within one year of the invoice date (\cref{lst:tax:officer-approve-def}).
-The result of the program is the amount of the subsidy, together with all information needed to prove the required properties (\cref{lst:tax:result}).
-
-In previous work, we have shown that this code indeed adheres to the requirements listed above.
-There we focussed on assisting the developer by proving the program correct.
-In this work we focus on supporting the end user that is requesting a subsidy.
-The end user wants the outcome of this program to be a subsidy amount larger than zero.
-In \cref{sec:assistivetax} we will show how to generate hints for the end user to reach this goal.
