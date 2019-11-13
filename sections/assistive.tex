@@ -13,6 +13,129 @@ or a value to be entered into an editor.
 Since the concrete value also influences the flow of the program, these values can come with restrictions.
 For example, enter an integer, but this integer must be larger than zero.
 
+\subsection{Symbolic execution of TopHat}
+\label{sec:symbolic}
+
+Our goal is to provide end users with next step hints in such a way that, whey they follow up those hints, they will reach a specified goal.
+To check if this goal is achievable, we make use of symbolic execution.
+A symbolic execution semantics~\cite{King1975,Boyer1975} aims to execute a program without knowing its input.
+Instead, symbols are fed into the program.
+During evaluation, symbolic execution records path conditions.
+The symbolic results together with the path conditions can be used to prove properties of the program.
+
+\begin{TASK}[
+    float=ht,
+    % numbers=right,
+    caption={Ordering of tuple elements.},
+    captionpos=b,
+    label=lst:ordering]
+  enter Int <&> enter Int >>= \<<x,y>>. if x > y then edit <<y, x>> else edit <<x, y>>
+\end{TASK}
+
+Consider the tiny example in \cref{lst:ordering}.
+This program asks for two integer values.
+After users entered this information, the step makes sure the result will be an editor containing a pair,
+where the second element is larger then the first.
+When we run this program symbolically, we have to create fresh symbols for both editors, say $s_0$ and $s_1$ respectively.
+Continuing normalisation, there are two possible outcomes, namely
+\begin{itemize}
+  \item $\tuple{s_1,s_0}$, provided that the path condition $\phi = s_0 > s_1 = s_1 < s_0$ holds; or
+  \item $\tuple{s_0,s_1}$, with path condition $\phi = \lnot (s_0 > s_1) = s_0 \leq s_1$.
+\end{itemize}
+
+Now, the property that we want to prove for this program is that no matter what the input is, the second element should always be larger than the first,
+which we write as $\psi(\<a, b\>)= a \leq b$.
+Looking at the two symbolic runs, we can immediately conclude that this property holds.
+\todo{Goal of next sentences? –TS}
+Of course this is a trivial example, one can conclude or even prove that the property holds without symbolic execution.
+But when applying this technique to larger programs, it is a powerful tool to show that a program behaves as expected.
+\cref{sec:assistivedining,sec:assistivetax} illustrates this by applying symbolic execution to larger examples.
+
+\todo{Describe pruning of branches which do not satisfy and introduce $\Sat$.}
+
+
+\subsection{Symbolic semantics for TopHat}
+
+To support symbolic execution in \TOPHAT, we extend our language with symbols.
+We denote entities containing symbols with an additional tilde,
+so $\tilde{t}$, $\tilde{\sigma}$, and $\tilde{\i}$ are respectively tasks, states, and inputs containing symbols.
+% The semantics mentioned in \cref{sub:semantics} needs to be extended to support symbols.
+In the symbolic world, the arrows presented in \cref{sub:semantics} have a squiggly symbolic counterpart.
+
+  \begin{table}
+    \caption{}
+    \label{}
+    \centering
+    \begin{tabular}{l@{\Quad}L@{\Quad}L}
+      \toprule
+                    & \text{Concrete} & \text{Symbolic} \\
+      \midrule
+      Expressions   & e               & \tilde{e} \\
+      Tasks         & t               & \tilde{t} \\
+      States        & \sigma          & \tilde{\sigma} \\
+      Inputs        & i               & \tilde{\imath} \\
+      \midrule
+      Evaluation    & \RelationE      & \RelationSE \\
+      Normalisation & \RelationN      & \RelationSN \\
+      Striding      & \RelationS      & \RelationSS \\
+      Interacting   & \RelationI      & \RelationSI \\
+      Handling      & \RelationH      & \RelationSH \\
+      \bottomrule
+    \end{tabular}
+  \end{table}
+
+
+
+
+The same holds for the observation functions.
+The simulation that drives the symbolic execution an now be defined as follows.
+
+\todo{Say something about inclusions:
+  $t\subset \tilde{t}$,
+  $\sigma \subset \tilde{\sigma}$,
+  $i\subset \tilde{\imath}$
+}
+
+\begin{definition}[Simulation]
+  $t,\sigma\simulate \overline{\tilde{v},\tilde{I},\Phi}$ where
+
+  \begin{minipage}[c]{0.4\textwidth}
+    \begin{align*}
+      t,\sigma             & \siminteract  \overline{\tilde{t}_1,\tilde{\sigma}_1,\tilde{\imath}_1,\phi_1}\\
+      \tilde{t}_1,\tilde{\sigma}_1         & \siminteract  \overline{\tilde{t}_2,\tilde{\sigma}_2,\tilde{\imath}_2,\phi_2}\\
+                           & \hspace{2mm}\vdots    \\
+      \tilde{t}_{n-1},\tilde{\sigma}_{n-1} & \siminteract{}  \overline{\tilde{t}_n,\tilde{\sigma}_n,\tilde{\imath}_n,\phi_n}
+    \end{align*}
+\end{minipage}
+\begin{minipage}[c]{0.1\textwidth}
+  \Quad
+\end{minipage}
+\begin{minipage}[c]{0.3\textwidth}
+  \begin{align*}
+    \text{With }& \Value(\tilde{t}_n,\tilde{\sigma}_n)=\tilde{v}\\
+    &\Value(\tilde{t}_{i<n},\tilde{\sigma}_{i<n})=\bot\\
+    &\tilde{I}=\tilde{\imath}_1,\cdots,\tilde{\imath}_n\\
+    &\Phi = \phi_1\land\cdots\land\phi_n\\
+    &\Sat(\Phi)
+  \end{align*}
+\end{minipage}
+\end{definition}
+
+Here, $t$ is the task program to be symbolically executed, under state $\sigma$,
+resulting in a set of tuples containing the resulting symbolic value $\tilde{v}$, a list of symbolic inputs $\tilde{I}$ and a path condition $\Phi$ for that specific execution.
+
+Only viable executions are permitted, this is enforced by validating the satisfiability of the path condition, denoted as $\Sat(\Phi)$.
+
+The simulation definition used in this paper differs from the one in previous work~\cite{Naus2019}.
+Previously, infinite symbolic executions were filtered out by allowing two steps look-ahead in case of idempotent executions.
+The definition above only allows finite executions by definition.
+
+\todo{use vending machine example to illustrate symbolic tophat (?)}
+
+
+
+\subsection{}
+
 %How do we do this?
 
 In order to calculate next step hints, first a goal must be formulated.
