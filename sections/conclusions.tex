@@ -10,3 +10,10 @@
 - supporting loops?
 - developing a full application that allows for user testing
 - iTasks support?
+
+When a user requests a next step hint, the current task and state are passed to $\Hints$, together with the selected goal.
+The resulting set cannot directly be presented to the user.
+Pairs containing a concrete step ($\Continue,\Left,\Right$), can be given as hints without their path condition.
+Pairs containing a symbolic input as hint ($s,\First s,$ etc) should be presented with the path condition.
+Since the path condition contains all constraints of the symbolic execution, it may contain constraints on symbols other than the next step hint.
+These constraints should be removed from the information shown to the user, as they do not include useful information.
