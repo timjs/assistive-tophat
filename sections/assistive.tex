@@ -265,10 +265,11 @@ Performing this action will result in deadlock.
 \subsection{Implementation}
 \label{sec:implementation}
 
-\todo{Write this section (Tim).}
-% \lstset{language=Haskell}
-% \footnotesize\noindent%
-% \texttt{firsts :: MonadTrack Text m => MonadSupply Nat m => MonadState Heap m => MonadZero m =>}\\
-% \texttt{Val ('TyTask ('TyPrim t)) -> Goal t -> m ( Input, Pred 'TyPrimBool )}\\
-% %\texttt{firsts t g = [ ( i, p' ) | ( v, i:_, p ) <- simulate t [] Yes, let p' = p :/\: g v, satisfiable p' ]}
-% \normalsize
+%we have an implementation
+We added Assistive \TOPHAT to our existing implementation of symbolic \TOPHAT in Haskell.\footnote{https://github.com/timjs/symbolic-tophat-haskell}
+%it works like this
+We have defined the hints function in exactly the same way as in \cref{fig:hints}.
+It directly leverages the existing symbolic execution, which makes use the z3 smt solver.
+
+%our examples work in implementation
+The examples from \cref{sec:examples} have been tested in the implementation.
