@@ -126,6 +126,7 @@ This is enforced by validating the satisfiability ($\Sat$) of all path condition
 More formally, simulating a task for multiple user inputs is defined as follows.
 
 \begin{definition}[Simulation]
+  \label{def:simulation}
   Let $t$ and $\sigma$ be a concrete task and concrete state.
   We define the simulation relation
   \begin{equation*}
@@ -161,34 +162,33 @@ The definition above only allows finite executions by definition.
 \subsection{Next step hints observation}
 \label{sub:hints}
 
-%How do we do this?
-
-In order to calculate next step hints, first a goal must be formulated.
-Since we are concerned with the resulting task value, the goal must be a predicate over the resulting value.
-A task $\tilde{t}$ is considered done, as soon as it has an observable value $\tilde{v}$.
+%% How do we do this?
+As we have seen in \cref{def:simulation}, a symbolic task $\tilde{t}$ is considered done as soon as it has an observable value $\tilde{v}$.
+In order to calculate next step hints, one needs to formulate a goal over this resulting value.
+Only then, we can calculate next step hints for end users.
 
 \begin{figure}
+  \centering
   \usemacro{O-Hints}
   \caption{Definition of next step hint function.}
   \label{fig:hints}
 \end{figure}
 
-
 Hints are calculated by means of the $\Hints$ function listed in \cref{fig:hints}.
-As input it receives the task $t$ and state $\sigma$, together with the goal predicate $g$.
-First, the simulate function is called on the task and input.
-We only want to use the symbolic executions that satisfy the goal condition.
-Executions that satisfy the goal $g(\tilde{v})$ are selected.
-Since $\tilde{v}$ could contain symbols, it might be the case that $g(\tilde{v})$ is symbolic.
-Therefore, we also require that the conjunction with the path condition $\Phi$ is satisfiable ($\Sat(\Phi\land g(\tilde{v}))$).
+As input it receives a concrete task $t$ and concrete state $\sigma$ together with a goal predicate $g$.
+The hints observation simulates $t$ starting in $\sigma$.
+This results in a set of symbolic values $\tilde{v}$, together with a list of symbolic inputs $\tilde{I}$ and a condition $\Phi$ to reach this path.
+We only want to use the symbolic executions that satisfy the goal $g$ when applied to $\tilde{v}$.
+Since $\tilde{v}$ could contain symbols, it might be the case that $g(\tilde{v})$ is symbolic and would clash with the path condition $\Phi$.
+Therefore, we require that the conjunction of the path condition with the goal is satisfiable ($\Sat(\Phi\land g(\tilde{v}))$).
+From the executions that fulfil this requirement, we return the first symbolic input $\simi$ from the complete list of inputs $\simi\cdot\tilde{I}$,
+together with the full condition that must hold ($\Phi\land g(\tilde{v})$).
+The resulting set contains pairs of symbolic inputs guarded by this condition.
 
-From the executions that fulfil this requirement, we return the first symbolic input $\tilde{i}$ from the complete list of inputs $\tilde{i}::\tilde{I}$,
-together with the full condition that must hold ($\Sat(\Phi\land g(\tilde{v}))$).
-The resulting set contains pairs of symbolic input guarded by a condition.
-
-\cref{sub:assistive-tax} demonstrates on the basis of the tax example listed in \cref{sec:tax} how the results of the symbolic execution are used to construct automatic next step hints.
-\cref{sub:assistive-dining} shows how hints can be generated during the execution of the example \TOPHAT program listed in \cref{sec:dining}.
-Then in \cref{sec:implementation}, our implementation of \ASTOPHAT is presented.
+To get a better understanding how $\Hints$ works,
+we study it more concretely in the next subsections.
+\Cref{sub:assistive-tax} demonstrates on the basis of the tax example listed in \cref{sec:tax} how the results of the symbolic execution are used to construct automatic next step hints.
+\Cref{sub:assistive-dining} shows how hints can be generated during the execution of the example \TOPHAT program listed in \cref{sec:dining}.
 
 
 \subsection{Tax subsidy request}
@@ -350,11 +350,7 @@ We then find ourselves in the following situation.
 \end{minipage}\\
 \caption{Task, state and visual representation after two interactions}
 \end{figure}
-\fixme{REPLACE THIS IMAGE!}
-
-
-
-
+\todo{REPLACE THIS IMAGE!}
 
 Calling $\Hints(t,\sigma,g)$ will result in just one hint, namely $\tuple{\Second\Second\Continue,\True}$.
 
@@ -362,6 +358,3 @@ This means that the only step towards the goal $g$ is for Ada Lovelace to pick u
 Although it is also possible for Alan Turing to pick up the fork to his left, this step is not a valid hint.
 Performing this action will result in deadlock.
 
-
-\subsection{Implementation}
-\label{sec:implementation}
