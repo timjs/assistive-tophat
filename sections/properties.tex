@@ -50,7 +50,7 @@ Using the execute definition, we can state soundness and completeness for $\Simu
   \label{lem:soundsimulate}
   For all tasks $t$ and states $\sigma$
   such that $t,\sigma\simulate\overline{\tilde{v},\tilde{I},\Phi}$
-  then for all results $(\tilde{v},\tilde{I}=[\tilde{\imath}_0,\cdots,\tilde{\imath}_n],\Phi)$
+  then for all results $(\tilde{v},\tilde{I}=[\simi_0,\cdots,\simi_n],\Phi)$
   there exists a concrete input $I$ with the same length as the symbolic input $\tilde{I}$
   such that $t,\sigma\execute{I}v$
   with $[s_i\mapsto c_i]\tilde{v}=v$ and $[s_i\mapsto c_i]\Phi$
@@ -67,16 +67,16 @@ Using the execute definition, we can state soundness and completeness for $\Simu
   where $s_i\in\tilde{i_i}$ and $c_i\in i_i$.
 \end{lemma}
 
-Where $\tilde{\imath}\sim i$ is defined as follows.
+Where $\simi\sim i$ is defined as follows.
 
 \begin{definition}[Input simulation]
-  A symbolic input $\tilde{\imath}$ simulates a concrete input $i$ denoted as $\tilde{\imath}\sim i$ in the following cases.\\
+  A symbolic input $\simi$ simulates a concrete input $i$ denoted as $\simi\sim i$ in the following cases.\\
   $s\sim a$, where $s$ is a symbol and $a$ a concrete action.\\
-  $\tilde{\imath}\sim i\implies \First \tilde{\imath} \sim \First i$\\
-  $\tilde{\imath}\sim i\implies \Second \tilde{\imath} \sim \Second i$
+  $\simi\sim i\implies \First \simi \sim \First i$\\
+  $\simi\sim i\implies \Second \simi \sim \Second i$
 \end{definition}
 
-And $s\in \tilde{\imath}$ and $c\in i$ are defined as follows.\\
+And $s\in \simi$ and $c\in i$ are defined as follows.\\
 \\
 \noindent
 \begin{minipage}[c]{0.5\textwidth}
@@ -88,8 +88,8 @@ And $s\in \tilde{\imath}$ and $c\in i$ are defined as follows.\\
 \end{minipage}
 \begin{minipage}[c]{0.5\textwidth}
   \begin{definition}[Symbol from input]\\
-    $s\in \First \tilde{\imath} = s\in \tilde{\imath} $\\
-    $s\in \Second \tilde{\imath} = s\in \tilde{\imath} $\\
+    $s\in \First \simi = s\in \simi $\\
+    $s\in \Second \simi = s\in \simi $\\
     $s\in a = a $
   \end{definition}
 \end{minipage}\\
@@ -221,8 +221,8 @@ Now \cref{lem:sounddriving} and \cref{lem:completedriving} express soundness and
   \label{lem:sounddriving}
   For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
   we have that $t,\sigma\Consistent_M\tilde{t},\tilde{\sigma},\Phi$ implies
-  that for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi)$ in $\tilde{t},\tilde{\sigma}\siminteract\overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}$,
-  $\Sat(\Phi\land\phi)$ implies that there exists an input $i$ such that $\tilde{\imath}\sim i$,  $t,\sigma\interact{i}t',\sigma'$ and $t',\sigma' \Consistent_{M.[s\mapsto c]} \tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{\imath}$ and $c\in i$.
+  that for all pairs $(\tilde{t}',\tilde{\sigma}',\simi,\phi)$ in $\tilde{t},\tilde{\sigma}\siminteract\overline{\tilde{t}',\tilde{\sigma}',\simi,\phi}$,
+  $\Sat(\Phi\land\phi)$ implies that there exists an input $i$ such that $\simi\sim i$,  $t,\sigma\interact{i}t',\sigma'$ and $t',\sigma' \Consistent_{M.[s\mapsto c]} \tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\simi$ and $c\in i$.
 \end{lemma}
 
 \begin{lemma}[Completeness of driving]
@@ -230,8 +230,8 @@ Now \cref{lem:sounddriving} and \cref{lem:completedriving} express soundness and
   For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
   we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$ implies
   that for all inputs $i$ such that $t,\sigma\interact{i}t',\sigma'$,
-  there exists a symbolic input $\tilde{\imath}$, $\tilde{\imath}\sim i$ such that
-  $\tilde{t},\tilde{\sigma}\siminteract\overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}$, $\Sat(\Phi\land\phi)$ and $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{\imath}$ and $c\in i$.
+  there exists a symbolic input $\simi$, $\simi\sim i$ such that
+  $\tilde{t},\tilde{\sigma}\siminteract\overline{\tilde{t}',\tilde{\sigma}',\simi,\phi}$, $\Sat(\Phi\land\phi)$ and $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\simi$ and $c\in i$.
 \end{lemma}
 
 In other words, if a symbolic and concrete task and state are related, they will still be related after (symbolic) handling.
@@ -260,16 +260,16 @@ We separate these requirements into two lemma's, namely soundness and completene
   \label{thm:soundhint}
 
 For all tasks $t$, states $\sigma$ and goals $g$,
-for every next step hint $(\tilde{\imath},\Phi)$ in $\Hints(t,\sigma,g)$,
-there exists a sequence of inputs $I$ and input $i$ such that $\tilde{\imath}\sim i$,
+for every next step hint $(\simi,\Phi)$ in $\Hints(t,\sigma,g)$,
+there exists a sequence of inputs $I$ and input $i$ such that $\simi\sim i$,
 $\Sat([s\mapsto c]\Phi)$, $t,\sigma\interact{i} t',\sigma'\execute{I} v$ and $gv$.
 \end{theorem}
 
 \begin{theorem}[Completeness of hints]
   \label{thm:completehint}
   For all tasks $t$, states $\sigma$, lists of input $(i:is)$ and goals $g$,
-  if $t,\sigma,\execute{i:is} v$ and $g v$, then there exists a symbolic input $\tilde{\imath}$ and path condition $\Phi$
-  such that $(\tilde{\imath},\Phi)\in\Hints(t,\sigma)$ with $\tilde{\imath}\sim i$ and $\Sat([s\mapsto c]\Phi)$ with $c\in i$ and $s\in i$.
+  if $t,\sigma,\execute{i:is} v$ and $g v$, then there exists a symbolic input $\simi$ and path condition $\Phi$
+  such that $(\simi,\Phi)\in\Hints(t,\sigma)$ with $\simi\sim i$ and $\Sat([s\mapsto c]\Phi)$ with $c\in i$ and $s\in i$.
 \end{theorem}
 
 
@@ -278,15 +278,15 @@ The proofs of these two threorems are quite straight forward.
 \begin{proof}[\cref{thm:soundhint}]
   \cref{thm:soundhint} follows from the definition of $\Hints$ and \cref{lem:soundsimulate} as follows.
 
-  The definition of $\Hints$ gives us that for every pair $(\tilde{\imath},\Phi)$ produced by $\Hints$,
-  there exists a pair $(\tilde{v},\tilde{\imath}:\tilde{is},\Phi)$ with $\Sat(\Phi\land g \tilde{v})$.
+  The definition of $\Hints$ gives us that for every pair $(\simi,\Phi)$ produced by $\Hints$,
+  there exists a pair $(\tilde{v},\simi:\tilde{is},\Phi)$ with $\Sat(\Phi\land g \tilde{v})$.
   Then by \cref{lem:soundsimulate} we have that there exists a sequence of concrete inputs $I$ such that
   $t,\sigma\execute{I}v$ and $g v$.
 \end{proof}
 
 
 \begin{proof}[\cref{thm:completehint}]
-  In order to prove that $i$ is contained in $\Hints(t,\sigma)$, we need to show that $(\tilde{v},\tilde{\imath}:\tilde{is},\Phi)\in t,\sigma\simulate$, with $\tilde{\imath}\sim i$ and $\Sat([s_0\mapsto c_0,\cdots,s_n\mapsto c_n]\land g\tilde{v})$, where $[c_0,\cdots,c_n]\in i:is$ and $[s_0,\cdots,s_n]\in \tilde{\imath}:\tilde{is}$.
+  In order to prove that $i$ is contained in $\Hints(t,\sigma)$, we need to show that $(\tilde{v},\simi:\tilde{is},\Phi)\in t,\sigma\simulate$, with $\simi\sim i$ and $\Sat([s_0\mapsto c_0,\cdots,s_n\mapsto c_n]\land g\tilde{v})$, where $[c_0,\cdots,c_n]\in i:is$ and $[s_0,\cdots,s_n]\in \simi:\tilde{is}$.
 
-  By \cref{lem:completesimulate}, we directly obtain that this indeed exists. Therefore we know that $\tilde{\imath}$ and $\Phi$ exist.
+  By \cref{lem:completesimulate}, we directly obtain that this indeed exists. Therefore we know that $\simi$ and $\Phi$ exist.
 \end{proof}

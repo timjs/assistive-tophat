@@ -41,7 +41,7 @@ we can leverage the already existing symbolic execution for \STOPHAT in the prac
 % To check if this goal is achievable, we make use of symbolic execution.
 A symbolic execution semantics~\cite{King1975,Boyer1975} aims to execute a program without knowing its input.
 Instead, symbols are fed into the program.
-During evaluation, symbolic execution records path conditions.
+During evaluation, the influence of values is recorded in the path condition.
 The symbolic results together with the path conditions can be used to prove properties of the program.
 
 \begin{TASK}[
@@ -108,7 +108,7 @@ Instead of stepping to one result, they lead to a set of possible results, accom
 
 We denote entities containing symbols with an additional tilde,
 and symbolic semantic relations with squiggly arrows instead of straight ones.
-So $\tilde{t}$, $\tilde{\sigma}$, and $\tilde{\imath}$ are respectively tasks, states, and inputs containing symbols.
+So $\tilde{t}$, $\tilde{\sigma}$, and $\simi$ are respectively tasks, states, and inputs containing symbols.
 \Cref{tab:semantic-relations} gives an overview of entities in the concrete world,
 and their symbolic counterparts.
 \todo{Caption.}
@@ -138,15 +138,15 @@ More formally, simulating a task for multiple user inputs is defined as follows.
   to be the set of results after performing symbolic interaction $n$ times:
   \begin{equation*}
       t,\sigma
-        \siminteract \tilde{t}_1,\tilde{\sigma}_1,\tilde{\imath}_1,\phi_1
+        \siminteract \tilde{t}_1,\tilde{\sigma}_1,\simi_1,\phi_1
         \siminteract \cdots
-        \siminteract \tilde{t}_n,\tilde{\sigma}_n,\tilde{\imath}_n,\phi_n
+        \siminteract \tilde{t}_n,\tilde{\sigma}_n,\simi_n,\phi_n
   \end{equation*}
   where:
   \begin{itemize}
     \item the $n$th task has a value: $\Value(\tilde{t}_n,\tilde{\sigma}_n) = \tilde{v}$;
     \item all tasks before do not have a value: $\Value(\tilde{t}_{i<n},\tilde{\sigma}_{i<n}) = \bot$;
-    \item $\tilde{I} = \tilde{\imath}_1 \cdots \tilde{\imath}_n$ is the concatenation of all symbolic inputs generated along the way;
+    \item $\tilde{I} = \simi_1 \cdots \simi_n$ is the concatenation of all symbolic inputs generated along the way;
     \item $\Phi = \phi_1 \land \cdots \land \phi_n$, is the conjunction of all path conditions encountered.
   \end{itemize}
   Furthermore we require that:

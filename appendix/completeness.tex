@@ -15,22 +15,22 @@
   which is defined as follows.
 
   \begin{align*}
-      t,\sigma\interact{}&\tilde{t}_1,\tilde{\sigma}_1,\tilde{\imath}_1,\phi_1&\\
-                      &\tilde{t}_1,\tilde{\sigma}_1\interact{}&\tilde{t}_2,\tilde{\sigma}_2,\tilde{\imath}_2,\phi_2\\
+      t,\sigma\interact{}&\tilde{t}_1,\tilde{\sigma}_1,\simi_1,\phi_1&\\
+                      &\tilde{t}_1,\tilde{\sigma}_1\interact{}&\tilde{t}_2,\tilde{\sigma}_2,\simi_2,\phi_2\\
                       &                                    &\tilde{t}_2,\tilde{\sigma}_2\interact{}&\cdots&\\
                       &                                    &                                    &\cdots&
-                      \interact{}\tilde{t}_n,\tilde{\sigma}_n,\tilde{\imath}_n,\phi_n
+                      \interact{}\tilde{t}_n,\tilde{\sigma}_n,\simi_n,\phi_n
   \end{align*}
 
   with $\Value(\tilde{t}_n,\tilde{\sigma}_n)=\tilde{v}$ and $\Sat(\phi_1\land\cdots\land\phi_n)$.
 
-  By \cref{lem:completedriving}, we know that $t,\sigma\interact{}\tilde{t}_1,\tilde{\sigma}_1,\tilde{\imath}_1,\phi_1$ exists,
+  By \cref{lem:completedriving}, we know that $t,\sigma\interact{}\tilde{t}_1,\tilde{\sigma}_1,\simi_1,\phi_1$ exists,
   since $t,\sigma,t\Consistent_{\emptyset}\sigma,\True$.
-  This also gives us that $\tilde{\imath}_1\sim i_1$ and $t_1,\sigma_1\Consistent_{[s_1\mapsto c_1]}\tilde{t}_1,\tilde{\sigma}_1,\phi_1$ with $s_1\in\tilde{\imath}_1$ and $c_1\in i_1$.
+  This also gives us that $\simi_1\sim i_1$ and $t_1,\sigma_1\Consistent_{[s_1\mapsto c_1]}\tilde{t}_1,\tilde{\sigma}_1,\phi_1$ with $s_1\in\simi_1$ and $c_1\in i_1$.
 
   By repeated application of \cref{lem:completedriving}, untill we arrive at $t_n,\sigma_n$,
   we can show that there exists a $\tilde{I}$ such that $t,\sigma\interact{}^*\tilde{t}_n,\tilde{\sigma}_n,\tilde{I},\Phi$,
-  namely $[\tilde{\imath}_1,\cdots,\tilde{\imath}_n]$.
+  namely $[\simi_1,\cdots,\simi_n]$.
 
 \end{proof}
 
@@ -39,8 +39,8 @@
   For all concrete tasks $t$, concrete states $\sigma$, concrete inputs $i$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
   we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$ and
   $t,\sigma\handle{i}t',\sigma'$ together with
-  $\tilde{t},\tilde{\sigma}\simhandle\overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}$,
-  and for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi)$ we have that $\Sat(\Phi\land\phi)$ and $\imath\sim i$ implies $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{\imath}$ and $c\in i$.
+  $\tilde{t},\tilde{\sigma}\simhandle\overline{\tilde{t}',\tilde{\sigma}',\simi,\phi}$,
+  and for all pairs $(\tilde{t}',\tilde{\sigma}',\simi,\phi)$ we have that $\Sat(\Phi\land\phi)$ and $\imath\sim i$ implies $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\simi$ and $c\in i$.
 \end{lemma}
 
 \begin{lemma}[Completeness of normalisation]
