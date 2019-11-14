@@ -22,7 +22,7 @@ we can create a vending machine that dispenses a biscuit for one coin and a choc
     caption={Vending machine dispensing biscuits or chocolate.},
     captionpos=b,
     label=lst:vending]
-  let vend : Task Snack = edit 0 >>? \n. $\label{lst:vend:enter}$
+  let vend : Task Snack = edit 0 >>? \n.    $\label{lst:vend:enter}$
     if n == 1 then edit Biscuit             $\label{lst:vend:branch}$
     else if n == 2 then edit ChocolateBar
     else fail                               $\label{lst:vend:fail}$
