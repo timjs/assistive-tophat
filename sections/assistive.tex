@@ -1,23 +1,44 @@
 % !TEX root=../main.tex
 
-\section{Generating hints for TopHat}
+\section{Generating next step hints}
 \label{sec:assistive}
-The section introduces our \ASTOPHAT system.
+
+This section introduces our \ASTOPHAT system.
 %What do we wanna do?
-The goal of \ASTOPHAT is to provide next step hints, that brings users closer to their goal.
-During the execution of a \TOPHAT program, users are presented with input fields, choices and continue buttons.
-The way in which the task progresses and the resulting task value depends on their input.
-For any point in the execution, we want to present the user with all options that are on the path to the goal that they have selected.
-These options are either concrete steps, like continue, pick the left task or pick the right task,
-or a value to be entered into an editor.
-Since the concrete value also influences the flow of the program, these values can come with restrictions.
-For example, enter an integer, but this integer must be larger than zero.
+The aim of \ASTOPHAT is to provide next step hints.
+When users follow these hints, they can be sure they will reach the goal they described beforehand.
+Users can, however, still decide to deviate from the given hints.
 
-\subsection{Symbolic execution of TopHat}
-\label{sec:symbolic}
+During the execution of \TOPHAT programs, users are presented with input fields, choices and continue buttons.
+The way in which tasks progress and the resulting task value depend on these inputs.
+At any point during execution, we like to present users with all possible inputs that lead to the goal they have selected.
+These inputs are either concrete actions, like continue, pick the left task, or pick the right task;
+or a restricted set of values to be entered into an editor.
+This set is restricted, because concrete values also influences the flow of the program.
+For example, one should enter an integer, but this integer must be larger than zero to reach the end goal.
 
-Our goal is to provide end users with next step hints in such a way that, whey they follow up those hints, they will reach a specified goal.
-To check if this goal is achievable, we make use of symbolic execution.
+To come to these concrete actions and restricted values, we make use of symbolic execution.
+In the next two sections, we shortly describe how symbolic execution for \TOPHAT works
+and recap its symbolic semantics presented in earlier work~\cite{Naus2019}.
+Thereafter, we show how to turn symbolic execution results into next step hints.
+In \cref{sub:symbolic-tax,sub:symbolic-dining}, we study how these automatically generated hints influence the execution of the examples from \cref{sec:examples}.
+
+%% Our examples work in implementation
+All examples have been tested in our implementation.
+%% We have an implementation
+We added \ASTOPHAT to our implementation of \STOPHAT, which is written in Haskell.\footnote{https://github.com/timjs/symbolic-tophat-haskell}
+It uses the \ZTHREE \SMT solver under the hood.
+%% It works like this
+By defining the hints function in exactly the same way as we will present below, % in \cref{fig:hints},
+it directly leverages the already existing symbolic execution for \STOPHAT.
+
+
+\subsection{Symbolic execution}
+\label{suc:symbolic-execution}
+
+%%TS: dubbel op
+% Our goal is to provide end users with next step hints in such a way that, whey they follow up those hints, they will reach a specified goal.
+% To check if this goal is achievable, we make use of symbolic execution.
 A symbolic execution semantics~\cite{King1975,Boyer1975} aims to execute a program without knowing its input.
 Instead, symbols are fed into the program.
 During evaluation, symbolic execution records path conditions.
@@ -39,32 +60,33 @@ where the second element is larger then the first.
 When we run this program symbolically, we have to create fresh symbols for both editors, say $s_0$ and $s_1$ respectively.
 Continuing normalisation, there are two possible outcomes, namely
 \begin{itemize}
-  \item $\tuple{s_1,s_0}$, provided that the path condition $\phi = s_0 > s_1 = s_1 < s_0$ holds; or
-  \item $\tuple{s_0,s_1}$, with path condition $\phi = \lnot (s_0 > s_1) = s_0 \leq s_1$.
+  \item $\tuple{s_1,s_0}$, provided that the path condition $\phi_1 = s_0 > s_1 = s_1 < s_0$ holds; or
+  \item $\tuple{s_0,s_1}$, with path condition $\phi_2 = \lnot (s_0 > s_1) = s_0 \leq s_1$.
 \end{itemize}
 
-Now, the property that we want to prove for this program is that no matter what the input is, the second element should always be larger than the first,
-which we write as $\psi(\<a, b\>)= a \leq b$.
-Looking at the two symbolic runs, we can immediately conclude that this property holds.
-\todo{Goal of next sentences? –TS}
-Of course this is a trivial example, one can conclude or even prove that the property holds without symbolic execution.
-But when applying this technique to larger programs, it is a powerful tool to show that a program behaves as expected.
-\cref{sec:assistivedining,sec:assistivetax} illustrates this by applying symbolic execution to larger examples.
+Now, the property that we want to prove for this program is that no matter what the input is, the second element should always be larger than the first.
+We write this goal property as $\psi(\<a, b\>)= a \leq b$.
+Looking at the two symbolic runs, $\phi_1$ and $\phi_2$ are satisfiable, written $\Sat(\phi_1)$ and $\Sat(\phi_2)$, and conform to the goal property $\psi$.
+Therefore, we can conclude that the goal property holds.
+%
+% Of course this is a trivial example, one can conclude or even prove that the property holds without symbolic execution.
+% \cref{sec:assistivedining,sec:assistivetax} illustrates this by applying symbolic execution to larger examples.
+When applying this technique to larger programs, it is a powerful tool to show that a program behaves as expected.
+\todo{Describe pruning of branches which do not satisfy.}
 
-\todo{Describe pruning of branches which do not satisfy and introduce $\Sat$.}
 
+\subsection{Symbolic semantics}
+\label{sub:symbolic-semantics}
 
-\subsection{Symbolic semantics for TopHat}
+To support symbolic execution in \TOPHAT, we extend our host language with symbols.
+Also, we need to modify the semantics described in \cref{sub:semantics}, to accommodate symbolic execution.
+The observation functions from \cref{sub:observations} are extended in a similar way.
+These new semantic relations operate on expressions which may contain symbols.
+Instead of stepping to one result, they lead to a set of possible results, accompanied with a path condition $\phi$.
 
-To support symbolic execution in \TOPHAT, we extend our language with symbols.
-We denote entities containing symbols with an additional tilde,
-so $\tilde{t}$, $\tilde{\sigma}$, and $\tilde{\i}$ are respectively tasks, states, and inputs containing symbols.
-% The semantics mentioned in \cref{sub:semantics} needs to be extended to support symbols.
-In the symbolic world, the arrows presented in \cref{sub:semantics} have a squiggly symbolic counterpart.
-
-\begin{table}
+\begin{table}[ht]
   \caption{}
-  \label{}
+  \label{tab:semantic-relations}
   \centering
   \begin{tabular}{l@{\Quad}L@{\Quad}L}
     \toprule
@@ -78,61 +100,70 @@ In the symbolic world, the arrows presented in \cref{sub:semantics} have a squig
     Evaluation    & \RelationE      & \RelationSE \\
     Normalisation & \RelationN      & \RelationSN \\
     Striding      & \RelationS      & \RelationSS \\
-    Interacting   & \RelationI      & \RelationSI \\
     Handling      & \RelationH      & \RelationSH \\
+    Interacting   & \RelationI      & \RelationSI \\
     \bottomrule
   \end{tabular}
 \end{table}
 
+We denote entities containing symbols with an additional tilde,
+and symbolic semantic relations with squiggly arrows instead of straight ones.
+So $\tilde{t}$, $\tilde{\sigma}$, and $\tilde{\imath}$ are respectively tasks, states, and inputs containing symbols.
+\Cref{tab:semantic-relations} gives an overview of entities in the concrete world,
+and their symbolic counterparts.
+\todo{Caption.}
+%
+Note that concrete expressions are a subset of symbolic expressions.
+Therefore, symbolic semantic relations can be applied on concrete expressions,
+as well as on symbolic expressions.
 
-The same holds for the observation functions.
-The simulation that drives the symbolic execution an now be defined as follows.
-
-\todo{Say something about inclusions:
-  $t\subset \tilde{t}$,
-  $\sigma \subset \tilde{\sigma}$,
-  $i\subset \tilde{\imath}$
-}
+The symbolic interaction semantics ($\siminteract$) results in just one symbolic input.
+In other words, it just looks ahead one symbolic interaction.
+To be able to reason about an end goal after multiple symbolic interactions,
+we introduce the notion of \emph{simulation}.
+Informally, simulation performs multiple symbolic interactions after each other,
+till the moment the rewritten task has an observable value.
+I.e. if $n$ is the number of interactions needed to be done,
+$\Value(t_i', \sigma_i')$ has a result for $i = n$ but is undefined for all $i < n$.
+Next to that, we want to permit only viable executions.
+This is enforced by validating the satisfiability ($\Sat$) of all path condition together.
+More formally, simulating a task for multiple user inputs is defined as follows.
 
 \begin{definition}[Simulation]
-  $t,\sigma\simulate \overline{\tilde{v},\tilde{I},\Phi}$ where
-
-  \begin{minipage}[c]{0.4\textwidth}
-    \begin{align*}
-      t,\sigma             & \siminteract  \overline{\tilde{t}_1,\tilde{\sigma}_1,\tilde{\imath}_1,\phi_1}\\
-      \tilde{t}_1,\tilde{\sigma}_1         & \siminteract  \overline{\tilde{t}_2,\tilde{\sigma}_2,\tilde{\imath}_2,\phi_2}\\
-                           & \hspace{2mm}\vdots    \\
-      \tilde{t}_{n-1},\tilde{\sigma}_{n-1} & \siminteract{}  \overline{\tilde{t}_n,\tilde{\sigma}_n,\tilde{\imath}_n,\phi_n}
-    \end{align*}
-\end{minipage}
-\begin{minipage}[c]{0.1\textwidth}
-  \Quad
-\end{minipage}
-\begin{minipage}[c]{0.3\textwidth}
-  \begin{align*}
-    \text{With }& \Value(\tilde{t}_n,\tilde{\sigma}_n)=\tilde{v}\\
-    &\Value(\tilde{t}_{i<n},\tilde{\sigma}_{i<n})=\bot\\
-    &\tilde{I}=\tilde{\imath}_1,\cdots,\tilde{\imath}_n\\
-    &\Phi = \phi_1\land\cdots\land\phi_n\\
-    &\Sat(\Phi)
-  \end{align*}
-\end{minipage}
+  Let $t$ and $\sigma$ be a concrete task and concrete state.
+  We define the simulation relation
+  \begin{equation*}
+    t,\sigma \simulate \overline{\tilde{v},\tilde{I},\Phi}
+  \end{equation*}
+  to be the set of results after performing symbolic interaction $n$ times:
+  \begin{equation*}
+      t,\sigma
+        \siminteract \tilde{t}_1,\tilde{\sigma}_1,\tilde{\imath}_1,\phi_1
+        \siminteract \cdots
+        \siminteract \tilde{t}_n,\tilde{\sigma}_n,\tilde{\imath}_n,\phi_n
+  \end{equation*}
+  where:
+  \begin{itemize}
+    \item the $n$th task has a value: $\Value(\tilde{t}_n,\tilde{\sigma}_n) = \tilde{v}$;
+    \item all tasks before do not have a value: $\Value(\tilde{t}_{i<n},\tilde{\sigma}_{i<n}) = \bot$;
+    \item $\tilde{I} = \tilde{\imath}_1 \cdots \tilde{\imath}_n$ is the concatenation of all symbolic inputs generated along the way;
+    \item $\Phi = \phi_1 \land \cdots \land \phi_n$, is the conjunction of all path conditions encountered.
+  \end{itemize}
+  Furthermore we require that:
+  \begin{itemize}
+    \item the resulting predicate is satisfiable: $\Sat(\Phi)$.
+  \end{itemize}
 \end{definition}
-
-Here, $t$ is the task program to be symbolically executed, under state $\sigma$,
-resulting in a set of tuples containing the resulting symbolic value $\tilde{v}$, a list of symbolic inputs $\tilde{I}$ and a path condition $\Phi$ for that specific execution.
-
-Only viable executions are permitted, this is enforced by validating the satisfiability of the path condition, denoted as $\Sat(\Phi)$.
 
 The simulation definition used in this paper differs from the one in previous work~\cite{Naus2019}.
 Previously, infinite symbolic executions were filtered out by allowing two steps look-ahead in case of idempotent executions.
 The definition above only allows finite executions by definition.
 
-\todo{use vending machine example to illustrate symbolic tophat (?)}
+\todo{Use vending machine example to illustrate \STOPHAT?}
 
 
-
-\subsection{}
+\subsection{Next step hints observation}
+\label{sub:hints}
 
 %How do we do this?
 
@@ -338,12 +369,3 @@ Performing this action will result in deadlock.
 
 \subsection{Implementation}
 \label{sec:implementation}
-
-%we have an implementation
-We added \ASTOPHAT to our existing implementation of symbolic \TOPHAT in Haskell.\footnote{https://github.com/timjs/symbolic-tophat-haskell}
-%it works like this
-We have defined the hints function in exactly the same way as in \cref{fig:hints}.
-It directly leverages the existing symbolic execution, which makes use the z3 smt solver.
-
-%our examples work in implementation
-The examples from \cref{sec:examples} have been tested in the implementation.
