@@ -2,9 +2,9 @@
 
 \section{Generating hints for TopHat}
 \label{sec:assistive}
-The section introduces our Assistive \TOPHAT system.
+The section introduces our \ASTOPHAT system.
 %What do we wanna do?
-The goal of Assistive \TOPHAT is to provide next step hints, that brings users closer to their goal.
+The goal of \ASTOPHAT is to provide next step hints, that brings users closer to their goal.
 During the execution of a \TOPHAT program, users are presented with input fields, choices and continue buttons.
 The way in which the task progresses and the resulting task value depends on their input.
 For any point in the execution, we want to present the user with all options that are on the path to the goal that they have selected.
@@ -161,8 +161,8 @@ From the executions that fulfil this requirement, we return the first symbolic i
 together with the full condition that must hold ($\Sat(\Phi\land g(\tilde{v}))$).
 The resulting set contains pairs of symbolic input guarded by a condition.
 
-\cref{sec:assistivedining,sec:assistivetax} describe the application of assistive \TOPHAT to two examples from \cref{sec:examples}.
-Then in \cref{sec:implementation}, our implementation of assistive \TOPHAT is presented.
+\cref{sec:assistivedining,sec:assistivetax} describe the application of \ASTOPHAT to two examples from \cref{sec:examples}.
+Then in \cref{sec:implementation}, our implementation of \ASTOPHAT is presented.
 
 
 \subsection{Tax subsidy request}
@@ -266,7 +266,7 @@ Performing this action will result in deadlock.
 \label{sec:implementation}
 
 %we have an implementation
-We added Assistive \TOPHAT to our existing implementation of symbolic \TOPHAT in Haskell.\footnote{https://github.com/timjs/symbolic-tophat-haskell}
+We added \ASTOPHAT to our existing implementation of symbolic \TOPHAT in Haskell.\footnote{https://github.com/timjs/symbolic-tophat-haskell}
 %it works like this
 We have defined the hints function in exactly the same way as in \cref{fig:hints}.
 It directly leverages the existing symbolic execution, which makes use the z3 smt solver.

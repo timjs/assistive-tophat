@@ -43,7 +43,7 @@ The reference implementation is the \ITASKS framework~\cite{DBLP:conf/ppdp/Plasm
 which is an embedded domain specific language in the non-strict functional programming language Clean~\cite{plasmeijer2002clean}.
 \MTASKS~\cite{DBLP:conf/cgo/KoopmanLP18} is a \TOP implementation specifically designed for embedded systems.
 A formalisation of \TOP, called \TOPHAT (TopHat), has been created by Steenvoorden, Naus, and Klinik~\cite{DBLP:conf/ppdp/SteenvoordenNK19}.
-Assistive \TOPHAT builds on \TOPHAT and its symbolic counterpart \STOPHAT~\cite{Naus2019}.
+\ASTOPHAT builds on \TOPHAT and its symbolic counterpart \STOPHAT~\cite{Naus2019}.
 
 \todo{Say that this makes the language \emph{total}!}
 \TOPHAT implements \TOP by embedding a task language in the simply typed lambda calculus with references, conditionals, and pairs.
@@ -121,7 +121,7 @@ When the right hand side of a step combinator evaluates to $\Fail$, the step wil
 
 Several observations can be made on tasks.
 These observations are used by the system to determine the progress of combinators,
-to draw the user interface, and they will also be used by Assistive \TOPHAT to provide next step hints.
+to draw the user interface, and they will also be used by \ASTOPHAT to provide next step hints.
 
 Using the value function $\Value$, the current value of a task can be determined.
 The value function is a partial function, since not all tasks have a value.
