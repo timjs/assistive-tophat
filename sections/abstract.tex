@@ -1,25 +1,25 @@
 % !TEX root=../main.tex
 
 % Context
-Software modelling business workflows are omnipresent in today's society.
-They coordinate collaboration in hospitals, companies, and military institutions.
+Software that models business workflows is omnipresent in today's society.
+These systems coordinate collaboration in hospitals, companies, and military institutions.
 % Inquiry
-These systems obfuscate the influence of current user actions on the desired end result.
+Unfortunately, workflow systems obfuscate the influence of current user actions on the desired end result.
 In order to make the right decision, users need to oversee the full process and all information available,
-both of which are usually buried deep down in the system.
-
+both of which are usually buried in the system.
+%spend one sentence introducing TOP
 % Approach
 We have developed a way to automatically generate next step hints for task oriented programs.
+Task oriented programming provides programmers with an abstraction over workflow software, while still being expressive enough to describe real world collaboration.
 By leveraging symbolic execution, we can calculate these hints without modification of the original program.
 % Knowledge
-To our knowledge this is the first time that symbolic execution is used to automatically generate next step hints for end users.
+To our knowledge, this is the first time that symbolic execution is used to automatically generate next step hints for end users.
 % Grounding
 We prove the generated hints to be sound and complete,
 and also demonstrate that the symbolic execution semantics we employ is correct for sequential input.
-Additionally, we implemented next step hint generation for TopHat programs, a formal system for task oriented programming, in Haskell.
-
+In addition, we have developed a Haskell implementation of our automatic next step hint generation system.
 % Importance
-Next step hints reduce the chance of human error, while still allowing end users to intervene if required.
+By providing next step hints, the chance of human error is reduced, while still allowing end users to intervene if required.
 The overall performance is raised, since the quality of decisions will improve.
 
 % Context: What is the broad context of the work? What is the importance of the general research area?
