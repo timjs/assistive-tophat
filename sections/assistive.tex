@@ -159,7 +159,8 @@ From the executions that fulfil this requirement, we return the first symbolic i
 together with the full condition that must hold ($\Sat(\Phi\land g(\tilde{v}))$).
 The resulting set contains pairs of symbolic input guarded by a condition.
 
-\cref{sec:assistivedining,sec:assistivetax} describe the application of \ASTOPHAT to two examples from \cref{sec:examples}.
+\cref{sec:assistivetax} demonstrates on the basis of the tax example listed in \cref{sec:tax} how the results of the symbolic execution are used to construct automatic next step hints.
+\cref{sec:assistivedining} shows how hints can be generated during the execution of the example \TOPHAT program listed in \cref{sec:dining}.
 Then in \cref{sec:implementation}, our implementation of \ASTOPHAT is presented.
 
 
@@ -168,15 +169,11 @@ Then in \cref{sec:implementation}, our implementation of \ASTOPHAT is presented.
 
 %recall
 \cref{sec:tax} lists an example program in \TOPHAT for applying for a solar panel tax refund.
+The user enters the invoice date and invoice amount, the installation company confirms, and finally the tax officer either approves or denies the request.
 
-%what hints do we want to give?
-In order to calculate next step hints for the end-user, we employ the $\Hints$ function.
-
-%write the goal
-The goal of the user, receiving a refund larger than zero, can be formulated as $\lambda \tuple{v,\_,\_,\_,\_}\rightarrow v>0$.
-
-%what does the result of H look like?
-When we run the simulation function $\simulate$, we obtain all symbolic results, as listed in \cref{table:tax}.
+In this section, we will demonstrate what symbolic execution looks like for this example, and how we generate next step hints from the symbolic execution results.
+First, we call the simulate function $\simulate$ on the program, with an empty state.
+The resulting set of symbolic executions is listed in \cref{table:tax}.
 
 \begin{table}[ht]
   \centering
@@ -205,21 +202,33 @@ When we run the simulation function $\simulate$, we obtain all symbolic results,
     \tuple{                        0,  \False,\False, s_{\id{i}}, \Today} & [\First \First s_{\id{a}}, \Second, \First \Second s_{\id{i}}, \First]  & \True \\
     \bottomrule
   \end{tabular}
-  \caption{}
+  \caption{The results of running the simulate function on the program from \cref{lst:tax}.}
   \label{table:tax}
 \end{table}
-\todo{What shall we do with this table?}
-\todo{Caption!}
 
-The top half of the table shows all symbolic runs.
-When we filter on the goal $g$, we obtain the bottom selection.
-From these runs, we can conclude that invoiceAmount should be larger than zero in order for the result to be larger than zero. This results in an additional constraint.
-\todo{complete this section}
-% In the end, we can use the above to give hints to the user.
-%
-% First, a date must be entered. Then the user can choose to ender an amount larger than zero, a date that is within 365 from now, or a "RL".
-% etc.
+Each line represents one symbolic execution.
+In the first column, the resulting symbolic value $\tilde{v}$ is listed.
+The second column lists the symbolic input $\tilde{I}$ that was produced to arrive at that value, followed by the path condition $\Phi$.
+The symbolic values that are produced are $s_i$ for the invoice date and $s_a$ for the invoice amount.
 
+The definition of $\Hints$ describes how these results should be used in order to calculate next step hints.
+First of all, we need a goal $g$ to select the symbolic runs that we are interested in.
+The most straight forward goal would be that we want to end up in a situation where we get a subsidy amount larger than zero.
+This goal can be formulated as $\lambda \tuple{v,\_,\_,\_,\_}\rightarrow v>0$.
+
+The first six symbolic runs listed in \cref{table:tax} fulfil the goal condition.
+From those runs, we then take the first symbolic input, together with the path condition, in conjunction with the path condition applied to the goal.
+
+After removing duplicates and redundant information, the result of $\Hints$ is as follows.
+
+\begin{align*}
+  \tuple{&\First \First s_{\id{a}},  &&(\min\ 600\ (s_{\id{a}}/10)) > 0} &\\
+  \tuple{&\First \Second s_{\id{i}}, &&(\Today-s_{\id{i}}) < \OneYear} &\\
+  \tuple{&\Second \First,            &&\True} &
+\end{align*}
+
+
+\todo{write conclusion}
 
 \subsection{Dining Computer Scientists}
 \label{sec:assistivedining}
@@ -241,19 +250,86 @@ Let us assume that both Grace Hopper and Ada Lovelace have already picked up the
 We then find ourselves in the following situation.
 
 
-\begin{align*}
-t =\ &\text{scientist} "\text{Alan Turing}" \text{fork0}\ \text{fork1} \And\\
-    &\unit \Next \lambda \unit .\\
-    &\Quad \If{!\text{fork2}}{\text{fork1} := \True}{\Fail} \And\\
-    &\unit \Next \lambda \unit .\\
-    &\Quad \If{!\text{fork0}}{\text{fork2} := \True}{\Fail} Then \lambda \_.\\
-    &\Quad \Edit "\text{Full bellies}"\\
-\sigma =\ &\{\text{fork0}\mapsto \True, \text{fork1}\mapsto \False,\text{fork2}\mapsto \False\}
-\end{align*}
+\begin{figure}
+  \centering
+\begin{minipage}[r]{0.55\textwidth}
 
-Calling $\Hints(t,\sigma,g)$ will result in the following set.
+  \begin{align*}
+  t =\ &\text{scientist} "\text{Alan Turing}" \text{fork0}\ \text{fork1} \And\\
+      &\unit \Next \lambda \unit .\\
+      &\Quad \If{!\text{fork2}}{\text{fork1} := \True}{\Fail} \And\\
+      &\unit \Next \lambda \unit .\\
+      &\Quad \If{!\text{fork0}}{\text{fork2} := \True}{\Fail} Then \lambda \_.\\
+      &\Quad \Edit "\text{Full bellies}"\\
+  \sigma =\ &\{\text{fork0}\mapsto \True, \text{fork1}\mapsto \False,\text{fork2}\mapsto \False\}
+  \end{align*}
 
-$\{ \tuple{\Second\Second\Continue,\True}\}$
+\end{minipage}
+\begin{minipage}[r]{0.05\textwidth}
+  \
+\end{minipage}
+\begin{minipage}[r]{0.3\textwidth}
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
+
+  \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-0.5,xscale=0.5]
+  %uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+
+  %Shape: Circle [id:dp8519268538531043]
+  \draw   (229,147.5) .. controls (229,90.89) and (274.89,45) .. (331.5,45) .. controls (388.11,45) and (434,90.89) .. (434,147.5) .. controls (434,204.11) and (388.11,250) .. (331.5,250) .. controls (274.89,250) and (229,204.11) .. (229,147.5) -- cycle ;
+  %Shape: Circle [id:dp8204933417548707]
+  \draw   (305,84) .. controls (305,70.19) and (316.19,59) .. (330,59) .. controls (343.81,59) and (355,70.19) .. (355,84) .. controls (355,97.81) and (343.81,109) .. (330,109) .. controls (316.19,109) and (305,97.81) .. (305,84) -- cycle ;
+  %Shape: Circle [id:dp7478076126793654]
+  \draw   (360,180) .. controls (360,166.19) and (371.19,155) .. (385,155) .. controls (398.81,155) and (410,166.19) .. (410,180) .. controls (410,193.81) and (398.81,205) .. (385,205) .. controls (371.19,205) and (360,193.81) .. (360,180) -- cycle ;
+  %Shape: Circle [id:dp3120260710082954]
+  \draw   (253,183) .. controls (253,169.19) and (264.19,158) .. (278,158) .. controls (291.81,158) and (303,169.19) .. (303,183) .. controls (303,196.81) and (291.81,208) .. (278,208) .. controls (264.19,208) and (253,196.81) .. (253,183) -- cycle ;
+  %Straight Lines [id:da6820891014633774]
+  \draw    (331,190) -- (331,236) ;
+
+
+  %Curve Lines [id:da1548185264621137]
+  \draw    (323.5,190) .. controls (324.5,210) and (336.5,210) .. (337.5,190) ;
+
+
+
+  %Straight Lines [id:da4306446303925887]
+  \draw    (294.3,133.27) -- (256.15,107.56) ;
+
+
+  %Curve Lines [id:da9253738091345234]
+  \draw    (298.49,127.05) .. controls (281.34,116.7) and (274.64,126.65) .. (290.66,138.66) ;
+
+
+
+  %Straight Lines [id:da7927760692654279]
+  \draw    (362.12,130.68) -- (402.39,108.44) ;
+
+
+  %Curve Lines [id:da6105283277592903]
+  \draw    (365.75,137.25) .. controls (382.77,126.7) and (376.97,116.2) .. (358.98,124.99) ;
+
+
+
+
+  % Text Node
+  \draw (252,242) node  [align=left] {Alan};
+  % Text Node
+  \draw (330,24) node  [align=left] {Grace};
+  % Text Node
+  \draw (416,243) node  [align=left] {Ada};
+
+
+  \end{tikzpicture}
+
+\end{minipage}\\
+\caption{Task, state and visual representation after two interactions}
+\end{figure}
+\fixme{REPLACE THIS IMAGE!}
+
+
+
+
+
+Calling $\Hints(t,\sigma,g)$ will result in just one hint, namely $\tuple{\Second\Second\Continue,\True}$.
 
 This means that the only step towards the goal $g$ is for Ada Lovelace to pick up the right fork.
 Although it is also possible for Alan Turing to pick up the fork to his left, this step is not a valid hint.
