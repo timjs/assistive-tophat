@@ -5,32 +5,32 @@
 
 This section introduces our \ASTOPHAT system.
 %What do we wanna do?
-The aim of \ASTOPHAT is to provide next step hints.
-When users follow these hints, they can be sure they will reach the goal they described beforehand.
+The aim of \ASTOPHAT is to automatically provide next step hints.
+When users follow these hints, they can be sure that they will reach the goal they described beforehand.
 Users can, however, still decide to deviate from the given hints.
 
 During the execution of \TOPHAT programs, users are presented with input fields, choices and continue buttons.
 The way in which tasks progress and the resulting task value depend on these inputs.
-At any point during execution, we like to present users with all possible inputs that lead to the goal they have selected.
-These inputs are either concrete actions, like continue, pick the left task, or pick the right task;
+At any point during execution, we would like to present users with all possible inputs that leads users to the goal they have selected.
+These inputs are either concrete actions, like continue, pick the left task, pick the right task;
 or a restricted set of values to be entered into an editor.
-This set is restricted, because concrete values also influences the flow of the program.
-For example, one should enter an integer, but this integer must be larger than zero to reach the end goal.
+This set is restricted, since concrete values potentially influence the flow of the program.
+To give a concrete example, the user should enter an integer, but this integer must be larger than zero to reach the end goal.
 
 To come to these concrete actions and restricted values, we make use of symbolic execution.
-In the next two sections, we shortly describe how symbolic execution for \TOPHAT works
+In the next two sections, we briefly describe how symbolic execution for \TOPHAT works
 and recap its symbolic semantics presented in earlier work~\cite{Naus2019}.
 Thereafter, we show how to turn symbolic execution results into next step hints.
-In \cref{sub:assistive-tax,sub:assistive-dining}, we study how these automatically generated hints influence the execution of the examples from \cref{sec:examples}.
+In \cref{sub:assistive-tax,sub:assistive-dining}, we study what these automatically generated hints look like for the examples from \cref{sec:examples}.
 
 %% Our examples work in implementation
 All examples have been tested in our implementation.
 %% We have an implementation
-We added \ASTOPHAT to our implementation of \STOPHAT, which is written in Haskell.\footnote{https://github.com/timjs/symbolic-tophat-haskell}
+We added \ASTOPHAT to our existing implementation of \STOPHAT, which is written in Haskell.\footnote{https://github.com/timjs/symbolic-tophat-haskell}
 It uses the \ZTHREE \SMT solver under the hood.
 %% It works like this
-By defining the hints function in exactly the same way as we will present below, % in \cref{fig:hints},
-it directly leverages the already existing symbolic execution for \STOPHAT.
+By defining the formal hints function directly on top of the symbolic execution semantics, % in \cref{fig:hints},
+we can leverage the already existing symbolic execution for \STOPHAT in the practical implementation.
 
 
 \subsection{Symbolic execution}
