@@ -36,13 +36,10 @@ we can leverage the already existing symbolic execution for \STOPHAT in the prac
 \subsection{Symbolic execution}
 \label{sub:symbolic-execution}
 
-%%TS: dubbel op
-% Our goal is to provide end users with next step hints in such a way that, whey they follow up those hints, they will reach a specified goal.
-% To check if this goal is achievable, we make use of symbolic execution.
 A symbolic execution semantics~\cite{King1975,Boyer1975} aims to execute a program without knowing its input.
 Instead, symbols are fed into the program.
 During evaluation, the influence of values is recorded in the path condition.
-The symbolic results together with the path conditions can be used to prove properties of the program.
+The resulting symbolic value together with the path conditions can be used to prove properties of the program.
 
 \begin{TASK}[
     float=ht,
@@ -55,24 +52,22 @@ The symbolic results together with the path conditions can be used to prove prop
 
 Consider the tiny example in \cref{lst:ordering}.
 This program asks for two integer values.
-After users entered this information, the step makes sure the result will be an editor containing a pair,
+After the user has entered this information, the function to the right of the step combinator makes sure the result will be an editor containing a pair,
 where the second element is larger then the first.
-When we run this program symbolically, we have to create fresh symbols for both editors, say $s_0$ and $s_1$ respectively.
-Continuing normalisation, there are two possible outcomes, namely
+When we run this program symbolically, we have to create fresh symbols to be entered in either of the two editors, say $s_0$ and $s_1$.
+After entering both symbolic values and then normalising the task, there are two possible outcomes, namely
 \begin{itemize}
-  \item $\tuple{s_1,s_0}$, provided that the path condition $\phi_1 = s_0 > s_1 = s_1 < s_0$ holds; or
-  \item $\tuple{s_0,s_1}$, with path condition $\phi_2 = \lnot (s_0 > s_1) = s_0 \leq s_1$.
+  \item $\tuple{s_1,s_0}$, provided that the path condition $\phi_1 = s_0 > s_1$ holds; or
+  \item $\tuple{s_0,s_1}$, with path condition $\phi_2 = \lnot (s_0 > s_1)$.
 \end{itemize}
 
 Now, the property that we want to prove for this program is that no matter what the input is, the second element should always be larger than the first.
-We write this goal property as $\psi(\<a, b\>)= a \leq b$.
-Looking at the two symbolic runs, $\phi_1$ and $\phi_2$ are satisfiable, written $\Sat(\phi_1)$ and $\Sat(\phi_2)$, and conform to the goal property $\psi$.
-Therefore, we can conclude that the goal property holds.
-%
-% Of course this is a trivial example, one can conclude or even prove that the property holds without symbolic execution.
-% \cref{sec:assistivedining,sec:assistivetax} illustrates this by applying symbolic execution to larger examples.
+We write this property as $\psi(\<a, b\>)= a \leq b$.
+Looking at the two symbolic runs, we first need to verify that the symbolic runs are indeed viable.
+This is done by checking that both $\phi_1$ and $\phi_2$ are satisfiable, written $\Sat(\phi_1)$ and $\Sat(\phi_2)$.
+Finally, we check that both path conditions conform to the goal property $\psi$, which is the case.
+Therefore, we can conclude that the property holds.
 When applying this technique to larger programs, it is a powerful tool to show that a program behaves as expected.
-\todo{Describe pruning of branches which do not satisfy.}
 
 
 \subsection{Symbolic semantics}
