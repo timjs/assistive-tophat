@@ -181,7 +181,7 @@ This results in a set of symbolic values $\tilde{v}$, together with a list of sy
 We only want to use the symbolic executions that satisfy the goal $g$ when applied to $\tilde{v}$.
 Since $\tilde{v}$ could contain symbols, it might be the case that $g(\tilde{v})$ is symbolic and would clash with the path condition $\Phi$.
 Therefore, we require that the conjunction of the path condition with the goal is satisfiable ($\Sat(\Phi\land g(\tilde{v}))$).
-From the executions that fulfil this requirement, we return the first symbolic input $\simi$ from the complete list of inputs $\simi\cdot\tilde{I}$,
+From the executions that fulfill this requirement, we return the first symbolic input $\simi$ from the complete list of inputs $\simi\cdot\tilde{I}$,
 together with the full condition that must hold ($\Phi\land g(\tilde{v})$).
 The resulting set contains pairs of symbolic inputs guarded by this condition.
 
@@ -195,166 +195,155 @@ we study it more concretely in the next subsections.
 \label{sub:assistive-tax}
 
 %recall
-\cref{sec:tax} lists an example program in \TOPHAT for applying for a solar panel tax refund.
+Recall the Tax example program in \TOPHAT from \cref{sec:tax},
+which models the application for a solar panel tax refund.
 The user enters the invoice date and invoice amount, the installation company confirms, and finally the tax officer either approves or denies the request.
+
+\begin{table}[ht]
+  \caption{The results of simulating the program from \cref{lst:tax}.}
+  \label{table:tax}
+  \centering
+  \begin{tabular}{LLL}
+    \toprule
+    \text{Symbolic value ($\tilde{v}$)} & \text{Symbolic input ($\tilde{I}$)} & \text{Path condition ($\Phi$)} \\
+    \midrule
+    \tuple{\min(600, s_{\id{a}}/10),  \True, \True, s_{\id{i}}, \Today} & \First \First s_{\id{a}} \cdot \First \Second s_{\id{i}} \cdot \Second \Left \cdot \Second & (\Today-s_{\id{i}}) < \OneYear \\
+    \tuple{\min(600, s_{\id{a}}/10),  \True, \True, s_{\id{i}}, \Today} & \First \Second s_{\id{i}} \cdot \First \First s_{\id{a}} \cdot \Second \Left \cdot \Second & (\Today-s_{\id{i}}) < \OneYear \\
+    \tuple{\min(600, s_{\id{a}}/10),  \True, \True, s_{\id{i}}, \Today} & \Second \Left \cdot \First \First s_{\id{a}} \cdot \First \Second s_{\id{i}} \cdot \Second & (\Today-s_{\id{i}}) < \OneYear \\
+    \tuple{\min(600, s_{\id{a}}/10),  \True, \True, s_{\id{i}}, \Today} & \Second \Left \cdot \First \Second s_{\id{i}} \cdot \First \First s_{\id{a}} \cdot \Second & (\Today-s_{\id{i}}) < \OneYear \\
+    \tuple{\min(600, s_{\id{a}}/10),  \True, \True, s_{\id{i}}, \Today} & \First \Second s_{\id{i}} \cdot \Second \Left \cdot \First \First s_{\id{a}} \cdot \Second & (\Today-s_{\id{i}}) < \OneYear \\
+    \tuple{\min(600, s_{\id{a}}/10),  \True, \True, s_{\id{i}}, \Today} & \First \First s_{\id{a}} \cdot \Second \Left \cdot \First \Second s_{\id{i}} \cdot \Second & (\Today-s_{\id{i}}) < \OneYear \\
+    \midrule
+    \tuple{                       0,  \False, \True, s_{\id{i}}, \Today} & \First \First s_{\id{a}} \cdot \First \Second s_{\id{i}} \cdot \Second \Left \cdot \First  & \True \\
+    \tuple{                       0,  \False, \True, s_{\id{i}}, \Today} & \First \Second s_{\id{i}} \cdot \First \First s_{\id{a}} \cdot \Second \Left \cdot \First  & \True \\
+    \tuple{                       0,  \False, \True, s_{\id{i}}, \Today} & \Second \Left \cdot \First \First s_{\id{a}} \cdot \First \Second s_{\id{i}} \cdot \First  & \True \\
+    \tuple{                       0,  \False, \True, s_{\id{i}}, \Today} & \Second \Left \cdot \First \Second s_{\id{i}} \cdot \First \First s_{\id{a}} \cdot \First  & \True \\
+    \tuple{                       0,  \False, \True, s_{\id{i}}, \Today} & \First \Second s_{\id{i}} \cdot \Second \Left \cdot \First \First s_{\id{a}} \cdot \First  & \True \\
+    \tuple{                       0,  \False, \True, s_{\id{i}}, \Today} & \First \First s_{\id{a}} \cdot \Second \Left \cdot \First \Second s_{\id{i}} \cdot \First  & \True \\
+    \tuple{                       0,  \False,\False, s_{\id{i}}, \Today} & \First \First s_{\id{a}} \cdot \First \Second s_{\id{i}} \cdot \Second \cdot \First  & \True \\
+    \tuple{                       0,  \False,\False, s_{\id{i}}, \Today} & \First \Second s_{\id{i}} \cdot \First \First s_{\id{a}} \cdot \Second \cdot \First  & \True \\
+    \tuple{                       0,  \False,\False, s_{\id{i}}, \Today} & \Second \Second \cdot\First \First s_{\id{a}} \cdot \First \Second s_{\id{i}} \cdot \First  & \True \\
+    \tuple{                       0,  \False,\False, s_{\id{i}}, \Today} & \Second \cdot \First \Second s_{\id{i}} \cdot \First \First s_{\id{a}} \cdot \First  & \True \\
+    \tuple{                       0,  \False,\False, s_{\id{i}}, \Today} & \First \Second s_{\id{i}} \cdot \Second \cdot \First \First s_{\id{a}} \cdot \First  & \True \\
+    \tuple{                       0,  \False,\False, s_{\id{i}}, \Today} & \First \First s_{\id{a}} \cdot \Second \cdot \First \Second s_{\id{i}} \cdot \First  & \True \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 In this section, we will demonstrate what symbolic execution looks like for this example, and how we generate next step hints from the symbolic execution results.
 First, we call the simulate function $\simulate$ on the program, with an empty state.
 The resulting set of symbolic executions is listed in \cref{table:tax}.
-
-\begin{table}[ht]
-  \centering
-  \begin{tabular}{LLL}
-    \toprule
-    \text{Symbolic value} & \text{Symbolic input} & \text{Path condition} \\
-    \midrule
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, \Today} & [\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second \First, \Second] & (\Today-s_{\id{i}}) < \OneYear \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, \Today} & [\First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second \First, \Second] & (\Today-s_{\id{i}}) < \OneYear \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, \Today} & [\Second \First, \First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second] & (\Today-s_{\id{i}}) < \OneYear \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, \Today} & [\Second \First, \First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second] & (\Today-s_{\id{i}}) < \OneYear \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, \Today} & [\First \Second s_{\id{i}}, \Second \First, \First \First s_{\id{a}}, \Second] & (\Today-s_{\id{i}}) < \OneYear \\
-    \tuple{\min\ 600\ (s_{\id{a}}/10),  \True, \True, s_{\id{i}}, \Today} & [\First \First s_{\id{a}}, \Second \First, \First \Second s_{\id{i}}, \Second] & (\Today-s_{\id{i}}) < \OneYear \\
-    \midrule
-    \tuple{                        0,  \False, \True, s_{\id{i}}, \Today} & [\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second \First, \First]  & \True \\
-    \tuple{                        0,  \False, \True, s_{\id{i}}, \Today} & [\First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second \First, \First]  & \True \\
-    \tuple{                        0,  \False, \True, s_{\id{i}}, \Today} & [\Second \First, \First \First s_{\id{a}}, \First \Second s_{\id{i}}, \First]  & \True \\
-    \tuple{                        0,  \False, \True, s_{\id{i}}, \Today} & [\Second \First, \First \Second s_{\id{i}}, \First \First s_{\id{a}}, \First]  & \True \\
-    \tuple{                        0,  \False, \True, s_{\id{i}}, \Today} & [\First \Second s_{\id{i}}, \Second \First, \First \First s_{\id{a}}, \First]  & \True \\
-    \tuple{                        0,  \False, \True, s_{\id{i}}, \Today} & [\First \First s_{\id{a}}, \Second \First, \First \Second s_{\id{i}}, \First]  & \True \\
-    \tuple{                        0,  \False,\False, s_{\id{i}}, \Today} & [\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \Second, \First]  & \True \\
-    \tuple{                        0,  \False,\False, s_{\id{i}}, \Today} & [\First \Second s_{\id{i}}, \First \First s_{\id{a}}, \Second, \First]  & \True \\
-    \tuple{                        0,  \False,\False, s_{\id{i}}, \Today} & [\Second \Second,\First \First s_{\id{a}}, \First \Second s_{\id{i}}, \First]  & \True \\
-    \tuple{                        0,  \False,\False, s_{\id{i}}, \Today} & [\Second, \First \Second s_{\id{i}}, \First \First s_{\id{a}}, \First]  & \True \\
-    \tuple{                        0,  \False,\False, s_{\id{i}}, \Today} & [\First \Second s_{\id{i}}, \Second, \First \First s_{\id{a}}, \First]  & \True \\
-    \tuple{                        0,  \False,\False, s_{\id{i}}, \Today} & [\First \First s_{\id{a}}, \Second, \First \Second s_{\id{i}}, \First]  & \True \\
-    \bottomrule
-  \end{tabular}
-  \caption{The results of running the simulate function on the program from \cref{lst:tax}.}
-  \label{table:tax}
-\end{table}
-
 Each line represents one symbolic execution.
 In the first column, the resulting symbolic value $\tilde{v}$ is listed.
-The second column lists the symbolic input $\tilde{I}$ that was produced to arrive at that value, followed by the path condition $\Phi$.
+The second column lists the symbolic input $\tilde{I}$ that was produced to arrive at that value, followed by the path condition $\Phi$ in the third column.
 The symbolic values that are produced are $s_i$ for the invoice date and $s_a$ for the invoice amount.
 
 The definition of $\Hints$ describes how these results should be used in order to calculate next step hints.
 First of all, we need a goal $g$ to select the symbolic runs that we are interested in.
 The most straight forward goal would be that we want to end up in a situation where we get a subsidy amount larger than zero.
-This goal can be formulated as $\lambda \tuple{v,\_,\_,\_,\_}\rightarrow v>0$.
+This goal can be formulated as $g(\tuple{v,\_,\_,\_,\_}) = v > 0$.
 
-The first six symbolic runs listed in \cref{table:tax} fulfil the goal condition.
-From those runs, we then take the first symbolic input, together with the path condition, in conjunction with the path condition applied to the goal.
-
+The first six symbolic runs listed in \cref{table:tax} fulfill this goal condition.
+From those runs, we then take the first symbolic input, together with the path condition conjugated with the goal.
 After removing duplicates and redundant information, the result of $\Hints$ is as follows.
+\begin{block}
+  \begin{tabular}{LCL}
+    \tuple{\First \First s_{\id{a}}  &, & \min(600, s_{\id{a}}/10) > 0}  \\
+    \tuple{\First \Second s_{\id{i}} &, & (\Today-s_{\id{i}}) < \OneYear} \\
+    \tuple{\Second \Left             &, & \True} 
+  \end{tabular}
+\end{block}
+This means that, at this stage, users have three possible options.\footnote{
+  Note that the first branch, entering an amount, is denoted by $\First \First$;
+  the second branch, entering the invoice date, is denoted by $\First \Second$;
+  and the third branch, making a left/right choice, is denoted by $\Second$.
+}
+\begin{enumerate}
+  \item The applicant may enter an amount $s_\id{a}$ for which $\min(600, s_{\id{a}}/10) > 0$ should hold.
+  \item The applicant may enter an invoice date $s_\id{i}$ for which $(\Today-s_{\id{i}}) < \OneYear$ should hold.
+  \item The company should take the left choice ($\Left$) to confirm they installed the solar panels. 
+\end{enumerate}
 
-\begin{align*}
-  \tuple{&\First \First s_{\id{a}},  &&(\min\ 600\ (s_{\id{a}}/10)) > 0} &\\
-  \tuple{&\First \Second s_{\id{i}}, &&(\Today-s_{\id{i}}) < \OneYear} &\\
-  \tuple{&\Second \First,            &&\True} &
-\end{align*}
-
-
-\todo{write conclusion}
 
 \subsection{Dining Computer Scientists}
 \label{sub:assistive-dining}
 
-%recall
+%% Recall
 Recall the example program Dining Computer Scientists from \cref{sec:dining}.
-Three computer scientist sit at a table and have to coordinate in order to eat their meals.
-
-%what hints do we want to give?
+Three computer scientist sit at a table and have to coordinate how to their meals.
+%% What hints do we want to give?
 We want to calculate all possible next steps that lead to the goal.
 The goal in this example is for all computer scientists to finish their meal.
+%% Write the goal
+In terms of the resulting task value, this means that we want to reach the value "Full bellies".
+Witten as a predicate, we get $g(v) = v \equiv \text{"Full bellies"}$.
 
-%write the goal
-In terms of the resulting task value, this means that we want to arrive at the value "Full bellies".
-Witten as a predicate, we get $g=\lambda v\rightarrow v = "\text{Full bellies}"$.
-
-%what does the result of H look like?
-Let us assume that both Grace Hopper and Ada Lovelace have already picked up the forks to their left (fork1 and fork2 respectively).
-We then find ourselves in the following situation.
-
-
-\begin{figure}
-  \centering
-\begin{minipage}[r]{0.55\textwidth}
-
-  \begin{align*}
-  t =\ &\text{scientist} "\text{Alan Turing}" \text{fork0}\ \text{fork1} \And\\
-      &\unit \Next \lambda \unit .\\
-      &\Quad \If{!\text{fork2}}{\text{fork1} := \True}{\Fail} \And\\
-      &\unit \Next \lambda \unit .\\
-      &\Quad \If{!\text{fork0}}{\text{fork2} := \True}{\Fail} Then \lambda \_.\\
-      &\Quad \Edit "\text{Full bellies}"\\
-  \sigma =\ &\{\text{fork0}\mapsto \True, \text{fork1}\mapsto \False,\text{fork2}\mapsto \False\}
-  \end{align*}
-
-\end{minipage}
-\begin{minipage}[r]{0.05\textwidth}
-  \
-\end{minipage}
-\begin{minipage}[r]{0.3\textwidth}
-\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
-
-  \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-0.5,xscale=0.5]
-  %uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
-
-  %Shape: Circle [id:dp8519268538531043]
-  \draw   (229,147.5) .. controls (229,90.89) and (274.89,45) .. (331.5,45) .. controls (388.11,45) and (434,90.89) .. (434,147.5) .. controls (434,204.11) and (388.11,250) .. (331.5,250) .. controls (274.89,250) and (229,204.11) .. (229,147.5) -- cycle ;
-  %Shape: Circle [id:dp8204933417548707]
-  \draw   (305,84) .. controls (305,70.19) and (316.19,59) .. (330,59) .. controls (343.81,59) and (355,70.19) .. (355,84) .. controls (355,97.81) and (343.81,109) .. (330,109) .. controls (316.19,109) and (305,97.81) .. (305,84) -- cycle ;
-  %Shape: Circle [id:dp7478076126793654]
-  \draw   (360,180) .. controls (360,166.19) and (371.19,155) .. (385,155) .. controls (398.81,155) and (410,166.19) .. (410,180) .. controls (410,193.81) and (398.81,205) .. (385,205) .. controls (371.19,205) and (360,193.81) .. (360,180) -- cycle ;
-  %Shape: Circle [id:dp3120260710082954]
-  \draw   (253,183) .. controls (253,169.19) and (264.19,158) .. (278,158) .. controls (291.81,158) and (303,169.19) .. (303,183) .. controls (303,196.81) and (291.81,208) .. (278,208) .. controls (264.19,208) and (253,196.81) .. (253,183) -- cycle ;
-  %Straight Lines [id:da6820891014633774]
-  \draw    (331,190) -- (331,236) ;
-
-
-  %Curve Lines [id:da1548185264621137]
-  \draw    (323.5,190) .. controls (324.5,210) and (336.5,210) .. (337.5,190) ;
-
-
-
-  %Straight Lines [id:da4306446303925887]
-  \draw    (294.3,133.27) -- (256.15,107.56) ;
-
-
-  %Curve Lines [id:da9253738091345234]
-  \draw    (298.49,127.05) .. controls (281.34,116.7) and (274.64,126.65) .. (290.66,138.66) ;
-
-
-
-  %Straight Lines [id:da7927760692654279]
-  \draw    (362.12,130.68) -- (402.39,108.44) ;
-
-
-  %Curve Lines [id:da6105283277592903]
-  \draw    (365.75,137.25) .. controls (382.77,126.7) and (376.97,116.2) .. (358.98,124.99) ;
-
-
-
-
-  % Text Node
-  \draw (252,242) node  [align=left] {Alan};
-  % Text Node
-  \draw (330,24) node  [align=left] {Grace};
-  % Text Node
-  \draw (416,243) node  [align=left] {Ada};
-
-
-  \end{tikzpicture}
-
-\end{minipage}\\
-\caption{Task, state and visual representation after two interactions}
-\end{figure}
+%% What does the result of H look like?
+Let us assume that both Grace Hopper and Ada Lovelace have already picked up the forks to their left ($\lbl{fork1}$ and $\lbl{fork2}$ respectively).
+We then find ourselves in the situation shown in \cref{fig:dining-middle}.
 \todo{REPLACE THIS IMAGE!}
 
-Calling $\Hints(t,\sigma,g)$ will result in just one hint, namely $\tuple{\Second\Second\Continue,\True}$.
+\begin{figure}[t]
+  \centering
+  \begin{minipage}[r]{0.65\textwidth}
+    \noindent Current program:
+    \begin{TASK}[xleftmargin=1.5em]
+  ( scientist "Alan Turing" fork0 fork1
+      <&>
+    <<>> >>? \ _. if !fork2 then(edit fork1 := True) else fail
+      <&>
+    <<>> >>? \ _. if !fork0 then(edit fork2 := True) else fail
+  ) >>= \ _ . edit "Full bellies"
+    \end{TASK}
+    \vspace*{\medskipamount}
+    Current state:\\
+    \hspace*{1.5em} $\sigma = \set{\text{fork0}\mapsto \True, \text{fork1}\mapsto \False,\text{fork2}\mapsto \False}$
+  \end{minipage}
+  \begin{minipage}[r]{0.3\textwidth}
+    \tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt
+    \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-0.5,xscale=0.5]
+      %uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+      %Shape: Circle [id:dp8519268538531043]
+      \draw   (229,147.5) .. controls (229,90.89) and (274.89,45) .. (331.5,45) .. controls (388.11,45) and (434,90.89) .. (434,147.5) .. controls (434,204.11) and (388.11,250) .. (331.5,250) .. controls (274.89,250) and (229,204.11) .. (229,147.5) -- cycle ;
+      %Shape: Circle [id:dp8204933417548707]
+      \draw   (305,84) .. controls (305,70.19) and (316.19,59) .. (330,59) .. controls (343.81,59) and (355,70.19) .. (355,84) .. controls (355,97.81) and (343.81,109) .. (330,109) .. controls (316.19,109) and (305,97.81) .. (305,84) -- cycle ;
+      %Shape: Circle [id:dp7478076126793654]
+      \draw   (360,180) .. controls (360,166.19) and (371.19,155) .. (385,155) .. controls (398.81,155) and (410,166.19) .. (410,180) .. controls (410,193.81) and (398.81,205) .. (385,205) .. controls (371.19,205) and (360,193.81) .. (360,180) -- cycle ;
+      %Shape: Circle [id:dp3120260710082954]
+      \draw   (253,183) .. controls (253,169.19) and (264.19,158) .. (278,158) .. controls (291.81,158) and (303,169.19) .. (303,183) .. controls (303,196.81) and (291.81,208) .. (278,208) .. controls (264.19,208) and (253,196.81) .. (253,183) -- cycle ;
+      %Straight Lines [id:da6820891014633774]
+      \draw    (331,190) -- (331,236) ;
+      %Curve Lines [id:da1548185264621137]
+      \draw    (323.5,190) .. controls (324.5,210) and (336.5,210) .. (337.5,190) ;
+      %Straight Lines [id:da4306446303925887]
+      \draw    (294.3,133.27) -- (256.15,107.56) ;
+      %Curve Lines [id:da9253738091345234]
+      \draw    (298.49,127.05) .. controls (281.34,116.7) and (274.64,126.65) .. (290.66,138.66) ;
+      %Straight Lines [id:da7927760692654279]
+      \draw    (362.12,130.68) -- (402.39,108.44) ;
+      %Curve Lines [id:da6105283277592903]
+      \draw    (365.75,137.25) .. controls (382.77,126.7) and (376.97,116.2) .. (358.98,124.99) ;
+      % Text Node
+      \draw (252,242) node  [align=left] {Alan};
+      % Text Node
+      \draw (330,24) node  [align=left] {Grace};
+      % Text Node
+      \draw (416,243) node  [align=left] {Ada};
+    \end{tikzpicture}
+  \end{minipage}
+  \caption{Task, state and visual representation after two interactions}
+  \label{fig:dining-middle}
+\end{figure}
 
-This means that the only step towards the goal $g$ is for Ada Lovelace to pick up the right fork.
-Although it is also possible for Alan Turing to pick up the fork to his left, this step is not a valid hint.
-Performing this action will result in deadlock.
+Calling $\Hints(t,\sigma,g)$ will result in just one hint, namely
+\begin{equation*}
+  \tuple{\Second\Second\Continue,\True}.
+\end{equation*}
+This means that the only step towards goal $g$ is for the third scientist,\footnote{
+  The third branch is denoted by $\Second\Second$.
+  $\Continue$ means pushing the continue button.
+}
+which is Ada Lovelace, to pick up the right fork.
+Although it is also possible for Alan Turing to pick up the fork to his left,
+this step is not a valid hint and performing this action will result in deadlock.
 
