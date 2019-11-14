@@ -21,7 +21,7 @@ To come to these concrete actions and restricted values, we make use of symbolic
 In the next two sections, we shortly describe how symbolic execution for \TOPHAT works
 and recap its symbolic semantics presented in earlier work~\cite{Naus2019}.
 Thereafter, we show how to turn symbolic execution results into next step hints.
-In \cref{sub:symbolic-tax,sub:symbolic-dining}, we study how these automatically generated hints influence the execution of the examples from \cref{sec:examples}.
+In \cref{sub:assistive-tax,sub:assistive-dining}, we study how these automatically generated hints influence the execution of the examples from \cref{sec:examples}.
 
 %% Our examples work in implementation
 All examples have been tested in our implementation.
@@ -34,7 +34,7 @@ it directly leverages the already existing symbolic execution for \STOPHAT.
 
 
 \subsection{Symbolic execution}
-\label{suc:symbolic-execution}
+\label{sub:symbolic-execution}
 
 %%TS: dubbel op
 % Our goal is to provide end users with next step hints in such a way that, whey they follow up those hints, they will reach a specified goal.
@@ -190,13 +190,13 @@ From the executions that fulfil this requirement, we return the first symbolic i
 together with the full condition that must hold ($\Sat(\Phi\land g(\tilde{v}))$).
 The resulting set contains pairs of symbolic input guarded by a condition.
 
-\cref{sec:assistivetax} demonstrates on the basis of the tax example listed in \cref{sec:tax} how the results of the symbolic execution are used to construct automatic next step hints.
-\cref{sec:assistivedining} shows how hints can be generated during the execution of the example \TOPHAT program listed in \cref{sec:dining}.
+\cref{sub:assistive-tax} demonstrates on the basis of the tax example listed in \cref{sec:tax} how the results of the symbolic execution are used to construct automatic next step hints.
+\cref{sub:assistive-dining} shows how hints can be generated during the execution of the example \TOPHAT program listed in \cref{sec:dining}.
 Then in \cref{sec:implementation}, our implementation of \ASTOPHAT is presented.
 
 
 \subsection{Tax subsidy request}
-\label{sec:assistivetax}
+\label{sub:assistive-tax}
 
 %recall
 \cref{sec:tax} lists an example program in \TOPHAT for applying for a solar panel tax refund.
@@ -262,7 +262,7 @@ After removing duplicates and redundant information, the result of $\Hints$ is a
 \todo{write conclusion}
 
 \subsection{Dining Computer Scientists}
-\label{sec:assistivedining}
+\label{sub:assistive-dining}
 
 %recall
 Recall the example program Dining Computer Scientists from \cref{sec:dining}.
