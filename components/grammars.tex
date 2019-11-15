@@ -186,6 +186,17 @@
   \end{grammar}
 }
 
+\newmacro{G-Tasks-Flat}{
+  \begin{grammar}
+    \noalign{Tasks}
+    \addlinespace
+      & t    &::= & \Edit v \Mid \Enter \tau \Mid \Update l  \Mid t_1 \Then e_2 \Mid t_1 \Next e_2             & – editors: valued, empty, shared, steps: internal, external\\
+      &      &\mid& t_1 \Or t_2 \Mid e_1 \Xor e_2    \Mid  t_1 \And t_2 \Mid \Fail                 & – choice: internal, external, composition, fail\\
+  \end{grammar}
+}
+
+
+
 \newmacro{G-Types-Flat}{
   \begin{grammar}
     Types & \tau  &  ::= & \tau_1 \to \tau_2 \Mid \beta  \Mid \Reference \tau \Mid \Task \tau  & – function, basic, reference, task \\
