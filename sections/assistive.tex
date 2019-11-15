@@ -203,7 +203,8 @@ The user enters the invoice date and invoice amount, the installation company co
   \caption{The results of simulating the program from \cref{lst:tax}.}
   \label{table:tax}
   \centering
-  \begin{tabular}{LLL}
+  \scriptsize
+  \begin{tabular}{L@{\Quad}L@{\Quad}L@{\Quad}}
     \toprule
     \text{Symbolic value ($\tilde{v}$)} & \text{Symbolic input ($\tilde{I}$)} & \text{Path condition ($\Phi$)} \\
     \midrule
@@ -213,7 +214,6 @@ The user enters the invoice date and invoice amount, the installation company co
     \tuple{\min(600, s_{\id{a}}/10),  \True, \True, s_{\id{i}}, \Today} & \Second \Left \cdot \First \Second s_{\id{i}} \cdot \First \First s_{\id{a}} \cdot \Second & (\Today-s_{\id{i}}) < \OneYear \\
     \tuple{\min(600, s_{\id{a}}/10),  \True, \True, s_{\id{i}}, \Today} & \First \Second s_{\id{i}} \cdot \Second \Left \cdot \First \First s_{\id{a}} \cdot \Second & (\Today-s_{\id{i}}) < \OneYear \\
     \tuple{\min(600, s_{\id{a}}/10),  \True, \True, s_{\id{i}}, \Today} & \First \First s_{\id{a}} \cdot \Second \Left \cdot \First \Second s_{\id{i}} \cdot \Second & (\Today-s_{\id{i}}) < \OneYear \\
-    \midrule
     \tuple{                       0,  \False, \True, s_{\id{i}}, \Today} & \First \First s_{\id{a}} \cdot \First \Second s_{\id{i}} \cdot \Second \Left \cdot \First  & \True \\
     \tuple{                       0,  \False, \True, s_{\id{i}}, \Today} & \First \Second s_{\id{i}} \cdot \First \First s_{\id{a}} \cdot \Second \Left \cdot \First  & \True \\
     \tuple{                       0,  \False, \True, s_{\id{i}}, \Today} & \Second \Left \cdot \First \First s_{\id{a}} \cdot \First \Second s_{\id{i}} \cdot \First  & \True \\
