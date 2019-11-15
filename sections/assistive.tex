@@ -65,7 +65,7 @@ Now, the property that we want to prove for this program is that no matter what 
 We write this property as $\psi(\<a, b\>)= a \leq b$.
 Looking at the two symbolic runs, we first need to verify that the symbolic runs are indeed viable.
 This is done by checking that both $\phi_1$ and $\phi_2$ are satisfiable, written $\Sat(\phi_1)$ and $\Sat(\phi_2)$.
-Symbolic runs with a path condition that is not satisfiable are discarded. 
+Symbolic runs with a path condition that is not satisfiable are discarded.
 Finally, we check that both path conditions conform to the goal property $\psi$, which is the case.
 Therefore, we can conclude that the property holds.
 When applying this technique to larger programs, it is a powerful tool to show that a program behaves as expected.
@@ -75,10 +75,10 @@ When applying this technique to larger programs, it is a powerful tool to show t
 \label{sub:symbolic-semantics}
 
 To support symbolic execution in \TOPHAT, we extend our host language with symbols.
-Also, we need to modify the semantics described in \cref{sub:semantics}, to accommodate symbolic execution.
+In addition, we also need to modify the semantics described in \cref{sub:semantics}, to accommodate symbolic execution.
 The observation functions from \cref{sub:observations} are extended in a similar way.
 These new semantic relations operate on expressions which may contain symbols.
-Instead of stepping to one result, they lead to a set of possible results, accompanied with a path condition $\phi$.
+Instead of stepping to one result, they lead to a set of possible symbolic results, accompanied with a path condition $\phi$.
 
 \begin{table}[ht]
   \caption{}
@@ -105,24 +105,24 @@ Instead of stepping to one result, they lead to a set of possible results, accom
 We denote entities containing symbols with an additional tilde,
 and symbolic semantic relations with squiggly arrows instead of straight ones.
 So $\tilde{t}$, $\tilde{\sigma}$, and $\simi$ are respectively tasks, states, and inputs containing symbols.
-\Cref{tab:semantic-relations} gives an overview of entities in the concrete world,
+\Cref{tab:semantic-relations} gives an overview of the entities in the concrete world,
 and their symbolic counterparts.
 \todo{Caption.}
 %
-Note that concrete expressions are a subset of symbolic expressions.
+Concrete expressions are a subset of symbolic expressions.
 Therefore, symbolic semantic relations can be applied on concrete expressions,
-as well as on symbolic expressions.
+as well as symbolic expressions.
 
-The symbolic interaction semantics ($\siminteract$) results in just one symbolic input.
-In other words, it just looks ahead one symbolic interaction.
-To be able to reason about an end goal after multiple symbolic interactions,
+The symbolic interaction semantics ($\siminteract$) results in a set of symbolic runs, each of them just containing one symbolic input.
+In other words, the symbolic interaction semantics just looks ahead one symbolic interaction.
+To be able to reason about an end state after multiple symbolic interactions,
 we introduce the notion of \emph{simulation}.
 Informally, simulation performs multiple symbolic interactions after each other,
-till the moment the rewritten task has an observable value.
+until the rewritten task has an observable value.
 I.e. if $n$ is the number of interactions needed to be done,
 $\Value(t_i', \sigma_i')$ has a result for $i = n$ but is undefined for all $i < n$.
-Next to that, we want to permit only viable executions.
-This is enforced by validating the satisfiability ($\Sat$) of all path condition together.
+Apart from this restriction, we want to permit only viable executions.
+This is enforced by validating the satisfiability ($\Sat$) of the conjunction of all sequential path conditions.
 More formally, simulating a task for multiple user inputs is defined as follows.
 
 \begin{definition}[Simulation]
@@ -155,9 +155,6 @@ More formally, simulating a task for multiple user inputs is defined as follows.
 The simulation definition used in this paper differs from the one in previous work~\cite{Naus2019}.
 Previously, infinite symbolic executions were filtered out by allowing two steps look-ahead in case of idempotent executions.
 The definition above only allows finite executions by definition.
-
-\todo{Use vending machine example to illustrate \STOPHAT?}
-
 
 \subsection{Next step hints observation}
 \label{sub:hints}
@@ -250,7 +247,7 @@ After removing duplicates and redundant information, the result of $\Hints$ is a
   \begin{tabular}{LCL}
     \tuple{\First \First s_{\id{a}}  &, & \min(600, s_{\id{a}}/10) > 0}  \\
     \tuple{\First \Second s_{\id{i}} &, & (\Today-s_{\id{i}}) < \OneYear} \\
-    \tuple{\Second \Left             &, & \True} 
+    \tuple{\Second \Left             &, & \True}
   \end{tabular}
 \end{block}
 This means that, at this stage, users have three possible options.\footnote{
@@ -261,7 +258,7 @@ This means that, at this stage, users have three possible options.\footnote{
 \begin{enumerate}
   \item The applicant may enter an amount $s_\id{a}$ for which $\min(600, s_{\id{a}}/10) > 0$ should hold.
   \item The applicant may enter an invoice date $s_\id{i}$ for which $(\Today-s_{\id{i}}) < \OneYear$ should hold.
-  \item The company should take the left choice ($\Left$) to confirm they installed the solar panels. 
+  \item The company should take the left choice ($\Left$) to confirm they installed the solar panels.
 \end{enumerate}
 
 
@@ -346,4 +343,3 @@ This means that the only step towards goal $g$ is for the third scientist,\footn
 which is Ada Lovelace, to pick up the right fork.
 Although it is also possible for Alan Turing to pick up the fork to his left,
 this step is not a valid hint and performing this action will result in deadlock.
-
