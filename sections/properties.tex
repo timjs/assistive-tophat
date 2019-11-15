@@ -4,98 +4,101 @@
 \label{sec:properties}
 
 In this section, we want to validate our approach by proving correctness.
-For the hints function, which forms the heart of Assistive \TOPHAT, we want to prove that its results are both sound and complete.
-Since the hints function relies on \STOPHAT, and more specifically, the simulate function,
+For the hints function, which forms the heart of \ASTOPHAT, we want to prove that its results are both sound and complete.
+Since the hints function relies on \STOPHAT,
+and more specifically, the updated definition of the simulate relation,
 we first prove correctness of simulate.
-
 
 \subsection{Correctness of simulate}
 
 The symbolic execution semantics is correct when all symbolic runs relate to a concrete run,
 and the other way around, when all concrete runs are contained in the set of all symbolic executions.
-These properties are defined as soundness and completeness respectively.
+These properties are, respectively, soundness and completeness.
 
-The simulate function can be considered a big-step symbolic execution semantics.
+The simulation applies symbolic interaction multiple times.
 In order to prove certain properties with respect to the concrete semantics,
-we need a concrete big-step concrete execution semantics.
-Therefore the execute function is defined.
+we need a concrete analog of simulation.
+Therefore, we define \emph{execution}, which applies concrete interaction multiple times.
 
-\begin{definition}[Execute]
-  $t,\sigma\execute{I} v$ where
-
-  \begin{minipage}[c]{0.4\textwidth}
-    \begin{align*}
-      t,\sigma             & \interact{i_1}  t_1,\sigma_1\\
-      t_1,\sigma_1         & \interact{i_2}  t_2,\sigma_2\\
-                           & \hspace{3mm}\vdots    \\
-      t_{n-1},\sigma_{n-1} & \interact{i_n}  t_n,\sigma_n
-    \end{align*}
-\end{minipage}
-\begin{minipage}[c]{0.1\textwidth}
-  \Quad
-\end{minipage}
-\begin{minipage}[c]{0.3\textwidth}
-  \begin{align*}
-  \text{With }&\Value(t_n,\sigma_n)=v\\
-  &\Value(t_{i<n},\sigma_{i<n})=\bot\\
-  &I=i_1,\cdots,i_n
-\end{align*}
-\end{minipage}
-\label{def:evaluate}
+\begin{definition}[Execution ($\execute{}$)]
+  \label{def:execution}
+  Let $t$ be a concrete task, $\sigma$ a concrete state, and $I = i_1 \cdots i_n$ a list of $n$ concrete inputs.
+  We define the execution relation
+  \begin{equation*}
+    t, \sigma \execute{I} v
+  \end{equation*}
+  to be the value of task $t$ after performing concrete interaction for each input $i$ in $I$:
+  \begin{equation*}
+    t, \sigma
+      \interact{i_1} t_1, \sigma_1
+      \interact{i_2} \cdots
+      \interact{i_n} t_n, \sigma_n
+  \end{equation*}
+  where
+  \begin{itemize}
+    \item $v$ is the value of $t_n$: $\Value(t_n, \sigma_n) = v$; and
+    \item all tasks before $t_n$ do not have a value: $\Value(t_{i<n},\sigma_{i<n}) = \bot$.
+  \end{itemize}
 \end{definition}
 
-Using the execute definition, we can state soundness and completeness for $\Simulate$ are listed below.
+Using execution, we can state soundness and completeness for simulation as follows.
 
 \begin{lemma}[Soundness of simulate]
   \label{lem:soundsimulate}
   For all tasks $t$ and states $\sigma$
   such that $t,\sigma\simulate\overline{\tilde{v},\tilde{I},\Phi}$
-  then for all results $(\tilde{v},\tilde{I}=[\tilde{\imath}_0,\cdots,\tilde{\imath}_n],\Phi)$
+  where $\tilde{I} = \simi_0 \cdots \simi_n$,
+  for each triple of results $\<\tilde{v},\tilde{I},\Phi\>$
   there exists a concrete input $I$ with the same length as the symbolic input $\tilde{I}$
   such that $t,\sigma\execute{I}v$
   with $[s_i\mapsto c_i]\tilde{v}=v$ and $[s_i\mapsto c_i]\Phi$
-  where $s_i\in\tilde{i_i}$ and $c_i\in i_i$.
+  where $\SymOf(\simi_i)=s_i$ and $\ValOf(i_i)=c_i$.
 \end{lemma}
 
 \begin{lemma}[Completeness of simulate]
   \label{lem:completesimulate}
-  For all tasks $t$, states $\sigma$ and lists of input $I$
-  such that $t,\sigma\execute{I}v$
+  For all tasks $t$, states $\sigma$, and lists of input $I$
+  such that $t,\sigma\execute{I}v$,
   there exists a symbolic value $\tilde{v}$ and a symbolic input $\tilde{I}$ with the same length as $I$,
   such that $(\tilde{v},\tilde{I},\Phi)\in t,\sigma\simulate$,
   with $\tilde{i_i}\sim i_i$, $[s_i\mapsto c_i]\tilde{v}=v$ and $[s_i\mapsto c_i]\Phi$,
-  where $s_i\in\tilde{i_i}$ and $c_i\in i_i$.
+  where $\SymOf(\simi_i)=s_i$ and $\ValOf(i_i)=c_i$.
 \end{lemma}
 
-Where $\tilde{\imath}\sim i$ is defined as follows.
+Where $\simi\sim i$ is defined as follows.
 
 \begin{definition}[Input simulation]
-  A symbolic input $\tilde{\imath}$ simulates a concrete input $i$ denoted as $\tilde{\imath}\sim i$ in the following cases.\\
+  A symbolic input $\simi$ simulates a concrete input $i$ denoted as $\simi\sim i$ in the following cases.\\
   $s\sim a$, where $s$ is a symbol and $a$ a concrete action.\\
-  $\tilde{\imath}\sim i\implies \First \tilde{\imath} \sim \First i$\\
-  $\tilde{\imath}\sim i\implies \Second \tilde{\imath} \sim \Second i$
+  $\simi\sim i\implies \First \simi \sim \First i$\\
+  $\simi\sim i\implies \Second \simi \sim \Second i$
 \end{definition}
 
-And $s\in \tilde{\imath}$ and $c\in i$ are defined as follows.\\
+And $\SymOf(\simi)=s$ and $\ValOf(i)=c$ are defined as follows.\\
 \\
 \noindent
-\begin{minipage}[c]{0.5\textwidth}
+\begin{minipage}[c]{0.45\textwidth}
   \begin{definition}[Value from input]\\
-    $c\in \First i = c\in i $\\
-    $c\in \Second i = c\in i $\\
-    $c\in a = a $
+    \begin{function}
+      \signature{\ValOf : \mathrm{Inputs} \to \mathrm{Values}} \\
+      \ValOf(\First i)    &=& \ValOf(i) \\
+      \ValOf(\Second i)   &=& \ValOf(i) \\
+      \ValOf(c)           &=& c \\
+      \ValOf(\_)          &=& \bot
+    \end{function}
   \end{definition}
 \end{minipage}
-\begin{minipage}[c]{0.5\textwidth}
+\begin{minipage}[c]{0.55\textwidth}
   \begin{definition}[Symbol from input]\\
-    $s\in \First \tilde{\imath} = s\in \tilde{\imath} $\\
-    $s\in \Second \tilde{\imath} = s\in \tilde{\imath} $\\
-    $s\in a = a $
+    \begin{function}
+      \signature{\SymOf : \mathrm{Symbolic\ Inputs} \to \mathrm{Symbolic\ Values}} \\
+      \SymOf(\First i)    &=& \SymOf(i) \\
+      \SymOf(\Second i)   &=& \SymOf(i) \\
+      \SymOf(s)           &=& s \\
+      \SymOf(\_)          &=& \bot
+    \end{function}
   \end{definition}
 \end{minipage}\\
-\\
-
-Our strategy to prove these two lemma's is outlined in \cref{fig:proofstructure}.
 
 \begin{figure}[t]
   \tikzstyle{drive} = [decoration={markings,mark=at position
@@ -170,11 +173,11 @@ Our strategy to prove these two lemma's is outlined in \cref{fig:proofstructure}
         \draw[sdrive] (sss) -- (sn);
 
 
-        \path[dashed,->] ([yshift=.25em]c1.east) edge node {\cref{lem:completedriving}} ([yshift=.25em]s1.west);
-        \path[dashed,->] ([yshift=-.25em]s1.west) edge node {\cref{lem:sounddriving}} ([yshift=-.25em]c1.east);
+        \path[dashed,->] ([yshift=.25em]c1.east) edge node {\cref{lem:completeinteracting}} ([yshift=.25em]s1.west);
+        \path[dashed,->] ([yshift=-.25em]s1.west) edge node {\cref{lem:soundinteracting}} ([yshift=-.25em]c1.east);
 
-        \path[dashed,->] ([yshift=.25em]ck.east) edge node {\cref{lem:completedriving}} ([yshift=.25em]sk.west);
-        \path[dashed,->] ([yshift=-.25em]sk.west) edge node {\cref{lem:sounddriving}} ([yshift=-.25em]ck.east);
+        \path[dashed,->] ([yshift=.25em]ck.east) edge node {\cref{lem:completeinteracting}} ([yshift=.25em]sk.west);
+        \path[dashed,->] ([yshift=-.25em]sk.west) edge node {\cref{lem:soundinteracting}} ([yshift=-.25em]ck.east);
 
         \path[dashed,->] ([yshift=.25em]cn.east) edge node {\cref{lem:completesimulate}} ([yshift=.25em]sn.west);
         \path[dashed,->] ([yshift=-.25em]sn.west) edge node {\cref{lem:soundsimulate}} ([yshift=-.25em]cn.east);
@@ -185,58 +188,58 @@ Our strategy to prove these two lemma's is outlined in \cref{fig:proofstructure}
       \label{fig:proofstructure}
 \end{figure}
 
+Our strategy to prove these two lemma's is outlined in \cref{fig:proofstructure}.
 At the top, we start out with any task $t$ and state $\sigma$.
 The left side of the diagram is an overview of the evaluate function.
 Inputs $i_1$ until $i_n$ are sequentially applied, until the task has an observable value.
 
 On the right side, symbolic execution is performed.
-One step of the driving semantics is taken, which results in a symbolic task, state, input
-and a path condition.
-Provided that the path condition holds, driving is executed sequentially until the symbolic task has an observable symbolic value.
+One step of the symbolic interaction semantics is taken, which results in a symbolic task, state, input and a path condition.
+Provided that the path condition holds, interaction is executed sequentially until the symbolic task has an observable symbolic value.
 
-Proving soundness and completeness of simulate now comes down to relating the left and right side of the diagram.
-From symbolic to concrete, right to left, is soundness, as stated in \cref{lem:soundsimulate}.
-From concrete to symbolic, left to right, is completeness, as stated in \cref{lem:soundsimulate}.
+Proving soundness and completeness of simulation now comes down to relating the left and right side of the diagram.
+From symbolic to concrete (right to left) is soundness, as stated in \cref{lem:soundsimulate}.
+From concrete to symbolic (left to right) is completeness, as stated in \cref{lem:soundsimulate}.
 
-Since simulate and evaluate rely on the (symbolic) handling semantics,
+Since simulation and execution rely on the (symbolic) handling semantics,
 we prove soundness and completeness of those semantics first.
 Looking at \cref{fig:proofstructure}, there are two different settings in which the (symbolic) handling semantics are applied.
 At the top, both symbolic and concrete execution start out with the same task and state.
 But further down, the task and state differ for both semantics.
 The task and state are related to each other however.
-Symbolic execution introduces symbols, the concrete semantics handles concrete values.
+The symbolic semantics introduces symbols, the concrete semantics handles concrete values.
 This relation is expressed by the consistence relation listed in \cref{def:consistence}.
 
 \begin{definition}[Consistence relation $\Consistent$]
   \label{def:consistence}
-A concrete task $t$ and concrete state $\sigma$
-are considered to be consistent with a symbolic task $\tilde{t}$, symbolic state $\tilde{\sigma}$ and path condition $\Phi$
-under a certain mapping $M=[s_1\mapsto c_1,\cdots,s_n,\mapsto c_n]$, denoted as $t,\sigma \Consistent_M \tilde{t},\tilde{\sigma},\Phi$
-if and only if $M\tilde{t}=t$, $M\tilde{\sigma}=\sigma$ and $M\Phi$
+  A concrete task $t$ and concrete state $\sigma$
+  are considered to be consistent with a symbolic task $\tilde{t}$, symbolic state $\tilde{\sigma}$ and path condition $\Phi$
+  under a certain mapping $M=[s_1\mapsto c_1,\cdots,s_n,\mapsto c_n]$, denoted as $t,\sigma \Consistent_M \tilde{t},\tilde{\sigma},\Phi$
+  if and only if $M\tilde{t}=t$, $M\tilde{\sigma}=\sigma$ and $M\Phi$
 \end{definition}
 
-Now \cref{lem:sounddriving} and \cref{lem:completedriving} express soundness and completeness of driving respectively.
+Now \cref{lem:soundinteracting} and \cref{lem:completeinteracting} express soundness and completeness of interacting respectively.
 
-\begin{lemma}[Soundness of driving]
-  \label{lem:sounddriving}
+\begin{lemma}[Soundness of interacting]
+  \label{lem:soundinteracting}
   For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
   we have that $t,\sigma\Consistent_M\tilde{t},\tilde{\sigma},\Phi$ implies
-  that for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi)$ in $\tilde{t},\tilde{\sigma}\siminteract\overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}$,
-  $\Sat(\Phi\land\phi)$ implies that there exists an input $i$ such that $\tilde{\imath}\sim i$,  $t,\sigma\interact{i}t',\sigma'$ and $t',\sigma' \Consistent_{M.[s\mapsto c]} \tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{\imath}$ and $c\in i$.
+  that for all pairs $(\tilde{t}',\tilde{\sigma}',\simi,\phi)$ in $\tilde{t},\tilde{\sigma}\siminteract\overline{\tilde{t}',\tilde{\sigma}',\simi,\phi}$,
+  $\Sat(\Phi\land\phi)$ implies that there exists an input $i$ such that $\simi\sim i$,  $t,\sigma\interact{i}t',\sigma'$ and $t',\sigma' \Consistent_{M.[s\mapsto c]} \tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $\SymOf(\simi)=s$ and $\ValOf(i)=c$.
 \end{lemma}
 
-\begin{lemma}[Completeness of driving]
-  \label{lem:completedriving}
+\begin{lemma}[Completeness of interacting]
+  \label{lem:completeinteracting}
   For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
   we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$ implies
   that for all inputs $i$ such that $t,\sigma\interact{i}t',\sigma'$,
-  there exists a symbolic input $\tilde{\imath}$, $\tilde{\imath}\sim i$ such that
-  $\tilde{t},\tilde{\sigma}\siminteract\overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}$, $\Sat(\Phi\land\phi)$ and $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{\imath}$ and $c\in i$.
+  there exists a symbolic input $\simi$, $\simi\sim i$ such that
+  $\tilde{t},\tilde{\sigma}\siminteract\overline{\tilde{t}',\tilde{\sigma}',\simi,\phi}$, $\Sat(\Phi\land\phi)$ and $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $\SymOf(\simi)=s$ and $\ValOf(i)=c$.
 \end{lemma}
 
 In other words, if a symbolic and concrete task and state are related, they will still be related after (symbolic) handling.
-
-The top case, where both the symbolic and concrete semantics start out with the same task and state, can be seen as a special case of the consistence relation.
+The top case, where both the symbolic and concrete semantics start out with the same task and state,
+can be seen as a special case of the consistence relation.
 Obviously a task and state are consistent with themselves, using the empty mapping and the path condition $\True$.
 
 The full proof of all four lemma's is listed in the appendix.
@@ -244,49 +247,49 @@ The full proof of all four lemma's is listed in the appendix.
 
 \subsection{Correctness of hints}
 
-Now that soundness and completeness of simulate has been proven, we can prove that our hints function is correct.
-We consider our function to be correct when it produces correct hints.
-Intuitively, for a set of next step hints to be correct, they should adhere to the following requirements.
-
+Now that soundness and completeness of simulate have been proven, we can prove that our hints function produces correct hints.
+Intuitively, for a next step hint to be correct, it should adhere to the following requirements:
 \begin{itemize}
-  \item valid steps a user can actually take.
-  \item bring the user closer to the desired goal.
-  \item contain ALL steps that bring the user closer to their goal.
+  \item it leads to concrete input users can actually insert; and
+  \item when users follow the hint, the end goal is still reachable.
+\end{itemize}
+Moreover, a set of next step hints is correct when:
+\begin{itemize}
+  \item each hint it contains is correct; and
+  \item it covers all possible inputs that lead to the end goal.
 \end{itemize}
 
 We separate these requirements into two lemma's, namely soundness and completeness.
 
 \begin{theorem}[Soundness of hints]
   \label{thm:soundhint}
-
-For all tasks $t$, states $\sigma$ and goals $g$,
-for every next step hint $(\tilde{\imath},\Phi)$ in $\Hints(t,\sigma,g)$,
-there exists a sequence of inputs $I$ and input $i$ such that $\tilde{\imath}\sim i$,
-$\Sat([s\mapsto c]\Phi)$, $t,\sigma\interact{i} t',\sigma'\execute{I} v$ and $gv$.
+  For all tasks $t$, states $\sigma$, and goals $g$,
+  for every next step hint $\<\simi,\Phi\>$ in $\Hints(t,\sigma,g)$,
+  there exists a sequence of concrete inputs $I$ and a concrete input $i$ such that $\simi\sim i$,
+  $\Sat([s\mapsto c]\Phi)$, $t,\sigma\interact{i} t',\sigma'\execute{I} v$ and $g(v)$.
 \end{theorem}
 
 \begin{theorem}[Completeness of hints]
   \label{thm:completehint}
-  For all tasks $t$, states $\sigma$, lists of input $(i:is)$ and goals $g$,
-  if $t,\sigma,\execute{i:is} v$ and $g v$, then there exists a symbolic input $\tilde{\imath}$ and path condition $\Phi$
-  such that $(\tilde{\imath},\Phi)\in\Hints(t,\sigma)$ with $\tilde{\imath}\sim i$ and $\Sat([s\mapsto c]\Phi)$ with $c\in i$ and $s\in i$.
+  For all tasks $t$, states $\sigma$, lists of input $i \cdot I$, and goals $g$,
+  if $t,\sigma,\execute{i \cdot I} v$ and $g(v)$, then there exists a symbolic input $\simi$ and path condition $\Phi$
+  such that $\<\simi,\Phi\> \in \Hints(t,\sigma,g)$ with $\simi\sim i$ and $\Sat\big([s\mapsto c]\Phi\big)$ with $\ValOf(i) = c$ and $\SymOf(\simi) = s$.
 \end{theorem}
-
 
 The proofs of these two threorems are quite straight forward.
 
 \begin{proof}[\cref{thm:soundhint}]
   \cref{thm:soundhint} follows from the definition of $\Hints$ and \cref{lem:soundsimulate} as follows.
 
-  The definition of $\Hints$ gives us that for every pair $(\tilde{\imath},\Phi)$ produced by $\Hints$,
-  there exists a pair $(\tilde{v},\tilde{\imath}:\tilde{is},\Phi)$ with $\Sat(\Phi\land g \tilde{v})$.
+  The definition of $\Hints$ gives us that for every pair $\<\simi,\Phi\>$ produced by $\Hints$,
+  there exists a triple $\<\tilde{v},\simi:\tilde{is},\Phi\>$ with $\Sat\big(\Phi \land g(\tilde{v})\big)$.
   Then by \cref{lem:soundsimulate} we have that there exists a sequence of concrete inputs $I$ such that
-  $t,\sigma\execute{I}v$ and $g v$.
+  $t,\sigma\execute{I}v$ and $g(v)$.
 \end{proof}
 
 
 \begin{proof}[\cref{thm:completehint}]
-  In order to prove that $i$ is contained in $\Hints(t,\sigma)$, we need to show that $(\tilde{v},\tilde{\imath}:\tilde{is},\Phi)\in t,\sigma\simulate$, with $\tilde{\imath}\sim i$ and $\Sat([s_0\mapsto c_0,\cdots,s_n\mapsto c_n]\land g\tilde{v})$, where $[c_0,\cdots,c_n]\in i:is$ and $[s_0,\cdots,s_n]\in \tilde{\imath}:\tilde{is}$.
+  In order to prove that $i$ is contained in $\Hints(t,\sigma,g)$, we need to show that $t,\sigma \simulate \<\tilde{v},\simi \cdot \tilde{I},\Phi\>$, with $\simi\sim i$ and $\Sat\big([s_0\mapsto c_0,\cdots,s_n\mapsto c_n] \land g(\tilde{v})\big)$, where $\ValOf(i_0)= c_0, \cdots, \ValOf(i_n) = c_n$ and $[c_0,\cdots,c_n]\in i \cdot I$ and $\SymOf(\simi_0) = s_0, \cdots, \SymOf(\simi_n) = s_n$.
 
-  By \cref{lem:completesimulate}, we directly obtain that this indeed exists. Therefore we know that $\tilde{\imath}$ and $\Phi$ exist.
+  By \cref{lem:completesimulate}, we directly obtain that this indeed exists. Therefore we know that $\simi$ and $\Phi$ exist.
 \end{proof}

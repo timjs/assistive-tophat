@@ -11,11 +11,11 @@
   By definition of simulation $(\simulate)$, we know that for each tuple $(\tilde{v},\tilde{I},\Phi)$,
   the following sequence of symbolic drive steps has occurred.
   \begin{align*}
-      t,\sigma\siminteract&\tilde{t}_1,\tilde{\sigma}_1,\tilde{\imath}_1,\phi_1&\\
-                      &\tilde{t}_1,\tilde{\sigma}_1\siminteract&\tilde{t}_2,\tilde{\sigma}_2,\tilde{\imath}_2,\phi_2\\
+      t,\sigma\siminteract&\tilde{t}_1,\tilde{\sigma}_1,\simi_1,\phi_1&\\
+                      &\tilde{t}_1,\tilde{\sigma}_1\siminteract&\tilde{t}_2,\tilde{\sigma}_2,\simi_2,\phi_2\\
                       &                                    &\tilde{t}_2,\tilde{\sigma}_2\siminteract&\cdots&\\
                       &                                    &                                    &\cdots&
-                      \siminteract\tilde{t}_n,\tilde{\sigma}_n,\tilde{\imath}_n,\phi_n
+                      \siminteract\tilde{t}_n,\tilde{\sigma}_n,\simi_n,\phi_n
   \end{align*}
 
   with $\Value(\tilde{t}_n,\tilde{\sigma}_n)=\tilde{v}$ and $\Sat(\phi_1\land\cdots\land\phi_n)$.
@@ -25,7 +25,7 @@
   $t,\sigma\interact{i_1}t_1,\sigma_1\interact{i_2}t_2,\sigma_2\interact{i_3}\cdots \interact{i_n}t_n,\sigma_n$ with $\Value(t_n,\sigma_n)$.
 
   By \cref{lem:sounddriving}, we know that $t,\sigma\interact{i_1}t_1,\sigma_1$ exists, since $t,\sigma\Consistent_{\emptyset}t,\sigma,\True$.
-  This also gives us that $\tilde{i_1}\sim i_1$, and $t_1,\sigma_1\Consistent_{[s_1\mapsto c_1]}\tilde{t}_1,\tilde{\sigma}_1,\phi_1$ with $s_1\in\tilde{\imath}_1$ and $c_1\in i_1$.
+  This also gives us that $\tilde{i_1}\sim i_1$, and $t_1,\sigma_1\Consistent_{[s_1\mapsto c_1]}\tilde{t}_1,\tilde{\sigma}_1,\phi_1$ with $\SymOf(\sim_1)=s_1$ and $\ValOf(i_1)=c_1$.
 
   By repeatedly applying \cref{lem:sounddriving}, until we arrive at $\tilde{t}_n,\sigma{t}_n$,
   we can show that there indeed exists an $I$ such that $t,\sigma\execute{I}v$ with $[s_1\mapsto c_1,\cdots,s_n\mapsto c_n]\tilde{v}=v$
@@ -40,9 +40,9 @@
 
 \begin{proof}[Soundness of driving]
   The symbolic driving semantics consists of only one rule, \refrule{SI-Handle}.
-  Given that $t,\sigma\Consistent_M\tilde{t},\tilde{\sigma},\Phi$ and $\tilde{t},\tilde{\sigma}\siminteract\overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi_1}$,
-  \cref{lem:soundhandle} gives us that for each pair $(\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi_1)$
-  there exists an input $i$ such that $\tilde{\imath}\sim i$, $t,\sigma\handle{i}t',\sigma'$
+  Given that $t,\sigma\Consistent_M\tilde{t},\tilde{\sigma},\Phi$ and $\tilde{t},\tilde{\sigma}\siminteract\overline{\tilde{t}',\tilde{\sigma}',\simi,\phi_1}$,
+  \cref{lem:soundhandle} gives us that for each pair $(\tilde{t}',\tilde{\sigma}',\simi,\phi_1)$
+  there exists an input $i$ such that $\simi\sim i$, $t,\sigma\handle{i}t',\sigma'$
   and $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t'},\tilde{\sigma'},\Phi\land\phi_1$.
 
   Then, by \cref{lem:soundnorm}, given that $\tilde{t'},\tilde{\sigma'}\normalise\overline{\tilde{t''},\tilde{\sigma''}',\phi_2}$,
@@ -56,9 +56,9 @@
 
   For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
   we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$ implies
-  that for all symbolic inputs $\tilde{\imath}$ such that $\tilde{t},\tilde{\sigma}\simhandle\overline{\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi}$ and
-  for all pairs $(\tilde{t}',\tilde{\sigma}',\tilde{\imath},\phi)$,
-  $\Sat(\Phi\land\phi)$ implies that there exists an input $i$ such that $\tilde{\imath}\sim i$,  $t,\sigma\handle{i}t',\sigma'$ and $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\tilde{\imath}$ and $c\in i$.
+  that for all symbolic inputs $\simi$ such that $\tilde{t},\tilde{\sigma}\simhandle\overline{\tilde{t}',\tilde{\sigma}',\simi,\phi}$ and
+  for all pairs $(\tilde{t}',\tilde{\sigma}',\simi,\phi)$,
+  $\Sat(\Phi\land\phi)$ implies that there exists an input $i$ such that $\simi\sim i$,  $t,\sigma\handle{i}t',\sigma'$ and $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $\SymOf(\simi)=s$ and $\ValOf(i)=c$.
 
 \end{lemma}
 
@@ -137,9 +137,9 @@ Since we have $t,\sigma\Consistent_M\tilde{t}_1\Next \tilde{e}_2,\tilde{\sigma},
 {
 In this case, we have two sets of symbolic executions.
 
-For all tuples $(\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\tilde{\imath},\phi_1)$, we know by application of the induction hypothesis that
-there exits an $i$ such that $\tilde{\imath}\sim i$, $t_1,\sigma\handle{i}t_1',\sigma'$ and
-$t_1',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1$ where $c\in i$ and $s\in \tilde{\imath}$.
+For all tuples $(\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\simi,\phi_1)$, we know by application of the induction hypothesis that
+there exits an $i$ such that $\simi\sim i$, $t_1,\sigma\handle{i}t_1',\sigma'$ and
+$t_1',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1$ where $\ValOf(i)=c$ and $\ValOf(\simi)=s$.
 Therefore we also have $t_1'\Next e_2,\sigma_1'\Consistent_{M.[s\mapsto c]}\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\Phi\land\phi_1$.
 
 For all tuples $(\tilde{t}_2,\tilde{\sigma}_2',\Continue,\phi_2)$, we first have by \cref{lem:valpres} that
@@ -156,26 +156,26 @@ and $t_1,\sigma_2'\Consistent_M\tilde{t}_2,\tilde{\sigma}_2',\Phi\land\phi_2$
 
 \Case{\Userule{SH-PassNext}}
 {
-For all tuples $(\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\tilde{\imath},\phi_1)$, we know by application of the induction hypothesis that
-there exits an $i$ such that $\tilde{\imath}\sim i$, $t_1,\sigma\handle{i}t_1',\sigma'$ and
-$t_1',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1$ where $c\in i$ and $s\in \tilde{\imath}$.
+For all tuples $(\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\simi,\phi_1)$, we know by application of the induction hypothesis that
+there exits an $i$ such that $\simi\sim i$, $t_1,\sigma\handle{i}t_1',\sigma'$ and
+$t_1',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1$ where $\ValOf(i)=c$ and $\ValOf(\simi)=s$.
 Therefore we also have $t_1'\Next e_2,\sigma_1'\Consistent_{M.[s\mapsto c]}\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\Phi\land\phi_1$.
 }
 
 \Case{\Userule{SH-PassNextFail}}
 {
-For all tuples $(\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\tilde{\imath},\phi_1)$, we know by application of the induction hypothesis that
-there exits an $i$ such that $\tilde{\imath}\sim i$, $t_1,\sigma\handle{i}t_1',\sigma'$ and
-$t_1',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1$ where $c\in i$ and $s\in \tilde{\imath}$.
+For all tuples $(\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\simi,\phi_1)$, we know by application of the induction hypothesis that
+there exits an $i$ such that $\simi\sim i$, $t_1,\sigma\handle{i}t_1',\sigma'$ and
+$t_1',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1$ where $\ValOf(i)=c$ and $\ValOf(\simi)=s$.
 Therefore we also have $t_1'\Next e_2,\sigma_1'\Consistent_{M.[s\mapsto c]}\tilde{t}_1'\Next \tilde{e}_2,\tilde{\sigma}_1',\Phi\land\phi_1$.
 }
 }
 
 \Case{$\tilde{t}=\tilde{t}_1\Then \tilde{e}_2$}
 {One rule applies, namely \Userule{SH-PassThen}\\
-For all tuples $(\tilde{t}_1'\Then\tilde{e}_2,\tilde{\sigma}',\tilde{\imath},\phi)$, we know by application of the induction hypothesis that
-there exists an $i$ such that $\tilde{\imath}\sim i$, $t_1,\sigma\handle{1}t_1',\sigma'$ and
-$t_1',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1$ where $c\in i$ and $s\in \tilde{\imath}$.
+For all tuples $(\tilde{t}_1'\Then\tilde{e}_2,\tilde{\sigma}',\simi,\phi)$, we know by application of the induction hypothesis that
+there exists an $i$ such that $\simi\sim i$, $t_1,\sigma\handle{1}t_1',\sigma'$ and
+$t_1',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}',\Phi\land\phi_1$ where $\ValOf(i)=c$ and $\SymOf(\simi)=s$.
 Therefore we also have $t_1'\Then e_2,\sigma_1'\Consistent_{M.[s\mapsto c]}\tilde{t}_1'\Then \tilde{e}_2,\tilde{\sigma}_1',\Phi\land\phi_1,M.[s\mapsto c])$.
 }
 
@@ -216,16 +216,16 @@ In this case, one rule applies. \Userule{SH-And}
 
 In this case, we have two sets of symbolic executions.
 
-  For all tuples $(\tilde{t}_1'\And\tilde{t}_2,\tilde{\sigma}_1',\First \tilde{\imath}_1,\phi_1)$,
+  For all tuples $(\tilde{t}_1'\And\tilde{t}_2,\tilde{\sigma}_1',\First \simi_1,\phi_1)$,
   we know by application of the induction hypothesis that there exists an $i$ such that
-  $\tilde{\imath}_1\sim i$, $t_1,\sigma\handle{i}t_1',\sigma_1'$ and
+  $\simi_1\sim i$, $t_1,\sigma\handle{i}t_1',\sigma_1'$ and
   $t_1',\sigma_1'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}_1',\Phi\land\phi_1$.
   Then by \refrule{H-FirstAnd}, we know that also $t_1\And t_2,\sigma\handle{\First i}t_1'\And t_2,\sigma_1'$.
   It follows trivially that $t_1'\And t_2,\sigma_1'\Consistent_{M.[s\mapsto c]}\tilde{t}_1'\And \tilde{t}_2,\tilde{\sigma}_1',\Phi\land\phi_1$.
 
-  For all tuples $(\tilde{t}_1\And\tilde{t}_2',\tilde{\sigma}_2',\Second \tilde{\imath}_2,\phi_2)$,
+  For all tuples $(\tilde{t}_1\And\tilde{t}_2',\tilde{\sigma}_2',\Second \simi_2,\phi_2)$,
   we know by application of the induction hypothesis that there exists an $i$ such that
-  $\tilde{\imath}_2\sim i$, $t_2,\sigma\handle{i}t_2',\sigma_2'$ and
+  $\simi_2\sim i$, $t_2,\sigma\handle{i}t_2',\sigma_2'$ and
   $t_2',\sigma_2'\Consistent_{M.[s\mapsto c]}\tilde{t}_2',\tilde{\sigma}_2',\Phi\land\phi_2$.
   Then by \refrule{H-SecondAnd}, we know that also $t_1\And t_2,\sigma\handle{\Second i}t_1\And t_2',\sigma_2'$.
   It follows trivially that $t_1\And t_2',\sigma_2'\Consistent_{M.[s\mapsto c]}\tilde{t}_1\And \tilde{t}_2',\tilde{\sigma}_2',\Phi\land\phi_2$.
@@ -235,16 +235,16 @@ In this case, we have two sets of symbolic executions.
 {One rule applies, namely \Userule{SH-Or}\\
 In this case, we have two sets of symbolic executions.
 
-  For all tuples $(\tilde{t}_1'\Or\tilde{t}_2,\tilde{\sigma}_1',\First \tilde{\imath}_1,\phi_1)$,
+  For all tuples $(\tilde{t}_1'\Or\tilde{t}_2,\tilde{\sigma}_1',\First \simi_1,\phi_1)$,
   we know by application of the induction hypothesis that there exists an $i$ such that
-  $\tilde{\imath}_1\sim i$, $t_1,\sigma\handle{i}t_1',\sigma_1'$ and
+  $\simi_1\sim i$, $t_1,\sigma\handle{i}t_1',\sigma_1'$ and
   $t_1',\sigma_1'\Consistent_{M.[s\mapsto c]}\tilde{t}_1',\tilde{\sigma}_1',\Phi\land\phi_1$.
   Then by \refrule{H-FirstOr}, we know that also $t_1\Or t_2,\sigma\handle{\First i}t_1'\Or t_2,\sigma_1'$.
   It follows trivially that $t_1'\Or t_2,\sigma_1'\Consistent_{M.[s\mapsto c]}\tilde{t}_1'\Or \tilde{t}_2,\tilde{\sigma}_1',\Phi\land\phi_1$.
 
-  For all tuples $(\tilde{t}_1\Or\tilde{t}_2',\tilde{\sigma}_2',\Second \tilde{\imath}_2,\phi_2)$,
+  For all tuples $(\tilde{t}_1\Or\tilde{t}_2',\tilde{\sigma}_2',\Second \simi_2,\phi_2)$,
   we know by application of the induction hypothesis that there exists an $i$ such that
-  $\tilde{\imath}_2\sim i$, $t_2,\sigma\handle{i}t_2',\sigma_2'$ and
+  $\simi_2\sim i$, $t_2,\sigma\handle{i}t_2',\sigma_2'$ and
   $t_2',\sigma_2'\Consistent_{M.[s\mapsto c]}\tilde{t}_2',\tilde{\sigma}_2',\Phi\land\phi_2$.
   Then by \refrule{H-SecondOr}, we know that also $t_1\Or t_2,\sigma\handle{\Second i}t_1\Or t_2',\sigma_2'$.
   It follows trivially that $t_1\Or t_2',\sigma_2'\Consistent_{M.[s\mapsto c]}\tilde{t}_1\Or \tilde{t}_2',\tilde{\sigma}_2',\Phi\land\phi_2$.

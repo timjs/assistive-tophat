@@ -5,23 +5,25 @@
 
 In this paper, we have demonstrated how to apply symbolic execution to automatically generate next step hints for \TOPHAT programs.
 We have proven the symbolic execution to be sound and complete with regards to sequential inputs.
-Based on this property, we also show that the generated next step hints are correct.
+Based on this property, we have also shown that the generated next step hints are correct.
 Furthermore, we have presented an implementation of the end user feedback system in Haskell.
 
 
 \subsection{Future work}
 
 As future work, we are very interested in bringing the theory presented in this paper into practice.
+We feel that there are three possible angles to pursue this interest.
 
-%how to present hints
-When a user requests a next step hint, the current task and state are passed to $\Hints$, together with the selected goal.
-The resulting set cannot directly be presented to the user.
-Pairs containing a concrete step ($\Continue,\Left,\Right$), can be given as hints without their path condition.
-Pairs containing a symbolic input as hint ($s,\First s,$ etc) should be presented with the path condition.
-Since the path condition contains all constraints of the symbolic execution, it may contain constraints on symbols other than the next step hint.
-These constraints should be removed from the information shown to the user, as they do not include useful information.
+\subsubsection{Presenting hint information}
+The information calculated by the current hints function cannot directly be presented to the end user.
+The set of calculated hints contains duplicates.
+This is due to the fact that there might be several different paths to the goal, that start out with the same symbolic input.
+Another source of redundant information is the path conditions.
+The path conditions contained in the hint tuple contains information about the complete execution, while the symbolic input is only concerned with the immediate next step.
+Therefore, the path condition may contain references to future inputs and constraints, which offer no information for the end user.
+In a future implementation of \ASTOPHAT, we would like to filter out both sources of redundancy, in order to present the user with more concise information.
 
-%itasks support
+\subsubsection{Hint generation in iTasks}
 Since iTasks is currently the biggest \TOP framework, it would be the next logical step to integrate automatic hint generation into the framework.
 This would allow a wide range of applications to immediately benefit from automatic next step hint generation.
 The iTasks framework is shallowly embedded in the purely functional programming language Clean,
@@ -29,6 +31,6 @@ which means that programmers can leverage the full power of the host language.
 This makes implementing symbolic execution non-trivial.
 
 
-%testing with Users
+\subsubsection{Measuring impact of hints}
 Finally, we would like to test the impact of next step hints in workflow systems in an empirical study.
-\TOP research has been applied and studied in the field at the Royal Netherlands Sea Rescue Institution and the Royal Netherlands Navy, which would be ideal testing grounds for assistive \TOPHAT.
+\TOP research has been applied and studied in the field at the Royal Netherlands Sea Rescue Institution and the Royal Netherlands Navy, which would be ideal testing grounds for \ASTOPHAT.
