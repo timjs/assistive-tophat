@@ -53,7 +53,7 @@ References are used to model the shared data component of \TOP.
 The complete syntax and semantics can be found in previous work~\cite{DBLP:conf/ppdp/SteenvoordenNK19}.
 An overview can be found in the appendix.
 In the next subsections we describe the basic constructs of the \TOPHAT language.
-\cref{sec:symbolic} details \STOPHAT.
+\cref{sub:symbolic-execution} details \STOPHAT.
 
 
 \subsection{Editors}
@@ -65,7 +65,7 @@ Users can change the value held by an editor, in the same way they can manipulat
 
 When a \TOP implementation generates an application from a task specification, it derives user interfaces for the editors.
 The appearance of an editor depends on its type.
-For example, editors of type strings can be represented by simple input fields, dates by calendars, and locations by pins on a map.
+For example, editors of type string can be represented by simple input fields, dates by calendars, and locations by pins on a map.
 
 There are three different editors in \TOPHAT.
 \begin{description}
@@ -178,6 +178,7 @@ In particular, the order of input events determine the progression of parallel b
 \label{sub:semantics}
 
 The semantics of \TOPHAT are defined in three layers.
+\Cref{fig:semantic-functions} contains an overview of these semantics and their relations.
 The first layer consists of the standard big step semantics for the simply typed $\lambda$-calculus.
 We call this semantics evaluation ($\eval$).
 All task specific language constructs, as described previously in \cref{sub:editors,sub:combinators},
@@ -185,12 +186,11 @@ are normalised using a dedicated big step semantics ($\normalise$) in the second
 Normalisation can be regarded as preparing tasks for user input.
 It makes use of a helper small step semantics called striding ($\stride$).
 
-Above semantics are internal to the system and do not take any user interaction into account.
-Therefore, on the third level, the small step interaction semantics ($\interact{}$) first handles any user input $i$ using the handle semantics ($\handle{}$)
+The above semantics are internal to the system and do not take any user interaction into account.
+On the third level, the small step interaction semantics ($\interact{}$) first handles any user input $i$ using the handle semantics ($\handle{}$)
 and then normalises the resulting task so it is ready to handle the next user input.
 
-\Cref{fig:semantic-functions} contains an overview of these semantics and their relations.
-Semantic rules can be found in the appendix.
+The semantic rules can be found in the appendix.
 For a thorough explanation of all rules, we refer to previous work \cite{DBLP:conf/ppdp/SteenvoordenNK19}.
 
 \begin{figure}[t]

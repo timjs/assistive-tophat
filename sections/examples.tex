@@ -6,7 +6,7 @@
 This section introduces three example \TOPHAT programs.
 Each example illustrate different functionality of the \TOPHAT language.
 \cref{sec:vending} demonstrates the step combinator, \cref{sec:tax} includes the parallel and choice combinators, and finally \cref{sec:dining} demonstrates the use of shares in order for tasks to communicate with each other.
-The examples will be used in \cref{sec:assistive} to demonstrate how \ASTOPHAT works, and are included in the implementation described in \cref{sec:implementation}.
+The examples will be used in \cref{sec:assistive} to demonstrate how \ASTOPHAT works, and are included in the implementation.
 
 
 \subsection{Vending Machine}
@@ -86,7 +86,7 @@ In previous work, we have shown that this code indeed adheres to the requirement
 There we focussed on assisting the developer by proving the program correct.
 In this work we focus on supporting the end user that is requesting a subsidy.
 The end user wants the outcome of this program to be a subsidy amount larger than zero.
-In \cref{sec:assistivetax} we will show how to generate hints for the end user to reach this goal.
+In \cref{sub:assistive-tax} we will show how to generate hints for the end user to reach this goal.
 
 
 \subsection{Dining Computer Scientists Problem}
@@ -101,11 +101,11 @@ This, of course, means that the philosophers cannot eat at the same time, since 
 Deadlock can occur when all philosophers pick up the fork to their right (or left).
 Then, everybody has one fork.
 This means that each philosopher cannot start his or her meal.
-Next to that, is also not allowed to put his fork back on the table.\\
+Next to that, is also not allowed to put his fork back on the table.
 
 \noindent
+\begin{figure}
 \begin{minipage}[r]{0.55\textwidth}
-
 \lstset{emph={this, that, name, left, right}}
 \begin{TASK}[
     %float=ht,
@@ -161,10 +161,12 @@ Next to that, is also not allowed to put his fork back on the table.\\
   \draw (416,243) node  [align=left] {Ada};
 
   \end{tikzpicture}
-  \vspace{0.7cm}
+  \vspace{0.2cm}
   \captionof{figure}{Rendering with three philosophers.}
-\end{minipage}\\
-\\
+\end{minipage}
+\end{figure}
+
+
 We look at dining computer scientists instead.
 \cref{lst:dining} lists an implementation in \TOPHAT for this problem, with three computer scientists.
 The forks are represented by references containing Booleans (\cref{lst:phil:fork0,lst:phil:fork1,lst:phil:fork2}).
