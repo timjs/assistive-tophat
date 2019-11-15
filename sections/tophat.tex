@@ -45,8 +45,8 @@ which is an embedded domain specific language in the non-strict functional progr
 A formalisation of \TOP, called \TOPHAT (TopHat), has been created by Steenvoorden, Naus, and Klinik~\cite{DBLP:conf/ppdp/SteenvoordenNK19}.
 \ASTOPHAT builds on \TOPHAT and its symbolic counterpart \STOPHAT~\cite{Naus2019}.
 
-\todo{Say that this makes the language \emph{total}!}
 \TOPHAT implements \TOP by embedding a task language in the simply typed lambda calculus with references, conditionals, and pairs.
+Note the omission of any fixed point language constructs, which make \TOPHAT a total language.
 \STOPHAT extends this with built in operators, lists, and most importantly symbols.
 References are used to model the shared data component of \TOP.
 The complete syntax and semantics can be found in previous work~\cite{DBLP:conf/ppdp/SteenvoordenNK19}.
