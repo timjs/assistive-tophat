@@ -24,10 +24,10 @@
 
   $t,\sigma\interact{i_1}t_1,\sigma_1\interact{i_2}t_2,\sigma_2\interact{i_3}\cdots \interact{i_n}t_n,\sigma_n$ with $\Value(t_n,\sigma_n)$.
 
-  By \cref{lem:sounddriving}, we know that $t,\sigma\interact{i_1}t_1,\sigma_1$ exists, since $t,\sigma\Consistent_{\emptyset}t,\sigma,\True$.
+  By \cref{lem:soundinteracting}, we know that $t,\sigma\interact{i_1}t_1,\sigma_1$ exists, since $t,\sigma\Consistent_{\emptyset}t,\sigma,\True$.
   This also gives us that $\tilde{i_1}\sim i_1$, and $t_1,\sigma_1\Consistent_{[s_1\mapsto c_1]}\tilde{t}_1,\tilde{\sigma}_1,\phi_1$ with $\SymOf(\sim_1)=s_1$ and $\ValOf(i_1)=c_1$.
 
-  By repeatedly applying \cref{lem:sounddriving}, until we arrive at $\tilde{t}_n,\sigma{t}_n$,
+  By repeatedly applying \cref{lem:soundinteracting}, until we arrive at $\tilde{t}_n,\sigma{t}_n$,
   we can show that there indeed exists an $I$ such that $t,\sigma\execute{I}v$ with $[s_1\mapsto c_1,\cdots,s_n\mapsto c_n]\tilde{v}=v$
   and $[s_1\mapsto c_1,\cdots,s_n\mapsto c_n]\Phi$, namely $I=[i_1,\cdots,i_n]$.
 
