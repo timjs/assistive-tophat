@@ -30,7 +30,8 @@ Tasks have a couple of properties, listed below.
     New combinators can be created by making use of basic combinators and the (higher order) facilities of the host language.
   \item
     Tasks \emph{share information}.\\
-    Information is passed along control flow, or via references to shared data, in order for tasks to exchange information.
+    Information is passed along control flow, or, in order for tasks to exchange information, across control flow via references.
+    In particular to share data between parallel tasks.
   \item
     Tasks are \emph{typed}.\\
     This is not just to ensure safety at runtime,
@@ -50,6 +51,7 @@ Note the omission of any fixed point language constructs, which make \TOPHAT a t
 \STOPHAT extends this with built in operators, lists, and most importantly symbols.
 References are used to model the shared data component of \TOP.
 The complete syntax and semantics can be found in previous work~\cite{DBLP:conf/ppdp/SteenvoordenNK19}.
+An overview can be found in the appendix.
 In the next subsections we describe the basic constructs of the \TOPHAT language.
 \cref{sec:symbolic} details \STOPHAT.
 
@@ -84,8 +86,9 @@ There are three different editors in \TOPHAT.
 \label{sub:combinators}
 
 Editors can be combined into larger tasks using combinators.
-The order in which editors and tasks are executed is specified with combinators. Tasks can be performed in sequence, in parallel or a choice can be made between tasks.
-
+The order in which editors and tasks are executed is specified with combinators.
+Tasks can be performed in sequence, in parallel or a choice can be made between tasks.
+These combinators originate from basic collaboration patterns.
 
 The following combinators are available in \TOPHAT.
 Here, $t$ stands for tasks and $e$ for expressions.
@@ -98,8 +101,8 @@ Here, $t$ stands for tasks and $e$ for expressions.
     Users can work on task $t$.
     When $t$ has an observable value, the step becomes enabled.
     Then, users can send a continue event to the combinator.
-    When that happens, the value of $t$ is applied to the right hand side function $e$, with which it continues,
-    in the same way as normal steps do.
+    When that happens, the value of $t$ is applied to the right hand side function $e$,
+    with which it continues in the same way as normal steps do.
   \item[$t_1 \And t_2$] Pair.\\
     Users can work on tasks $t_1$ and $t_2$ in at the same time.
   \item[$t_1 \Or t_2$] Choice.\\
@@ -122,7 +125,8 @@ When the right hand side of a step combinator evaluates to $\Fail$, the step wil
 
 Several observations can be made on tasks.
 These observations are used by the system to determine the progress of combinators,
-to draw the user interface, and they will also be used by \ASTOPHAT to provide next step hints.
+and to draw the user interface.
+They will also be used by \ASTOPHAT to provide next step hints.
 
 Using the value function $\Value$, the current value of a task can be determined.
 The value function is a partial function, since not all tasks have a value.
@@ -150,9 +154,9 @@ Both observation definitions can be found in \cref{fig:observations}
   \label{fig:observations}
 \end{figure}
 
-The step combinator makes use of both functions in order to determine if it can step.
-First, it uses $\Value$ to see if the left hand side produces a value.
-If that is the case, it uses the $\Failing$ function to see if stepping to the right hand side is successful.
+The step combinators make use of both functions in order to determine if they can step to the right hand side.
+First, $\Value$ determines if the left hand side produces a value.
+If that is the case, $\Failing$ checks if stepping to the right hand side is successful.
 
 
 \subsection{Input}

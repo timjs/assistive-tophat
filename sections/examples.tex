@@ -100,7 +100,8 @@ Only after eating his or her meal, is a philosopher allowed to place the two for
 This, of course, means that the philosophers cannot eat at the same time, since there are not enough forks.
 Deadlock can occur when all philosophers pick up the fork to their right (or left).
 Then, everybody has one fork.
-This means that each philosopher cannot start his or her meal, and is also not allowed to put his fork back on the table.\\
+This means that each philosopher cannot start his or her meal.
+Next to that, is also not allowed to put his fork back on the table.\\
 
 \noindent
 \begin{minipage}[r]{0.55\textwidth}
@@ -190,13 +191,14 @@ We look at dining computer scientists instead.
 \cref{lst:dining} lists an implementation in \TOPHAT for this problem, with three computer scientists.
 The forks are represented by references containing Booleans (\cref{lst:phil:fork0,lst:phil:fork1,lst:phil:fork2}).
 Using references allows tasks to communicate with each other across control flow.
-Reading a reference $l$ is denoted as $!l$, assigning a new value $v$ to a reference $l$ is written as $l:=v$.
 The value $\True$ indicates that the fork is available,
 $\False$ indicates that the fork is being used.
 
 Picking up a fork is only possible when the fork is available,
 i.e. reading the reference results in $\True$ (\cref{lst:phil:deref}).
 This fork is then marked as being used (\cref{lst:phil:mark-used}).
+Reading a reference $l$ is denoted as $!l$, assigning a new value $v$ to a reference $l$ is written as $l:=v$.
+
 The use of references ensures that the neighbouring scientist cannot pick up this fork: this choice will be disabled.
 After that, one can press continue if the second fork is also available (\cref{lst:phil:that}).
 For the sake of simplicity, one returns the first fork, rather than setting the second fork to $\False$, and then setting both to $\True$ again.
