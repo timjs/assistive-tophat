@@ -3,21 +3,21 @@
 \section{Related work}
 \label{sec:relatedwork}
 
-In previous work, we have attempted to provide end-users with next step hints by viewing workflows as rule based problems~\cite{DBLP:conf/sfp/NausJ16}.
+In previous work, we have attempted to provide end users with next step hints by viewing workflows as rule based problems~\cite{DBLP:conf/sfp/NausJ16}.
 By abstracting over workflows, reasoning about them becomes simpler.
 A standard search algorithm can be run to find a path to the desired goal state.
 Two drawbacks of this approach however are that only very general hints can be given, that range over multiple steps, and that a programmer needs to augment existing workflows with extra information in order to convert it to a rule-based problem.
 
 Stutterheim et al.~\cite{DBLP:conf/sfp/StutterheimPA14} have developed Tonic, a task visualiser for iTasks with limited path prediction capabilities.
-The main goal is not to provide hints to end-users, but the system is able to handle the complete task language, and visualise the effects of user input on the progression of tasks.
+The main goal is not to provide hints to end users, but the system is able to handle the complete task language, and visualise the effects of user input on the progression of tasks.
 
-In order to overcome the problems of our own previous research and the limited use of Tonic for end-user hints, we have combined symbolic execution, together with workflow modelling and next-step hint generation.
+In order to overcome the problems of our own previous research and the limited use of Tonic for end user hints, we have combined symbolic execution, together with workflow modelling and next step hint generation.
 To our knowledge, this is the first work describing the combination of these techniques in this way.
 The different components coming together in this paper have been studied extensively.
 The following sections give an overview of the work done in those areas.
 
-\subsection{Symbolic execution}
 
+\subsection{Symbolic execution}
 
 Symbolic execution \cite{King1975,Boyer1975} is typically being applied to imperative programming languages,
 but in recent years it has been used for functional programming languages as well.
@@ -27,19 +27,19 @@ Their goal is to find executions that lead to a runtime error, either due to an 
 Chang et al.~\cite{ChangKT2018} present a symbolic execution engine for a typed lambda calculus with mutable state where only some language constructs recognise symbolic values.
 They claim that their approach is easier to implement than full symbolic execution and simplifies the burden on the solver, while still considering all execution paths.
 
+
 \subsection{Workflow modelling}
 
-Workflow modelling have been studied extensively from different viewpoints.
+Workflow modelling has been studied extensively from different viewpoints.
 Since many software exists that automates workflows, it is a research topic that potentially has a huge impact on society.
 
 \emph{Workflow patterns} are regarded as special design patterns in software engineering.
 Similar to the combinators in \TOP, they describe recurring patterns in workflow systems.
-Van der Aalst et al.~\cite{journals/dpd/AalstHKB03} identify common patterns, and examine their availability in industry workflow frameworks.
+Van der Aalst et al.~\cite{journals/dpd/AalstHKB03} identifies common patterns, and examines their availability in industry workflow frameworks.
 
-\emph{Workflow Nets} allow for the modelling an analysis of business processes~\cite{DBLP:journals/jcsc/Aalst98}.
+\emph{Workflow nets} allow for the modelling an analysis of business processes~\cite{DBLP:journals/jcsc/Aalst98}.
 Worflow Nets are a subclass of Petri nets, and are therefore graphical in nature.
-Research on Workflow Nets includes verification of models~\cite{DBLP:conf/apn/Aalst97} and complexity analysis~\cite{DBLP:journals/infsof/LassenA09}, just to name a few.
-
+Research on workflow nets includes verification of models~\cite{DBLP:conf/apn/Aalst97} and complexity analysis~\cite{DBLP:journals/infsof/LassenA09}, just to name a few.
 
 \emph{iTasks}~\cite{DBLP:conf/ppdp/PlasmeijerLMAK12} is an implementation of \TOP in the programming language Clean.
 It differs from the above mentioned modelling techniques, since it is not graphical in nature.
@@ -48,16 +48,16 @@ iTasks supports higher order workflows, and leverages techniques from functional
 
 \subsection{Automatic hint generation in intelligent tutoring systems}
 
-The intelligent tutoring systems (ITS) research community is very large.
+The intelligent tutoring systems (\ITS) research community is very elaborate.
 Work that is most relevant to our own is the research into automatic hint generation.
-More traditional ITS rely heavily on experts to write dedicated hints for every specific case of an exercise.
+More traditional \ITS{}s rely heavily on experts to write dedicated hints for every specific case of an exercise.
 Automatic hint generation attempts to overcome this burden by calculating a hint rather than having every case specified.
 
 Heeren et al.~\cite{DBLP:journals/scp/HeerenJ14} develop a framework for so called domain reasoners that allow for automatic hint generation.
 Feedback is calculated automatically from a high-level description of an exercise class.
 Their approach is applicable to domains like logic, mathematics and linear algebra.
-Paquette et al.~\cite{DBLP:conf/its/PaquetteLBM12} present a different automatic next-step hint ITS, that is used to provide hints to students in a programming exercise.
+Paquette et al.~\cite{DBLP:conf/its/PaquetteLBM12} present a different automatic next step hint \ITS, that is used to provide hints to students in a programming exercise.
 
-Based on the work mentioned above by Heeren et al., an ITS for Haskell exercises has been developed by Gerdes et al.~\cite{DBLP:journals/aiedu/GerdesHJB17}.
-It tuns out that programming exercises is a popular area for Automatic hint generation.
+Based on the work mentioned above by Heeren et al., an \ITS for Haskell exercises has been developed by Gerdes et al.~\cite{DBLP:journals/aiedu/GerdesHJB17}.
+It tuns out that programming exercises is a popular area for automatic hint generation.
 Keuning et al.~\cite{DBLP:journals/jeric/KeuningJH19} have written an excellent literature study of this research area.
