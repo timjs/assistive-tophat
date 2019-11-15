@@ -54,7 +54,7 @@ Using the execute definition, we can state soundness and completeness for $\Simu
   there exists a concrete input $I$ with the same length as the symbolic input $\tilde{I}$
   such that $t,\sigma\execute{I}v$
   with $[s_i\mapsto c_i]\tilde{v}=v$ and $[s_i\mapsto c_i]\Phi$
-  where $s_i\in\tilde{i_i}$ and $c_i\in i_i$.
+  where $\SymOf(\simi_i)=s_i$ and $\ValOf(i_i)=c_i$.
 \end{lemma}
 
 \begin{lemma}[Completeness of simulate]
@@ -64,7 +64,7 @@ Using the execute definition, we can state soundness and completeness for $\Simu
   there exists a symbolic value $\tilde{v}$ and a symbolic input $\tilde{I}$ with the same length as $I$,
   such that $(\tilde{v},\tilde{I},\Phi)\in t,\sigma\simulate$,
   with $\tilde{i_i}\sim i_i$, $[s_i\mapsto c_i]\tilde{v}=v$ and $[s_i\mapsto c_i]\Phi$,
-  where $s_i\in\tilde{i_i}$ and $c_i\in i_i$.
+  where $\SymOf(\simi_i)=s_i$ and $\ValOf(i_i)=c_i$.
 \end{lemma}
 
 Where $\simi\sim i$ is defined as follows.
@@ -76,24 +76,31 @@ Where $\simi\sim i$ is defined as follows.
   $\simi\sim i\implies \Second \simi \sim \Second i$
 \end{definition}
 
-And $s\in \simi$ and $c\in i$ are defined as follows.\\
+And $\SymOf(\simi)=s$ and $\ValOf(i)=c$ are defined as follows.\\
 \\
 \noindent
-\begin{minipage}[c]{0.5\textwidth}
+\begin{minipage}[c]{0.45\textwidth}
   \begin{definition}[Value from input]\\
-    $c\in \First i = c\in i $\\
-    $c\in \Second i = c\in i $\\
-    $c\in a = a $
+    \begin{function}
+      \signature{\ValOf : \mathrm{Inputs} \to \mathrm{Values}} \\
+      \ValOf(\First i)    &=& \ValOf(i) \\
+      \ValOf(\Second i)   &=& \ValOf(i) \\
+      \ValOf(c)           &=& c \\
+      \ValOf(\_)          &=& \bot
+    \end{function}
   \end{definition}
 \end{minipage}
-\begin{minipage}[c]{0.5\textwidth}
+\begin{minipage}[c]{0.55\textwidth}
   \begin{definition}[Symbol from input]\\
-    $s\in \First \simi = s\in \simi $\\
-    $s\in \Second \simi = s\in \simi $\\
-    $s\in a = a $
+    \begin{function}
+      \signature{\SymOf : \mathrm{Symbolic\ Inputs} \to \mathrm{Symbolic\ Values}} \\
+      \SymOf(\First i)    &=& \SymOf(i) \\
+      \SymOf(\Second i)   &=& \SymOf(i) \\
+      \SymOf(s)           &=& s \\
+      \SymOf(\_)          &=& \bot
+    \end{function}
   \end{definition}
 \end{minipage}\\
-\\
 
 Our strategy to prove these two lemma's is outlined in \cref{fig:proofstructure}.
 
@@ -222,7 +229,7 @@ Now \cref{lem:sounddriving} and \cref{lem:completedriving} express soundness and
   For all concrete tasks $t$, concrete states $\sigma$, symbolic tasks $\tilde{t}$, symbolic states $\tilde{\sigma}$ path conditions $\Phi$ and mappings $M$,
   we have that $t,\sigma\Consistent_M\tilde{t},\tilde{\sigma},\Phi$ implies
   that for all pairs $(\tilde{t}',\tilde{\sigma}',\simi,\phi)$ in $\tilde{t},\tilde{\sigma}\siminteract\overline{\tilde{t}',\tilde{\sigma}',\simi,\phi}$,
-  $\Sat(\Phi\land\phi)$ implies that there exists an input $i$ such that $\simi\sim i$,  $t,\sigma\interact{i}t',\sigma'$ and $t',\sigma' \Consistent_{M.[s\mapsto c]} \tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\simi$ and $c\in i$.
+  $\Sat(\Phi\land\phi)$ implies that there exists an input $i$ such that $\simi\sim i$,  $t,\sigma\interact{i}t',\sigma'$ and $t',\sigma' \Consistent_{M.[s\mapsto c]} \tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $\SymOf(\simi)=s$ and $\ValOf(i)=c$.
 \end{lemma}
 
 \begin{lemma}[Completeness of driving]
@@ -231,7 +238,7 @@ Now \cref{lem:sounddriving} and \cref{lem:completedriving} express soundness and
   we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$ implies
   that for all inputs $i$ such that $t,\sigma\interact{i}t',\sigma'$,
   there exists a symbolic input $\simi$, $\simi\sim i$ such that
-  $\tilde{t},\tilde{\sigma}\siminteract\overline{\tilde{t}',\tilde{\sigma}',\simi,\phi}$, $\Sat(\Phi\land\phi)$ and $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\simi$ and $c\in i$.
+  $\tilde{t},\tilde{\sigma}\siminteract\overline{\tilde{t}',\tilde{\sigma}',\simi,\phi}$, $\Sat(\Phi\land\phi)$ and $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $\SymOf(\simi)=s$ and $\ValOf(i)=c$.
 \end{lemma}
 
 In other words, if a symbolic and concrete task and state are related, they will still be related after (symbolic) handling.
@@ -269,7 +276,7 @@ $\Sat([s\mapsto c]\Phi)$, $t,\sigma\interact{i} t',\sigma'\execute{I} v$ and $gv
   \label{thm:completehint}
   For all tasks $t$, states $\sigma$, lists of input $(i:is)$ and goals $g$,
   if $t,\sigma,\execute{i:is} v$ and $g v$, then there exists a symbolic input $\simi$ and path condition $\Phi$
-  such that $(\simi,\Phi)\in\Hints(t,\sigma)$ with $\simi\sim i$ and $\Sat([s\mapsto c]\Phi)$ with $c\in i$ and $s\in i$.
+  such that $(\simi,\Phi)\in\Hints(t,\sigma)$ with $\simi\sim i$ and $\Sat([s\mapsto c]\Phi)$ with $\ValOf(i)=c$ and $\SymOf(\simi)=s$.
 \end{theorem}
 
 
@@ -286,7 +293,7 @@ The proofs of these two threorems are quite straight forward.
 
 
 \begin{proof}[\cref{thm:completehint}]
-  In order to prove that $i$ is contained in $\Hints(t,\sigma)$, we need to show that $(\tilde{v},\simi:\tilde{is},\Phi)\in t,\sigma\simulate$, with $\simi\sim i$ and $\Sat([s_0\mapsto c_0,\cdots,s_n\mapsto c_n]\land g\tilde{v})$, where $[c_0,\cdots,c_n]\in i:is$ and $[s_0,\cdots,s_n]\in \simi:\tilde{is}$.
+  In order to prove that $i$ is contained in $\Hints(t,\sigma)$, we need to show that $(\tilde{v},\simi:\tilde{is},\Phi)\in t,\sigma\simulate$, with $\simi\sim i$ and $\Sat([s_0\mapsto c_0,\cdots,s_n\mapsto c_n]\land g\tilde{v})$, where $\ValOf(i_0)=c_0,\cdots,\ValOf(i_n)=c_n$ and $\SymOf(\simi_0)=s_0,\cdots,\SymOf(\simi_n)=s_n$.
 
   By \cref{lem:completesimulate}, we directly obtain that this indeed exists. Therefore we know that $\simi$ and $\Phi$ exist.
 \end{proof}

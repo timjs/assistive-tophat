@@ -26,7 +26,7 @@
 
   By \cref{lem:completedriving}, we know that $t,\sigma\interact{}\tilde{t}_1,\tilde{\sigma}_1,\simi_1,\phi_1$ exists,
   since $t,\sigma,t\Consistent_{\emptyset}\sigma,\True$.
-  This also gives us that $\simi_1\sim i_1$ and $t_1,\sigma_1\Consistent_{[s_1\mapsto c_1]}\tilde{t}_1,\tilde{\sigma}_1,\phi_1$ with $s_1\in\simi_1$ and $c_1\in i_1$.
+  This also gives us that $\simi_1\sim i_1$ and $t_1,\sigma_1\Consistent_{[s_1\mapsto c_1]}\tilde{t}_1,\tilde{\sigma}_1,\phi_1$ with $\SymOf(\simi_1)=s_1$ and $\ValOf(i_1)=c_1$.
 
   By repeated application of \cref{lem:completedriving}, untill we arrive at $t_n,\sigma_n$,
   we can show that there exists a $\tilde{I}$ such that $t,\sigma\interact{}^*\tilde{t}_n,\tilde{\sigma}_n,\tilde{I},\Phi$,
@@ -40,7 +40,7 @@
   we have that $t,\sigma\Consistent_{M}\tilde{t},\tilde{\sigma},\Phi$ and
   $t,\sigma\handle{i}t',\sigma'$ together with
   $\tilde{t},\tilde{\sigma}\simhandle\overline{\tilde{t}',\tilde{\sigma}',\simi,\phi}$,
-  and for all pairs $(\tilde{t}',\tilde{\sigma}',\simi,\phi)$ we have that $\Sat(\Phi\land\phi)$ and $\imath\sim i$ implies $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $s\in\simi$ and $c\in i$.
+  and for all pairs $(\tilde{t}',\tilde{\sigma}',\simi,\phi)$ we have that $\Sat(\Phi\land\phi)$ and $\imath\sim i$ implies $t',\sigma'\Consistent_{M.[s\mapsto c]}\tilde{t}',\tilde{\sigma}',\Phi\land\phi$ where where $\SymOf(\simi)=s$ and $\ValOf(i)=c$.
 \end{lemma}
 
 \begin{lemma}[Completeness of normalisation]
