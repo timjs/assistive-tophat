@@ -266,7 +266,7 @@ This means that, at this stage, users have three possible options.\footnote{
 
 %% Recall
 Recall the example program Dining Computer Scientists from \cref{sec:dining}.
-Three computer scientist sit at a table and have to coordinate how to their meals.
+Three computer scientist sit at a table and have to coordinate their eating.
 %% What hints do we want to give?
 We want to calculate all possible next steps that lead to the goal.
 The goal in this example is for all computer scientists to finish their meal.
@@ -275,23 +275,19 @@ In terms of the resulting task value, this means that we want to reach the value
 Witten as a predicate, we get $g(v) = v \equiv \text{"Full bellies"}$.
 
 %% What does the result of H look like?
-Let us assume that both Grace Hopper and Ada Lovelace have already picked up the forks to their left ($\lbl{fork1}$ and $\lbl{fork2}$ respectively).
+Let us assume that both Grace Hopper and Ada Lovelace have already picked up the forks to their left ($\lbl{fork2}$ and $\lbl{fork0}$ respectively).
 We then find ourselves in the situation shown in \cref{fig:dining-middle}.
-
-%what does the result of H look like?
-Let us assume that both Grace Hopper and Ada Lovelace have already picked up the forks to their left (fork1 and fork2 respectively).
-We then find ourselves in the following situation.
 
 \begin{figure}
 \begin{minipage}[r]{0.55\textwidth}
   \begin{align*}
-  t =\ &\text{scientist}\ "\text{Alan Turing}"\ \text{fork0}\ \text{fork1} \And\\
-      &\unit \Next \lambda \unit .\\
+  t =\ (&\text{scientist}\ "\text{Alan Turing}"\ \text{fork0}\ \text{fork1} \And\\
+      &\Edit\unit \Next \lambda \_ .\\
       &\Quad \If{!\text{fork2}}{\text{fork1} := \True}{\Fail} \And\\
-      &\unit \Next \lambda \unit .\\
-      &\Quad \If{!\text{fork0}}{\text{fork2} := \True}{\Fail} \Then\ \lambda \_.\\
-      &\Quad \Edit "\text{Full bellies}"\\
-  \sigma =\ &\{\text{fork0}\mapsto \True, \text{fork1}\mapsto \False,\text{fork2}\mapsto \False\}
+      &\Edit\unit \Next \lambda \_ .\\
+      &\Quad \If{!\text{fork0}}{\text{fork2} := \True}{\Fail})\\
+      &\Then\ \lambda \_.\Edit "\text{Full bellies}"\\
+  \sigma =\ &\{\text{fork0}\mapsto \False, \text{fork1}\mapsto \True,\text{fork2}\mapsto \False\}
   \end{align*}
 
 \end{minipage}
@@ -334,12 +330,12 @@ We then find ourselves in the following situation.
 
 Calling $\Hints(t,\sigma,g)$ will result in just one hint, namely
 \begin{equation*}
-  \tuple{\Second\Second\Continue,\True}
+  \tuple{\Second\First\Continue,\True}
 \end{equation*}
-This means that the only step towards goal $g$ is for the third scientist,\footnote{
-  The third branch is denoted by $\Second\Second$.
+This means that the only step towards goal $g$ is for the second scientist,\footnote{
+  The second branch is denoted by $\Second\First$.
   The action $\Continue$ means pushing the continue button.
 }
-which is Ada Lovelace, to pick up the right fork.
+which is Grace Hopper, to pick up the right fork.
 Although it is also possible for Alan Turing to pick up the fork to his left,
 this step is not a valid hint and performing this action will result in deadlock.
