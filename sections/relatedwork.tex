@@ -22,8 +22,8 @@ The following sections give an overview of the work done in those areas.
 Symbolic execution \cite{King1975,Boyer1975} is typically being applied to imperative programming languages,
 but in recent years it has been used for functional programming languages as well.
 Ongoing work by Hallahan et al.~\cite{HallahanXP2017,DBLP:conf/pldi/HallahanXBJP19} aims to implement a symbolic execution engine for Haskell.
-Giantios et al.~\cite{GiantsiosPS2017} use symbolic execution for a mix of concrete and symbolic testing of programs written in a subset of Core Erlang.
-Their goal is to find executions that lead to a runtime error, either due to an assertion violation or an unhandled exception.
+Giantsios et al.~\cite{GiantsiosPS2017} use symbolic execution for a mix of concrete and symbolic testing of Erlang programs.
+Their goal is to explore all execution paths up to a certain depth.
 Chang et al.~\cite{ChangKT2018} present a symbolic execution engine for a typed lambda calculus with mutable state where only some language constructs recognise symbolic values.
 They claim that their approach is easier to implement than full symbolic execution and simplifies the burden on the solver, while still considering all execution paths.
 
